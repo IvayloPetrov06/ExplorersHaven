@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35506.116 d17.12
+VisualStudioVersion = 17.12.35506.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorers Haven", "Explorers Haven\Explorers Haven.csproj", "{581DAB0D-80E6-4C61-B3F9-297407CB36DB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorers_Haven", "Explorers Haven\Explorers_Haven.csproj", "{581DAB0D-80E6-4C61-B3F9-297407CB36DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorersHaven.Core", "ExplorersHaven.Core\ExplorersHaven.Core.csproj", "{5540C8D4-3617-4E5D-B893-CECB6F49839C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorers_Haven.Core", "ExplorersHaven.Core\Explorers_Haven.Core.csproj", "{5540C8D4-3617-4E5D-B893-CECB6F49839C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorersHaven.Models", "ExplorersHaven.Models\ExplorersHaven.Models.csproj", "{AA0619E2-0BBA-470A-8338-82B61697C6FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplorersHaven.DataAccess", "ExplorersHaven.DataAccess\ExplorersHaven.DataAccess.csproj", "{99AD5E6E-6DC7-479A-9C3D-81F197DE685A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorers_Haven.DataAccess", "ExplorersHaven.DataAccess\Explorers_Haven.DataAccess.csproj", "{99AD5E6E-6DC7-479A-9C3D-81F197DE685A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

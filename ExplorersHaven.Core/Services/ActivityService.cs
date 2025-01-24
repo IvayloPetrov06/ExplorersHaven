@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Explorers_Haven.Core.IServices;
+using Explorers_Haven.Core.Validators;
 using Explorers_Haven.DataAccess.Repository;
 using ExplorersHaven.Models;
 
@@ -18,13 +19,9 @@ namespace Explorers_Haven.Core.Services
         {
             this._repo = repo;
         }
-        /*private bool ValidateProduct(Activity Product)
+        private bool ValidateActivity(Activity activity)
         {
-            if (!ProductValidator.ValidateInput(Product.Name, Product.Price))
-            {
-                return false;
-            }
-            else if (!CategoryValidator.CategoryExist(Product.CategoryId))
+            if (!ActivityValidator.ValidateInput(activity.Name))
             {
                 return false;
             }
@@ -32,15 +29,15 @@ namespace Explorers_Haven.Core.Services
             {
                 return true;
             }
-        }*/
+        }
 
-        public void Add(Activity product)
+        public void Add(Activity activity)
         {
-            if (!ValidateActivity(product))
+            if (!ValidateActivity(activity))
             {
-                throw new ArgumentException("The product is not valid!");
+                throw new ArgumentException("The activity is not valid!");
             }
-            _repo.Add(product);
+            _repo.Add(activity);
 
         }
 
@@ -49,30 +46,19 @@ namespace Explorers_Haven.Core.Services
             return _repo.Get(id);
         }
 
-        public List<Activity> GetProductsByCategory(int categoryId)
-        {
-            if (ActivityValidator.CategoryExist(categoryId))
-            {
-                return _repo.Find(x => x.CategoryId == categoryId);
-            }
-            else
-            {
-                throw new ArgumentException("The category is not valid!");
-            }
-        }
 
-        public void Update(Activity product)
+        public void Update(Activity activity)
         {
-            if (!ValidateActivity(product))
+            if (!ValidateActivity(activity))
             {
-                throw new ArgumentException("The product is not valid!");
+                throw new ArgumentException("The activity is not valid!");
             }
-            _repo.Update(product);
+            _repo.Update(activity);
         }
 
         public void Delete(int id)
         {
-            if (ProductValidator.ProductExists(id))
+            if (ActivityValidator.ActivityExists(id))
             {
                 _repo.Delete(id);
             }

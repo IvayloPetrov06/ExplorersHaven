@@ -20,9 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IServices\" />
-    <Folder Include="Services\" />
     <Folder Include="Validators\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ExplorersHaven.Models\ExplorersHaven.Models.csproj" />
   </ItemGroup>
 
 </Project>

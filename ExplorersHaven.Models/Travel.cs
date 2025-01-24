@@ -15,7 +15,8 @@ namespace ExplorersHaven.Models
         [Required]
         public string Start { get; set; }
         public string End { get; set; }
-        
+        public string Transport { get; set; }
+
 
         [ForeignKey(nameof(Trip))]
         public int TripId { get; set; }

@@ -13,7 +13,7 @@ namespace ExplorersHaven.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string HotelName { get; set; }
+        public string Name { get; set; }
 
         [ForeignKey(nameof(Trip))]
         public int TripId { get; set; }

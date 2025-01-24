@@ -24,4 +24,8 @@
     <ProjectReference Include="..\ExplorersHaven.Models\ExplorersHaven.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

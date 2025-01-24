@@ -15,7 +15,7 @@ namespace Explorers_Haven.DataAccess
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         //     ApplicationDbContext
-        public ApplicationDbContext(DbContextOptions options) : base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
         public DbSet<Travelogue> Travelogues { get; set; }
@@ -32,25 +32,29 @@ namespace Explorers_Haven.DataAccess
                 b.HasMany(e => e.Claims)
                     .WithOne()
                     .HasForeignKey(uc => uc.UserId)
-                    .IsRequired();
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 // Each User can have many UserLogins
                 b.HasMany(e => e.Logins)
                     .WithOne()
                     .HasForeignKey(ul => ul.UserId)
-                    .IsRequired();
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 // Each User can have many UserTokens
                 b.HasMany(e => e.Tokens)
                     .WithOne()
                     .HasForeignKey(ut => ut.UserId)
-                    .IsRequired();
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
 
                 // Each User can have many entries in the UserRole join table
                 b.HasMany(e => e.UserRoles)
                     .WithOne()
                     .HasForeignKey(ur => ur.UserId)
-                    .IsRequired();
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Activity>(b =>
@@ -62,7 +66,8 @@ namespace Explorers_Haven.DataAccess
 
                 b.HasOne(a => a.Trip)
                 .WithMany()
-                .HasForeignKey(e => e.TripId);
+                .HasForeignKey(e => e.TripId)
+                .OnDelete(DeleteBehavior.Restrict);
             });
 
             modelBuilder.Entity<Stay>(b =>
@@ -77,7 +82,8 @@ namespace Explorers_Haven.DataAccess
 
                 b.HasOne(e => e.Trip)
                  .WithOne()
-                 .HasForeignKey<Stay>(e => e.TripId);
+                 .HasForeignKey<Stay>(e => e.TripId)
+                 .OnDelete(DeleteBehavior.Restrict);
 
             });
 
@@ -99,7 +105,8 @@ namespace Explorers_Haven.DataAccess
 
                 b.HasOne(e => e.Trip)
                  .WithOne()
-                 .HasForeignKey<Travel>(e => e.TripId);
+                 .HasForeignKey<Travel>(e => e.TripId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
             });
 
@@ -113,7 +120,8 @@ namespace Explorers_Haven.DataAccess
 
                 b.HasMany(a => a.Trips)
                 .WithOne()
-                .HasForeignKey(a =>a.TravelogueId);
+                .HasForeignKey(a =>a.TravelogueId)
+                 .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Trip>(b =>
@@ -126,19 +134,23 @@ namespace Explorers_Haven.DataAccess
 
                 b.HasOne(a => a.Travelogue)
                  .WithMany()
-                 .HasForeignKey(e => e.TravelogueId);
+                 .HasForeignKey(e => e.TravelogueId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasMany(a => a.Activities)
                 .WithOne()
-                .HasForeignKey(e => e.TripId);
+                .HasForeignKey(e => e.TripId)
+                .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne(e => e.Stay)
                  .WithOne()
-                 .HasForeignKey<Stay>(e => e.TripId);
+                 .HasForeignKey<Stay>(e => e.TripId)
+                  .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne(e => e.Travel)
                  .WithOne()
-                 .HasForeignKey<Travel>(e => e.TripId);
+                 .HasForeignKey<Travel>(e => e.TripId)
+                 .OnDelete(DeleteBehavior.Cascade);
             });
 
 

@@ -13,7 +13,7 @@ namespace ExplorersHaven.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public ICollection<Trip> Trips { get; set; }
+        public ICollection<Trip>? Trips { get; set; }
 
     }
 }

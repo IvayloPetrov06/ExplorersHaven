@@ -19,9 +19,14 @@ namespace ExplorersHaven.Models
         public int TravelogueId { get; set; }
         public Travelogue Travelogue { get; set; }
 
-        public ICollection<Activity> Activities { get; set; }
+        public ICollection<Activity>? Activities { get; set; }
 
-        public Stay Stay { get; set; }
+        //[ForeignKey(nameof(Stay))]
+        //public int? StayId { get; set; }
+        public Stay? Stay { get; set; }
+
+        //[ForeignKey(nameof(Travel))]
+        //public int TravelId { get; set; }
         public Travel Travel { get; set; }
 
 

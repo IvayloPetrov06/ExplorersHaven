@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Explorers_Haven.Core
 {
-    internal interface IServices
+    internal class Service
     {
     }
 }

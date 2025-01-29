@@ -4,13 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Validators;
 using Explorers_Haven.DataAccess.Repository;
-using ExplorersHaven.Models;
+using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Core.Services
 {
-    public class TravelogueService
+    public class TravelogueService : ITravelogueService
     {
         private readonly IRepository<Travelogue> _repo;
 
@@ -72,6 +73,16 @@ namespace Explorers_Haven.Core.Services
         public List<Travelogue> Find(Expression<Func<Travelogue, bool>> filter)
         {
             return _repo.Find(filter);
+        }
+
+        public Travelogue Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Travelogue> CheckIfExists(List<int> id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

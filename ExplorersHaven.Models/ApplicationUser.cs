@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Identity;
 using Microsoft.AspNetCore.Identity;
 
-namespace ExplorersHaven.Models
+namespace Explorers_Haven.Models
 {
     public class ApplicationUser : IdentityUser
     {

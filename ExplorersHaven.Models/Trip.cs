@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ExplorersHaven.Models
+namespace Explorers_Haven.Models
 {
     public class Trip
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Explorers_Haven.DataAccess.Repository;
-using ExplorersHaven.Models;
+using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Core.Validators
 {

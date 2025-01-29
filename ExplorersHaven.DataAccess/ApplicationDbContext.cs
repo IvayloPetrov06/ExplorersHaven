@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity;
-using ExplorersHaven.Models;
+using Explorers_Haven.Models;
 
 namespace Explorers_Haven.DataAccess
 {

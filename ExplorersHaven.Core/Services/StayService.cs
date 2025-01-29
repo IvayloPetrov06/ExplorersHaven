@@ -4,13 +4,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Validators;
 using Explorers_Haven.DataAccess.Repository;
-using ExplorersHaven.Models;
+using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Core.Services
 {
-    public class StayService
+    public class StayService:IStayService
     {
 
         private readonly IRepository<Stay> _repo;
@@ -75,5 +76,14 @@ namespace Explorers_Haven.Core.Services
             return _repo.Find(filter);
         }
 
+        public Stay Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Stay> CheckIfExists(List<int> id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

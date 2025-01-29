@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,7 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ExplorersHaven.Core\Explorers_Haven.Core.csproj" />
     <ProjectReference Include="..\ExplorersHaven.DataAccess\Explorers_Haven.DataAccess.csproj" />
-    <ProjectReference Include="..\ExplorersHaven.Models\ExplorersHaven.Models.csproj" />
+    <ProjectReference Include="..\ExplorersHaven.Models\Explorers_Haven.Models.csproj" />
   </ItemGroup>
 
 </Project>

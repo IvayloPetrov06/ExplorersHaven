@@ -4,6 +4,7 @@ using Explorers_Haven.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250129131805_setup")]
+    partial class setup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,14 +45,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.HasIndex("TripId");
 
                     b.ToTable("Activites");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Qzdene na kamili",
-                            TripId = 2
-                        });
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.ApplicationUser", b =>
@@ -138,14 +133,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("Stays");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "ZlatniPqsuci",
-                            TripId = 2
-                        });
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.Travel", b =>
@@ -177,32 +164,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsUnique();
 
                     b.ToTable("Travels");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Finish = "Plovdiv",
-                            Start = "Kazanlak",
-                            Transport = "Car",
-                            TripId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Finish = "Kairo",
-                            Start = "Plovdiv",
-                            Transport = "Plane",
-                            TripId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Finish = "Kazanlak",
-                            Start = "Kairo",
-                            Transport = "Plane",
-                            TripId = 3
-                        });
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.Travelogue", b =>
@@ -220,13 +181,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Travelogues");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Egipet Patepis"
-                        });
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.Trip", b =>
@@ -249,26 +203,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.HasIndex("TravelogueId");
 
                     b.ToTable("Trips");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "KazanlakPlovdiv",
-                            TravelogueId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "PlovdivKairo",
-                            TravelogueId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "KairoKazanluk",
-                            TravelogueId = 1
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

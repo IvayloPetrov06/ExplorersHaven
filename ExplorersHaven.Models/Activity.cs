@@ -17,6 +17,6 @@ namespace Explorers_Haven.Models
 
         [ForeignKey(nameof(Trip))]
         public int TripId { get; set; }
-        public Trip Trip { get; set; }
+        public virtual Trip Trip { get; set; }
     }
 }

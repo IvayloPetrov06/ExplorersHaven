@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialStart : Migration
+    public partial class setup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -200,8 +200,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TravelogueId = table.Column<int>(type: "int", nullable: false),
-                    TravelogueId1 = table.Column<int>(type: "int", nullable: true)
+                    TravelogueId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,11 +211,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                         principalTable: "Travelogues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Trips_Travelogues_TravelogueId1",
-                        column: x => x.TravelogueId1,
-                        principalTable: "Travelogues",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -226,8 +220,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false),
-                    TripId1 = table.Column<int>(type: "int", nullable: false)
+                    TripId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -235,12 +228,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     table.ForeignKey(
                         name: "FK_Activites_Trips_TripId",
                         column: x => x.TripId,
-                        principalTable: "Trips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Activites_Trips_TripId1",
-                        column: x => x.TripId1,
                         principalTable: "Trips",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -253,8 +240,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false),
-                    TripId1 = table.Column<int>(type: "int", nullable: false)
+                    TripId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,12 +248,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     table.ForeignKey(
                         name: "FK_Stays_Trips_TripId",
                         column: x => x.TripId,
-                        principalTable: "Trips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Stays_Trips_TripId1",
-                        column: x => x.TripId1,
                         principalTable: "Trips",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -280,10 +260,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    End = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Finish = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Transport = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false),
-                    TripId1 = table.Column<int>(type: "int", nullable: false)
+                    TripId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -294,23 +273,12 @@ namespace Explorers_Haven.DataAccess.Migrations
                         principalTable: "Trips",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Travels_Trips_TripId1",
-                        column: x => x.TripId1,
-                        principalTable: "Trips",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Activites_TripId",
                 table: "Activites",
                 column: "TripId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Activites_TripId1",
-                table: "Activites",
-                column: "TripId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -378,30 +346,15 @@ namespace Explorers_Haven.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stays_TripId1",
-                table: "Stays",
-                column: "TripId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Travels_TripId",
                 table: "Travels",
                 column: "TripId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Travels_TripId1",
-                table: "Travels",
-                column: "TripId1");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Trips_TravelogueId",
                 table: "Trips",
                 column: "TravelogueId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Trips_TravelogueId1",
-                table: "Trips",
-                column: "TravelogueId1");
         }
 
         /// <inheritdoc />

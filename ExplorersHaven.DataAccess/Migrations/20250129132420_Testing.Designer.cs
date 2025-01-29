@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250124092713_InitialStart")]
-    partial class InitialStart
+    [Migration("20250129132420_Testing")]
+    partial class Testing
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,7 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ExplorersHaven.Models.Activity", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Activity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -40,19 +40,22 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int>("TripId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TripId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TripId");
 
-                    b.HasIndex("TripId1");
-
                     b.ToTable("Activites");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Qzdene na kamili",
+                            TripId = 2
+                        });
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -117,7 +120,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Stay", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -132,20 +135,23 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int>("TripId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TripId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TripId")
                         .IsUnique();
 
-                    b.HasIndex("TripId1");
-
                     b.ToTable("Stays");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "ZlatniPqsuci",
+                            TripId = 2
+                        });
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Travel", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Travel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -153,7 +159,7 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("End")
+                    b.Property<string>("Finish")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -168,20 +174,41 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int>("TripId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TripId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TripId")
                         .IsUnique();
 
-                    b.HasIndex("TripId1");
-
                     b.ToTable("Travels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Finish = "Plovdiv",
+                            Start = "Kazanlak",
+                            Transport = "Car",
+                            TripId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Finish = "Kairo",
+                            Start = "Plovdiv",
+                            Transport = "Plane",
+                            TripId = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Finish = "Kazanlak",
+                            Start = "Kairo",
+                            Transport = "Plane",
+                            TripId = 3
+                        });
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Travelogue", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Travelogue", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -196,9 +223,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Travelogues");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Egipet Patepis"
+                        });
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Trip", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Trip", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,16 +247,31 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int>("TravelogueId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TravelogueId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TravelogueId");
 
-                    b.HasIndex("TravelogueId1");
-
                     b.ToTable("Trips");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "KazanlakPlovdiv",
+                            TravelogueId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "PlovdivKairo",
+                            TravelogueId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "KairoKazanluk",
+                            TravelogueId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -382,68 +431,46 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Activity", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Activity", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.Trip", null)
+                    b.HasOne("Explorers_Haven.Models.Trip", "Trip")
                         .WithMany("Activities")
                         .HasForeignKey("TripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ExplorersHaven.Models.Trip", "Trip")
-                        .WithMany()
-                        .HasForeignKey("TripId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Trip");
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Stay", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.Trip", null)
+                    b.HasOne("Explorers_Haven.Models.Trip", "Trip")
                         .WithOne("Stay")
-                        .HasForeignKey("ExplorersHaven.Models.Stay", "TripId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ExplorersHaven.Models.Trip", "Trip")
-                        .WithMany()
-                        .HasForeignKey("TripId1")
+                        .HasForeignKey("Explorers_Haven.Models.Stay", "TripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Trip");
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Travel", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Travel", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.Trip", null)
+                    b.HasOne("Explorers_Haven.Models.Trip", "Trip")
                         .WithOne("Travel")
-                        .HasForeignKey("ExplorersHaven.Models.Travel", "TripId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ExplorersHaven.Models.Trip", "Trip")
-                        .WithMany()
-                        .HasForeignKey("TripId1")
+                        .HasForeignKey("Explorers_Haven.Models.Travel", "TripId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Trip");
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Trip", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Trip", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.Travelogue", "Travelogue")
-                        .WithMany()
+                    b.HasOne("Explorers_Haven.Models.Travelogue", "Travelogue")
+                        .WithMany("Trips")
                         .HasForeignKey("TravelogueId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("ExplorersHaven.Models.Travelogue", null)
-                        .WithMany("Trips")
-                        .HasForeignKey("TravelogueId1");
 
                     b.Navigation("Travelogue");
                 });
@@ -459,11 +486,11 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany("Claims")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -472,11 +499,11 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany("Logins")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -485,7 +512,7 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany("UserRoles")
                         .HasForeignKey("ApplicationUserId");
 
@@ -495,7 +522,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -504,18 +531,18 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany("Tokens")
                         .HasForeignKey("ApplicationUserId");
 
-                    b.HasOne("ExplorersHaven.Models.ApplicationUser", null)
+                    b.HasOne("Explorers_Haven.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.ApplicationUser", b =>
                 {
                     b.Navigation("Claims");
 
@@ -526,19 +553,18 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Travelogue", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Travelogue", b =>
                 {
                     b.Navigation("Trips");
                 });
 
-            modelBuilder.Entity("ExplorersHaven.Models.Trip", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Trip", b =>
                 {
                     b.Navigation("Activities");
 
                     b.Navigation("Stay");
 
-                    b.Navigation("Travel")
-                        .IsRequired();
+                    b.Navigation("Travel");
                 });
 #pragma warning restore 612, 618
         }

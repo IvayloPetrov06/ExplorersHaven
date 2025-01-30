@@ -11,18 +11,20 @@ using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Core.Services
 {
-    public class TripService:ITripService
+    public class TripService : ITripService
     {
-
         private readonly IRepository<Trip> _repo;
 
         public TripService(IRepository<Trip> repo)
         {
             this._repo = repo;
         }
+
+
         private bool ValidateTrip(Trip trip)
         {
-            if (!TripValidator.ValidateInput(trip.Name))
+            var validator = new TripValidator(_repo);
+            if (!validator.ValidateInput(trip.Name))
             {
                 return false;
             }
@@ -31,20 +33,19 @@ namespace Explorers_Haven.Core.Services
                 return true;
             }
         }
-
-        public void Add(Trip trip)
-        {
-            if (!ValidateTrip(trip))
-            {
-                throw new ArgumentException("The trip is not valid!");
-            }
-            _repo.Add(trip);
-
-        }
-
         public Trip GetById(int id)
         {
             return _repo.Get(id);
+        }
+
+        public Trip Add(Trip trip)
+        {
+            if (!ValidateTrip(trip))
+            {
+                throw new ArgumentException("The travelogue is not valid!");
+            }
+            return _repo.Add(trip);
+
         }
 
 
@@ -52,14 +53,15 @@ namespace Explorers_Haven.Core.Services
         {
             if (!ValidateTrip(trip))
             {
-                throw new ArgumentException("The trip is not valid!");
+                throw new ArgumentException("The travelogue is not valid!");
             }
             _repo.Update(trip);
         }
 
         public void Delete(int id)
         {
-            if (TripValidator.TripExists(id))
+            var validator = new TripValidator(_repo);
+            if (validator.TripExists(id))
             {
                 _repo.Delete(id);
             }

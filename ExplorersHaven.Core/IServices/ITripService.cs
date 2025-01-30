@@ -10,11 +10,12 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface ITripService
     {
-        void Add(Trip travel);
-        void Update(Trip travel);
+        Trip Add(Trip trip);
+        void Update(Trip trip);
         void Delete(int id);
         Trip Get(int id);
         List<Trip> GetAll();
+        public Trip GetById(int id);
         List<Trip> Find(Expression<Func<Trip, bool>> filter);
         List<Trip> CheckIfExists(List<int> id);
     }

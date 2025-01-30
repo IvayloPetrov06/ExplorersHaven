@@ -68,12 +68,12 @@ namespace Explorers_Haven.Controllers
             TempData["error"] = "Неуспешна редакция";
             return View();
         }
-        public IActionResult InsertForms()
+        public IActionResult AddTravelogue()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult InsertForms(Travelogue obj)
+        public IActionResult AddTravelogue(Travelogue obj)
         {
             if (ModelState.IsValid)
             {

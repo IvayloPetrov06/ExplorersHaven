@@ -37,6 +37,7 @@ namespace Explorers_Haven.Core.Services
         {
             return _repo.Get(id);
         }
+
         public Travelogue Add(Travelogue travelogue)
         {
             if (!ValidateTravelogue(travelogue))

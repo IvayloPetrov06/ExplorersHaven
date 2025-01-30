@@ -10,8 +10,12 @@ namespace Explorers_Haven.Core.Validators
 {
     internal class TripValidator
     {
-        private static IRepository<Trip> _repo;
-        public static bool ValidateInput(string name)
+        private IRepository<Trip> _repo;
+        public TripValidator(IRepository<Trip> repo)
+        {
+            this._repo = repo;
+        }
+        public bool ValidateInput(string name)
         {
             if (name.Length == 0 || name.Length > 30)
             {
@@ -19,7 +23,7 @@ namespace Explorers_Haven.Core.Validators
             }
             return true;
         }
-        public static bool TripExists(int id)
+        public bool TripExists(int id)
         {
             if (_repo.Get(id) == null)
             {

@@ -1,0 +1,9 @@
+﻿@model Explorers_Haven.Models.Trip
+<form method="post">
+    <div class="mb-3">
+        <label asp-for="Name"></label>
+        <input asp-for="Name">
+        <span asp-validation-for="Name" class="alert-danger"></span>
+        <button type="submit">Въведи</button>
+    </div>
+</form>

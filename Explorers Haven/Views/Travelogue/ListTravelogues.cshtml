@@ -2,6 +2,7 @@
 @model IEnumerable<Travelogue>
 
 <partial name="_Notification"></partial>
+
 <div class="container">
     <div class="row">
         <div class="col col-md-6">
@@ -32,7 +33,7 @@
                 <td>@trav.Name</td>
                 <td>
                     <div class="btn-group">
-                        <a asp-controller="Travelogue" asp-action="EditTravel" asp-route-Id="@trav.Id" class="btn btn-primary">Редактирай</a>
+                        <a asp-controller="Travelogue" asp-action="EditTravelogue" asp-route-Id="@trav.Id" class="btn btn-primary">Редактирай</a>
                         <a asp-controller="Travelogue" asp-action="Delete" asp-route-Id="@trav.Id" class="btn btn-primary">Изтрий</a>
                     </div>
 

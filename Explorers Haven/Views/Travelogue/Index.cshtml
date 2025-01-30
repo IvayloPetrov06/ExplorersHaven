@@ -1,0 +1,47 @@
+﻿@model TravelogueViewModel
+<div class="text-center">
+    <h1 class="display-4">Traveloguels Application</h1>
+    <p>Book your Travel</p>
+</div>
+
+<h2>Search travelogues by name</h2>
+<form asp-action="Index" method="get" class="mb-4">
+
+    <!--<div class="form-group">
+        <label for="Id">Id</label>
+        <input type="text" asp-for="Id" class="form-control" />
+        <select asp-for="Id" asp-items="Model.Travelogues" class="form-control">
+            <option value="">All Ids</option>
+        </select>
+    </div>-->
+
+    <div class="form-group">
+        <label for="Name">Name</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Show</button>
+
+</form>
+
+
+<h2>Travelogues</h2>
+<table class="table tabl-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Travelogues.Count > 0)
+        {
+            @foreach (var travelogue in  Model.Travelogues)
+            { 
+            <tr>
+                    <td>@travelogue.Name</td>
+            </tr>
+            }
+        }
+    </tbody>
+
+</table>

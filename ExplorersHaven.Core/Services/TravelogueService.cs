@@ -19,9 +19,12 @@ namespace Explorers_Haven.Core.Services
         {
             this._repo = repo;
         }
+
+
         private bool ValidateTravelogue(Travelogue travelogue)
         {
-            if (!TravelogueValidator.ValidateInput(travelogue.Name))
+            var validator = new TravelogueValidator(_repo);
+            if (!validator.ValidateInput(travelogue.Name))
             {
                 return false;
             }
@@ -30,20 +33,18 @@ namespace Explorers_Haven.Core.Services
                 return true;
             }
         }
-
-        public void Add(Travelogue travelogue)
+        public Travelogue GetById(int id)
+        {
+            return _repo.Get(id);
+        }
+        public Travelogue Add(Travelogue travelogue)
         {
             if (!ValidateTravelogue(travelogue))
             {
                 throw new ArgumentException("The travelogue is not valid!");
             }
-            _repo.Add(travelogue);
+            return _repo.Add(travelogue);
 
-        }
-
-        public Travelogue GetById(int id)
-        {
-            return _repo.Get(id);
         }
 
 
@@ -58,7 +59,8 @@ namespace Explorers_Haven.Core.Services
 
         public void Delete(int id)
         {
-            if (TravelogueValidator.TravelogueExists(id))
+            var validator = new TravelogueValidator(_repo);
+            if (validator.TravelogueExists(id))
             {
                 _repo.Delete(id);
             }

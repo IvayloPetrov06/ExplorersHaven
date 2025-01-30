@@ -18,9 +18,12 @@ namespace Explorers_Haven.DataAccess.Repository
             this.dbSet = _context.Set<T>();
 
         }
-        public void Add(T entity)
+        public T Add(T entity)
         {
             dbSet.Add(entity);
+            _context.SaveChanges(); 
+
+            return entity;
         }
 
         public List<T> CheckIfExists(List<int> id)
@@ -32,6 +35,7 @@ namespace Explorers_Haven.DataAccess.Repository
         {
             T obj = dbSet.Find(id);
             dbSet.Remove(obj);
+            _context.SaveChanges();
         }
 
         public List<T> Find(Expression<Func<T, bool>> filter)
@@ -54,6 +58,7 @@ namespace Explorers_Haven.DataAccess.Repository
         public void Update(T entity)
         {
             dbSet.Update(entity);
+            _context.SaveChanges();
         }
     }
 }

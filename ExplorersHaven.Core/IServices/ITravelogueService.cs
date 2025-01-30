@@ -10,11 +10,12 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface ITravelogueService
     {
-        void Add(Travelogue travelogue);
+        Travelogue Add(Travelogue travelogue);
         void Update(Travelogue travelogue);
         void Delete(int id);
         Travelogue Get(int id);
         List<Travelogue> GetAll();
+        public Travelogue GetById(int id);
         List<Travelogue> Find(Expression<Func<Travelogue, bool>> filter);
         List<Travelogue> CheckIfExists(List<int> id);
     }

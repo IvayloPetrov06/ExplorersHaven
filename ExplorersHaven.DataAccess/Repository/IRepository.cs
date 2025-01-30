@@ -9,7 +9,7 @@ namespace Explorers_Haven.DataAccess.Repository
 {
     public interface IRepository<T> where T : class
     {
-        void Add(T entity);
+        T Add(T entity);
         void Update(T entity);
         void Delete(int id);
         T Get(int id);

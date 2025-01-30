@@ -38,6 +38,11 @@ namespace Explorers_Haven.Core.Services
                 throw new ArgumentException("The travel is not valid!");
             }
             _repo.Add(travel);
+            /*int ID = travel.Id;
+            foreach (var trip in )
+            { 
+            
+            }*/
 
         }
 

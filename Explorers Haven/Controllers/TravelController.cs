@@ -7,77 +7,69 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Explorers_Haven.Controllers
 {
-    public class TravelController : Controller
+    public class TravelogueController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        
         private readonly ITravelogueService _travService;
-        private readonly ITripService _tripService;
-        public TravelController(ITravelogueService travService, ITripService tripService, ApplicationDbContext context)
+        public TravelogueController(ITravelogueService travService)
         {
             _travService = travService;
-            _tripService = tripService;
-            _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(TravelogueViewModel? filter)
         {
-            return View();
-        }
-        public IActionResult InsertView2()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult InsertView2(Travelogue obj)
-        {
-            if (obj != null)
+            
+            var query = _travService.GetAll().AsQueryable();
+            if (filter.Id != null)
             {
-                _context.Travelogues.Add(obj);
-                _context.SaveChanges();
-                return RedirectToAction("ListTravels");
+                query = query.Where(x => x.Id == filter.Id.Value);
             }
-            return View();
+            if (filter.Name!=null) 
+            {
+                query = query.Where(x => x.Name.Contains(filter.Name));
+            }
+            var model = new TravelogueViewModel
+            {
+                Id = filter.Id,
+                Name = filter.Name,
+                Travelogues = query.Include(x=>x.Name).ToList()
+            };
+
+            return View(model);
         }
 
-        public IActionResult ListTravels()
+        public IActionResult ListTravelogues()
         {
-            var list = _context.Travelogues.ToList();
+            var list = _travService.GetAll();
             return View(list);
         }
-        public IActionResult InsertForms()
-        {
-            return View();
-        }
+       
         public IActionResult Delete(int id)
         {
-            var car = _context.Travelogues.FirstOrDefault(x => x.Id == id);
-            if (car == null)
-            {
-                return NotFound();
-            }
-            _context.Travelogues.Remove(car);
-            _context.SaveChanges();
+            _travService.Delete(id);
             TempData["success"] = "Успешно изтрит запис";
-            return RedirectToAction("ListTravels");
+            return RedirectToAction("ListTravelogues");
         }
-        public IActionResult EditCar(int Id)
+        public IActionResult EditTravelogue(int Id)
         {
-            var car = _context.Travelogues.FirstOrDefault(x => x.Id == Id);
-            if (car == null) { return NotFound(); }
-            return View(car);
+            var trav = _travService.GetById(Id);
+            if (trav == null) { return NotFound(); }
+            return View(trav);
         }
         [HttpPost]
-        public IActionResult EditCar(Travelogue obj)
+        public IActionResult EditTravelogue(Travelogue obj)
         {
             if (ModelState.IsValid)
             {
-                _context.Travelogues.Update(obj);
-                _context.SaveChanges();
+                _travService.Update(obj);
                 TempData["success"] = "Успешно редактиран запис";
                 return View();
-                //return RedirectToAction("ListCars");
             }
             TempData["error"] = "Неуспешна редакция";
+            return View();
+        }
+        public IActionResult InsertForms()
+        {
             return View();
         }
         [HttpPost]
@@ -85,10 +77,10 @@ namespace Explorers_Haven.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Travelogues.Add(obj);
-                _context.SaveChanges();
+                
+                _travService.Add(obj);
                 TempData["success"] = "Успешно добавен запис";
-                return RedirectToAction("ListTravels");
+                return RedirectToAction("ListTravelogues");
             }
             return View();
         }

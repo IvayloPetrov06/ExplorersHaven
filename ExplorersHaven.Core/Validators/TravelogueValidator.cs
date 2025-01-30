@@ -10,8 +10,12 @@ namespace Explorers_Haven.Core.Validators
 {
     internal class TravelogueValidator
     {
-        private static IRepository<Travelogue> _repo;
-        public static bool ValidateInput(string name)
+        private IRepository<Travelogue> _repo;
+        public TravelogueValidator(IRepository<Travelogue> repo)
+        {
+            this._repo = repo;
+        }
+        public bool ValidateInput(string name)
         {
             if (name.Length == 0 || name.Length > 30)
             {
@@ -19,7 +23,7 @@ namespace Explorers_Haven.Core.Validators
             }
             return true;
         }
-        public static bool TravelogueExists(int id)
+        public bool TravelogueExists(int id)
         {
             if (_repo.Get(id) == null)
             {

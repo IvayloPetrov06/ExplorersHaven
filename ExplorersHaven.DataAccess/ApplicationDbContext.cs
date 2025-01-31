@@ -27,42 +27,98 @@ namespace Explorers_Haven.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //travelogue 1
             modelBuilder.Entity<Travelogue>().HasData(
                 new Travelogue { Id = 1, Name ="Egypt", Price=100 }
                 );
             //trip 1
             modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 1, Name = "KazanlakPlovdiv", TravelogueId = 1 }
+                new Trip { Id = 1, Name = "KazanlakSofia", TravelogueId = 1 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 1, Start = "Kazanlak", Finish = "Plovdiv",Transport="Car", TripId = 1 }
+                new Travel { Id = 1, Start = "Kazanlak", Finish = "Sofia", Transport="Bus", TripId = 1 }
                 );
             //trip 2
             modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 2, Name = "PlovdivKairo", TravelogueId = 1 }
+                new Trip { Id = 2, Name = "SofiaCairo", TravelogueId = 1 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 2, Start = "Plovdiv", Finish = "Kairo", Transport = "Plane", TripId = 2 }
+                new Travel { Id = 2, Start = "Sofia", Finish = "Cairo", Transport = "Plane", TripId = 2 }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 1, Name = "ZlatniPqsuci", TripId = 2 }
+                new Stay { Id = 1, Name = "Megawish Hotel", TripId = 2 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 1, Name = "Qzdene na kamili", TripId = 2 }
+                new Models.Activity { Id = 1, Name = "Camel riding", TripId = 2 }
                 );
             //trip 3
             modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 3, Name = "KairoKazanluk", TravelogueId = 1 }
+                new Trip { Id = 3, Name = "CairoSofia", TravelogueId = 1 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 3, Start = "Kairo", Finish = "Kazanlak", Transport = "Plane", TripId = 3 }
+                new Travel { Id = 3, Start = "Cairo", Finish = "Sofia", Transport = "Plane", TripId = 3 }
                 );
-
+            //travelogue 2
             modelBuilder.Entity<Travelogue>().HasData(
                 new Travelogue { Id = 2, Name = "Poland", Price = 200 }
                 );
+            //trip 1
+            modelBuilder.Entity<Trip>().HasData(
+                new Trip { Id = 4, Name = "KazanlakSofia", TravelogueId = 1 }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 4, Start = "Kazanlak", Finish = "Sofia", Transport = "Car", TripId = 4 }
+                );
+            //trip 2
+            modelBuilder.Entity<Trip>().HasData(
+                new Trip { Id = 5, Name = "SofiaWarsaw", TravelogueId = 1 }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 5, Start = "Sofia", Finish = "Warsaw", Transport = "Plane", TripId = 5 }
+                );
+            modelBuilder.Entity<Stay>().HasData(
+                new Stay { Id = 2, Name = "InterContinental Warsaw Hotel", TripId = 5 }
+                );
+            modelBuilder.Entity<Models.Activity>().HasData(
+                new Models.Activity { Id = 2, Name = "Sightseeing", TripId = 5 }
+                );
+            //trip 3
+            modelBuilder.Entity<Trip>().HasData(
+                new Trip { Id = 6, Name = "WarsawSofia", TravelogueId = 1 }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 6, Start = "Warsaw", Finish = "Sofia", Transport = "Plane", TripId = 6 }
+                );
+            //travelogue 3
             modelBuilder.Entity<Travelogue>().HasData(
                 new Travelogue { Id = 3, Name = "Germany", Price = 500 }
+                );
+            //trip 1
+            modelBuilder.Entity<Trip>().HasData(
+                new Trip { Id = 7, Name = "KazanlakSofia", TravelogueId = 1 }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 7, Start = "Kazanlak", Finish = "Sofia", Transport = "Train", TripId = 7 }
+                );
+            //trip 2
+            modelBuilder.Entity<Trip>().HasData(
+                new Trip { Id = 8, Name = "SofiaBerlin", TravelogueId = 1 }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 8, Start = "Sofia", Finish = "Berlin", Transport = "Plane", TripId = 8 }
+                );
+            modelBuilder.Entity<Stay>().HasData(
+                new Stay { Id = 3, Name = "Mitte Hotel", TripId = 8 }
+                );
+            modelBuilder.Entity<Models.Activity>().HasData(
+                new Models.Activity { Id = 3, Name = "Sightseeing", TripId = 8 }
+                );
+            //trip 3
+            modelBuilder.Entity<Trip>().HasData(
+                new Trip { Id = 9, Name = "BerlinSofia", TravelogueId = 1 }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 9, Start = "Berlin", Finish = "Sofia", Transport = "Plane", TripId = 9 }
                 );
             modelBuilder.Entity<ApplicationUser>(b =>
             {

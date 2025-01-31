@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250129132420_Testing")]
-    partial class Testing
+    [Migration("20250131074534_Setup")]
+    partial class Setup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -220,6 +220,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Travelogues");
@@ -228,7 +231,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Egipet Patepis"
+                            Name = "Egipet Patepis",
+                            Price = 100
                         });
                 });
 

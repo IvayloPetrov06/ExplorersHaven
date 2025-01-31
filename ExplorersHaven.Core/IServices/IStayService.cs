@@ -10,11 +10,12 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface IStayService
     {
-        void Add(Stay stay);
+        Stay Add(Stay stay);
         void Update(Stay stay);
         void Delete(int id);
         Stay Get(int id);
         List<Stay> GetAll();
+        public Stay GetById(int id);
         List<Stay> Find(Expression<Func<Stay, bool>> filter);
         List<Stay> CheckIfExists(List<int> id);
     }

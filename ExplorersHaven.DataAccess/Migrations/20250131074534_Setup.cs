@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Explorers_Haven.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class setup : Migration
+    public partial class Setup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -56,7 +58,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,6 +276,41 @@ namespace Explorers_Haven.DataAccess.Migrations
                         principalTable: "Trips",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Travelogues",
+                columns: new[] { "Id", "Name", "Price" },
+                values: new object[] { 1, "Egipet Patepis", 100 });
+
+            migrationBuilder.InsertData(
+                table: "Trips",
+                columns: new[] { "Id", "Name", "TravelogueId" },
+                values: new object[,]
+                {
+                    { 1, "KazanlakPlovdiv", 1 },
+                    { 2, "PlovdivKairo", 1 },
+                    { 3, "KairoKazanluk", 1 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Activites",
+                columns: new[] { "Id", "Name", "TripId" },
+                values: new object[] { 1, "Qzdene na kamili", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Stays",
+                columns: new[] { "Id", "Name", "TripId" },
+                values: new object[] { 1, "ZlatniPqsuci", 2 });
+
+            migrationBuilder.InsertData(
+                table: "Travels",
+                columns: new[] { "Id", "Finish", "Start", "Transport", "TripId" },
+                values: new object[,]
+                {
+                    { 1, "Plovdiv", "Kazanlak", "Car", 1 },
+                    { 2, "Kairo", "Plovdiv", "Plane", 2 },
+                    { 3, "Kazanlak", "Kairo", "Plane", 3 }
                 });
 
             migrationBuilder.CreateIndex(

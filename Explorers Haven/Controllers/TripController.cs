@@ -1,4 +1,5 @@
 ﻿using Explorers_Haven.Core.IServices;
+using Explorers_Haven.Core.Services;
 using Explorers_Haven.DataAccess;
 using Explorers_Haven.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,9 +11,12 @@ namespace Explorers_Haven.Controllers
     public class TripController : Controller
     {
         private readonly ITripService _tripService;
-        public TripController(ITripService tripService)
+        private readonly ITravelogueService _travService;
+        public TripController(ITripService tripService, ITravelogueService travService)
         {
             _tripService = tripService;
+            _travService = travService;
+
         }
 
         public IActionResult Index(TripViewModel? filter)
@@ -51,39 +55,33 @@ namespace Explorers_Haven.Controllers
         }
         public IActionResult EditTrip(int Id)
         {
-            var trip = _tripService.GetById(Id);
-            if (trip == null) { return NotFound(); }
-            return View(trip);
+            var trav = _tripService.GetById(Id);
+            if (trav == null) { return NotFound(); }
+            var travelogues = _travService.GetAll();
+            ViewBag.Travelogues = new SelectList(travelogues, "Id", "Name");
+            return View(trav);
         }
-
         [HttpPost]
         public IActionResult EditTrip(Trip obj)
         {
-            if (ModelState.IsValid)
-            {
-                _tripService.Update(obj);
-                TempData["success"] = "Успешно редактиран запис";
-                return View();
-            }
-            TempData["error"] = "Неуспешна редакция";
-            return View();
+            _tripService.Update(obj);
+            TempData["success"] = "Успешно редактиран запис";
+            return RedirectToAction("ListTrips");
         }
         public IActionResult AddTrip()
         {
+            var travelogues = _travService.GetAll();
+            ViewBag.Travelogues = new SelectList(travelogues,"Id","Name");
             return View();
         }
-
         [HttpPost]
         public IActionResult AddTrip(Trip obj)
         {
-            if (ModelState.IsValid)
-            {
-
                 _tripService.Add(obj);
                 TempData["success"] = "Успешно добавен запис";
                 return RedirectToAction("ListTrips");
-            }
-            return View();
+            //TempData["error"] = "Неуспешно добавяне";
+            //return View();
         }
     }
 }

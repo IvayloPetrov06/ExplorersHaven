@@ -1,0 +1,44 @@
+﻿@using Explorers_Haven.Models
+@model IEnumerable<Stay>
+
+<partial name="_Notification"></partial>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-md-6">
+            <h3>Престои</h3>
+        </div>
+        <div class="col col-md-6">
+            <a asp-controller="Stay" asp-action="AddStay" class="btn btn-primary">Добави Престой</a>
+        </div>
+
+
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ИД</th>
+            <th scope="col">Име</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stay in Model)
+        {
+            <tr>
+                <th scope="row">1</th>
+                <td>@stay.Id</td>
+                <td>@stay.Name</td>
+                <td>
+                    <div class="btn-group">
+                        <a asp-controller="Stay" asp-action="EditStay" asp-route-Id="@stay.Id" class="btn btn-primary">Редактирай</a>
+                        <a asp-controller="Stay" asp-action="Delete" asp-route-Id="@stay.Id" class="btn btn-primary">Изтрий</a>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

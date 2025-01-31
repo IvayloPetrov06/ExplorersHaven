@@ -217,6 +217,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Travelogues");
@@ -225,7 +228,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Egipet Patepis"
+                            Name = "Egipet Patepis",
+                            Price = 100
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Name = "Poland",
+                            Price = 200
                         });
                 });
 

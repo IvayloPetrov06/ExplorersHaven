@@ -1,4 +1,6 @@
-﻿namespace Explorers_Haven.Models
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace Explorers_Haven.Models
 {
     public class TripViewModel
     {

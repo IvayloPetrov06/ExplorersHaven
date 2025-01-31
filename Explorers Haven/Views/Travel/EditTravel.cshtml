@@ -1,0 +1,33 @@
+﻿@model Explorers_Haven.Models.Travel
+<form method="post">
+    <div class="row">
+        <div class="mb-3">
+            <label asp-for="Start">Старт</label>
+            <input asp-for="Start">
+            <span asp-validation-for="Start" class="alert-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Finish">Финал</label>
+            <input asp-for="Finish">
+            <span asp-validation-for="Finish" class="alert-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Transport">Транспорт</label>
+            <input asp-for="Transport">
+            <span asp-validation-for="Transport" class="alert-danger"></span>
+        </div>
+        <h2>every trip can have only one travel</h2>
+        <div class="mb-3">
+            <label asp-for="TripId">Пътуване</label>
+            <select asp-for="TripId" asp-items="ViewBag.Trips" class="form-control">
+                <span asp-validation-for="TripId" class="alert-danger"></span>
+                <option value="">Изберете пътуване</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3">
+            <button type="submit">Въведи</button>
+        </div>
+    </div>
+</form>

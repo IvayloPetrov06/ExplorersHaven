@@ -10,8 +10,12 @@ namespace Explorers_Haven.Core.Validators
 {
     internal class StayValidator
     {
-        private static IRepository<Stay> _repo;
-        public static bool ValidateInput(string name)
+        private IRepository<Stay> _repo;
+        public StayValidator(IRepository<Stay> repo)
+        {
+            this._repo = repo;
+        }
+        public bool ValidateInput(string name)
         {
             if (name.Length == 0 || name.Length > 30)
             {
@@ -19,7 +23,7 @@ namespace Explorers_Haven.Core.Validators
             }
             return true;
         }
-        public static bool StayExists(int id)
+        public bool StayExists(int id)
         {
             if (_repo.Get(id) == null)
             {

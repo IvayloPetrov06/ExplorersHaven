@@ -1,88 +1,103 @@
 ﻿using Explorers_Haven.Core.IServices;
-using Explorers_Haven.DataAccess;
 using Explorers_Haven.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace Explorers_Haven.Controllers
 {
-    public class TravelogueController : Controller
+    public class TravelController : Controller
     {
-        
-        private readonly ITravelogueService _travService;
-        public TravelogueController(ITravelogueService travService)
+        private readonly ITravelService _travelService;
+        private readonly ITripService _tripService;
+        public TravelController(ITravelService travelService, ITripService tripService)
         {
-            _travService = travService;
+            _travelService = travelService;
+            _tripService = tripService;
+
         }
 
-        public IActionResult Index(TravelogueViewModel? filter)
+        public IActionResult Index(TravelViewModel? filter)
         {
-            
-            var query = _travService.GetAll().AsQueryable();
+
+            var query = _travelService.GetAll().AsQueryable();
             if (filter.Id != null)
             {
                 query = query.Where(x => x.Id == filter.Id.Value);
             }
-            if (filter.Name!=null) 
+            if (filter.Start != null)
             {
-                query = query.Where(x => x.Name.Contains(filter.Name));
+                query = query.Where(x => x.Start.Contains(filter.Start));
             }
-            var model = new TravelogueViewModel
+            if (filter.Finish != null)
+            {
+                query = query.Where(x => x.Finish.Contains(filter.Finish));
+            }
+            if (filter.Transport != null)
+            {
+                query = query.Where(x => x.Transport.Contains(filter.Transport));
+            }
+            var model = new TravelViewModel
             {
                 Id = filter.Id,
-                Name = filter.Name,
-                Travelogues = query.Include(x=>x.Name).ToList()
+                Start = filter.Start,
+                Finish = filter.Finish,
+                Transport = filter.Transport,
+                Travels = query.ToList()
             };
 
             return View(model);
         }
 
-        public IActionResult ListTravelogues()
+        public IActionResult ListTravels()
         {
-            var list = _travService.GetAll();
+            var list = _travelService.GetAll();
             return View(list);
         }
-       
+
         public IActionResult Delete(int id)
         {
-            _travService.Delete(id);
+            _travelService.Delete(id);
             TempData["success"] = "Успешно изтрит запис";
-            return RedirectToAction("ListTravelogues");
+            return RedirectToAction("ListTravels");
         }
-        public IActionResult EditTravelogue(int Id)
+        public IActionResult EditTravel(int Id)
         {
-            var trav = _travService.GetById(Id);
-            if (trav == null) { return NotFound(); }
-            return View(trav);
+            var tr = _travelService.GetById(Id);
+            if (tr == null) { return NotFound(); }
+            var trips = _tripService.GetAll();
+            ViewBag.Trips = new SelectList(trips, "Id", "Name");
+            return View(tr);
         }
         [HttpPost]
-        public IActionResult EditTravelogue(Travelogue obj)
+        public IActionResult EditTravel(Travel obj)
         {
-            if (ModelState.IsValid)
+            if (_tripService.GetById(obj.TripId).Travel == null)
             {
-                _travService.Update(obj);
+                _travelService.Update(obj);
                 TempData["success"] = "Успешно редактиран запис";
-                return View();
+                return RedirectToAction("ListTravels");
             }
-            TempData["error"] = "Неуспешна редакция";
+            TempData["error"] = "Every trip can have only one travel";
             return View();
         }
-        public IActionResult AddTravelogue()
+        public IActionResult AddTravel()
         {
+            var trips = _tripService.GetAll();
+            ViewBag.Trips = new SelectList(trips, "Id", "Name");
             return View();
         }
         [HttpPost]
-        public IActionResult AddTravelogue(Travelogue obj)
+        public IActionResult AddTravel(Travel obj)
         {
-            if (ModelState.IsValid)
+            if (_tripService.GetById(obj.TripId).Travel==null) 
             {
-                
-                _travService.Add(obj);
+                _travelService.Add(obj);
                 TempData["success"] = "Успешно добавен запис";
-                return RedirectToAction("ListTravelogues");
+                return RedirectToAction("ListTravels");
             }
+            TempData["error"] = "Every trip can have only one travel";
             return View();
+            
         }
     }
 }

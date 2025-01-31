@@ -19,9 +19,12 @@ namespace Explorers_Haven.Core.Services
         {
             this._repo = repo;
         }
+
+
         private bool ValidateActivity(Models.Activity activity)
         {
-            if (!ActivityValidator.ValidateInput(activity.Name))
+            var validator = new ActivityValidator(_repo);
+            if (!validator.ValidateInput(activity.Name))
             {
                 return false;
             }
@@ -30,12 +33,19 @@ namespace Explorers_Haven.Core.Services
                 return true;
             }
         }
-
-        
-
         public Models.Activity GetById(int id)
         {
             return _repo.Get(id);
+        }
+
+        public Models.Activity Add(Models.Activity activity)
+        {
+            if (!ValidateActivity(activity))
+            {
+                throw new ArgumentException("The activity is not valid!");
+            }
+            return _repo.Add(activity);
+
         }
 
 
@@ -50,7 +60,8 @@ namespace Explorers_Haven.Core.Services
 
         public void Delete(int id)
         {
-            if (ActivityValidator.ActivityExists(id))
+            var validator = new ActivityValidator(_repo);
+            if (validator.ActivityExists(id))
             {
                 _repo.Delete(id);
             }
@@ -67,15 +78,16 @@ namespace Explorers_Haven.Core.Services
             return _repo.Find(filter);
         }
 
-        public void Add(Models.Activity activity)
+        public Models.Activity Get(int id)
         {
-            if (!ValidateActivity(activity))
-            {
-                throw new ArgumentException("The activity is not valid!");
-            }
-            _repo.Add(activity);
+            throw new NotImplementedException();
         }
 
-        
+        public List<Models.Activity> CheckIfExists(List<int> id)
+        {
+            throw new NotImplementedException();
+        }
+
+
     }
 }

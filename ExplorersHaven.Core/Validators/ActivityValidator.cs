@@ -8,11 +8,15 @@ using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Core.Validators
 {
-    public static class ActivityValidator
+    public class ActivityValidator
     {
 
-        private static IRepository<Activity> _repo;
-        public static bool ValidateInput(string name)
+        private IRepository<Models.Activity> _repo;
+        public ActivityValidator(IRepository<Models.Activity> repo)
+        {
+            this._repo = repo;
+        }
+        public bool ValidateInput(string name)
         {
             if (name.Length == 0 || name.Length > 30)
             {
@@ -20,7 +24,7 @@ namespace Explorers_Haven.Core.Validators
             }
             return true;
         }
-        public static bool ActivityExists(int id)
+        public bool ActivityExists(int id)
         {
             if (_repo.Get(id) == null)
             {

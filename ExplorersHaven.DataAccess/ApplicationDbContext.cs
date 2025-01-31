@@ -28,7 +28,7 @@ namespace Explorers_Haven.DataAccess
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Travelogue>().HasData(
-                new Travelogue { Id = 1, Name ="Egipet Patepis" }
+                new Travelogue { Id = 1, Name ="Egypt", Price=100 }
                 );
             //trip 1
             modelBuilder.Entity<Trip>().HasData(
@@ -56,6 +56,13 @@ namespace Explorers_Haven.DataAccess
                 );
             modelBuilder.Entity<Travel>().HasData(
                 new Travel { Id = 3, Start = "Kairo", Finish = "Kazanlak", Transport = "Plane", TripId = 3 }
+                );
+
+            modelBuilder.Entity<Travelogue>().HasData(
+                new Travelogue { Id = 2, Name = "Poland", Price = 200 }
+                );
+            modelBuilder.Entity<Travelogue>().HasData(
+                new Travelogue { Id = 3, Name = "Germany", Price = 500 }
                 );
             modelBuilder.Entity<ApplicationUser>(b =>
             {
@@ -154,6 +161,8 @@ namespace Explorers_Haven.DataAccess
                 b.Property(e => e.Name)
                  .IsRequired();
 
+                b.Property(e => e.Price);
+
                 b.HasMany(a => a.Trips)
                 .WithOne(b=>b.Travelogue)
                 .HasForeignKey(a =>a.TravelogueId)
@@ -166,7 +175,9 @@ namespace Explorers_Haven.DataAccess
 
 
                 b.Property(e => e.Name)
-                 .IsRequired();
+                  .IsRequired();
+
+                
 
                 b.HasOne(a => a.Travelogue)
                  .WithMany(b=>b.Trips)

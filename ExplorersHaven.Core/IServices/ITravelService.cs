@@ -10,11 +10,12 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface ITravelService
     {
-        void Add(Travel travel);
-        void Update(Travel travel);
+        Travel Add(Travel tr);
+        void Update(Travel tr);
         void Delete(int id);
         Travel Get(int id);
         List<Travel> GetAll();
+        public Travel GetById(int id);
         List<Travel> Find(Expression<Func<Travel, bool>> filter);
         List<Travel> CheckIfExists(List<int> id);
     }

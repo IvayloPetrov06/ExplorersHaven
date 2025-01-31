@@ -11,12 +11,13 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface IActivityService
     {
-        // get by id;update;delete;getall;find;add;
-        void Add(Models.Activity activity);
-        void Update(Models.Activity activity);
+        Models.Activity Add(Models.Activity trip);
+        void Update(Models.Activity trip);
         void Delete(int id);
-        public Models.Activity GetById(int id);
+        Models.Activity Get(int id);
         List<Models.Activity> GetAll();
+        public Models.Activity GetById(int id);
         List<Models.Activity> Find(Expression<Func<Models.Activity, bool>> filter);
+        List<Models.Activity> CheckIfExists(List<int> id);
     }
 }

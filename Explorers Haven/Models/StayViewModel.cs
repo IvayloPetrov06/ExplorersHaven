@@ -4,7 +4,9 @@ namespace Explorers_Haven.Models
 {
     public class StayViewModel
     {
-        
-        public string Name { get; set; }
+        public int? Id { get; set; }
+        public string? Name { get; set; }
+
+        public List<Stay> Stays { get; set; }
     }
 }

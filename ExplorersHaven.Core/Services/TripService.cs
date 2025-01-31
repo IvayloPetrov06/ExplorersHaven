@@ -42,7 +42,7 @@ namespace Explorers_Haven.Core.Services
         {
             if (!ValidateTrip(trip))
             {
-                throw new ArgumentException("The travelogue is not valid!");
+                throw new ArgumentException("The trip is not valid!");
             }
             return _repo.Add(trip);
 
@@ -53,7 +53,7 @@ namespace Explorers_Haven.Core.Services
         {
             if (!ValidateTrip(trip))
             {
-                throw new ArgumentException("The travelogue is not valid!");
+                throw new ArgumentException("The trip is not valid!");
             }
             _repo.Update(trip);
         }

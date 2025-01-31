@@ -19,55 +19,52 @@ namespace Explorers_Haven.Core.Services
         {
             this._repo = repo;
         }
-        private bool ValidateTravel(Travel travel)
+
+
+        private bool ValidateTravel(Travel tr)
         {
-            if (!TravelValidator.ValidateInput(travel.Start))
-            {
-                return false;
+            var validator = new TravelValidator(_repo);
+            if (!validator.ValidateInput(tr.Start)&&!validator.ValidateInput(tr.Finish))
+            { 
+              return false;
             }
             else
             {
                 return true;
             }
         }
-
-        public void Add(Travel travel)
-        {
-            if (!ValidateTravel(travel))
-            {
-                throw new ArgumentException("The travel is not valid!");
-            }
-            _repo.Add(travel);
-            /*int ID = travel.Id;
-            foreach (var trip in )
-            { 
-            
-            }*/
-
-        }
-
         public Travel GetById(int id)
         {
             return _repo.Get(id);
         }
 
-
-        public void Update(Travel travel)
+        public Travel Add(Travel tr)
         {
-            if (!ValidateTravel(travel))
+            if (!ValidateTravel(tr))
             {
                 throw new ArgumentException("The travel is not valid!");
             }
-            _repo.Update(travel);
+            return _repo.Add(tr);
+
+        }
+
+
+        public void Update(Travel tr)
+        {
+            if (!ValidateTravel(tr))
+            {
+                throw new ArgumentException("The travel is not valid!");
+            }
+            _repo.Update(tr);
         }
 
         public void Delete(int id)
         {
-            if (TravelValidator.TravelExists(id))
+            var validator = new TravelValidator(_repo);
+            if (validator.TravelExists(id))
             {
                 _repo.Delete(id);
             }
-
         }
 
         public List<Travel> GetAll()

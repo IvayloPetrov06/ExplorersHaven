@@ -1,5 +1,4 @@
-﻿@model Explorers_Haven.Models.Trip
-
+﻿@model Explorers_Haven.Models.Stay
 <form method="post">
     <div class="row">
         <div class="mb-3">
@@ -7,11 +6,12 @@
             <input asp-for="Name">
             <span asp-validation-for="Name" class="alert-danger"></span>
         </div>
+        <h2>every trip can have only one stay</h2>
         <div class="mb-3">
-            <label asp-for="TravelogueId">Пътепис</label>
-            <select asp-for="TravelogueId" asp-items="ViewBag.Travelogues" class="form-control">
-                <span asp-validation-for="TravelogueId" class="alert-danger"></span>
-                <option value="">Изберете пътепис</option>
+            <label asp-for="TripId">Пътуване</label>
+            <select asp-for="TripId" asp-items="ViewBag.Trips" class="form-control">
+                <span asp-validation-for="TripId" class="alert-danger"></span>
+                <option value="">Изберете пътуване</option>
             </select>
         </div>
     </div>

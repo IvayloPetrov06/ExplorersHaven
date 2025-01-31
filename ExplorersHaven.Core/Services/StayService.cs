@@ -20,9 +20,12 @@ namespace Explorers_Haven.Core.Services
         {
             this._repo = repo;
         }
+
+
         private bool ValidateStay(Stay stay)
         {
-            if (!StayValidator.ValidateInput(stay.Name))
+            var validator = new StayValidator(_repo);
+            if (!validator.ValidateInput(stay.Name))
             {
                 return false;
             }
@@ -31,20 +34,19 @@ namespace Explorers_Haven.Core.Services
                 return true;
             }
         }
+        public Stay GetById(int id)
+        {
+            return _repo.Get(id);
+        }
 
-        public void Add(Stay stay)
+        public Stay Add(Stay stay)
         {
             if (!ValidateStay(stay))
             {
                 throw new ArgumentException("The stay is not valid!");
             }
-            _repo.Add(stay);
+            return _repo.Add(stay);
 
-        }
-
-        public Stay GetById(int id)
-        {
-            return _repo.Get(id);
         }
 
 
@@ -59,7 +61,8 @@ namespace Explorers_Haven.Core.Services
 
         public void Delete(int id)
         {
-            if (StayValidator.StayExists(id))
+            var validator = new StayValidator(_repo);
+            if (validator.StayExists(id))
             {
                 _repo.Delete(id);
             }

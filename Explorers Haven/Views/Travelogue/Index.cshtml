@@ -1,10 +1,10 @@
 ﻿@model TravelogueViewModel
 <div class="text-center">
-    <h1 class="display-4">Traveloguels Application</h1>
-    <p>Book your Travel</p>
+    <h1 class="display-4">Пътеписи</h1>
+    <p>Избирайте от хиляди оферти!</p>
 </div>
 
-<h2>Search travelogues by name</h2>
+<h2>Търсете пътеписи</h2>
 <form asp-action="Index" method="get" class="mb-4">
 
     <!--<div class="form-group">
@@ -16,20 +16,32 @@
     </div>-->
 
     <div class="form-group">
-        <label for="Name">Name</label>
+        <label for="Name">Име</label>
         <input type="text" asp-for="Name" class="form-control" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Show</button>
+    <div class="form-group">
+        <label for="MinPrice">Минимална цена</label>
+        <input type="number" asp-for="MinPrice" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label for="MaxPrice">максимална цена</label>
+        <input type="number" asp-for="MaxPrice" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Покажи</button>
 
 </form>
 
 
-<h2>Travelogues</h2>
+<h2>Всички налични пътеписи</h2>
 <table class="table tabl-striped">
     <thead>
         <tr>
-            <th>Name</th>
+            <th>ИД</th>
+            <th>Име</th>
+            <th>Цена</th>
         </tr>
     </thead>
     <tbody>
@@ -38,7 +50,9 @@
             @foreach (var travelogue in  Model.Travelogues)
             { 
             <tr>
+                    <td>@travelogue.Id</td>
                     <td>@travelogue.Name</td>
+                    <td>@travelogue.Price</td>
             </tr>
             }
         }

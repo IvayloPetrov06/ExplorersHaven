@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Setup : Migration
+    public partial class setup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -281,36 +281,63 @@ namespace Explorers_Haven.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Travelogues",
                 columns: new[] { "Id", "Name", "Price" },
-                values: new object[] { 1, "Egipet Patepis", 100 });
+                values: new object[,]
+                {
+                    { 1, "Egypt", 100 },
+                    { 2, "Poland", 200 },
+                    { 3, "Germany", 500 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Trips",
                 columns: new[] { "Id", "Name", "TravelogueId" },
                 values: new object[,]
                 {
-                    { 1, "KazanlakPlovdiv", 1 },
-                    { 2, "PlovdivKairo", 1 },
-                    { 3, "KairoKazanluk", 1 }
+                    { 1, "KazanlakSofia", 1 },
+                    { 2, "SofiaCairo", 1 },
+                    { 3, "CairoSofia", 1 },
+                    { 4, "KazanlakSofia", 1 },
+                    { 5, "SofiaWarsaw", 1 },
+                    { 6, "WarsawSofia", 1 },
+                    { 7, "KazanlakSofia", 1 },
+                    { 8, "SofiaBerlin", 1 },
+                    { 9, "BerlinSofia", 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Activites",
                 columns: new[] { "Id", "Name", "TripId" },
-                values: new object[] { 1, "Qzdene na kamili", 2 });
+                values: new object[,]
+                {
+                    { 1, "Camel riding", 2 },
+                    { 2, "Sightseeing", 5 },
+                    { 3, "Sightseeing", 8 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Stays",
                 columns: new[] { "Id", "Name", "TripId" },
-                values: new object[] { 1, "ZlatniPqsuci", 2 });
+                values: new object[,]
+                {
+                    { 1, "Megawish Hotel", 2 },
+                    { 2, "InterContinental Warsaw Hotel", 5 },
+                    { 3, "Mitte Hotel", 8 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Travels",
                 columns: new[] { "Id", "Finish", "Start", "Transport", "TripId" },
                 values: new object[,]
                 {
-                    { 1, "Plovdiv", "Kazanlak", "Car", 1 },
-                    { 2, "Kairo", "Plovdiv", "Plane", 2 },
-                    { 3, "Kazanlak", "Kairo", "Plane", 3 }
+                    { 1, "Sofia", "Kazanlak", "Bus", 1 },
+                    { 2, "Cairo", "Sofia", "Plane", 2 },
+                    { 3, "Sofia", "Cairo", "Plane", 3 },
+                    { 4, "Sofia", "Kazanlak", "Car", 4 },
+                    { 5, "Warsaw", "Sofia", "Plane", 5 },
+                    { 6, "Sofia", "Warsaw", "Plane", 6 },
+                    { 7, "Sofia", "Kazanlak", "Train", 7 },
+                    { 8, "Berlin", "Sofia", "Plane", 8 },
+                    { 9, "Sofia", "Berlin", "Plane", 9 }
                 });
 
             migrationBuilder.CreateIndex(

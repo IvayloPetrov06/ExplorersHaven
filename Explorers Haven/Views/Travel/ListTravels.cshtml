@@ -22,6 +22,7 @@
             <th scope="col">ИД</th>
             <th scope="col">Старт</th>
             <th scope="col">Финал</th>
+            <th scope="col">Транспорт</th>
 
         </tr>
     </thead>
@@ -33,6 +34,7 @@
                 <td>@tr.Id</td>
                 <td>@tr.Start</td>
                 <td>@tr.Finish</td>
+                <td>@tr.Transport</td>
                 <td>
                     <div class="btn-group">
                         <a asp-controller="Travel" asp-action="EditTravel" asp-route-Id="@tr.Id" class="btn btn-primary">Редактирай</a>

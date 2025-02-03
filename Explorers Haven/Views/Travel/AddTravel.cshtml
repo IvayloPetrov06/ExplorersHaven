@@ -16,12 +16,12 @@
             <input asp-for="Transport">
             <span asp-validation-for="Transport" class="alert-danger"></span>
         </div>
-        <h2>every trip can have only one travel</h2>
+        <h2>Всяко пътешествие може да има само едно пътуване</h2>
         <div class="mb-3">
-            <label asp-for="TripId">Пътуване</label>
+            <label asp-for="TripId">Пътешествие</label>
             <select asp-for="TripId" asp-items="ViewBag.Trips" class="form-control">
                 <span asp-validation-for="TripId" class="alert-danger"></span>
-                <option value="">Изберете пътуване</option>
+                <option value="">Изберете пътешествие</option>
             </select>
         </div>
     </div>

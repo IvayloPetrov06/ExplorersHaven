@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ExplorersHaven.DataAccess\Explorers_Haven.DataAccess.csproj" />
-    <ProjectReference Include="..\ExplorersHaven.Models\ExplorersHaven.Models.csproj" />
+    <ProjectReference Include="..\ExplorersHaven.Models\Explorers_Haven.Models.csproj" />
   </ItemGroup>
 
 </Project>

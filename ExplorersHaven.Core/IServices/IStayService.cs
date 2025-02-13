@@ -10,13 +10,14 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface IStayService
     {
-        Stay Add(Stay stay);
-        void Update(Stay stay);
-        void Delete(int id);
-        Stay Get(int id);
-        List<Stay> GetAll();
-        public Stay GetById(int id);
-        List<Stay> Find(Expression<Func<Stay, bool>> filter);
-        List<Stay> CheckIfExists(List<int> id);
+        Task AddStayAsync(Stay entity);
+        Task UpdateStayAsync(Stay entity);
+        Task DeleteStayAsync(Stay entity);
+        Task DeleteStayByIdAsync(int id);
+        IQueryable<Stay> CombinedInclude(params Expression<Func<Stay, object>>[] includes);
+        Task<Stay> GetStayByIdAsync(int id);
+        Task<Stay> GetStayAsync(Expression<Func<Stay, bool>> filter);
+        Task<IEnumerable<Stay>> GetAllStayAsync(Expression<Func<Stay, bool>> filter);
+        Task<IEnumerable<Stay>> GetAllStayAsync();
     }
 }

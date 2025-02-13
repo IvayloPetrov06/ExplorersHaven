@@ -25,7 +25,7 @@ namespace Explorers_Haven.Core.Validators
         }
         public bool StayExists(int id)
         {
-            if (_repo.Get(id) == null)
+            if (_repo.GetByIdAsync(id) == null)
             {
                 return false;
             }

@@ -7,19 +7,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Explorers_Haven.Controllers
 {
-    public class TravelogueController : Controller
+    public class OfferController : Controller
     {
         
-        private readonly IOfferService _travService;
-        public TravelogueController(IOfferService travService)
+        private readonly IOfferService _offerService;
+        public OfferController(IOfferService offerService)
         {
-            _travService = travService;
+            _offerService = offerService;
         }
 
         public IActionResult Index(OfferViewModel? filter)
         {
             
-            var query = _travService.GetAll().AsQueryable();
+            var query = _offerService.GetAll().AsQueryable();
             if (filter.Id != null)
             {
                 query = query.Where(x => x.Id == filter.Id.Value);
@@ -39,58 +39,59 @@ namespace Explorers_Haven.Controllers
             var model = new OfferViewModel
             {
                 Id = filter.Id,
+                Name = filter.Name,
+
                 MinPrice = filter.MinPrice,
                 MaxPrice = filter.MaxPrice,
-                Name = filter.Name,
-                Travelogues = query.ToList()
+                Offers = query.ToList()
             };
 
             return View(model);
         }
 
-        public IActionResult ListTravelogues()
+        public IActionResult ListOffers()
         {
-            var list = _travService.GetAll();
+            var list = _offerService.GetAllOfferAsync();
             return View(list);
         }
        
         public IActionResult Delete(int id)
         {
-            _travService.Delete(id);
+            _offerService.DeleteOfferByIdAsync(id);
             TempData["success"] = "Успешно изтрит запис";
-            return RedirectToAction("ListTravelogues");
+            return RedirectToAction("ListOffers");
         }
-        public IActionResult EditTravelogue(int Id)
+        public IActionResult EditOffer(int Id)
         {
-            var trav = _travService.GetById(Id);
+            var trav = _offerService.GetOfferByIdAsync(Id);
             if (trav == null) { return NotFound(); }
             return View(trav);
         }
         [HttpPost]
-        public IActionResult EditTravelogue(Travelogue obj)
+        public IActionResult EditOffer(Offer obj)
         {
             if (ModelState.IsValid)
             {
-                _travService.Update(obj);
+                _offerService.UpdateOfferAsync(obj);
                 TempData["success"] = "Успешно редактиран запис";
-                return RedirectToAction("ListTravelogues");
+                return RedirectToAction("ListOffers");
             }
             TempData["error"] = "Неуспешна редакция";
             return View();
         }
-        public IActionResult AddTravelogue()
+        public IActionResult AddOffer()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult AddTravelogue(Travelogue obj)
+        public IActionResult AddOffer(Offer obj)
         {
             if (ModelState.IsValid)
             {
-                
-                _travService.Add(obj);
+
+                _offerService.AddOfferAsync(obj);
                 TempData["success"] = "Успешно добавен запис";
-                return RedirectToAction("ListTravelogues");
+                return RedirectToAction("ListOffers");
             }
             return View();
         }

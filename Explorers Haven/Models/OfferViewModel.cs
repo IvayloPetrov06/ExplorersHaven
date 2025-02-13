@@ -2,7 +2,7 @@
 
 namespace Explorers_Haven.Models
 {
-    public class TravelogueViewModel
+    public class OfferViewModel
     {
         public int? Id { get; set; }
         public string? Name { get; set; }
@@ -11,6 +11,6 @@ namespace Explorers_Haven.Models
 
         public Decimal? MaxPrice { get; set; }
 
-        public List<Travelogue> Travelogues { get; set; }
+        public List<Offer> Offers { get; set; }
     }
 }

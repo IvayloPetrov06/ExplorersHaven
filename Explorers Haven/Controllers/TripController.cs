@@ -11,8 +11,8 @@ namespace Explorers_Haven.Controllers
     public class TripController : Controller
     {
         private readonly ITripService _tripService;
-        private readonly ITravelogueService _travService;
-        public TripController(ITripService tripService, ITravelogueService travService)
+        private readonly IOfferService _travService;
+        public TripController(ITripService tripService, IOfferService travService)
         {
             _tripService = tripService;
             _travService = travService;

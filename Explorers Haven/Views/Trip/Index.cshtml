@@ -27,10 +27,10 @@
     <tbody>
         @if (Model.Trips.Count > 0)
         {
-            @foreach (var travelogue in Model.Trips)
+            @foreach (var trip in Model.Trips)
             {
                 <tr>
-                    <td>@travelogue.Name</td>
+                    <td>@trip.Name</td>
                 </tr>
             }
         }

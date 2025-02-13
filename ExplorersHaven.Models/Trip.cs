@@ -15,9 +15,9 @@ namespace Explorers_Haven.Models
         [Required]
         public string Name { get; set; }
 
-        [ForeignKey(nameof(Travelogue))]
-        public int TravelogueId { get; set; }
-        public Travelogue Travelogue { get; set; }
+        [ForeignKey(nameof(Offer))]
+        public int OfferId { get; set; }
+        public Offer Offer { get; set; }
 
         public ICollection<Models.Activity>? Activities { get; set; }
 

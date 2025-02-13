@@ -1,15 +1,15 @@
 ﻿@using Explorers_Haven.Models
-@model IEnumerable<Travelogue>
+@model IEnumerable<Offer>
 
 <partial name="_Notification"></partial>
 
 <div class="container">
     <div class="row">
         <div class="col col-md-6">
-            <h3>Пътеписи</h3>
+            <h3>Оферти</h3>
         </div>
         <div class="col col-md-6">
-            <a asp-controller="Travelogue" asp-action="AddTravelogue" class="btn btn-primary">Добави пътепис</a>
+            <a asp-controller="Offer" asp-action="AddOffer" class="btn btn-primary">Добави оферта</a>
         </div>
 
 
@@ -25,16 +25,16 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var trav in Model)
+        @foreach (var offer in Model)
         {
             <tr>
                 <th scope="row">1</th>
-                <td>@trav.Id</td>
-                <td>@trav.Name</td>
+                <td>@offer.Id</td>
+                <td>@offer.Name</td>
                 <td>
                     <div class="btn-group">
-                        <a asp-controller="Travelogue" asp-action="EditTravelogue" asp-route-Id="@trav.Id" class="btn btn-primary">Редактирай</a>
-                        <a asp-controller="Travelogue" asp-action="Delete" asp-route-Id="@trav.Id" class="btn btn-primary">Изтрий</a>
+                        <a asp-controller="Offer" asp-action="EditOffer" asp-route-Id="@offer.Id" class="btn btn-primary">Редактирай</a>
+                        <a asp-controller="Offer" asp-action="Delete" asp-route-Id="@offer.Id" class="btn btn-primary">Изтрий</a>
                     </div>
 
                 </td>

@@ -10,13 +10,13 @@ namespace Explorers_Haven.Controllers
     public class TravelogueController : Controller
     {
         
-        private readonly ITravelogueService _travService;
-        public TravelogueController(ITravelogueService travService)
+        private readonly IOfferService _travService;
+        public TravelogueController(IOfferService travService)
         {
             _travService = travService;
         }
 
-        public IActionResult Index(TravelogueViewModel? filter)
+        public IActionResult Index(OfferViewModel? filter)
         {
             
             var query = _travService.GetAll().AsQueryable();
@@ -36,7 +36,7 @@ namespace Explorers_Haven.Controllers
             {
                 query = query.Where(x => x.Name.Contains(filter.Name));
             }
-            var model = new TravelogueViewModel
+            var model = new OfferViewModel
             {
                 Id = filter.Id,
                 MinPrice = filter.MinPrice,

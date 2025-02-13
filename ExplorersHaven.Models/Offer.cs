@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Explorers_Haven.Models
 {
-    public class Travelogue
+    public class Offer
     {
         [Key]
         public int Id { get; set; }

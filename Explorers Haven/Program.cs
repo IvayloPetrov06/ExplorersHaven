@@ -15,7 +15,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IActivityService), typeof(ActivityService));
 builder.Services.AddScoped(typeof(IApplicationUserService), typeof(ApplicationUserService));
 builder.Services.AddScoped(typeof(IStayService), typeof(StayService));
-builder.Services.AddScoped(typeof(ITravelogueService), typeof(TravelogueService));
+builder.Services.AddScoped(typeof(IOfferService), typeof(OfferService));
 builder.Services.AddScoped(typeof(ITravelService), typeof(TravelService));
 builder.Services.AddScoped(typeof(ITripService), typeof(TripService));
 

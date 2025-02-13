@@ -1,16 +1,16 @@
-﻿@model TravelogueViewModel
+﻿@model OfferViewModel
 <div class="text-center">
-    <h1 class="display-4">Пътеписи</h1>
+    <h1 class="display-4">Оферти</h1>
     <p>Избирайте от хиляди оферти!</p>
 </div>
 
-<h2>Търсете пътеписи</h2>
+<h2>Търсете оферти</h2>
 <form asp-action="Index" method="get" class="mb-4">
 
     <!--<div class="form-group">
         <label for="Id">Id</label>
         <input type="text" asp-for="Id" class="form-control" />
-        <select asp-for="Id" asp-items="Model.Travelogues" class="form-control">
+        <select asp-for="Id" asp-items="Model.Offers" class="form-control">
             <option value="">All Ids</option>
         </select>
     </div>-->
@@ -35,7 +35,7 @@
 </form>
 
 
-<h2>Всички налични пътеписи</h2>
+<h2>Всички налични оферти</h2>
 <table class="table tabl-striped">
     <thead>
         <tr>
@@ -45,14 +45,14 @@
         </tr>
     </thead>
     <tbody>
-        @if (Model.Travelogues.Count > 0)
+        @if (Model.Offers.Count > 0)
         {
-            @foreach (var travelogue in  Model.Travelogues)
+            @foreach (var offer in  Model.Offers)
             { 
             <tr>
-                    <td>@travelogue.Id</td>
-                    <td>@travelogue.Name</td>
-                    <td>@travelogue.Price</td>
+                    <td>@offer.Id</td>
+                    <td>@offer.Name</td>
+                    <td>@offer.Price</td>
             </tr>
             }
         }

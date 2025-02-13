@@ -8,10 +8,10 @@ using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Core.Validators
 {
-    internal class TravelogueValidator
+    internal class OfferValidator
     {
-        private IRepository<Travelogue> _repo;
-        public TravelogueValidator(IRepository<Travelogue> repo)
+        private IRepository<Offer> _repo;
+        public OfferValidator(IRepository<Offer> repo)
         {
             this._repo = repo;
         }
@@ -23,7 +23,7 @@ namespace Explorers_Haven.Core.Validators
             }
             return true;
         }
-        public bool TravelogueExists(int id)
+        public bool OfferExists(int id)
         {
             if (_repo.Get(id) == null)
             {

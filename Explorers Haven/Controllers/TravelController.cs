@@ -56,13 +56,13 @@ namespace Explorers_Haven.Controllers
 
         public IActionResult Delete(int id)
         {
-            _travelService.Delete(id);
+            _travelService.DeleteTravelByIdAsync(id);
             TempData["success"] = "Успешно изтрит запис";
             return RedirectToAction("ListTravels");
         }
         public IActionResult EditTravel(int Id)
         {
-            var tr = _travelService.GetById(Id);
+            var tr = _travelService.GetTravelByIdAsync(Id);
             if (tr == null) { return NotFound(); }
             var trips = _tripService.GetAll();
             ViewBag.Trips = new SelectList(trips, "Id", "Name");
@@ -71,9 +71,9 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult EditTravel(Travel obj)
         {
-            if (_tripService.GetById(obj.TripId).Travel == null)
+            if (_tripService.GetTripByIdAsync(obj.TripId).Travel == null)
             {
-                _travelService.Update(obj);
+                _travelService.UpdateTravelAsync(obj);
                 TempData["success"] = "Успешно редактиран запис";
                 return RedirectToAction("ListTravels");
             }
@@ -89,9 +89,9 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult AddTravel(Travel obj)
         {
-            if (_tripService.GetById(obj.TripId).Travel==null) 
+            if (_tripService.GetAllTripAsync(obj.TripId).Travel==null) 
             {
-                _travelService.Add(obj);
+                _travelService.AddTravelAsync(obj);
                 TempData["success"] = "Успешно добавен запис";
                 return RedirectToAction("ListTravels");
             }

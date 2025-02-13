@@ -11,13 +11,15 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface IActivityService
     {
-        Models.Activity Add(Models.Activity trip);
-        void Update(Models.Activity trip);
-        void Delete(int id);
-        Models.Activity Get(int id);
-        List<Models.Activity> GetAll();
-        public Models.Activity GetById(int id);
-        List<Models.Activity> Find(Expression<Func<Models.Activity, bool>> filter);
-        List<Models.Activity> CheckIfExists(List<int> id);
+        public IQueryable<Models.Activity> GetAll();
+        Task AddActivityAsync(Models.Activity entity);
+        Task UpdateActivityAsync(Models.Activity entity);
+        Task DeleteActivityAsync(Models.Activity entity);
+        Task DeleteActivityByIdAsync(int id);
+        IQueryable<Models.Activity> CombinedInclude(params Expression<Func<Trip, object>>[] includes);
+        Task<Models.Activity> GetActivityByIdAsync(int id);
+        Task<Models.Activity> GetActivityAsync(Expression<Func<Models.Activity, bool>> filter);
+        Task<IEnumerable<Models.Activity>> GetAllActivityAsync(Expression<Func<Models.Activity, bool>> filter);
+        Task<IEnumerable<Models.Activity>> GetAllActivityAsync();
     }
 }

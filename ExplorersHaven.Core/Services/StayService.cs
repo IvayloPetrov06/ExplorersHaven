@@ -35,6 +35,11 @@ namespace Explorers_Haven.Core.Services
             }
         }
 
+        public IQueryable<Stay> GetAll()
+        {
+            return _repo.GetAll();
+        }
+
         public Task AddStayAsync(Stay entity)
         {
             if (!ValidateStay(entity))
@@ -44,7 +49,7 @@ namespace Explorers_Haven.Core.Services
             return _repo.AddAsync(entity);
         }
 
-        public async Task UpdateOfferAsync(Stay entity)
+        public async Task UpdateStayAsync(Stay entity)
         {
             if (!ValidateStay(entity))
             {
@@ -98,10 +103,7 @@ namespace Explorers_Haven.Core.Services
             return await _repo.GetAllAsync();
         }
 
-        public Task UpdateStayAsync(Stay entity)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         /*private bool ValidateStay(Stay stay)
         {

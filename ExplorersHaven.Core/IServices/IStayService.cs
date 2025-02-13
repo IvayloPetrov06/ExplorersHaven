@@ -10,6 +10,7 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface IStayService
     {
+        public IQueryable<Stay> GetAll();
         Task AddStayAsync(Stay entity);
         Task UpdateStayAsync(Stay entity);
         Task DeleteStayAsync(Stay entity);

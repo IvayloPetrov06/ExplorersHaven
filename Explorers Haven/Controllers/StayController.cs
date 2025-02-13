@@ -46,13 +46,13 @@ namespace Explorers_Haven.Controllers
 
         public IActionResult Delete(int id)
         {
-            _stayService.Delete(id);
+            _stayService.DeleteStayByIdAsync(id);
             TempData["success"] = "Успешно изтрит запис";
             return RedirectToAction("ListStays");
         }
         public IActionResult EditStay(int Id)
         {
-            var trav = _stayService.GetById(Id);
+            var trav = _stayService.GetStayByIdAsync(Id);
             if (trav == null) { return NotFound(); }
             var trips = _tripService.GetAll();
             ViewBag.Trips = new SelectList(trips, "Id", "Name");
@@ -61,7 +61,7 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult EditStay(Stay obj)
         {
-            _stayService.Update(obj);
+            _stayService.UpdateStayAsync(obj);
             TempData["success"] = "Успешно редактиран запис";
             return RedirectToAction("ListStays");
         }
@@ -74,7 +74,7 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult AddStay(Stay obj)
         {
-            _stayService.Add(obj);
+            _stayService.AddStayAsync(obj);
             TempData["success"] = "Успешно добавен запис";
             return RedirectToAction("ListStays");
         }

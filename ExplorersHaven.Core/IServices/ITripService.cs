@@ -10,13 +10,15 @@ namespace Explorers_Haven.Core.IServices
 {
     public interface ITripService
     {
-        Trip Add(Trip trip);
-        void Update(Trip trip);
-        void Delete(int id);
-        Trip Get(int id);
-        List<Trip> GetAll();
-        public Trip GetById(int id);
-        List<Trip> Find(Expression<Func<Trip, bool>> filter);
-        List<Trip> CheckIfExists(List<int> id);
+        public IQueryable<Trip> GetAll();
+        Task AddTripAsync(Trip entity);
+        Task UpdateTripAsync(Trip entity);
+        Task DeleteTripAsync(Trip entity);
+        Task DeleteTripByIdAsync(int id);
+        IQueryable<Trip> CombinedInclude(params Expression<Func<Trip, object>>[] includes);
+        Task<Trip> GetTripByIdAsync(int id);
+        Task<Trip> GetTripAsync(Expression<Func<Trip, bool>> filter);
+        Task<IEnumerable<Trip>> GetAllTripAsync(Expression<Func<Trip, bool>> filter);
+        Task<IEnumerable<Trip>> GetAllTripAsync();
     }
 }

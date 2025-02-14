@@ -1,5 +1,6 @@
 ﻿using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
+using Explorers_Haven.Models;
 using Explorers_Haven.Models.Activity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -41,7 +42,7 @@ namespace Explorers_Haven.Controllers
 
         public async Task<IActionResult> ListActivities()
         {
-            IEnumerable<Models.Activity> offers = await _actService.GetAllActivityAsync();
+            IEnumerable<Activity> offers = await _actService.GetAllActivityAsync();
             return View(offers);
         }
 
@@ -57,14 +58,14 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> EditActivity(int Id)
         {
-            Models.Activity act = await _actService.GetActivityByIdAsync(Id);
+            Activity act = await _actService.GetActivityByIdAsync(Id);
             if (act == null) { return NotFound(); }
             var trips = _tripService.GetAllTripAsync().Result;
             ViewBag.Trips = new SelectList(trips, "Id", "Name");
             return View(act);
         }
         [HttpPost]
-        public async Task<IActionResult> EditActivity(Models.Activity obj)
+        public async Task<IActionResult> EditActivity(Activity obj)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +86,7 @@ namespace Explorers_Haven.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddActivity(Models.Activity obj)
+        public async Task<IActionResult> AddActivity(Activity obj)
         {
             if (ModelState.IsValid)
             {

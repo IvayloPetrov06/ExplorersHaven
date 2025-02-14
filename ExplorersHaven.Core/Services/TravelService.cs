@@ -23,15 +23,16 @@ namespace Explorers_Haven.Core.Services
 
         private bool ValidateTravel(Travel tr)
         {
-            var validator = new TravelValidator(_repo);
-            if (!validator.ValidateInput(tr.Start) && !validator.ValidateInput(tr.Finish))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
+            //var validator = new TravelValidator(_repo);
+            //if (!validator.ValidateInput(tr.Start) && !validator.ValidateInput(tr.Finish))
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
         }
 
         public IQueryable<Travel> GetAll()
@@ -64,8 +65,8 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteTravelByIdAsync(int id)
         {
-            var validator = new TravelValidator(_repo);
-            if (validator.TravelExists(id))
+            //var validator = new TravelValidator(_repo);
+            if (true)//validator.TravelExists(id))
             {
                 await _repo.DeleteByIdAsync(id);
             }

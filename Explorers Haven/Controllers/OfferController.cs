@@ -92,20 +92,6 @@ namespace Explorers_Haven.Controllers
                 TempData["error"] = "Неуспешна редакция";
                 return View(obj);
             }
-            /*
-             * public async Task<IActionResult> Update(Playlist model)
-           {
-            if(ModelState.IsValid)
-            {
-                await playlistService.UpdatePlaylistAsync(model);
-                return RedirectToAction("AllPlaylists");
-            }
-            else
-            {
-                return View(model);
-            }
-           }
-             */
         }
         public async Task<IActionResult> AddOffer()
         {

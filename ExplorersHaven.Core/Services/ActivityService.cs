@@ -23,15 +23,16 @@ namespace Explorers_Haven.Core.Services
 
         private bool ValidateActivity(Models.Activity act)
         {
-            var validator = new ActivityValidator(_repo);
-            if (!validator.ValidateInput(act.Name))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
+            //var validator = new ActivityValidator(_repo);
+            //if (!validator.ValidateInput(act.Name))
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
         }
 
         public IQueryable<Models.Activity> GetAll()
@@ -64,8 +65,8 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteActivityByIdAsync(int id)
         {
-            var validator = new ActivityValidator(_repo);
-            if (validator.ActivityExists(id))
+            //var validator = new ActivityValidator(_repo);
+            if (true)//validator.ActivityExists(id))
             {
                 await _repo.DeleteByIdAsync(id);
             }

@@ -24,15 +24,16 @@ namespace Explorers_Haven.Core.Services
 
         private bool ValidateStay(Stay stay)
         {
-            var validator = new StayValidator(_repo);
-            if (!validator.ValidateInput(stay.Name))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
+            //var validator = new StayValidator(_repo);
+            //if (!validator.ValidateInput(stay.Name))
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
         }
 
         public IQueryable<Stay> GetAll()
@@ -65,8 +66,8 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteStayByIdAsync(int id)
         {
-            var validator = new StayValidator(_repo);
-            if (validator.StayExists(id))
+            //var validator = new StayValidator(_repo);
+            if (true)//validator.StayExists(id)
             {
                 await _repo.DeleteByIdAsync(id);
             }

@@ -1,5 +1,6 @@
 ﻿using Explorers_Haven.Core.IServices;
-using Explorers_Haven.Models;
+using Explorers_Haven.Core.Services;
+using Explorers_Haven.Models.Activity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -38,45 +39,61 @@ namespace Explorers_Haven.Controllers
             return View(model);
         }
 
-        public IActionResult ListActivities()
+        public async Task<IActionResult> ListActivities()
         {
-            var list = _actService.GetAll();
-            return View(list);
+            IEnumerable<Models.Activity> offers = await _actService.GetAllActivityAsync();
+            return View(offers);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _actService.DeleteActivityByIdAsync(id);
-            TempData["success"] = "Успешно изтро събитие";
+            if (id != null) 
+            {
+                await _actService.DeleteActivityByIdAsync(id);
+                TempData["success"] = "Успешно изтро събитие";
+                return RedirectToAction("ListActivities");
+            }
             return RedirectToAction("ListActivities");
         }
-        public IActionResult EditActivity(int Id)
+        public async Task<IActionResult> EditActivity(int Id)
         {
-            var trip1 = _actService.GetActivityByIdAsync(Id);
-            if (trip1 == null) { return NotFound(); }
-            var trips = _tripService.GetAll();
+            Models.Activity act = await _actService.GetActivityByIdAsync(Id);
+            if (act == null) { return NotFound(); }
+            var trips = _tripService.GetAllTripAsync().Result;
             ViewBag.Trips = new SelectList(trips, "Id", "Name");
-            return View(trip1);
+            return View(act);
         }
         [HttpPost]
-        public IActionResult EditActivity(Models.Activity obj)
+        public async Task<IActionResult> EditActivity(Models.Activity obj)
         {
-            _actService.UpdateActivityAsync(obj);
-            TempData["success"] = "Успешно редактирано събитие";
-            return RedirectToAction("ListActivities");
+            if (ModelState.IsValid)
+            {
+                await _actService.UpdateActivityAsync(obj);
+                TempData["success"] = "Успешно редактирано събитие";
+                return RedirectToAction("ListActivities");
+            }
+            else
+            {
+                TempData["error"] = "Неуспешна редакция";
+                return View(obj);
+            }
         }
-        public IActionResult AddActivity()
+        public async Task<IActionResult> AddActivity()
         {
             var trips = _tripService.GetAll();
             ViewBag.Trips = new SelectList(trips, "Id", "Name");
             return View();
         }
         [HttpPost]
-        public IActionResult AddActivity(Models.Activity obj)
+        public async Task<IActionResult> AddActivity(Models.Activity obj)
         {
-            _actService.AddActivityAsync(obj);
-            TempData["success"] = "Успешно добавен събитие";
-            return RedirectToAction("ListActivities");
+            if (ModelState.IsValid)
+            {
+                await _actService.AddActivityAsync(obj);
+                TempData["success"] = "Успешно добавен събитие";
+                return RedirectToAction("ListActivities");
+            }
+            return View();
         }
     }
 }

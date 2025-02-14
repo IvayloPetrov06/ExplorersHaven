@@ -22,15 +22,16 @@ namespace Explorers_Haven.Core.Services
         }
         private bool ValidateOffer(Offer entity)
         {
-            var validator = new OfferValidator(_repo);
-            if (!validator.ValidateInput(entity.Name))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            return true;
+            //var validator = new OfferValidator(_repo);
+            //if (!validator.ValidateInput(entity.Name))
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
         }
 
         public IQueryable<Offer> GetAll()
@@ -63,8 +64,9 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteOfferByIdAsync(int id)
         {
-            var validator = new OfferValidator(_repo);
-            if (validator.OfferExists(id))
+            //var validator = new OfferValidator(_repo);
+            //bool exists = OfferValidator.OfferExists(id, _repo);
+            if (true)
             {
                 await _repo.DeleteByIdAsync(id);
             }

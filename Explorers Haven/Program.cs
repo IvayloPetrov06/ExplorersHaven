@@ -21,7 +21,7 @@ builder.Services.AddScoped(typeof(ITripService), typeof(TripService));
 
 //builder.Services.AddDbContext<ApplicationDbContext>
 //    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+var connection = builder.Configuration.GetConnectionString("LocalDbConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
 

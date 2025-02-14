@@ -49,47 +49,75 @@ namespace Explorers_Haven.Controllers
             return View(model);
         }
 
-        public IActionResult ListOffers()
+        public async Task<IActionResult> ListOffers()
         {
-            var list = _offerService.GetAllOfferAsync();
-            return View(list);
+            IEnumerable<Offer> offers = await _offerService.GetAllOfferAsync();
+            return View(offers);
         }
        
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _offerService.DeleteOfferByIdAsync(id);
-            TempData["success"] = "Успешно изтрит запис";
+            //_offerService.DeleteOfferByIdAsync(id);
+            //TempData["success"] = "Успешно изтрит запис";
+           // return RedirectToAction("ListOffers");
+            if (id != null)
+            {
+                await _offerService.DeleteOfferByIdAsync(id);
+                TempData["success"] = "Успешно изтрит запис";
+                return RedirectToAction("ListOffers");
+            }
             return RedirectToAction("ListOffers");
         }
-        public IActionResult EditOffer(int Id)
+        public async Task<IActionResult> EditOffer(int Id)
         {
-            var trav = _offerService.GetOfferByIdAsync(Id);
-            if (trav == null) { return NotFound(); }
-            return View(trav);
+            //var trav = _offerService.GetOfferByIdAsync(Id);
+            //if (trav == null) { return NotFound(); }
+            //return View(trav);
+            Offer offers = await _offerService.GetOfferByIdAsync(Id);
+            if (offers == null) { return NotFound(); }
+            return View(offers);
         }
         [HttpPost]
-        public IActionResult EditOffer(Offer obj)
+        public async Task<IActionResult> EditOffer(Offer obj)
         {
             if (ModelState.IsValid)
             {
-                _offerService.UpdateOfferAsync(obj);
+                //_offerService.UpdateOfferAsync(obj);
+                await _offerService.UpdateOfferAsync(obj);
                 TempData["success"] = "Успешно редактиран запис";
                 return RedirectToAction("ListOffers");
             }
-            TempData["error"] = "Неуспешна редакция";
-            return View();
+            else
+            {
+                TempData["error"] = "Неуспешна редакция";
+                return View(obj);
+            }
+            /*
+             * public async Task<IActionResult> Update(Playlist model)
+           {
+            if(ModelState.IsValid)
+            {
+                await playlistService.UpdatePlaylistAsync(model);
+                return RedirectToAction("AllPlaylists");
+            }
+            else
+            {
+                return View(model);
+            }
+           }
+             */
         }
-        public IActionResult AddOffer()
+        public async Task<IActionResult> AddOffer()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult AddOffer(Offer obj)
+        public async Task<IActionResult> AddOffer(Offer obj)
         {
             if (ModelState.IsValid)
             {
 
-                _offerService.AddOfferAsync(obj);
+                await _offerService.AddOfferAsync(obj);
                 TempData["success"] = "Успешно добавен запис";
                 return RedirectToAction("ListOffers");
             }

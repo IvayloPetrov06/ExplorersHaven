@@ -11,6 +11,7 @@ namespace Explorers_Haven.Core.IServices
     public interface ITravelService
     {
         public IQueryable<Travel> GetAll();
+
         Task AddTravelAsync(Travel entity);
         Task UpdateTravelAsync(Travel entity);
         Task DeleteTravelAsync(Travel entity);

@@ -33,7 +33,7 @@ namespace Explorers_Haven.DataAccess.Repository
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await SaveAsync();
+                await _context.SaveChangesAsync();
             }
         }
 
@@ -43,7 +43,7 @@ namespace Explorers_Haven.DataAccess.Repository
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await SaveAsync();
+                await (_context.SaveChangesAsync());
             }
         }
 

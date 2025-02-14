@@ -53,7 +53,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Travelogues",
+                name: "Offers",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -63,7 +63,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Travelogues", x => x.Id);
+                    table.PrimaryKey("PK_Offers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,15 +203,15 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TravelogueId = table.Column<int>(type: "int", nullable: false)
+                    OfferId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Trips", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Trips_Travelogues_TravelogueId",
-                        column: x => x.TravelogueId,
-                        principalTable: "Travelogues",
+                        name: "FK_Trips_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -279,7 +279,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Travelogues",
+                table: "Offers",
                 columns: new[] { "Id", "Name", "Price" },
                 values: new object[,]
                 {
@@ -290,7 +290,7 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Trips",
-                columns: new[] { "Id", "Name", "TravelogueId" },
+                columns: new[] { "Id", "Name", "OfferId" },
                 values: new object[,]
                 {
                     { 1, "KazanlakSofia", 1 },
@@ -417,9 +417,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trips_TravelogueId",
+                name: "IX_Trips_OfferId",
                 table: "Trips",
-                column: "TravelogueId");
+                column: "OfferId");
         }
 
         /// <inheritdoc />
@@ -459,7 +459,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 name: "Trips");
 
             migrationBuilder.DropTable(
-                name: "Travelogues");
+                name: "Offers");
         }
     }
 }

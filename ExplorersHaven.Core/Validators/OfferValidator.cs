@@ -8,14 +8,14 @@ using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Core.Validators
 {
-    internal class OfferValidator
+    internal static class OfferValidator
     {
-        private IRepository<Offer> _repo;
-        public OfferValidator(IRepository<Offer> repo)
-        {
-            this._repo = repo;
-        }
-        public bool ValidateInput(string name)
+        //private IRepository<Offer> _repo;
+        //public OfferValidator(IRepository<Offer> repo)
+        //{
+        //    this._repo = repo;
+        //}
+        public static bool ValidateInput(string name)
         {
             if (name.Length == 0 || name.Length > 30)
             {
@@ -23,9 +23,9 @@ namespace Explorers_Haven.Core.Validators
             }
             return true;
         }
-        public bool OfferExists(int id)
+        public static  bool OfferExists(int id, IRepository<Offer> repo)
         {
-            if (_repo.GetByIdAsync(id) == null)
+            if (repo.GetByIdAsync(id) == null)
             {
                 return false;
             }

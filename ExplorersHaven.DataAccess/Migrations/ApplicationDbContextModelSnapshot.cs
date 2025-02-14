@@ -129,6 +129,46 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Price")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Offers");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Egypt",
+                            Price = 100
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Poland",
+                            Price = 200
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Germany",
+                            Price = 500
+                        });
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
                 {
                     b.Property<int>("Id")
@@ -277,46 +317,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Explorers_Haven.Models.Travelogue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("Price")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Travelogues");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Egypt",
-                            Price = 100
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Poland",
-                            Price = 200
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Germany",
-                            Price = 500
-                        });
-                });
-
             modelBuilder.Entity("Explorers_Haven.Models.Trip", b =>
                 {
                     b.Property<int>("Id")
@@ -329,12 +329,12 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TravelogueId")
+                    b.Property<int>("OfferId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TravelogueId");
+                    b.HasIndex("OfferId");
 
                     b.ToTable("Trips");
 
@@ -343,55 +343,55 @@ namespace Explorers_Haven.DataAccess.Migrations
                         {
                             Id = 1,
                             Name = "KazanlakSofia",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 2,
                             Name = "SofiaCairo",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 3,
                             Name = "CairoSofia",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 4,
                             Name = "KazanlakSofia",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 5,
                             Name = "SofiaWarsaw",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 6,
                             Name = "WarsawSofia",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 7,
                             Name = "KazanlakSofia",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 8,
                             Name = "SofiaBerlin",
-                            TravelogueId = 1
+                            OfferId = 1
                         },
                         new
                         {
                             Id = 9,
                             Name = "BerlinSofia",
-                            TravelogueId = 1
+                            OfferId = 1
                         });
                 });
 
@@ -587,13 +587,13 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Explorers_Haven.Models.Trip", b =>
                 {
-                    b.HasOne("Explorers_Haven.Models.Travelogue", "Travelogue")
+                    b.HasOne("Explorers_Haven.Models.Offer", "Offer")
                         .WithMany("Trips")
-                        .HasForeignKey("TravelogueId")
+                        .HasForeignKey("OfferId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Travelogue");
+                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -674,7 +674,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Explorers_Haven.Models.Travelogue", b =>
+            modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
                     b.Navigation("Trips");
                 });

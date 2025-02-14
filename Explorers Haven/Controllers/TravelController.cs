@@ -2,6 +2,7 @@
 using Explorers_Haven.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Explorers_Haven.Models;
 
 namespace Explorers_Haven.Controllers
 {
@@ -71,7 +72,7 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult EditTravel(Travel obj)
         {
-            if (_tripService.GetTripByIdAsync(obj.TripId).Travel == null)
+            if (_tripService.GetTripByIdAsync(obj.TripId).Result.Travel == null)
             {
                 _travelService.UpdateTravelAsync(obj);
                 TempData["success"] = "Успешно редактиран запис";
@@ -89,7 +90,7 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult AddTravel(Travel obj)
         {
-            if (_tripService.GetAllTripAsync(obj.TripId).Travel==null) 
+            if (_tripService.GetTripByIdAsync(obj.TripId).Result.Travel==null) 
             {
                 _travelService.AddTravelAsync(obj);
                 TempData["success"] = "Успешно добавен запис";

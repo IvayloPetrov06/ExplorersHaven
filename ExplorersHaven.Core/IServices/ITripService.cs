@@ -11,6 +11,7 @@ namespace Explorers_Haven.Core.IServices
     public interface ITripService
     {
         public IQueryable<Trip> GetAll();
+
         Task AddTripAsync(Trip entity);
         Task UpdateTripAsync(Trip entity);
         Task DeleteTripAsync(Trip entity);

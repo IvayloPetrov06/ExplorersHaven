@@ -46,13 +46,13 @@ namespace Explorers_Haven.Controllers
 
         public IActionResult Delete(int id)
         {
-            _actService.Delete(id);
+            _actService.DeleteActivityByIdAsync(id);
             TempData["success"] = "Успешно изтро събитие";
             return RedirectToAction("ListActivities");
         }
         public IActionResult EditActivity(int Id)
         {
-            var trip1 = _actService.GetById(Id);
+            var trip1 = _actService.GetActivityByIdAsync(Id);
             if (trip1 == null) { return NotFound(); }
             var trips = _tripService.GetAll();
             ViewBag.Trips = new SelectList(trips, "Id", "Name");
@@ -61,7 +61,7 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult EditActivity(Models.Activity obj)
         {
-            _actService.Update(obj);
+            _actService.UpdateActivityAsync(obj);
             TempData["success"] = "Успешно редактирано събитие";
             return RedirectToAction("ListActivities");
         }
@@ -74,7 +74,7 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public IActionResult AddActivity(Models.Activity obj)
         {
-            _actService.Add(obj);
+            _actService.AddActivityAsync(obj);
             TempData["success"] = "Успешно добавен събитие";
             return RedirectToAction("ListActivities");
         }

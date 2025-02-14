@@ -8,6 +8,7 @@ using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Validators;
 using Explorers_Haven.DataAccess.Repository;
 using Explorers_Haven.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Explorers_Haven.Core.Services
 {
@@ -20,7 +21,88 @@ namespace Explorers_Haven.Core.Services
             this._repo = repo;
         }
 
+        private bool ValidateActivity(Models.Activity act)
+        {
+            var validator = new ActivityValidator(_repo);
+            if (!validator.ValidateInput(act.Name))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
 
+        public IQueryable<Models.Activity> GetAll()
+        {
+            return _repo.GetAll();
+        }
+
+        public Task AddActivityAsync(Models.Activity entity)
+        {
+            if (!ValidateActivity(entity))
+            {
+                throw new ArgumentException("The activity is not valid!");
+            }
+            return _repo.AddAsync(entity);
+        }
+
+        public async Task UpdateActivityAsync(Models.Activity entity)
+        {
+            if (!ValidateActivity(entity))
+            {
+                throw new ArgumentException("The activity is not valid!");
+            }
+            await _repo.UpdateAsync(entity);
+        }
+
+        public async Task DeleteActivityAsync(Models.Activity entity)
+        {
+            await _repo.DeleteAsync(entity);
+        }
+
+        public async Task DeleteActivityByIdAsync(int id)
+        {
+            var validator = new ActivityValidator(_repo);
+            if (validator.ActivityExists(id))
+            {
+                await _repo.DeleteByIdAsync(id);
+            }
+        }
+
+        public IQueryable<Models.Activity> CombinedInclude(params Expression<Func<Models.Activity, object>>[] includes)
+        {
+            IQueryable<Models.Activity> query = _repo.GetAllQuery();
+            foreach (var include in includes)
+            {
+                query = query.Include(include);
+            }
+
+            return query;
+        }
+
+        public async Task<Models.Activity> GetActivityByIdAsync(int id)
+        {
+            return await _repo.GetByIdAsync(id);
+        }
+
+        public async Task<Models.Activity> GetActivityAsync(Expression<Func<Models.Activity, bool>> filter)
+        {
+            return await _repo.GetAsync(filter);
+        }
+
+        public async Task<IEnumerable<Models.Activity>> GetAllActivityAsync(Expression<Func<Models.Activity, bool>> filter)
+        {
+            return await _repo.GetAllAsync(filter);
+        }
+
+        public async Task<IEnumerable<Models.Activity>> GetAllActivityAsync()
+        {
+            return await _repo.GetAllAsync();
+        }
+
+        /*
         private bool ValidateActivity(Models.Activity activity)
         {
             var validator = new ActivityValidator(_repo);
@@ -86,7 +168,7 @@ namespace Explorers_Haven.Core.Services
         public List<Models.Activity> CheckIfExists(List<int> id)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
 
     }

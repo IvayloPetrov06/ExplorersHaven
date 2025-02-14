@@ -29,8 +29,10 @@ options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.Data
 //builder.Services.AddDefaultIdentity<IdentityUser>()
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<IdentityUser>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddRazorPages();
+
 
 var app = builder.Build();
 
@@ -50,6 +52,8 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",

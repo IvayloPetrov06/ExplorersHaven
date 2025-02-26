@@ -109,5 +109,37 @@ namespace Explorers_Haven.Controllers
             }
             return View();
         }
+        /* html shared
+         * <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="Index">Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="ListOffers">ListOffers</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Trip" asp-action="Index">Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Trip" asp-action="ListTrips">ListTrips</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Stay" asp-action="Index">Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Stay" asp-action="ListStays">ListStays</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Activity" asp-action="Index">Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Activity" asp-action="ListActivities">ListActivities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Travel" asp-action="Index">Search</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Travel" asp-action="ListTravels">ListTravels</a>
+                        </li>
+         */
     }
 }

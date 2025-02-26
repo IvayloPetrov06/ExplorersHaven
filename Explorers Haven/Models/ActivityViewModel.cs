@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Explorers_Haven.Models.Activity
+namespace Explorers_Haven.Models
 {
     public class ActivityViewModel
     {
@@ -9,6 +9,6 @@ namespace Explorers_Haven.Models.Activity
 
         public SelectList? Trips { get; set; }
         public int? TripId { get; set; }
-        public List<ActivityViewModel> Activities { get; set; }
+        public List<Models.Activity> Activities { get; set; }
     }
 }

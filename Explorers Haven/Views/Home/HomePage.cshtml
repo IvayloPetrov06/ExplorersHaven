@@ -1,0 +1,167 @@
+﻿@model OfferViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Travel Search</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #0073e6;
+            padding: 15px;
+        }
+
+            header nav {
+                display: flex;
+                justify-content: center;
+            }
+
+                header nav ul {
+                    display: flex;
+                    list-style: none;
+                }
+
+                    header nav ul li {
+                        margin: 0 20px;
+                    }
+
+                        header nav ul li a {
+                            text-decoration: none;
+                            color: white;
+                            font-size: 16px;
+                            font-weight: bold;
+                        }
+
+        .hero {
+            height: 100vh;
+            background-image: url('https://via.placeholder.com/1500x800');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+            .search-form input,
+            .search-form button {
+                padding: 10px;
+                font-size: 16px;
+            }
+
+                .search-form input[type="text"] {
+                    width: 250px;
+                    border: 1px solid #ddd;
+                }
+
+                .search-form input[type="date"] {
+                    width: 200px;
+                    border: 1px solid #ddd;
+                }
+
+            .search-form button {
+                background-color: #0073e6;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+
+                .search-form button:hover {
+                    background-color: #005bb5;
+                }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: white;
+        }
+
+            footer p {
+                font-size: 14px;
+            }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Hotels</a></li>
+                <li><a href="#">Flights</a></li>
+                <li><a href="#">Cars</a></li>
+                <li><a href="#">Deals</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Find Your Perfect Stay</h1>
+            <form class="search-form">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               Where do u want to go?
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">​
+                                @if (Model.Offers.Count > 0)
+        {
+            @foreach (var offer in Model.Offers)
+            {
+                <tr>
+                    <td>@offer.Name</td>
+                </tr>
+            }
+        }
+                            </div>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </section>
+</body>
+</html>
+
+@*
+            <form class="search-form">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               Where do u want to go?
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">​
+                                @if (Model.Offers.Count > 0)
+        {
+            @foreach (var offer in Model.Offers)
+            {
+                <tr>
+                    <td>@offer.Name</td>
+                </tr>
+            }
+        }
+                            </div>
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </section>*@

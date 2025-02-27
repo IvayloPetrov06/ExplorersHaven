@@ -108,7 +108,6 @@
     </style>
 </head>
 <body>
-
     <section class="hero">
         <div class="hero-content">
             <h1>Find Your Perfect Stay</h1>
@@ -116,19 +115,30 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                Where do u want to go?
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">​
-                                @if (Model.Offers.Count > 0)
-        {
-            @foreach (var offer in Model.Offers)
-            {
-                <tr>
-                    <td>@offer.Name</td>
-                </tr>
-            }
-        }
-                            </div>
-                <button type="submit">Search</button>
             </form>
+            <table class="table tabl-striped">
+                <thead>
+                    <tr>
+                        <th>ИД</th>
+                        <th>Име</th>
+                        <th>Цена</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Offers.Count > 0)
+                    {
+                        @foreach (var offer in Model.Offers)
+                        {
+                            <tr>
+                                <td>@offer.Id</td>
+                                <td>@offer.Name</td>
+                                <td>@offer.Price</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+            </table>
         </div>
     </section>
 </body>

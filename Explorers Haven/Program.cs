@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Explorers_Haven.DataAccess.Repository;
 using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
+using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,17 @@ builder.Services.AddScoped(typeof(IStayService), typeof(StayService));
 builder.Services.AddScoped(typeof(IOfferService), typeof(OfferService));
 builder.Services.AddScoped(typeof(ITravelService), typeof(TravelService));
 builder.Services.AddScoped(typeof(ITripService), typeof(TripService));
+
+builder.Services.AddScoped<CloudinaryService>();
+
+var cloudinarySettings = builder.Configuration.GetSection("Cloudinary");
+var cloudinaryAccount = new Account(
+    cloudinarySettings["CloudName"],
+    cloudinarySettings["ApiKey"],
+    cloudinarySettings["ApiSecret"]
+);
+var cloudinary = new Cloudinary(cloudinaryAccount);
+builder.Services.AddSingleton(cloudinary);
 
 //builder.Services.AddDbContext<ApplicationDbContext>
 //    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

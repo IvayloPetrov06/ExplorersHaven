@@ -13,8 +13,8 @@ namespace Explorers_Haven.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-
-        public int? Price { get; set; }
+        public string? CoverImage { get; set; }
+        public decimal? Price { get; set; }
         public ICollection<Trip>? Trips { get; set; }
 
     }

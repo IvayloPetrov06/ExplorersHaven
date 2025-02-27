@@ -29,7 +29,7 @@ namespace Explorers_Haven.DataAccess
         {
             //travelogue 1
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 1, Name ="Egypt", Price=100 }
+                new Offer { Id = 1, Name ="Egypt",CoverImage="", Price=100 }
                 );
             //trip 1
             modelBuilder.Entity<Trip>().HasData(
@@ -216,6 +216,8 @@ namespace Explorers_Haven.DataAccess
 
                 b.Property(e => e.Name)
                  .IsRequired();
+
+                b.Property(e => e.CoverImage);
 
                 b.Property(e => e.Price);
 

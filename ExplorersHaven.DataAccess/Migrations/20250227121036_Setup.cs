@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class setup : Migration
+    public partial class Setup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -59,7 +59,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: true)
+                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -280,12 +281,12 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Offers",
-                columns: new[] { "Id", "Name", "Price" },
+                columns: new[] { "Id", "CoverImage", "Name", "Price" },
                 values: new object[,]
                 {
-                    { 1, "Egypt", 100 },
-                    { 2, "Poland", 200 },
-                    { 3, "Germany", 500 }
+                    { 1, "", "Egypt", 100m },
+                    { 2, null, "Poland", 200m },
+                    { 3, null, "Germany", 500m }
                 });
 
             migrationBuilder.InsertData(

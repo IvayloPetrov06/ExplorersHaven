@@ -2,6 +2,7 @@
 using Explorers_Haven.Core.Services;
 using Explorers_Haven.DataAccess;
 using Explorers_Haven.Models;
+using Explorers_Haven.ViewModels.Trip;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -71,7 +72,7 @@ namespace Explorers_Haven.Controllers
         public IActionResult AddTrip()
         {
             var travelogues = _travService.GetAll();
-            ViewBag.Travelogues = new SelectList(travelogues,"Id","Name");
+            ViewBag.Offers = new SelectList(travelogues,"Id","Name");
             return View();
         }
         [HttpPost]

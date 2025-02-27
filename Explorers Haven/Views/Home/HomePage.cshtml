@@ -1,4 +1,5 @@
-﻿@model OfferViewModel
+﻿@using Explorers_Haven.ViewModels.Offer
+@model OfferFilterViewModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,105 +8,109 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Travel Search</title>
     <style>
+        /* General Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
         }
 
+        /* Body styling */
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f4f4f9;
             color: #333;
+            line-height: 1.6;
         }
 
-        header {
-            background-color: #0073e6;
-            padding: 15px;
-        }
-
-            header nav {
-                display: flex;
-                justify-content: center;
-            }
-
-                header nav ul {
-                    display: flex;
-                    list-style: none;
-                }
-
-                    header nav ul li {
-                        margin: 0 20px;
-                    }
-
-                        header nav ul li a {
-                            text-decoration: none;
-                            color: white;
-                            font-size: 16px;
-                            font-weight: bold;
-                        }
-
+        /* Hero Section */
         .hero {
-            height: 100vh;
-            background-image: url('https://via.placeholder.com/1500x800');
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
+            background: linear-gradient(135deg, #6e7dff, #8d88f0);
+            padding: 100px 20px;
             text-align: center;
+            color: white;
         }
 
         .hero-content h1 {
-            font-size: 36px;
+            font-size: 3rem;
             margin-bottom: 20px;
+            font-weight: 700;
         }
 
+        /* Search Form */
         .search-form {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
+            margin-top: 20px;
+            display: inline-block;
+            position: relative;
         }
 
-            .search-form input,
-            .search-form button {
-                padding: 10px;
-                font-size: 16px;
+        .nav-link {
+            display: inline-block;
+            font-size: 1.2rem;
+            padding: 12px 20px;
+            background-color: #fff;
+            color: #333;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+            .nav-link:hover {
+                background-color: #f3f3f3;
             }
 
-                .search-form input[type="text"] {
-                    width: 250px;
-                    border: 1px solid #ddd;
-                }
+        /* Table Styles */
+        table {
+            width: 80%;
+            margin: 40px auto;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-                .search-form input[type="date"] {
-                    width: 200px;
-                    border: 1px solid #ddd;
-                }
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
 
-            .search-form button {
-                background-color: #0073e6;
-                color: white;
-                border: none;
-                cursor: pointer;
-            }
-
-                .search-form button:hover {
-                    background-color: #005bb5;
-                }
-
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
+        th {
+            background-color: #6e7dff;
             color: white;
+            font-size: 1.1rem;
         }
 
-            footer p {
-                font-size: 14px;
-            }
-    </style>
+        td {
+            background-color: #f9f9f9;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #f1f1f1;
+        }
+
+        tr:hover td {
+            background-color: #eef2f7;
+        }
+
+        /* Responsive Design */
+        &#64;media screen and (max-width: 768px) {
+            .hero-content h1
+
+        {
+            font-size: 2rem;
+        }
+
+        table {
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        .nav-link {
+            padding: 10px 15px;
+        }
+
+        }</style>
 </head>
 <body>
     <section class="hero">
@@ -139,6 +144,23 @@
                 </tbody>
 
             </table>
+        </div>
+    </section>
+    <section class="playlists-home">
+        <h2>Препоръчани Плейлисти</h2>
+        <div class="playlist-grid-home">
+            <div class="playlist-card-home">
+                <img src="~/Images/lyfe.jpg" alt="Playlist 1" class="playlist-image-home">
+                <h3>Летни Хитове</h3>
+            </div>
+            <div class="playlist-card-home">
+                <img src="~/Images/utopia.jpg" alt="Playlist 2" class="playlist-image-home">
+                <h3>Релакс Музика</h3>
+            </div>
+            <div class="playlist-card-home">
+                <img src="~/Images/starboy.jpg" alt="Playlist 3" class="playlist-image-home">
+                <h3>Популярни Сингли</h3>
+            </div>
         </div>
     </section>
 </body>

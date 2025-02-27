@@ -1,5 +1,6 @@
 ﻿using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Models;
+using Explorers_Haven.ViewModels.Stay;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 

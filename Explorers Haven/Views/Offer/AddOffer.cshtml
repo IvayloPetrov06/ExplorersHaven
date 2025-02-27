@@ -1,3 +1,17 @@
-﻿
-<partial name="_InsertForms"></partial>
-
+﻿@using Explorers_Haven.ViewModels.Offer
+@model AddOfferViewModel
+<form method="post">
+    <div class="mb-3">
+        <div class="mb-2">
+            <label asp-for="Name"></label>
+            <input asp-for="Name">
+            <span asp-validation-for="Name" class="alert-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price">Цена</label>
+            <input asp-for="Price">
+            <span asp-validation-for="Price" class="alert-danger"></span>
+        </div>
+        <button type="submit">Въведи</button>
+    </div>
+</form>

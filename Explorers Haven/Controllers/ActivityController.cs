@@ -1,6 +1,7 @@
 ﻿using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
 using Explorers_Haven.Models;
+using Explorers_Haven.ViewModels.Activity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -87,13 +88,11 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddActivity(Activity obj)
         {
-            if (ModelState.IsValid)
-            {
-                await _actService.AddActivityAsync(obj);
-                TempData["success"] = "Успешно добавен събитие";
-                return RedirectToAction("ListActivities");
-            }
-            return View();
+            
+             await _actService.AddActivityAsync(obj);
+             TempData["success"] = "Успешно добавен събитие";
+             return RedirectToAction("ListActivities");
+            
         }
     }
 }

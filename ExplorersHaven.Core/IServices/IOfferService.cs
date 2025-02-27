@@ -21,5 +21,6 @@ namespace Explorers_Haven.Core.IServices
         Task<Offer> GetOfferAsync(Expression<Func<Offer, bool>> filter);
         Task<IEnumerable<Offer>> GetAllOfferAsync(Expression<Func<Offer, bool>> filter);
         Task<IEnumerable<Offer>> GetAllOfferAsync();
+        Task<IEnumerable<string>> GetAllOfferNamesAsync();
     }
 }

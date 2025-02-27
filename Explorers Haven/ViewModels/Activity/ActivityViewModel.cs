@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Explorers_Haven.Models
+namespace Explorers_Haven.ViewModels.Activity
 {
     public class ActivityViewModel
     {

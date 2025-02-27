@@ -103,6 +103,17 @@ namespace Explorers_Haven.Core.Services
             return await _repo.GetAllAsync();
         }
 
+        public async Task<IEnumerable<string>> GetAllOfferNamesAsync()
+        {
+            List<string> names = new List<string>();
+
+            var albums = GetAll().ToList();
+
+            albums.ForEach(x => names.Add(x.Name));
+
+            return names;
+        }
+
         /*public Travelogue GetById(int id)
         {
             return _repo.Get(id);

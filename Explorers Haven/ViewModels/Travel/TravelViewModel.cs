@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-namespace Explorers_Haven.Models
+namespace Explorers_Haven.ViewModels.Travel
 {
     public class TravelViewModel
     {
@@ -8,6 +8,6 @@ namespace Explorers_Haven.Models
         public string? Finish { get; set; }
         public string? Transport { get; set; }
 
-        public List<Travel> Travels { get; set; }
+        public List<Models.Travel> Travels { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Explorers_Haven.Core.IServices;
-using Explorers_Haven.Models;
+using Explorers_Haven.ViewModels.Offer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Explorers_Haven.Controllers
@@ -11,26 +11,50 @@ namespace Explorers_Haven.Controllers
         {
             _offerService = offerService;
         }
-        public IActionResult HomePage(OfferViewModel? filter)
+        public async Task<IActionResult> Index(OfferFilterViewModel? filter)
         {
-
             var query = _offerService.GetAll().AsQueryable();
-            
-            if (filter.Name != null)
-            {
-                query = query.Where(x => x.Name.Contains(filter.Name));
-            }
-            var model = new OfferViewModel
-            {
-                Id = filter.Id,
-                Name = filter.Name,
+            var filterModel = new OfferFilterViewModel();
 
-                MinPrice = filter.MinPrice,
-                MaxPrice = filter.MaxPrice,
-                Offers = query.ToList()
+            if (string.IsNullOrEmpty(filter.Search))
+            {
+
+                var model = _offerService.CombinedInclude().Select(x => new OfferViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CoverImage = x.CoverImage
+                }).ToList();
+
+                filterModel = new OfferFilterViewModel
+                {
+                    Offers = model,
+                    Search = filter.Search,
+
+                };
+            }
+            else
+            {
+                var tempOffers = await _offerService.GetAllOfferNamesAsync();
+                if (tempOffers.Contains(filter.Search))
+                {
+                    query = query.Where(x => x.Name == filter.Search);
+                }
+
+                filterModel = new OfferFilterViewModel
+                {
+                    Offers = query
+                .Select(x => new OfferViewModel()
+                {
+                    Name = x.Name,
+                    CoverImage = x.CoverImage,
+                    Id = x.Id,
+                }).ToList(),
+                    Search = filter.Search
+                };
             };
 
-            return View(model);
+            return View(filterModel);
         }
     }
 }

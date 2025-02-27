@@ -137,12 +137,15 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CoverImage")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Price")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -152,20 +155,21 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
+                            CoverImage = "",
                             Name = "Egypt",
-                            Price = 100
+                            Price = 100m
                         },
                         new
                         {
                             Id = 2,
                             Name = "Poland",
-                            Price = 200
+                            Price = 200m
                         },
                         new
                         {
                             Id = 3,
                             Name = "Germany",
-                            Price = 500
+                            Price = 500m
                         });
                 });
 

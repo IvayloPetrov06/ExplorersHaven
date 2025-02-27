@@ -2,7 +2,7 @@
 using Explorers_Haven.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Explorers_Haven.Models;
+using Explorers_Haven.ViewModels.Travel;
 
 namespace Explorers_Haven.Controllers
 {

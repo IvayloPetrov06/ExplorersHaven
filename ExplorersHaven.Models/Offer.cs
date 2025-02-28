@@ -16,6 +16,11 @@ namespace Explorers_Haven.Models
         public string Name { get; set; }
         public string? CoverImage { get; set; }
         public decimal? Price { get; set; }
+        public int? Clicks { get; set; }
+
+        public int? UserId { get; set; }
+
+        public User? User { get; set; }
         public ICollection<Trip>? Trips { get; set; }
 
     }

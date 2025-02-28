@@ -26,6 +26,8 @@
                         @* @if (User.IsInRole(SD.AdminRole)) *@
                         @*if (User.IsInRole("Admin"))*@
                         @*{ *@
+                        @if (User.IsInRole("User"))
+                        {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                Content Management
@@ -43,6 +45,7 @@
                                  <a class="dropdown-item" href="@Url.Action("ListActivities", "Activity")">Лист дейност</a>
                             </div> 
                         </li>
+                        }
                         @*}*@
                         
                     </ul>

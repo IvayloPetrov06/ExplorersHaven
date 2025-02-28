@@ -13,12 +13,12 @@ using System.Runtime.ConstrainedExecution;
 
 namespace Explorers_Haven.DataAccess
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         //     ApplicationDbContext
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-        public DbSet<ApplicationUser> ApplicationUser { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Offer> Offers { get; set; }
         public DbSet<Trip> Trips { get; set; }
         public DbSet<Travel> Travels { get; set; }
@@ -120,35 +120,40 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Travel>().HasData(
                 new Travel { Id = 9, Start = "Berlin", Finish = "Sofia", Transport = "Plane", TripId = 9 }
                 );
-            modelBuilder.Entity<ApplicationUser>(b =>
+            modelBuilder.Entity<User>(b =>
             {
-                // Each User can have many UserClaims
-                b.HasMany(e => e.Claims)
-                    .WithOne()
-                    .HasForeignKey(uc => uc.UserId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
+                modelBuilder.Entity<User>()
+                .HasOne(x => x.UserIdentity)
+                .WithOne()
+                .HasForeignKey<User>(x => x.UserIdentityId)
+                .OnDelete(DeleteBehavior.Cascade);
+                /* // Each User can have many UserClaims
+                 b.HasMany(e => e.Claims)
+                     .WithOne()
+                     .HasForeignKey(uc => uc.UserId)
+                     .IsRequired()
+                     .OnDelete(DeleteBehavior.Cascade);
 
-                // Each User can have many UserLogins
-                b.HasMany(e => e.Logins)
-                    .WithOne()
-                    .HasForeignKey(ul => ul.UserId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
+                 // Each User can have many UserLogins
+                 b.HasMany(e => e.Logins)
+                     .WithOne()
+                     .HasForeignKey(ul => ul.UserId)
+                     .IsRequired()
+                     .OnDelete(DeleteBehavior.Cascade);
 
-                // Each User can have many UserTokens
-                b.HasMany(e => e.Tokens)
-                    .WithOne()
-                    .HasForeignKey(ut => ut.UserId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
+                 // Each User can have many UserTokens
+                 b.HasMany(e => e.Tokens)
+                     .WithOne()
+                     .HasForeignKey(ut => ut.UserId)
+                     .IsRequired()
+                     .OnDelete(DeleteBehavior.Cascade);
 
-                // Each User can have many entries in the UserRole join table
-                b.HasMany(e => e.UserRoles)
-                    .WithOne()
-                    .HasForeignKey(ur => ur.UserId)
-                    .IsRequired()
-                    .OnDelete(DeleteBehavior.Cascade);
+                 // Each User can have many entries in the UserRole join table
+                 b.HasMany(e => e.UserRoles)
+                     .WithOne()
+                     .HasForeignKey(ur => ur.UserId)
+                     .IsRequired()
+                     .OnDelete(DeleteBehavior.Cascade);*/
             });
 
          

@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped(typeof(IActivityService), typeof(ActivityService));
-builder.Services.AddScoped(typeof(IApplicationUserService), typeof(ApplicationUserService));
+builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
 builder.Services.AddScoped(typeof(IStayService), typeof(StayService));
 builder.Services.AddScoped(typeof(IOfferService), typeof(OfferService));
 builder.Services.AddScoped(typeof(ITravelService), typeof(TravelService));

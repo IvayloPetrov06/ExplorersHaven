@@ -7,8 +7,8 @@ namespace Explorers_Haven.ViewModels.Offer
 
         public int Id { get; set; }
         public string Name { get; set; }
-
         public decimal? Price { get; set; }
+        public string UserName { get; set; }
         public string? CoverImage { get; set; }
 
     }

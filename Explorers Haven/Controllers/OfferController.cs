@@ -16,13 +16,14 @@ namespace Explorers_Haven.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IOfferService _offerService;
+        IUserService userService;
 
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public OfferController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService)
+        public OfferController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IUserService userService)
         {
-
+            this.userService = userService;
             _offerService = offerService;
 
             userManager = _userManager;
@@ -46,11 +47,12 @@ namespace Explorers_Haven.Controllers
             if (string.IsNullOrEmpty(filter.Search))
             {
 
-                var model = _offerService.CombinedInclude().Select(x => new OfferViewModel()
+                var model = _offerService.CombinedInclude().Include(x => x.User).Select(x => new OfferViewModel()
                 {
                     Id = x.Id,
                     Name= x.Name,
-                    CoverImage = x.CoverImage
+                    CoverImage = x.CoverImage,
+                    UserName = x.User.Username
                 }).ToList();
 
                 filterModel = new OfferFilterViewModel
@@ -60,8 +62,14 @@ namespace Explorers_Haven.Controllers
 
                 };
             }
-            else {
+            else 
+            {
+                var tempUsers = await userService.GetAllUserNamesAsync();
                 var tempOffers = await _offerService.GetAllOfferNamesAsync();
+                if (tempUsers.Contains(filter.Search))
+                {
+                    query = query.Where(x => x.User.Username == filter.Search);
+                }
                 if (tempOffers.Contains(filter.Search))
                 {
                     query = query.Where(x => x.Name == filter.Search);
@@ -69,12 +77,13 @@ namespace Explorers_Haven.Controllers
 
                 filterModel = new OfferFilterViewModel
                 {
-                    Offers = query
+                    Offers = query.Include(x => x.User)
                 .Select(x => new OfferViewModel()
                 {
                     Name = x.Name,
                     CoverImage = x.CoverImage,
                     Id = x.Id,
+                    UserName = x.User.Username
                 }).ToList(),
                     Search = filter.Search
                 };
@@ -116,12 +125,14 @@ namespace Explorers_Haven.Controllers
             //if (offers == null) { return NotFound(); }
             // View(offers);
 
-            var model = _offerService.GetAll().Where(x => x.Id == id)
+            var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
                 .Select(x => new EditOfferViewModel()
                 {
                     OfferCover = x.CoverImage,
                     Price = x.Price,
-                    Name = x.Name
+                    Name = x.Name,
+                    UserId = x.UserId,
+                    UserList = new SelectList(userService.GetAll(), "Id", "Username")
                 }).FirstOrDefault();
 
             return View(model);
@@ -129,12 +140,12 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> EditOffer(int id, EditOfferViewModel model)
         {
-            /*if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 model.UserList = new SelectList(await userService.GetAllUsersAsync(), "Id", "Username");
 
                 return View(model);
-            }*/
+            }
 
             if (model.ImageFile != null)
             {
@@ -144,6 +155,7 @@ namespace Explorers_Haven.Controllers
                 offer.Name = model.Name;
                 offer.Price = model.Price;
                 offer.CoverImage = imageUploadResult;
+                offer.UserId = model.UserId;
 
                 await _offerService.UpdateOfferAsync(offer);
                 return RedirectToAction("Index");
@@ -154,6 +166,7 @@ namespace Explorers_Haven.Controllers
                 offer.Name = model.Name;
                 offer.Price = model.Price;
                 offer.CoverImage = model.OfferCover;
+                offer.UserId = model.UserId;
 
                 await _offerService.UpdateOfferAsync(offer);
                 return RedirectToAction("Index");
@@ -181,15 +194,19 @@ namespace Explorers_Haven.Controllers
         {
             if (ModelState.IsValid)
             {
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                User user = await userService.GetUserAsync(x => x.Email == tempUser.Email);
+
                 var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
 
                 Offer offer = new Offer
                 {
                     Name = model.Name,
                     Price = model.Price,
+                    UserId = user.Id,
                     CoverImage = imageUploadResult
                 };
-                
+                offer.UserId = user.Id;
                 await _offerService.AddOfferAsync(offer);
 
                 return RedirectToAction("Index");

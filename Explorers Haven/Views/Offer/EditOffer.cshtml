@@ -1,6 +1,6 @@
 ﻿@using Explorers_Haven.ViewModels.Offer
 @model EditOfferViewModel
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <div class="mb-2">
             <label asp-for="Name"></label>
@@ -12,6 +12,11 @@
             <input asp-for="Price">
             <span asp-validation-for="Price" class="alert-danger"></span>
         </div>
+        <div class="add-track-input-group" id="fileUploadGroup">
+            <label for="imageFile" class="add-track-input-label">Обложка</label>
+            <input type="file" id="ImageFile" asp-for="ImageFile" class="add-track-input-field" accept="image/*" />
+        </div>
+
         <button type="submit">Въведи</button>
     </div>
 </form>

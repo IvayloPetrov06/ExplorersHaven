@@ -1,217 +1,83 @@
-﻿@using Explorers_Haven.ViewModels.Offer
-@model OfferFilterViewModel
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Travel Search</title>
-    <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+﻿@using Explorers_Haven.Models
+@model IEnumerable<Offer>
+
+<partial name="_Notification"></partial>
+
+<div class="container">
+    <div class="row">
+        <div class="col col-md-6">
+            <h3>Оферти</h3>
+        </div>
+    </div>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">ИД</th>
+            <th scope="col">Име</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var offer in Model)
+        {
+            <tr>
+                <th scope="row">1</th>
+                <td>@offer.Id</td>
+                <td>@offer.Name</td>
+                <td>@offer.Price</td>
+            </tr>
         }
+    </tbody>
+</table>
+<style>
+    /* Container styles */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
 
-        /* Body styling */
-        body {
-            background-color: #f4f4f9;
-            color: #333;
-            line-height: 1.6;
-        }
+    /* Row styles */
+    .row {
+        margin-bottom: 20px;
+    }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, #6e7dff, #8d88f0);
-            padding: 100px 20px;
-            text-align: center;
-            color: white;
-        }
+    /* Heading styles */
+    h3 {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+    }
 
-        .hero-content h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
+    /* Table styles */
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        font-family: Arial, sans-serif;
+    }
 
-        /* Search Form */
-        .search-form {
-            margin-top: 20px;
-            display: inline-block;
-            position: relative;
-        }
-
-        .nav-link {
-            display: inline-block;
-            font-size: 1.2rem;
-            padding: 12px 20px;
-            background-color: #fff;
-            color: #333;
-            text-decoration: none;
-            border-radius: 30px;
-            transition: background-color 0.3s ease;
-        }
-
-            .nav-link:hover {
-                background-color: #f3f3f3;
-            }
-
-        /* Table Styles */
-        table {
-            width: 80%;
-            margin: 40px auto;
-            border-collapse: collapse;
-            background-color: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        th, td {
-            padding: 12px;
+        /* Table header styles */
+        .table thead tr {
+            background-color: #f8f9fa;
             text-align: left;
+            font-weight: bold;
         }
 
-        th {
-            background-color: #6e7dff;
-            color: white;
-            font-size: 1.1rem;
+        .table th {
+            padding: 12px;
+            border: 1px solid #ddd;
         }
 
-        td {
-            background-color: #f9f9f9;
+        /* Table row styles */
+        .table tbody tr {
+            border-bottom: 1px solid #ddd;
         }
 
-        tr:nth-child(even) td {
-            background-color: #f1f1f1;
+        .table td, .table th {
+            padding: 12px;
+            border: 1px solid #ddd;
         }
-
-        tr:hover td {
-            background-color: #eef2f7;
-        }
-
-        /* Responsive Design */
-        &#64;media screen and (max-width: 768px) {
-            .hero-content h1
-
-        {
-            font-size: 2rem;
-        }
-
-        table {
-            width: 100%;
-            font-size: 0.9rem;
-        }
-
-        .nav-link {
-            padding: 10px 15px;
-        }
-
-        }</style>
-</head>
-<body>
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Find Your Perfect Stay</h1>
-            <form class="search-form">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               Where do u want to go?
-                            </a>
-            </form>
-            <table class="table tabl-striped">
-                <thead>
-                    <tr>
-                        <th>ИД</th>
-                        <th>Име</th>
-                        <th>Цена</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Model.Offers.Count > 0)
-                    {
-                        @foreach (var offer in Model.Offers)
-                        {
-                            <tr>
-                                <td>@offer.Id</td>
-                                <td>@offer.Name</td>
-                                <td>@offer.Price</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-
-            </table>
-        </div>
-    </section>
-    <section class="playlists-home">
-        <h2>Препоръчани Плейлисти</h2>
-        <div class="playlist-grid-home">
-            <div class="playlist-card-home">
-                <img src="~/Images/lyfe.jpg" alt="Playlist 1" class="playlist-image-home">
-                <h3>Летни Хитове</h3>
-            </div>
-            <div class="playlist-card-home">
-                <img src="~/Images/utopia.jpg" alt="Playlist 2" class="playlist-image-home">
-                <h3>Релакс Музика</h3>
-            </div>
-            <div class="playlist-card-home">
-                <img src="~/Images/starboy.jpg" alt="Playlist 3" class="playlist-image-home">
-                <h3>Популярни Сингли</h3>
-            </div>
-        </div>
-    </section>
-</body>
-</html>
-
-@*
-    <form asp-action="Index" method="get" class="mb-4">
-
-    <!--<div class="form-group">
-        <label for="Id">Id</label>
-        <input type="text" asp-for="Id" class="form-control" />
-        <select asp-for="Id" asp-items="Model.Offers" class="form-control">
-            <option value="">All Ids</option>
-        </select>
-    </div>-->
-
-    <div class="form-group">
-        <label for="Name">Име</label>
-        <input type="text" asp-for="Name" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label for="MinPrice">Минимална цена</label>
-        <input type="number" asp-for="MinPrice" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label for="MaxPrice">максимална цена</label>
-        <input type="number" asp-for="MaxPrice" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Покажи</button>
-
-</form>
-
-            <form class="search-form">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                               Where do u want to go?
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">​
-                                @if (Model.Offers.Count > 0)
-        {
-            @foreach (var offer in Model.Offers)
-            {
-                <tr>
-                    <td>@offer.Name</td>
-                </tr>
-            }
-        }
-                            </div>
-                <button type="submit">Search</button>
-            </form>
-        </div>
-    </section>*@
+</style>

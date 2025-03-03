@@ -1,60 +1,44 @@
-﻿using Explorers_Haven.Core.IServices;
+﻿using CloudinaryDotNet;
+using Explorers_Haven.Core.IServices;
+using Explorers_Haven.Core.Services;
+using Explorers_Haven.Models;
 using Explorers_Haven.ViewModels.Offer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Explorers_Haven.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly UserManager<IdentityUser> userManager;
         private readonly IOfferService _offerService;
-        public HomeController(IOfferService offerService)
+        IUserService userService;
+
+        private readonly Cloudinary _cloudinary;
+        private readonly IConfiguration _configuration;
+        CloudinaryService cloudService;
+        public HomeController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IUserService userService)
         {
             _offerService = offerService;
+            this.userService = userService;
+
+            userManager = _userManager;
+
+            this.cloudService = cloud;
+
+            _configuration = configuration;
+            var account = new Account(
+           _configuration["Cloudinary:CloudName"],
+           _configuration["Cloudinary:ApiKey"],
+           _configuration["Cloudinary:ApiSecret"]
+             );
+            _cloudinary = new Cloudinary(account);
         }
-        public async Task<IActionResult> Index(OfferFilterViewModel? filter)
+        public async Task<IActionResult> HomePage()
         {
-            var query = _offerService.GetAll().AsQueryable();
-            var filterModel = new OfferFilterViewModel();
-
-            if (string.IsNullOrEmpty(filter.Search))
-            {
-
-                var model = _offerService.CombinedInclude().Select(x => new OfferViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    CoverImage = x.CoverImage
-                }).ToList();
-
-                filterModel = new OfferFilterViewModel
-                {
-                    Offers = model,
-                    Search = filter.Search,
-
-                };
-            }
-            else
-            {
-                var tempOffers = await _offerService.GetAllOfferNamesAsync();
-                if (tempOffers.Contains(filter.Search))
-                {
-                    query = query.Where(x => x.Name == filter.Search);
-                }
-
-                filterModel = new OfferFilterViewModel
-                {
-                    Offers = query
-                .Select(x => new OfferViewModel()
-                {
-                    Name = x.Name,
-                    CoverImage = x.CoverImage,
-                    Id = x.Id,
-                }).ToList(),
-                    Search = filter.Search
-                };
-            };
-
-            return View(filterModel);
+            IEnumerable<Offer> offers = await _offerService.GetAllOfferAsync();
+            return View(offers);
         }
     }
 }

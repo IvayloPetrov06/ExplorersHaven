@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Explorers_Haven.Models;
 using Explorers_Haven.Core;
 using Explorers_Haven.DataAccess;
@@ -9,6 +9,16 @@ using Explorers_Haven.Core.Services;
 using CloudinaryDotNet;
 
 var builder = WebApplication.CreateBuilder(args);
+
+/*builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});*/
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -32,8 +42,8 @@ var cloudinary = new Cloudinary(cloudinaryAccount);
 builder.Services.AddSingleton(cloudinary);
 
 //builder.Services.AddDbContext<ApplicationDbContext>
-//    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-var connection = builder.Configuration.GetConnectionString("LocalDbConnection");
+//    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));LocalDb
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
 
@@ -66,9 +76,72 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+/*
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await CreateRoles(services);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await CreateRoles(services);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await CreateAdmin(services);
+}*/
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Stay}/{action=Index}/{id?}");
 
 app.Run();
+
+/*static async Task CreateRoles(IServiceProvider serviceProvider)
+{
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roleNames = { "Admin", "User"};
+
+    foreach (var roleName in roleNames)
+    {
+
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole(roleName));
+
+        }
+    }
+}
+static async Task CreateAdmin(IServiceProvider serviceProvider)
+{
+    var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var adminEmail = "admin@admin.com";
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+
+
+
+
+    if (adminUser == null)
+
+    {
+
+        var user = new IdentityUser { UserName = "admin@admin.com", Email = adminEmail };
+
+        var result = await userManager.CreateAsync(user, "AdminPassword123!");
+
+        if (result.Succeeded)
+
+        {
+
+            await userManager.AddToRoleAsync(user, "Admin"); // Добавя роля "Admin" 
+
+        }
+
+    }
+}*/

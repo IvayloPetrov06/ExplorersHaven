@@ -195,7 +195,7 @@ namespace Explorers_Haven.Controllers
             if (ModelState.IsValid)
             {
                 var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
-                User user = await userService.GetUserAsync(x => x.Email == tempUser.Email);
+                User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
 
                 var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
 

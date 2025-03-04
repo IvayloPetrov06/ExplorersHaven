@@ -1,34 +1,49 @@
 ﻿@using Explorers_Haven.ViewModels.Account
 @model LoginViewModel
 
-<div class="login-container">
-    <h2 class="login-title">Login to Your Account</h2>
-    <form method="post" asp-controller="Account" class="login-form">
-        <div class="login-input-group">
-            <label for="Email" class="login-input-label">Email</label>
-            <div class="input-with-icon">
-                <i class="fa fa-envelope login-input-icon"></i>
-                <input asp-for="Email" class="login-input-field" type="email" placeholder="Enter your email" />
-            </div>
-        </div>
+<h2 class="text-center">Login</h2>
 
-        <div class="login-input-group">
-            <label for="Password" class="login-input-label">Password</label>
-            <div class="input-with-icon">
-                <i class="fa fa-lock login-input-icon"></i>
-                <input asp-for="Password" class="login-input-field" type="password" placeholder="Enter password" />
-            </div>
-        </div>
+<form asp-action="Login" method="post" class="w-50 mx-auto border p-4 rounded shadow bg-light animate__animated animate__fadeIn">
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" id="emailInput" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
 
-        <div class="login-input-group">
-            <div class="remember-me">
-                <label for="RememberMe" class="remember-me-label">
-                    <input asp-for="RememberMe" class="remember-me-checkbox" type="checkbox" />
-                    <span class="remember-me-text">Remember me</span>
-                </label>
-            </div>
+    <div class="mb-3">
+        <label asp-for="Password" class="form-label"></label>
+        <div class="input-group">
+            <input asp-for="Password" type="password" class="form-control" id="passwordInput" />
+            <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()">
+                <i class="bi bi-eye" id="toggleIcon"></i>
+            </button>
         </div>
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
 
-        <button type="submit" class="login-btn login-btn-primary">Login</button>
-    </form>
-</div>
+    <div class="form-check mb-3">
+        <input asp-for="RememberMe" class="form-check-input" id="rememberMeCheck" />
+        <label asp-for="RememberMe" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Login</button>
+</form>
+
+@section Scripts {
+    <script>
+        function togglePassword() {
+            let passwordInput = document.getElementById("passwordInput");
+            let toggleIcon = document.getElementById("toggleIcon");
+            
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("bi-eye");
+                toggleIcon.classList.add("bi-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("bi-eye-slash");
+                toggleIcon.classList.add("bi-eye");
+            }
+        }
+    </script>
+}

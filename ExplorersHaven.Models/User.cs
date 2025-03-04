@@ -16,13 +16,13 @@ namespace Explorers_Haven.Models
         [Required]
         [MaxLength(50)]
         public string Username { get; set; }
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        //[Required]
+        //[EmailAddress]
+        /*public string Email { get; set; }
         [Required]
         [MinLength(8)]
         [MaxLength(50)]
-        public string Password { get; set; }
+        public string Password { get; set; }*/
         public string? ProfilePicture { get; set; }
         [MaxLength(500)]
         public string? Bio { get; set; }

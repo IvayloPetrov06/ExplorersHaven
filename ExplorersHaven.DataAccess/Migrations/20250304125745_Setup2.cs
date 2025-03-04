@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class setup2 : Migration
+    public partial class Setup2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

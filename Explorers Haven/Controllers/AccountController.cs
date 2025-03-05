@@ -45,7 +45,7 @@ namespace Explorers_Haven.Controllers
                 if (result.Succeeded)
                 {
                     TempData["Success"] = "Влизането е успешно";
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("HomePage", "Home");
                 }
                 TempData["Error"] = "Invalid login attempt.";
                 ModelState.AddModelError("", "Invalid login attempt.");
@@ -77,7 +77,7 @@ namespace Explorers_Haven.Controllers
 
                   //  await _signInManager.SignInAsync(user, isPersistent: false);                    return RedirectToAction("Index", "Home");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("HomePage", "Home");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -90,7 +90,7 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("HomePage", "Home");
         }
 
         public IActionResult AccessDenied()

@@ -7,7 +7,8 @@ using Explorers_Haven.DataAccess.Repository;
 using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
 using CloudinaryDotNet;
-
+//class Program
+//{
 //static async Task Main(string[] args)
 //{
     var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,7 @@ using CloudinaryDotNet;
 
     // Add services to the container.
     builder.Services.AddControllersWithViews();
+    builder.Services.AddScoped(typeof(IService<>), typeof(Service<>));
     builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
     builder.Services.AddScoped(typeof(IActivityService), typeof(ActivityService));
     builder.Services.AddScoped(typeof(IUserService), typeof(UserService));
@@ -152,6 +154,7 @@ using CloudinaryDotNet;
 
         }
     }
+//}
 //}
 
 

@@ -8,6 +8,5 @@ namespace Explorers_Haven.ViewModels.Offer
 
         public decimal? Price { get; set; }
         public IFormFile? Picture { get; set; }
-        public List<SelectListItem>? Tracks { get; set; }
     }
 }

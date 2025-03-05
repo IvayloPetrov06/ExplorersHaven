@@ -194,10 +194,51 @@ namespace Explorers_Haven.Controllers
         {
             if (ModelState.IsValid)
             {
-                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
-                User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
+                // var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                //User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
 
+                //var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
+
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+
+                // Check if tempUser is null
+                if (tempUser == null)
+                {
+                    // Handle the case when the user is not found
+                    TempData["error"] = "User not found.";
+                    return RedirectToAction("Login", "Account"); // Or wherever you want to redirect the user
+                }
+
+                // Log tempUser for debugging
+                Console.WriteLine($"Found user: {tempUser.Email}");
+
+                // Fetch the user from the user service
+                //User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
+
+                //var normalizedEmail = tempUser.Email.Trim().ToLower();
+                //User user = await userService.GetUserAsync(x => x.UserIdentity.Email.Trim().ToLower() == normalizedEmail);
+                var tempUserEmail = tempUser.Email;
+                TempData["error"] = $"TempUser email: {tempUserEmail}";
+
+                var user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUserEmail);
+                TempData["error"] = $"User from userService: {user?.UserIdentity.Email}";
+
+                if (user == null)
+                {
+                    // Handle the case when userService doesn't find the user
+                    TempData["error"] = "User details not found in the database.";
+                    return RedirectToAction("Login", "Account"); // Or handle accordingly
+                }
+
+                // Log the user for debugging
+                Console.WriteLine($"Found user in userService: {user.UserIdentity.Email}");
+
+                // Proceed with image upload
                 var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
+
+        
+
+
 
                 Offer offer = new Offer
                 {
@@ -225,7 +266,12 @@ namespace Explorers_Haven.Controllers
             return View();*/
         }
 
-        /* html index old:
+        
+    }
+
+}
+
+/* html index old:
          * <div class="text-center">
     <h1 class="display-4">Оферти</h1>
     <p>Избирайте от хиляди оферти!</p>
@@ -310,5 +356,3 @@ namespace Explorers_Haven.Controllers
                             <a class="nav-link text-dark" asp-area="" asp-controller="Travel" asp-action="ListTravels">ListTravels</a>
                         </li>
          */
-    }
-}

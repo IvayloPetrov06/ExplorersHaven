@@ -15,13 +15,13 @@ using CloudinaryDotNet;
 
     builder.Services.AddControllersWithViews();
 
-   // var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-    //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    //    options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
+    var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
 
-    builder.Services.AddDbContext<ApplicationDbContext>
-    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-     b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
+   // builder.Services.AddDbContext<ApplicationDbContext>
+    //(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+    // b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
 
     builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -128,7 +128,7 @@ using CloudinaryDotNet;
     static async Task CreateAdmin(IServiceProvider serviceProvider)
     {
         var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-        var adminEmail = "admin@admin.com";
+        var adminEmail = "admin7@admin.com";
 
         var adminUser = await userManager.FindByEmailAsync(adminEmail);
 
@@ -140,9 +140,9 @@ using CloudinaryDotNet;
 
         {
 
-            var user = new IdentityUser { UserName = "admin@admin.com", Email = adminEmail };
+            var user = new IdentityUser { UserName = "admin7@admin.com", Email = adminEmail };
 
-            var result = await userManager.CreateAsync(user, "AdminPassword123!");
+            var result = await userManager.CreateAsync(user, "AdminPassword1123!");
 
             if (result.Succeeded)
 

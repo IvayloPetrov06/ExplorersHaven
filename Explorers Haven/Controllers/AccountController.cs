@@ -62,7 +62,7 @@ namespace Explorers_Haven.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email};
+                var user = new IdentityUser { UserName = model.Email, Email = model.Email};//name
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)
@@ -70,7 +70,8 @@ namespace Explorers_Haven.Controllers
                     var user1 = new User
                     {
                         Username = model.Username,
-                        UserIdentityId = user.Id
+                        UserIdentityId = user.Id,
+                        UserIdentity = user,
                     };  // Свързваме с новосъздадения потребител                    };
                   await _userService.AddAsync(user1);
                         await _userManager.AddToRoleAsync(user, "User"); // По подразбиране новите потребители са "User"                    await _signInManager.SignInAsync(user, isPersistent: true);

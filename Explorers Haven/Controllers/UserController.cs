@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Explorers_Haven.ViewModels.User;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace Explorers_Haven.Controllers
 {
@@ -129,20 +130,22 @@ namespace Explorers_Haven.Controllers
         }
         public IActionResult AddUser()
         {
-            User user = new User();
+            UserViewModel user = new UserViewModel();
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> AddUser(User user)
+        public async Task<IActionResult> AddUser(UserViewModel userViewModel)
         {
             if (ModelState.IsValid)
             {
+                IdentityUser identityUser = new IdentityUser { UserName = userViewModel.Name, Email = userViewModel.Email };
+                User user = new User { UserIdentity = identityUser };
                 await userService.AddUserAsync(user);
                 return RedirectToAction("AllUsers");
             }
             else
             {
-                return View(user);
+                return View(userViewModel);
             }
         }
     }

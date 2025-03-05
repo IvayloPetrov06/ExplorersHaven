@@ -1,14 +1,17 @@
-﻿@using Explorers_Haven.Models
-@model User
+﻿@* @using Explorers_Haven.Models *@
+@using Explorers_Haven.ViewModels.User
+@model UserViewModel
 
 <h1>Add User</h1>
 
 <form method="post">
-    <input type="text" placeholder="Username" asp-for="Username" />
+    <input type="text" placeholder="Username" asp-for="Name" />
     <br />
-    <input type="text" placeholder="UserIdentity.Email" asp-for="UserIdentity.Email" />
+    <input type="text" placeholder="Email" asp-for="Email" />
     <br />
-    <input type="text" placeholder="Password" asp-for="Password" />
+    <input type="password" placeholder="Password" asp-for="Password" />
+    <br />
+    <input type="password" placeholder="PasswordConfirm" asp-for="PasswordConfirm" />
     <br />
     <button type="submit">Submit</button>
 </form>

@@ -6,6 +6,8 @@ namespace Explorers_Haven.ViewModels.User
     {
         public string Name { get; set; }
         public string Email { get; set; }
+        public string Password { get; set; }
+        public string PasswordConfirm { get; set; }
         public string? Bio { get; set; }
         public string? ProfilePicture { get; set; }
 

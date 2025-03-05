@@ -8,13 +8,25 @@ using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
 using CloudinaryDotNet;
 
-static async Task Main(string[] args)
-{
+//static async Task Main(string[] args)
+//{
     var builder = WebApplication.CreateBuilder(args);
+
+    builder.Services.AddControllersWithViews();
+
+   // var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+    //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    //    options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
+
+    builder.Services.AddDbContext<ApplicationDbContext>
+    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+     b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
 
     builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
+    //builder.Services.AddDefaultIdentity<IdentityUser>()
+    //    .AddEntityFrameworkStores<ApplicationDbContext>();
     builder.Services.ConfigureApplicationCookie(options =>
     {
         options.LoginPath = "/Account/Login";
@@ -30,8 +42,8 @@ static async Task Main(string[] args)
     builder.Services.AddScoped(typeof(IOfferService), typeof(OfferService));
     builder.Services.AddScoped(typeof(ITravelService), typeof(TravelService));
     builder.Services.AddScoped(typeof(ITripService), typeof(TripService));
-
     builder.Services.AddScoped<CloudinaryService>();
+    builder.Services.AddRazorPages();
 
     var cloudinarySettings = builder.Configuration.GetSection("Cloudinary");
     var cloudinaryAccount = new Account(
@@ -44,17 +56,17 @@ static async Task Main(string[] args)
 
     //builder.Services.AddDbContext<ApplicationDbContext>
     //    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));LocalDb
-    var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
+    
+
+    //var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+    //builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    //    options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
 
 
     //builder.Services.AddDefaultIdentity<IdentityUser>()
     //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-    builder.Services.AddDefaultIdentity<IdentityUser>()
-        .AddEntityFrameworkStores<ApplicationDbContext>();
-    builder.Services.AddRazorPages();
+    
 
 
     var app = builder.Build();
@@ -140,6 +152,6 @@ static async Task Main(string[] args)
 
         }
     }
-}
+//}
 
 

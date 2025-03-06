@@ -24,7 +24,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         @* @if (User.IsInRole(SD.AdminRole)) *@
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("User"))
                         {
                         
                         <li class="nav-item dropdown">
@@ -44,6 +44,9 @@
                                  <a class="dropdown-item" href="@Url.Action("ListActivities", "Activity")">Лист дейност</a>
                             </div> 
                         </li>
+                        <li class="nav-item">
+                                <a class="nav-link" asp-action="Profile" asp-controller="User">Profile</a>
+                            </li>
                         
                         }
                         
@@ -60,11 +63,17 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top_footer_text-muted">
         <div class="container">
             &copy; 2025 - Explorers_Haven - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+    <style>
+        .border-top_footer_text-muted{
+        position:fixed;
+        bottom: 0px;
+        }
+    </style>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

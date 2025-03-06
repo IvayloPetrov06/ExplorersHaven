@@ -98,19 +98,21 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            CoverImage = "",
+                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                             Name = "Egypt",
                             Price = 100m
                         },
                         new
                         {
                             Id = 2,
+                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
                             Name = "Poland",
                             Price = 200m
                         },
                         new
                         {
                             Id = 3,
+                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
                             Name = "Germany",
                             Price = 500m
                         });

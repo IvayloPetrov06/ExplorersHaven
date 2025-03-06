@@ -289,9 +289,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "Clicks", "CoverImage", "Name", "Price", "UserId" },
                 values: new object[,]
                 {
-                    { 1, null, "", "Egypt", 100m, null },
-                    { 2, null, null, "Poland", 200m, null },
-                    { 3, null, null, "Germany", 500m, null }
+                    { 1, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Egypt", 100m, null },
+                    { 2, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", "Poland", 200m, null },
+                    { 3, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Germany", 500m, null }
                 });
 
             migrationBuilder.InsertData(

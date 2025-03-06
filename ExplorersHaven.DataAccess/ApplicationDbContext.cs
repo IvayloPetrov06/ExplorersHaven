@@ -29,7 +29,7 @@ namespace Explorers_Haven.DataAccess
         {
             //travelogue 1
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 1, Name ="Egypt",CoverImage="", Price=100 }
+                new Offer { Id = 1, Name ="Egypt",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", Price=100 }
                 );
             //trip 1
             modelBuilder.Entity<Trip>().HasData(
@@ -60,7 +60,7 @@ namespace Explorers_Haven.DataAccess
                 );
             //travelogue 2
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 2, Name = "Poland", Price = 200 }
+                new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 200 }
                 );
             //trip 1
             modelBuilder.Entity<Trip>().HasData(
@@ -91,7 +91,7 @@ namespace Explorers_Haven.DataAccess
                 );
             //travelogue 3
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 3, Name = "Germany", Price = 500 }
+                new Offer { Id = 3, Name = "Germany",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", Price = 500 }
                 );
             //trip 1
             modelBuilder.Entity<Trip>().HasData(

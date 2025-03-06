@@ -1,3 +1,4 @@
+﻿
 html {
   font-size: 14px;
 }
@@ -19,4 +20,53 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+.hidden {
+    display: none;
+}
+.add-track-input-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+@media (max-width: 768px) {
+    .add-track-container {
+        padding: 10px 20px;
+    }
+
+    .add-track-title {
+        font-size: 2rem;
+    }
+
+    .add-track-form {
+        padding: 20px;
+    }
+
+    .add-track-input-group {
+        margin-bottom: 15px;
+        .add-track-input-field, .add-track-input-dropdown
+
+{
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 1rem;
+    border: 1px solid #444;
+    border-radius: 8px;
+    background-color: #333;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.add-track-input-field:focus,
+.add-track-input-dropdown:focus {
+    border-color: #4CAF50; /* Green highlight when focused */
+    background-color: #444;
+}
+
+.add-track-input-label {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: block;
+    color: #fff;
 }

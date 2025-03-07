@@ -56,12 +56,11 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> Profile(UserViewModel model)
         {
-            var  tempUser = userService.GetAll().Include(z1=>z1.UserIdentity).Where(x => x.UserIdentity.Email == model.Email);
-            User user = tempUser.ToList()[0];
+            User user = await userService.GetUserAsync(x => x.Email == model.Email);
             user.Username = model.Name;
             user.ProfilePicture = model.ProfilePicture;
             user.Bio = model.Bio;
-            user.UserIdentity.Email = model.Email;
+            user.Email = model.Email;
             await userService.UpdateUserAsync(user);
 
             return View(model);
@@ -73,14 +72,14 @@ namespace Explorers_Haven.Controllers
             {
                 return NotFound("No Identity user found.");
             }
-            User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
+            User user = await userService.GetUserAsync(x => x.Email == tempUser.Email);
             if (user == null)
             {
                 return NotFound("No application user found for email: " + tempUser.Email);
             }
             UserViewModel model = new UserViewModel
             {
-                Email = user.UserIdentity.Email,
+                Email = user.Email,
                 Bio = user.Bio,
                 Name = user.Username,
                 ProfilePicture = user.ProfilePicture
@@ -92,7 +91,7 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> Update(int id, UserViewModel user)
         {
             var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
-            User userModel = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
+            User userModel = await userService.GetUserAsync(x => x.Email == tempUser.Email);
 
             if (!ModelState.IsValid)
             {
@@ -104,7 +103,7 @@ namespace Explorers_Haven.Controllers
             }
 
             userModel.Username = user.Name;
-            userModel.UserIdentity.Email = user.Email;
+            userModel.Email = user.Email;
             userModel.Bio = user.Bio;
 
             if (user.ImageFile != null)
@@ -121,7 +120,7 @@ namespace Explorers_Haven.Controllers
             User user = await userService.GetUserByIdAsync(id);
             UserViewModel model = new UserViewModel
             {
-                Email = user.UserIdentity.Email,
+                Email = user.Email,
                 Bio = user.Bio,
                 ProfilePicture = user.ProfilePicture,
                 Name = user.Username,
@@ -130,22 +129,20 @@ namespace Explorers_Haven.Controllers
         }
         public IActionResult AddUser()
         {
-            UserViewModel user = new UserViewModel();
+            User user = new User();
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> AddUser(UserViewModel userViewModel)
+        public async Task<IActionResult> AddUser(User user)
         {
             if (ModelState.IsValid)
             {
-                IdentityUser identityUser = new IdentityUser { UserName = userViewModel.Name, Email = userViewModel.Email };
-                User user = new User { UserIdentity = identityUser };
                 await userService.AddUserAsync(user);
                 return RedirectToAction("AllUsers");
             }
             else
             {
-                return View(userViewModel);
+                return View(user);
             }
         }
     }

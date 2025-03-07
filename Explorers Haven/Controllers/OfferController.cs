@@ -220,8 +220,8 @@ namespace Explorers_Haven.Controllers
                 var tempUserEmail = tempUser.Email;
                 TempData["error"] = $"TempUser email: {tempUserEmail}";
 
-                var user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUserEmail);
-                TempData["error"] = $"User from userService: {user?.UserIdentity.Email}";
+                var user = await userService.GetUserAsync(x => x.Email == tempUserEmail);
+                TempData["error"] = $"User from userService: {user?.Email}";
 
                 if (user == null)
                 {
@@ -231,7 +231,7 @@ namespace Explorers_Haven.Controllers
                 }
 
                 // Log the user for debugging
-                Console.WriteLine($"Found user in userService: {user.UserIdentity.Email}");
+                Console.WriteLine($"Found user in userService: {user.Email}");
 
                 // Proceed with image upload
                 var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);

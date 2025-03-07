@@ -1,18 +1,19 @@
-﻿@using Explorers_Haven.ViewModels.User
-@model UserViewModel
+﻿@using Explorers_Haven.Models
+@model User
+
 
 <h1>Update User</h1>
 
 <form method="post">
-    <input type="text" placeholder="Username" asp-for="@Model.Name" />
+    <input type="text" placeholder="Username" asp-for="Username" />
     <br />
-    <input type="text" placeholder="Email" asp-for="@Model.Email" />
+    <input type="text" placeholder="Email" asp-for="Email" />
     <br />
-    <input type="text" placeholder="Password" asp-for="@Model.Password" />
+    <input type="text" placeholder="Password" asp-for="Password" />
     <br />
-    <input type="text" placeholder="Bio" asp-for="@Model.Bio" />
+    <input type="text" placeholder="Bio" asp-for="Bio" />
     <br />
-    <input type="text" placeholder="PFP" asp-for="@Model.ProfilePicture" />
+    <input type="text" placeholder="PFP" asp-for="ProfilePicture" />
     <br />
     <button type="submit">Submit</button>
 </form>

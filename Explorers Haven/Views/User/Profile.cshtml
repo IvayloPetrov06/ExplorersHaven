@@ -11,7 +11,7 @@
             <h1 class="profile-name">@Model.Name</h1>
             <p class="profile-bio">@(Model.Bio ?? "No bio available")</p>
             <p class="profile-email">@Model.Email</p>
-           @* <div class="profile-stats">
+            @*<div class="profile-stats">
                 <span class="profile-followers" onclick="openFollowersModal()">
                     <strong>@(Model.Followers?.Count ?? 0)</strong> Followers
                 </span>
@@ -38,12 +38,15 @@
                 <label for="bio">Bio</label>
                 <textarea id="bio" name="Bio">@Model.Bio</textarea>
             </div>
+            <div class="hidden">
+                <input type="text" id="email" name="Email" value="@Model.Email" />
+            </div>
             <div class="add-track-input-group" id="fileUploadGroup">
                 <label for="ImageFile" class="add-track-input-label">Profile image</label>
                 <input type="file" id="ImageFile" asp-for="ImageFile" class="add-track-input-field" accept="image/*" />
             </div>
 
-            <button asp-action="Update" asp-controller="User" button type="submit" class="save-btn">Save Changes</button>
+            <button type="submit" class="save-btn">Save Changes</button>
         </form>
     </div>
 </div>

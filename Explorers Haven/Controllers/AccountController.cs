@@ -71,6 +71,8 @@ namespace Explorers_Haven.Controllers
                     {
                         Username = model.Username,
                         UserIdentityId = user.Id,
+                        Email = model.Email,
+                        Password = model.Password,
                         UserIdentity = user,
                     };  // Свързваме с новосъздадения потребител                    };
                   await _userService.AddAsync(user1);

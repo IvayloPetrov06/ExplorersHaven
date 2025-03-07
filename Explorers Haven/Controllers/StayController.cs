@@ -1,4 +1,5 @@
 ﻿using Explorers_Haven.Core.IServices;
+using Explorers_Haven.Core.Services;
 using Explorers_Haven.Models;
 using Explorers_Haven.ViewModels.Stay;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,15 @@ namespace Explorers_Haven.Controllers
     public class StayController : Controller
     {
         private readonly IStayService _stayService;
-        private readonly ITripService _tripService;
-        public StayController(IStayService stayService, ITripService tripService)
+        private readonly IOfferService _offerService;
+        public StayController(IStayService stayService, IOfferService offerService)
         {
             _stayService = stayService;
-            _tripService = tripService;
+            _offerService = offerService;
 
         }
 
-        public IActionResult Index(StayViewModel? filter)
+        public async Task<IActionResult> Index(StayViewModel? filter)
         {
 
             var query = _stayService.GetAll().AsQueryable();
@@ -39,45 +40,58 @@ namespace Explorers_Haven.Controllers
             return View(model);
         }
 
-        public IActionResult ListStays()
+        public async Task<IActionResult> ListStays()
         {
             var list = _stayService.GetAll();
             return View(list);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _stayService.DeleteStayByIdAsync(id);
+            await _stayService.DeleteStayByIdAsync(id);
             TempData["success"] = "Успешно изтрит запис";
             return RedirectToAction("ListStays");
         }
-        public IActionResult EditStay(int Id)
+        public async Task<IActionResult> EditStay(int Id)
         {
             var trav = _stayService.GetStayByIdAsync(Id);
             if (trav == null) { return NotFound(); }
-            var trips = _tripService.GetAll();
-            ViewBag.Trips = new SelectList(trips, "Id", "Name");
+            var offers = _offerService.GetAll();
+            ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View(trav);
         }
         [HttpPost]
-        public IActionResult EditStay(Stay obj)
+        public async Task<IActionResult> EditStay(Stay obj)
         {
-            _stayService.UpdateStayAsync(obj);
-            TempData["success"] = "Успешно редактиран запис";
-            return RedirectToAction("ListStays");
+            if (_offerService.GetOfferByIdAsync(obj.OfferId).Result.Stay == null)
+            {
+                await _stayService.AddStayAsync(obj);
+                TempData["success"] = "Успешно добавен запис";
+                return RedirectToAction("ListStays");
+            }
+            TempData["error"] = "Every offer can have only one stay";
+            return View();
         }
-        public IActionResult AddStay()
+        public async Task<IActionResult> AddStay()
         {
-            var trips = _tripService.GetAll();
-            ViewBag.Trips = new SelectList(trips, "Id", "Name");
+            var offers = _offerService.GetAll();
+            ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View();
         }
         [HttpPost]
-        public IActionResult AddStay(Stay obj)
+        public async Task<IActionResult> AddStay(Stay obj)
         {
-            _stayService.AddStayAsync(obj);
-            TempData["success"] = "Успешно добавен запис";
+            var tempOffer = await _offerService.GetOfferByIdAsync(obj.OfferId);
+            var tempStay =await _stayService.GetStayAsync(x => x.OfferId == tempOffer.Id);
+            if (tempStay == null)
+            {
+                await _stayService.AddStayAsync(obj);
+                TempData["success"] = "Успешно добавен запис";
+                return RedirectToAction("ListStays");
+            }
+            TempData["error"] = "Every offer can have only one stay";
             return RedirectToAction("ListStays");
+            //return View();
         }
     }
 }

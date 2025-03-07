@@ -15,8 +15,7 @@ namespace Explorers_Haven.Models
         [Required]
         public string Name { get; set; }
 
-        [ForeignKey(nameof(Trip))]
-        public int TripId { get; set; }
-        public virtual Trip Trip { get; set; }
+        public int OfferId { get; set; }
+        public Offer Offer { get; set; }
     }
 }

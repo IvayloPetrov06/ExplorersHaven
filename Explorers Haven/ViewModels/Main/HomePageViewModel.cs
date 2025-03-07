@@ -2,5 +2,9 @@
 {
     public class HomePageViewModel
     {
+        //List<Offer> topOffers;
+        //List<Offer> Recents;
+        //List<Offer> popular;
+
     }
 }

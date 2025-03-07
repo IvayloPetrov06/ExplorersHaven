@@ -16,12 +16,12 @@
             <input asp-for="Transport">
             <span asp-validation-for="Transport" class="alert-danger"></span>
         </div>
-        <h2>Всяко пътешествие може да има само едно пътуване</h2>
+        @*<h2>Всяко пътешествие може да има само едно пътуване</h2>*@
         <div class="mb-3">
-            <label asp-for="TripId">Пътешествие</label>
-            <select asp-for="TripId" asp-items="ViewBag.Trips" class="form-control">
-                <span asp-validation-for="TripId" class="alert-danger"></span>
-                <option value="">Изберете пътешествие</option>
+            <label asp-for="OfferId">Оферти</label>
+            <select asp-for="OfferId" asp-items="ViewBag.Offers" class="form-control">
+                <span asp-validation-for="OfferId" class="alert-danger"></span>
+                <option value="">Изберете оферта</option>
             </select>
         </div>
     </div>

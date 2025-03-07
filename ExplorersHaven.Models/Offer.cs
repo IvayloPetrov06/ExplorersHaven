@@ -20,8 +20,13 @@ namespace Explorers_Haven.Models
 
         public int? UserId { get; set; }
 
+        
         public User? User { get; set; }
-        public ICollection<Trip>? Trips { get; set; }
+
+        public Stay? Stay { get; set; }
+
+        public ICollection<Models.Activity>? Activities { get; set; }
+        public ICollection<Travel>? Travels { get; set; }
 
     }
 }

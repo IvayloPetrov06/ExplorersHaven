@@ -10,11 +10,11 @@ namespace Explorers_Haven.Controllers
     public class ActivityController : Controller
     {
         private readonly IActivityService _actService;
-        private readonly ITripService _tripService;
-        public ActivityController(IActivityService actService, ITripService tripService)
+        private readonly IOfferService _offerService;
+        public ActivityController(IActivityService actService, IOfferService offerService)
         {
             _actService = actService;
-            _tripService = tripService;
+            _offerService = offerService;
 
         }
 
@@ -60,8 +60,8 @@ namespace Explorers_Haven.Controllers
         {
             Activity act = await _actService.GetActivityByIdAsync(Id);
             if (act == null) { return NotFound(); }
-            var trips = _tripService.GetAllTripAsync().Result;
-            ViewBag.Trips = new SelectList(trips, "Id", "Name");
+            var offers = _offerService.GetAllOfferAsync().Result;
+            ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View(act);
         }
         [HttpPost]
@@ -81,8 +81,8 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> AddActivity()
         {
-            var trips = _tripService.GetAll();
-            ViewBag.Trips = new SelectList(trips, "Id", "Name");
+            var offers = _offerService.GetAll();
+            ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View();
         }
         [HttpPost]

@@ -7,10 +7,10 @@
             <span asp-validation-for="Name" class="alert-danger"></span>
         </div>
         <div class="mb-3">
-            <h2>Всяко пътешествие може да има само едно събитие</h2>
-            <label asp-for="TripId">Пътешествие</label>
-            <select asp-for="TripId" asp-items="ViewBag.Trips" class="form-control">
-                <span asp-validation-for="TripId" class="alert-danger"></span>
+            <h2>Всяка оферта може да има само едно събитие</h2>
+            <label asp-for="OfferId">Пътешествие</label>
+            <select asp-for="OfferId" asp-items="ViewBag.Offers" class="form-control">
+                <span asp-validation-for="OfferId" class="alert-danger"></span>
                 <option value="">Изберете пътешествие</option>
             </select>
         </div>

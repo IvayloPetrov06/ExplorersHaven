@@ -3,21 +3,22 @@ using Explorers_Haven.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Explorers_Haven.ViewModels.Travel;
+using Explorers_Haven.Core.Services;
 
 namespace Explorers_Haven.Controllers
 {
     public class TravelController : Controller
     {
         private readonly ITravelService _travelService;
-        private readonly ITripService _tripService;
-        public TravelController(ITravelService travelService, ITripService tripService)
+        private readonly IOfferService _offerService;
+        public TravelController(ITravelService travelService, IOfferService offerService)
         {
             _travelService = travelService;
-            _tripService = tripService;
+            _offerService = offerService;
 
         }
 
-        public IActionResult Index(TravelViewModel? filter)
+        public async Task<IActionResult> Index(TravelViewModel? filter)
         {
 
             var query = _travelService.GetAll().AsQueryable();
@@ -49,56 +50,54 @@ namespace Explorers_Haven.Controllers
             return View(model);
         }
 
-        public IActionResult ListTravels()
+        public async Task<IActionResult> ListTravels()
         {
             var list = _travelService.GetAll();
             return View(list);
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _travelService.DeleteTravelByIdAsync(id);
+            await _travelService.DeleteTravelByIdAsync(id);
             TempData["success"] = "Успешно изтрит запис";
             return RedirectToAction("ListTravels");
         }
-        public IActionResult EditTravel(int Id)
+        public async Task<IActionResult> EditTravel(int Id)
         {
             var tr = _travelService.GetTravelByIdAsync(Id);
             if (tr == null) { return NotFound(); }
-            var trips = _tripService.GetAll();
-            ViewBag.Trips = new SelectList(trips, "Id", "Name");
+            var offers = _offerService.GetAll();
+            ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View(tr);
+
         }
         [HttpPost]
-        public IActionResult EditTravel(Travel obj)
+        public async Task<IActionResult> EditTravel(Travel obj)
         {
-            if (_tripService.GetTripByIdAsync(obj.TripId).Result.Travel == null)
+            if (ModelState.IsValid)
             {
-                _travelService.UpdateTravelAsync(obj);
-                TempData["success"] = "Успешно редактиран запис";
-                return RedirectToAction("ListTravels");
+                await _travelService.UpdateTravelAsync(obj);
+                TempData["success"] = "Успешно редактирано събитие";
+                return RedirectToAction("ListActivities");
             }
-            TempData["error"] = "Every trip can have only one travel";
-            return View();
+            else
+            {
+                TempData["error"] = "Неуспешна редакция";
+                return View(obj);
+            }
         }
-        public IActionResult AddTravel()
+        public async Task<IActionResult> AddTravel()
         {
-            var trips = _tripService.GetAll();
-            ViewBag.Trips = new SelectList(trips, "Id", "Name");
+            var offers = _offerService.GetAll();
+            ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View();
         }
         [HttpPost]
-        public IActionResult AddTravel(Travel obj)
+        public async Task<IActionResult> AddTravel(Travel obj)
         {
-            if (_tripService.GetTripByIdAsync(obj.TripId).Result.Travel==null) 
-            {
-                _travelService.AddTravelAsync(obj);
-                TempData["success"] = "Успешно добавен запис";
-                return RedirectToAction("ListTravels");
-            }
-            TempData["error"] = "Every trip can have only one travel";
-            return View();
-            
+            await _travelService.AddTravelAsync(obj);
+            TempData["success"] = "Успешно добавен запис";
+            return RedirectToAction("ListTravels");
         }
     }
 }

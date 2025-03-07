@@ -20,105 +20,68 @@ namespace Explorers_Haven.DataAccess
 
         public DbSet<User> Users { get; set; }
         public DbSet<Offer> Offers { get; set; }
-        public DbSet<Trip> Trips { get; set; }
+        //public DbSet<Trip> Trips { get; set; }
         public DbSet<Travel> Travels { get; set; }
         public DbSet<Stay> Stays { get; set; }
         public DbSet<Activity> Activites { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //travelogue 1
-            modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 1, Name ="Egypt",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", Price=100 }
-                );
-            //trip 1
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 1, Name = "KazanlakSofia", OfferId = 1 }
+            //offer 1
+           modelBuilder.Entity<Offer>().HasData(
+                new Offer { Id = 1, Name ="Egypt",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", Price=100,  }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 1, Start = "Kazanlak", Finish = "Sofia", Transport="Bus", TripId = 1 }
-                );
-            //trip 2
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 2, Name = "SofiaCairo", OfferId = 1 }
+                new Travel { Id = 1, Start = "Sofia", Finish = "Cairo", Transport = "Plane", OfferId = 1 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 2, Start = "Sofia", Finish = "Cairo", Transport = "Plane", TripId = 2 }
+                new Travel { Id = 2, Start = "Cairo", Finish = "Sofia", Transport = "Plane", OfferId = 1 }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 1, Name = "Megawish Hotel", TripId = 2 }
+                new Stay { Id = 1, Name = "Megawish Hotel", OfferId = 1 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 1, Name = "Camel riding", TripId = 2 }
+                new Models.Activity { Id = 1, Name = "Camel riding", OfferId = 1 }
                 );
-            //trip 3
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 3, Name = "CairoSofia", OfferId = 1 }
+            modelBuilder.Entity<Models.Activity>().HasData(
+                new Models.Activity { Id = 2, Name = "Sightseeing", OfferId = 1 }
                 );
-            modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 3, Start = "Cairo", Finish = "Sofia", Transport = "Plane", TripId = 3 }
-                );
-            //travelogue 2
+
+            //offer 2
             modelBuilder.Entity<Offer>().HasData(
                 new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 200 }
                 );
-            //trip 1
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 4, Name = "KazanlakSofia", OfferId = 1 }
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 3, Start = "Sofia", Finish = "Warsaw", Transport = "Plane", OfferId = 2 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 4, Start = "Kazanlak", Finish = "Sofia", Transport = "Car", TripId = 4 }
-                );
-            //trip 2
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 5, Name = "SofiaWarsaw", OfferId = 1 }
-                );
-            modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 5, Start = "Sofia", Finish = "Warsaw", Transport = "Plane", TripId = 5 }
+                new Travel { Id = 4, Start = "Warsaw", Finish = "Sofia", Transport = "Plane", OfferId = 2 }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 2, Name = "InterContinental Warsaw Hotel", TripId = 5 }
+                new Stay { Id = 2, Name = "InterContinental Warsaw Hotel", OfferId = 2 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 2, Name = "Sightseeing", TripId = 5 }
+                new Models.Activity { Id = 3, Name = "Sightseeing", OfferId = 2 }
                 );
-            //trip 3
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 6, Name = "WarsawSofia", OfferId = 1 }
-                );
-            modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 6, Start = "Warsaw", Finish = "Sofia", Transport = "Plane", TripId = 6 }
-                );
-            //travelogue 3
+
+            //offer 3
             modelBuilder.Entity<Offer>().HasData(
                 new Offer { Id = 3, Name = "Germany",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", Price = 500 }
                 );
-            //trip 1
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 7, Name = "KazanlakSofia", OfferId = 1 }
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel { Id = 5, Start = "Sofia", Finish = "Berlin", Transport = "Plane", OfferId = 3 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 7, Start = "Kazanlak", Finish = "Sofia", Transport = "Train", TripId = 7 }
-                );
-            //trip 2
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 8, Name = "SofiaBerlin", OfferId = 1 }
-                );
-            modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 8, Start = "Sofia", Finish = "Berlin", Transport = "Plane", TripId = 8 }
+                new Travel { Id = 6, Start = "Berlin", Finish = "Sofia", Transport = "Plane", OfferId = 3 }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 3, Name = "Mitte Hotel", TripId = 8 }
+                new Stay { Id = 3, Name = "Mitte Hotel", OfferId = 3 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 3, Name = "Sightseeing", TripId = 8 }
+                new Models.Activity { Id = 4, Name = "Sightseeing", OfferId = 3 }
                 );
-            //trip 3
-            modelBuilder.Entity<Trip>().HasData(
-                new Trip { Id = 9, Name = "BerlinSofia", OfferId = 1 }
-                );
-            modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 9, Start = "Berlin", Finish = "Sofia", Transport = "Plane", TripId = 9 }
+            modelBuilder.Entity<Models.Activity>().HasData(
+                new Models.Activity { Id = 5, Name = "Archery", OfferId = 3 }
                 );
             modelBuilder.Entity<User>(b =>
             {
@@ -168,9 +131,9 @@ namespace Explorers_Haven.DataAccess
                 b.Property(e => e.Name)
                    .IsRequired();
 
-                b.HasOne(a => a.Trip)
+                b.HasOne(a => a.Offer)
                 .WithMany(t => t.Activities)
-                .HasForeignKey(e => e.TripId)
+                .HasForeignKey(e => e.OfferId)
                 .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -184,9 +147,9 @@ namespace Explorers_Haven.DataAccess
                     .IsRequired();
 
 
-                b.HasOne(e => e.Trip)
+                b.HasOne(e => e.Offer)
                  .WithOne(b=>b.Stay)
-                 .HasForeignKey<Stay>(e => e.TripId)
+                 .HasForeignKey<Stay>(e => e.OfferId)
                  .OnDelete(DeleteBehavior.Restrict);
 
             });
@@ -207,10 +170,10 @@ namespace Explorers_Haven.DataAccess
                  .IsRequired();
 
 
-                b.HasOne(e => e.Trip)
-                 .WithOne(b=>b.Travel)
-                 .HasForeignKey<Travel>(e => e.TripId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                b.HasOne(e => e.Offer)
+                 .WithMany(t => t.Travels)
+                .HasForeignKey(e => e.OfferId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             });
 
@@ -226,42 +189,23 @@ namespace Explorers_Haven.DataAccess
 
                 b.Property(e => e.Price);
 
-                b.HasMany(a => a.Trips)
-                .WithOne(b=>b.Offer)
-                .HasForeignKey(a =>a.OfferId)
-                 .OnDelete(DeleteBehavior.Cascade);
-            });
-
-            modelBuilder.Entity<Trip>(b =>
-            {
-                b.HasKey(e => e.Id);
-
-
-                b.Property(e => e.Name)
-                  .IsRequired();
-
-                
-
-                b.HasOne(a => a.Offer)
-                 .WithMany(b=>b.Trips)
-                 .HasForeignKey(e => e.OfferId)
-                  .OnDelete(DeleteBehavior.Cascade);
-
                 b.HasMany(a => a.Activities)
-                .WithOne(b=>b.Trip)
-                .HasForeignKey(e => e.TripId)
+                .WithOne(b => b.Offer)
+                .HasForeignKey(e => e.OfferId)
                 .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne(e => e.Stay)
-                 .WithOne(b => b.Trip)
-                 .HasForeignKey<Stay>(e => e.TripId)
+                 .WithOne(b => b.Offer)
+                 .HasForeignKey<Stay>(e => e.OfferId)
                   .OnDelete(DeleteBehavior.Cascade);
 
-                b.HasOne(e => e.Travel)
-                 .WithOne(b => b.Trip)
-                 .HasForeignKey<Travel>(e => e.TripId)
+                b.HasMany(e => e.Travels)
+                 .WithOne(b => b.Offer)
+                 .HasForeignKey(e => e.OfferId)
                  .OnDelete(DeleteBehavior.Cascade);
             });
+
+            
 
 
             base.OnModelCreating(modelBuilder);

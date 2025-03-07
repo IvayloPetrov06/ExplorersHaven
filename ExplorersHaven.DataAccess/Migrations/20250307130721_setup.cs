@@ -205,7 +205,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trips",
+                name: "Activites",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -215,31 +215,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trips", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Trips_Offers_OfferId",
-                        column: x => x.OfferId,
-                        principalTable: "Offers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Activites",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
                     table.PrimaryKey("PK_Activites", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Activites_Trips_TripId",
-                        column: x => x.TripId,
-                        principalTable: "Trips",
+                        name: "FK_Activites_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -251,15 +231,15 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false)
+                    OfferId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stays_Trips_TripId",
-                        column: x => x.TripId,
-                        principalTable: "Trips",
+                        name: "FK_Stays_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -273,15 +253,15 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Finish = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Transport = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TripId = table.Column<int>(type: "int", nullable: false)
+                    OfferId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Travels", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Travels_Trips_TripId",
-                        column: x => x.TripId,
-                        principalTable: "Trips",
+                        name: "FK_Travels_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -297,61 +277,44 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Trips",
+                table: "Activites",
                 columns: new[] { "Id", "Name", "OfferId" },
                 values: new object[,]
                 {
-                    { 1, "KazanlakSofia", 1 },
-                    { 2, "SofiaCairo", 1 },
-                    { 3, "CairoSofia", 1 },
-                    { 4, "KazanlakSofia", 1 },
-                    { 5, "SofiaWarsaw", 1 },
-                    { 6, "WarsawSofia", 1 },
-                    { 7, "KazanlakSofia", 1 },
-                    { 8, "SofiaBerlin", 1 },
-                    { 9, "BerlinSofia", 1 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Activites",
-                columns: new[] { "Id", "Name", "TripId" },
-                values: new object[,]
-                {
-                    { 1, "Camel riding", 2 },
-                    { 2, "Sightseeing", 5 },
-                    { 3, "Sightseeing", 8 }
+                    { 1, "Camel riding", 1 },
+                    { 2, "Sightseeing", 1 },
+                    { 3, "Sightseeing", 2 },
+                    { 4, "Sightseeing", 3 },
+                    { 5, "Archery", 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Stays",
-                columns: new[] { "Id", "Name", "TripId" },
+                columns: new[] { "Id", "Name", "OfferId" },
                 values: new object[,]
                 {
-                    { 1, "Megawish Hotel", 2 },
-                    { 2, "InterContinental Warsaw Hotel", 5 },
-                    { 3, "Mitte Hotel", 8 }
+                    { 1, "Megawish Hotel", 1 },
+                    { 2, "InterContinental Warsaw Hotel", 2 },
+                    { 3, "Mitte Hotel", 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Travels",
-                columns: new[] { "Id", "Finish", "Start", "Transport", "TripId" },
+                columns: new[] { "Id", "Finish", "OfferId", "Start", "Transport" },
                 values: new object[,]
                 {
-                    { 1, "Sofia", "Kazanlak", "Bus", 1 },
-                    { 2, "Cairo", "Sofia", "Plane", 2 },
-                    { 3, "Sofia", "Cairo", "Plane", 3 },
-                    { 4, "Sofia", "Kazanlak", "Car", 4 },
-                    { 5, "Warsaw", "Sofia", "Plane", 5 },
-                    { 6, "Sofia", "Warsaw", "Plane", 6 },
-                    { 7, "Sofia", "Kazanlak", "Train", 7 },
-                    { 8, "Berlin", "Sofia", "Plane", 8 },
-                    { 9, "Sofia", "Berlin", "Plane", 9 }
+                    { 1, "Cairo", 1, "Sofia", "Plane" },
+                    { 2, "Sofia", 1, "Cairo", "Plane" },
+                    { 3, "Warsaw", 2, "Sofia", "Plane" },
+                    { 4, "Sofia", 2, "Warsaw", "Plane" },
+                    { 5, "Berlin", 3, "Sofia", "Plane" },
+                    { 6, "Sofia", 3, "Berlin", "Plane" }
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Activites_TripId",
+                name: "IX_Activites_OfferId",
                 table: "Activites",
-                column: "TripId");
+                column: "OfferId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -398,20 +361,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stays_TripId",
+                name: "IX_Stays_OfferId",
                 table: "Stays",
-                column: "TripId",
+                column: "OfferId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Travels_TripId",
+                name: "IX_Travels_OfferId",
                 table: "Travels",
-                column: "TripId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Trips_OfferId",
-                table: "Trips",
                 column: "OfferId");
 
             migrationBuilder.CreateIndex(
@@ -450,9 +407,6 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Trips");
 
             migrationBuilder.DropTable(
                 name: "Offers");

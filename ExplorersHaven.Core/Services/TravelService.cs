@@ -40,13 +40,13 @@ namespace Explorers_Haven.Core.Services
             return _repo.GetAll();
         }
 
-        public Task AddTravelAsync(Travel entity)
+        public async Task AddTravelAsync(Travel entity)
         {
             if (!ValidateTravel(entity))
             {
                 throw new ArgumentException("The travel is not valid!");
             }
-            return _repo.AddAsync(entity);
+            await _repo.AddAsync(entity);
         }
 
         public async Task UpdateTravelAsync(Travel entity)

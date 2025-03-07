@@ -7,8 +7,8 @@ namespace Explorers_Haven.ViewModels.Activity
         public int? Id { get; set; }
         public string? Name { get; set; }
 
-        public SelectList? Trips { get; set; }
-        public int? TripId { get; set; }
+        public SelectList? Offers { get; set; }
+        public int? OfferId { get; set; }
         public List<Models.Activity> Activities { get; set; }
     }
 }

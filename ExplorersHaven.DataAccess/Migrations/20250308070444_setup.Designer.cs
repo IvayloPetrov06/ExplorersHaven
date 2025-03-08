@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250307130721_setup")]
+    [Migration("20250308070444_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -100,10 +100,15 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int?>("StayId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StayId");
 
                     b.HasIndex("UserId");
 
@@ -115,21 +120,24 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 1,
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                             Name = "Egypt",
-                            Price = 100m
+                            Price = 100m,
+                            StayId = 1
                         },
                         new
                         {
                             Id = 2,
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
                             Name = "Poland",
-                            Price = 200m
+                            Price = 200m,
+                            StayId = 2
                         },
                         new
                         {
                             Id = 3,
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
                             Name = "Germany",
-                            Price = 500m
+                            Price = 500m,
+                            StayId = 3
                         });
                 });
 
@@ -145,13 +153,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OfferId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("OfferId")
-                        .IsUnique();
 
                     b.ToTable("Stays");
 
@@ -159,20 +161,17 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Megawish Hotel",
-                            OfferId = 1
+                            Name = "Megawish Hotel"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "InterContinental Warsaw Hotel",
-                            OfferId = 2
+                            Name = "InterContinental Warsaw Hotel"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Mitte Hotel",
-                            OfferId = 3
+                            Name = "Mitte Hotel"
                         });
                 });
 
@@ -508,22 +507,18 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
+                    b.HasOne("Explorers_Haven.Models.Stay", "Stay")
+                        .WithMany("Offers")
+                        .HasForeignKey("StayId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("Explorers_Haven.Models.User", "User")
                         .WithMany("Offers")
                         .HasForeignKey("UserId");
 
+                    b.Navigation("Stay");
+
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
-                {
-                    b.HasOne("Explorers_Haven.Models.Offer", "Offer")
-                        .WithOne("Stay")
-                        .HasForeignKey("Explorers_Haven.Models.Stay", "OfferId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Offer");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.Travel", b =>
@@ -603,9 +598,12 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     b.Navigation("Activities");
 
-                    b.Navigation("Stay");
-
                     b.Navigation("Travels");
+                });
+
+            modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
+                {
+                    b.Navigation("Offers");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>

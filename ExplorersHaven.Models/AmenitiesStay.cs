@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Explorers_Haven.Models
 {
-    internal class HotelServices
+    internal class AmenitiesStay
     {
     }
 }

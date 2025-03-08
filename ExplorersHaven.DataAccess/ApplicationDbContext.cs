@@ -29,7 +29,7 @@ namespace Explorers_Haven.DataAccess
         {
             //offer 1
            modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 1, Name ="Egypt",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", Price=100,  }
+                new Offer { Id = 1, Name ="Egypt",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", Price=100, StayId = 1}
                 );
             modelBuilder.Entity<Travel>().HasData(
                 new Travel { Id = 1, Start = "Sofia", Finish = "Cairo", Transport = "Plane", OfferId = 1 }
@@ -38,7 +38,7 @@ namespace Explorers_Haven.DataAccess
                 new Travel { Id = 2, Start = "Cairo", Finish = "Sofia", Transport = "Plane", OfferId = 1 }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 1, Name = "Megawish Hotel", OfferId = 1 }
+                new Stay { Id = 1, Name = "Megawish Hotel"}
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { Id = 1, Name = "Camel riding", OfferId = 1 }
@@ -49,7 +49,7 @@ namespace Explorers_Haven.DataAccess
 
             //offer 2
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 200 }
+                new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 200 , StayId = 2}
                 );
             modelBuilder.Entity<Travel>().HasData(
                 new Travel { Id = 3, Start = "Sofia", Finish = "Warsaw", Transport = "Plane", OfferId = 2 }
@@ -58,7 +58,7 @@ namespace Explorers_Haven.DataAccess
                 new Travel { Id = 4, Start = "Warsaw", Finish = "Sofia", Transport = "Plane", OfferId = 2 }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 2, Name = "InterContinental Warsaw Hotel", OfferId = 2 }
+                new Stay { Id = 2, Name = "InterContinental Warsaw Hotel"}
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { Id = 3, Name = "Sightseeing", OfferId = 2 }
@@ -66,7 +66,7 @@ namespace Explorers_Haven.DataAccess
 
             //offer 3
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 3, Name = "Germany",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", Price = 500 }
+                new Offer { Id = 3, Name = "Germany",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", Price = 500,StayId=3 }
                 );
             modelBuilder.Entity<Travel>().HasData(
                 new Travel { Id = 5, Start = "Sofia", Finish = "Berlin", Transport = "Plane", OfferId = 3 }
@@ -75,7 +75,7 @@ namespace Explorers_Haven.DataAccess
                 new Travel { Id = 6, Start = "Berlin", Finish = "Sofia", Transport = "Plane", OfferId = 3 }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 3, Name = "Mitte Hotel", OfferId = 3 }
+                new Stay { Id = 3, Name = "Mitte Hotel" }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { Id = 4, Name = "Sightseeing", OfferId = 3 }
@@ -147,10 +147,10 @@ namespace Explorers_Haven.DataAccess
                     .IsRequired();
 
 
-                b.HasOne(e => e.Offer)
-                 .WithOne(b=>b.Stay)
-                 .HasForeignKey<Stay>(e => e.OfferId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                b.HasMany(e => e.Offers)
+                 .WithOne(b => b.Stay)
+                 .HasForeignKey(e => e.StayId)
+                 .OnDelete(DeleteBehavior.Cascade);
 
             });
 
@@ -195,9 +195,9 @@ namespace Explorers_Haven.DataAccess
                 .OnDelete(DeleteBehavior.Cascade);
 
                 b.HasOne(e => e.Stay)
-                 .WithOne(b => b.Offer)
-                 .HasForeignKey<Stay>(e => e.OfferId)
-                  .OnDelete(DeleteBehavior.Cascade);
+                 .WithMany(t => t.Offers)
+                .HasForeignKey(e => e.StayId)
+                .OnDelete(DeleteBehavior.Restrict);
 
                 b.HasMany(e => e.Travels)
                  .WithOne(b => b.Offer)

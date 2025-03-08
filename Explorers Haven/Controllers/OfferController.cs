@@ -16,15 +16,17 @@ namespace Explorers_Haven.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IOfferService _offerService;
+        private readonly IStayService _stayService;
         IUserService userService;
 
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public OfferController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IUserService userService)
+        public OfferController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IStayService stayService, IUserService userService)
         {
             this.userService = userService;
             _offerService = offerService;
+            _stayService = stayService;
 
             userManager = _userManager;
 
@@ -124,6 +126,7 @@ namespace Explorers_Haven.Controllers
             //Offer offers = await _offerService.GetOfferByIdAsync(Id);
             //if (offers == null) { return NotFound(); }
             // View(offers);
+            
 
             var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
                 .Select(x => new EditOfferViewModel()
@@ -132,8 +135,12 @@ namespace Explorers_Haven.Controllers
                     Price = x.Price,
                     Name = x.Name,
                     UserId = x.UserId,
-                    UserList = new SelectList(userService.GetAll(), "Id", "Username")
+                    UserList = new SelectList(userService.GetAll(), "Id", "Username"),
+                    StayId = x.StayId
                 }).FirstOrDefault();
+
+            var stays = _stayService.GetAll();
+            ViewBag.Stays = new SelectList(stays, "Id", "Name");
 
             return View(model);
         }
@@ -156,6 +163,7 @@ namespace Explorers_Haven.Controllers
                 offer.Price = model.Price;
                 offer.CoverImage = imageUploadResult;
                 offer.UserId = model.UserId;
+                offer.StayId = model.StayId;
 
                 await _offerService.UpdateOfferAsync(offer);
                 return RedirectToAction("Index");
@@ -167,6 +175,7 @@ namespace Explorers_Haven.Controllers
                 offer.Price = model.Price;
                 offer.CoverImage = model.OfferCover;
                 offer.UserId = model.UserId;
+                offer.StayId = model.StayId;
 
                 await _offerService.UpdateOfferAsync(offer);
                 return RedirectToAction("Index");
@@ -186,6 +195,8 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> AddOffer()
         {
+            var stays = _stayService.GetAll();
+            ViewBag.Stays = new SelectList(stays, "Id", "Name");
             return View();
 
         }
@@ -245,7 +256,8 @@ namespace Explorers_Haven.Controllers
                     Name = model.Name,
                     Price = model.Price,
                     UserId = user.Id,
-                    CoverImage = imageUploadResult
+                    CoverImage = imageUploadResult,
+                    StayId = model.StayId
                 };
                 offer.UserId = user.Id;
                 await _offerService.AddOfferAsync(offer);

@@ -17,12 +17,9 @@ namespace Explorers_Haven.Models
         public string? CoverImage { get; set; }
         public decimal? Price { get; set; }
         public int? Clicks { get; set; }
-
         public int? UserId { get; set; }
-
-        
+        public int? StayId { get; set; }
         public User? User { get; set; }
-
         public Stay? Stay { get; set; }
 
         public ICollection<Models.Activity>? Activities { get; set; }

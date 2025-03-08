@@ -53,6 +53,19 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Stays",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stays", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -192,11 +205,18 @@ namespace Explorers_Haven.DataAccess.Migrations
                     CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Clicks = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    StayId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Offers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Offers_Stays_StayId",
+                        column: x => x.StayId,
+                        principalTable: "Stays",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Offers_Users_UserId",
                         column: x => x.UserId,
@@ -218,26 +238,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     table.PrimaryKey("PK_Activites", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Activites_Offers_OfferId",
-                        column: x => x.OfferId,
-                        principalTable: "Offers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Stays",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OfferId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stays", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Stays_Offers_OfferId",
                         column: x => x.OfferId,
                         principalTable: "Offers",
                         principalColumn: "Id",
@@ -267,13 +267,23 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Offers",
-                columns: new[] { "Id", "Clicks", "CoverImage", "Name", "Price", "UserId" },
+                table: "Stays",
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Egypt", 100m, null },
-                    { 2, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", "Poland", 200m, null },
-                    { 3, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Germany", 500m, null }
+                    { 1, "Megawish Hotel" },
+                    { 2, "InterContinental Warsaw Hotel" },
+                    { 3, "Mitte Hotel" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Offers",
+                columns: new[] { "Id", "Clicks", "CoverImage", "Name", "Price", "StayId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Egypt", 100m, 1, null },
+                    { 2, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", "Poland", 200m, 2, null },
+                    { 3, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Germany", 500m, 3, null }
                 });
 
             migrationBuilder.InsertData(
@@ -286,16 +296,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     { 3, "Sightseeing", 2 },
                     { 4, "Sightseeing", 3 },
                     { 5, "Archery", 3 }
-                });
-
-            migrationBuilder.InsertData(
-                table: "Stays",
-                columns: new[] { "Id", "Name", "OfferId" },
-                values: new object[,]
-                {
-                    { 1, "Megawish Hotel", 1 },
-                    { 2, "InterContinental Warsaw Hotel", 2 },
-                    { 3, "Mitte Hotel", 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -356,15 +356,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Offers_StayId",
+                table: "Offers",
+                column: "StayId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Offers_UserId",
                 table: "Offers",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Stays_OfferId",
-                table: "Stays",
-                column: "OfferId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Travels_OfferId",
@@ -400,9 +399,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Stays");
-
-            migrationBuilder.DropTable(
                 name: "Travels");
 
             migrationBuilder.DropTable(
@@ -410,6 +406,9 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Offers");
+
+            migrationBuilder.DropTable(
+                name: "Stays");
 
             migrationBuilder.DropTable(
                 name: "Users");

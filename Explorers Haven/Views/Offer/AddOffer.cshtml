@@ -16,6 +16,13 @@
             <label for="imageFile" class="add-track-input-label">Cover image</label>
             <input type="file" id="Picture" asp-for="Picture" class="add-track-input-field" accept="image/*" />
         </div>
+        <div class="mb-3">
+            <label asp-for="StayId">Престои</label>
+            <select asp-for="StayId" asp-items="ViewBag.Stays" class="form-control">
+                <span asp-validation-for="StayId" class="alert-danger"></span>
+                <option value="">Изберете престой</option>
+            </select>
+        </div>
         <button type="submit">Въведи</button>
     </div>
 </form>

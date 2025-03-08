@@ -10,11 +10,9 @@ namespace Explorers_Haven.Controllers
     public class StayController : Controller
     {
         private readonly IStayService _stayService;
-        private readonly IOfferService _offerService;
-        public StayController(IStayService stayService, IOfferService offerService)
+        public StayController(IStayService stayService)
         {
             _stayService = stayService;
-            _offerService = offerService;
 
         }
 
@@ -54,42 +52,43 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> EditStay(int Id)
         {
-            var trav = _stayService.GetStayByIdAsync(Id);
+            var trav = await _stayService.GetStayByIdAsync(Id);
             if (trav == null) { return NotFound(); }
-            var offers = _offerService.GetAll();
-            ViewBag.Offers = new SelectList(offers, "Id", "Name");
+            //var offers = _offerService.GetAll();
+            //ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View(trav);
         }
         [HttpPost]
         public async Task<IActionResult> EditStay(Stay obj)
         {
-            if (_offerService.GetOfferByIdAsync(obj.OfferId).Result.Stay == null)
+            var tempStay = await _stayService.GetStayAsync(x => x.Name == obj.Name);
+            if (tempStay==null)
             {
-                await _stayService.AddStayAsync(obj);
-                TempData["success"] = "Успешно добавен запис";
+                await _stayService.UpdateStayAsync(obj);
+                TempData["success"] = "Успешно редактиран запис";
                 return RedirectToAction("ListStays");
             }
-            TempData["error"] = "Every offer can have only one stay";
+            TempData["error"] = "Това място за престой вече съществува";
             return View();
         }
         public async Task<IActionResult> AddStay()
         {
-            var offers = _offerService.GetAll();
-            ViewBag.Offers = new SelectList(offers, "Id", "Name");
+            //var offers = _offerService.GetAll();
+            //ViewBag.Offers = new SelectList(offers, "Id", "Name");
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> AddStay(Stay obj)
         {
-            var tempOffer = await _offerService.GetOfferByIdAsync(obj.OfferId);
-            var tempStay =await _stayService.GetStayAsync(x => x.OfferId == tempOffer.Id);
+            //var tempOffer = await _offerService.GetOfferByIdAsync(obj.OfferId);
+            var tempStay =await _stayService.GetStayAsync(x => x.Name==obj.Name);
             if (tempStay == null)
             {
                 await _stayService.AddStayAsync(obj);
                 TempData["success"] = "Успешно добавен запис";
                 return RedirectToAction("ListStays");
             }
-            TempData["error"] = "Every offer can have only one stay";
+            TempData["error"] = "Това място за престой вече съществува";
             return RedirectToAction("ListStays");
             //return View();
         }

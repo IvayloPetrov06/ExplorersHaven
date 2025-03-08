@@ -16,7 +16,6 @@ namespace Explorers_Haven.Models
         public string Name { get; set; }
 
 
-        public int OfferId { get; set; }
-        public Offer Offer { get; set; }
+        public ICollection<Offer>? Offers { get; set; }
     }
 }

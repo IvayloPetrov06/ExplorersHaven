@@ -6,14 +6,14 @@
             <input asp-for="Name">
             <span asp-validation-for="Name" class="alert-danger"></span>
         </div>
-        <h2>Всяка оферта може да има само един престой</h2>
+        @*<h2>Всяка оферта може да има само един престой</h2>
         <div class="mb-3">
             <label asp-for="OfferId">Оферти</label>
             <select asp-for="OfferId" asp-items="ViewBag.Offers" class="form-control">
                 <span asp-validation-for="OfferId" class="alert-danger"></span>
                 <option value="">Изберете оферта</option>
             </select>
-        </div>
+        </div>*@
     </div>
     <div class="row">
         <div class="mb-3">

@@ -94,6 +94,8 @@ namespace Explorers_Haven.Controllers
             return View(filterModel);
         }
 
+        
+
         public async Task<IActionResult> ListOffers()
         {
             IEnumerable<Offer> offers = await _offerService.GetAllOfferAsync();

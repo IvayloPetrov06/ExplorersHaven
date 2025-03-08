@@ -1,10 +1,11 @@
-﻿namespace Explorers_Haven.ViewModels.Main
+﻿using Explorers_Haven.ViewModels.Offer;
+
+namespace Explorers_Haven.ViewModels.Main
 {
     public class HomePageViewModel
     {
-        //List<Offer> topOffers;
-        //List<Offer> Recents;
-        //List<Offer> popular;
+        public string Search { get; set; }
+        public List<OfferViewModel> Offers { get; set; }
 
     }
 }

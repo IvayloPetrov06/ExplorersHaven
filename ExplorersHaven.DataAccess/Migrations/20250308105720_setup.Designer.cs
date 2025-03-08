@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250308070444_setup")]
+    [Migration("20250308105720_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -77,6 +77,29 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Name = "Archery",
                             OfferId = 3
                         });
+                });
+
+            modelBuilder.Entity("Explorers_Haven.Models.Booking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
@@ -505,6 +528,23 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("Offer");
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Booking", b =>
+                {
+                    b.HasOne("Explorers_Haven.Models.Offer", "Offer")
+                        .WithMany("Bookings")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Explorers_Haven.Models.User", "User")
+                        .WithMany("Bookings")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Offer");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
                     b.HasOne("Explorers_Haven.Models.Stay", "Stay")
@@ -598,6 +638,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     b.Navigation("Activities");
 
+                    b.Navigation("Bookings");
+
                     b.Navigation("Travels");
                 });
 
@@ -608,6 +650,8 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>
                 {
+                    b.Navigation("Bookings");
+
                     b.Navigation("Offers");
                 });
 #pragma warning restore 612, 618

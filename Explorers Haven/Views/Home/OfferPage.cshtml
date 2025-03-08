@@ -1,0 +1,7 @@
+﻿@using Explorers_Haven.ViewModels.Main
+@model OfferPageViewModel
+
+<img src="@Model.OfferCover" alt="@Model.Name">
+<h3>@Model.StayName</h3>
+<a asp-controller="Booking" asp-action="Book" asp-route-id="@Model.Id">Book</a>
+<a asp-controller="Booking" asp-action="Cancle" asp-route-id="@Model.Id">Cancle</a>

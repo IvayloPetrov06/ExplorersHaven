@@ -25,6 +25,8 @@ namespace Explorers_Haven.DataAccess
         public DbSet<Stay> Stays { get; set; }
         public DbSet<Activity> Activites { get; set; }
 
+        public DbSet<Booking> Bookings { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //offer 1
@@ -205,7 +207,19 @@ namespace Explorers_Haven.DataAccess
                  .OnDelete(DeleteBehavior.Cascade);
             });
 
-            
+            modelBuilder.Entity<Booking>()
+                .HasOne(x => x.Offer)
+                .WithMany(l => l.Bookings)
+                .HasForeignKey(x => x.OfferId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Booking>()
+              .HasOne(x => x.User)
+              .WithMany(l => l.Bookings)
+              .HasForeignKey(x => x.UserId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+
 
 
             base.OnModelCreating(modelBuilder);

@@ -43,8 +43,9 @@ using CloudinaryDotNet;
     builder.Services.AddScoped(typeof(IStayService), typeof(StayService));
     builder.Services.AddScoped(typeof(IOfferService), typeof(OfferService));
     builder.Services.AddScoped(typeof(ITravelService), typeof(TravelService));
-    builder.Services.AddScoped(typeof(IBookingService), typeof(BookingService));
-    builder.Services.AddScoped<CloudinaryService>();
+    builder.Services.AddScoped(typeof(IBookingService), typeof(BookingService)); 
+    builder.Services.AddScoped(typeof(IAmenityService), typeof(AmenityService));
+   builder.Services.AddScoped<CloudinaryService>();
     builder.Services.AddRazorPages();
 
     var cloudinarySettings = builder.Configuration.GetSection("Cloudinary");
@@ -72,9 +73,15 @@ using CloudinaryDotNet;
 
 
     var app = builder.Build();
+/*using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Seed();
+}*/
 
-    // Configure the HTTP request pipeline.
-    if (!app.Environment.IsDevelopment())
+
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
     {
         app.UseExceptionHandler("/Home/Error");
         // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.

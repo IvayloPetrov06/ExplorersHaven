@@ -8,7 +8,16 @@ using System.Threading.Tasks;
 
 namespace Explorers_Haven.Models
 {
-    public class AmenitiesStay
+    public class StayAmenity
     {
+        [Key]
+        public int Id { get; set; }
+
+        public int? AmenityId { get; set; }
+
+        public int? StayId { get; set; }
+
+        public Amenity? Amenity { get; set; }
+        public Stay? Stay { get; set; }
     }
 }

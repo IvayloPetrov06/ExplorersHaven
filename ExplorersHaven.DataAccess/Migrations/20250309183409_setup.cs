@@ -14,6 +14,20 @@ namespace Explorers_Haven.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Amenities",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Amenities", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -58,7 +72,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Stars = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,6 +213,31 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StayAmenity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AmenityId = table.Column<int>(type: "int", nullable: true),
+                    StayId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StayAmenity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StayAmenity_Amenities_AmenityId",
+                        column: x => x.AmenityId,
+                        principalTable: "Amenities",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StayAmenity_Stays_StayId",
+                        column: x => x.StayId,
+                        principalTable: "Stays",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Offers",
                 columns: table => new
                 {
@@ -203,6 +245,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BackImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Clicks = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
@@ -277,6 +320,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Finish = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DateStart = table.Column<DateOnly>(type: "date", nullable: true),
+                    DateFinish = table.Column<DateOnly>(type: "date", nullable: true),
                     Transport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -292,24 +337,34 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Amenities",
+                columns: new[] { "Id", "Icon", "Name" },
+                values: new object[] { 1, null, "Parking places" });
+
+            migrationBuilder.InsertData(
                 table: "Stays",
-                columns: new[] { "Id", "Name" },
+                columns: new[] { "Id", "Image", "Name", "Price", "Stars" },
                 values: new object[,]
                 {
-                    { 1, "Megawish Hotel" },
-                    { 2, "InterContinental Warsaw Hotel" },
-                    { 3, "Mitte Hotel" }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5 },
+                    { 2, null, "InterContinental Warsaw Hotel", null, null },
+                    { 3, null, "Mitte Hotel", null, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Offers",
-                columns: new[] { "Id", "Clicks", "CoverImage", "Name", "Price", "StayId", "UserId" },
+                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Name", "Price", "StayId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Egypt", 100m, 1, null },
-                    { 2, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", "Poland", 200m, 2, null },
-                    { 3, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Germany", 500m, 3, null }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Egypt", 100m, 1, null },
+                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", "Poland", 200m, 2, null },
+                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Germany", 500m, 3, null }
                 });
+
+            migrationBuilder.InsertData(
+                table: "StayAmenity",
+                columns: new[] { "Id", "AmenityId", "StayId" },
+                values: new object[] { 1, 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Activites",
@@ -325,15 +380,15 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Travels",
-                columns: new[] { "Id", "Finish", "OfferId", "Start", "Transport" },
+                columns: new[] { "Id", "DateFinish", "DateStart", "Finish", "OfferId", "Start", "Transport" },
                 values: new object[,]
                 {
-                    { 1, "Cairo", 1, "Sofia", "Plane" },
-                    { 2, "Sofia", 1, "Cairo", "Plane" },
-                    { 3, "Warsaw", 2, "Sofia", "Plane" },
-                    { 4, "Sofia", 2, "Warsaw", "Plane" },
-                    { 5, "Berlin", 3, "Sofia", "Plane" },
-                    { 6, "Sofia", 3, "Berlin", "Plane" }
+                    { 1, null, null, "Cairo", 1, "Sofia", "Plane" },
+                    { 2, null, null, "Sofia", 1, "Cairo", "Plane" },
+                    { 3, null, null, "Warsaw", 2, "Sofia", "Plane" },
+                    { 4, null, null, "Sofia", 2, "Warsaw", "Plane" },
+                    { 5, null, null, "Berlin", 3, "Sofia", "Plane" },
+                    { 6, null, null, "Sofia", 3, "Berlin", "Plane" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -401,6 +456,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_StayAmenity_AmenityId",
+                table: "StayAmenity",
+                column: "AmenityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StayAmenity_StayId",
+                table: "StayAmenity",
+                column: "StayId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Travels_OfferId",
                 table: "Travels",
                 column: "OfferId");
@@ -437,10 +502,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                 name: "Bookings");
 
             migrationBuilder.DropTable(
+                name: "StayAmenity");
+
+            migrationBuilder.DropTable(
                 name: "Travels");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Amenities");
 
             migrationBuilder.DropTable(
                 name: "Offers");

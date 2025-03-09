@@ -14,7 +14,9 @@ namespace Explorers_Haven.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
+        public string? Disc { get; set; }
         public string? CoverImage { get; set; }
+        public string? BackImage { get; set; }
         public decimal? Price { get; set; }
         public int? Clicks { get; set; }
         public int? UserId { get; set; }

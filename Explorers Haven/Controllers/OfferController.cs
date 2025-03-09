@@ -247,9 +247,11 @@ namespace Explorers_Haven.Controllers
                 Console.WriteLine($"Found user in userService: {user.Email}");
 
                 // Proceed with image upload
-                var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
+                var imageUploadResult1 = await cloudService.UploadImageAsync(model.Picture);
 
-        
+                var imageUploadResult2 = await cloudService.UploadImageAsync(model.BackPicture);
+
+
 
 
 
@@ -258,7 +260,7 @@ namespace Explorers_Haven.Controllers
                     Name = model.Name,
                     Price = model.Price,
                     UserId = user.Id,
-                    CoverImage = imageUploadResult,
+                    CoverImage = imageUploadResult1,
                     StayId = model.StayId
                 };
                 offer.UserId = user.Id;

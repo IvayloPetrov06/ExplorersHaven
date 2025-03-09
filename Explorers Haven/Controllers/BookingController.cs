@@ -30,6 +30,7 @@ namespace Explorers_Haven.Controllers
             {
                 await _bookingService.DeleteBookingAsync(b);
             }
+            TempData["success"] = "Booking canceled!";
             return RedirectToAction("HomePage", "Home");
         }
         public async Task<IActionResult> Book(int id)
@@ -47,6 +48,7 @@ namespace Explorers_Haven.Controllers
                 UserId = user.Id
             };
             await _bookingService.AddBookingAsync(b);
+            TempData["success"] = "Offer was booked!";
             return RedirectToAction("HomePage", "Home");
         }
         public IActionResult Index()

@@ -15,16 +15,22 @@ namespace Explorers_Haven.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IOfferService _offerService;
+        private readonly IAmenityService _amenityService;
+        private readonly IActivityService _activityService;
+        private readonly ITravelService _travelService;
         private readonly IStayService _stayService;
         IUserService userService;
 
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public HomeController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IStayService stayService,IOfferService offerService, IUserService userService)
+        public HomeController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, IAmenityService amenityService, IStayService stayService,IOfferService offerService, IUserService userService)
         {
             _offerService = offerService;
             this.userService = userService;
+            _activityService = activyService;
+            _travelService = travelService;
+            _amenityService = amenityService;
             _stayService = stayService;
 
             userManager = _userManager;
@@ -100,38 +106,56 @@ namespace Explorers_Haven.Controllers
             //if (offers == null) { return NotFound(); }
             // View(offers);
             var tempOffer = await _offerService.GetOfferByIdAsync(id);
-            if (tempOffer.StayId != null)
+            var tempStay = await _stayService.GetStayByIdAsync(tempOffer.StayId.Value);
+            var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
+            .Select(x => new OfferPageViewModel()
             {
-                var tempStay = await _stayService.GetStayByIdAsync(tempOffer.StayId.Value);
-                var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
-                .Select(x => new OfferPageViewModel()
+                OfferId = tempOffer.Id,
+                OfferPic = x.BackImage,
+                OfferPrice = x.Price,
+                OfferName = x.Name,
+                OfferDisc = x.Disc,
+                StayName = tempStay.Name,
+                StayPic = tempStay.Image,
+                StayPrice = tempStay.Price,
+                StayDisc = tempStay.Disc,
+                UserId = x.UserId
+            }).FirstOrDefault();
+            var tempActivities = _activityService.GetAll().ToList();
+            foreach (var ac in tempActivities)
+            {
+                if (ac.OfferId==tempOffer.Id)
                 {
-                    Id = tempOffer.Id,
-                    OfferCover = x.CoverImage,
-                    Price = x.Price,
-                    Name = x.Name,
-                    UserId = x.UserId,
-                    StayName = tempStay.Name
-                }).FirstOrDefault();
-
-                return View(model);
+                    model.Activities.Add(ac);
+                }
+                
             }
-            else
+            var tempTravels = _travelService.GetAll();
+            foreach (var ac in tempTravels)
             {
-                var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
-                    .Select(x => new OfferPageViewModel()
-                    {
-                        Id = tempOffer.Id,
-                        OfferCover = x.CoverImage,
-                        Price = x.Price,
-                        Name = x.Name,
-                        UserId = x.UserId
-                    }).FirstOrDefault();
+                if (ac.OfferId == tempOffer.Id)
+                {
+                    model.Travels.Add(ac);
+                }
 
-                return View(model);
             }
+            var tempAmenities = _amenityService.GetAll();//napravi service za stayamenity incahe nqma da izleznat
+            foreach (var a in tempAmenities)
+            {
+                foreach (var sa in a.StayAmenities)
+                {
+                    if (sa.StayId == tempStay.Id)
+                    {
+                        model.Amenities.Add(a);
+                    }
+                }
+            }
+            /*foreach (var a in Model.Amenities)
+{ 
+	<h1>@a.Name</h1>
+}*/
 
-            
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> OfferPage(int id, OfferPageViewModel model)//copied from edit offer
@@ -139,4 +163,33 @@ namespace Explorers_Haven.Controllers
             return View(model);
         }
     }
+    /*@using Explorers_Haven.ViewModels.Main
+@model OfferPageViewModel
+<h1>@Model.OfferName</h1>
+<img src="@Model.OfferPic" alt="@Model.OfferName">
+<h1>@Model.OfferDisc</h1>
+<h1>@Model.StayName</h1>
+<h1>@Model.StayStars</h1>
+<h1>@Model.StayPrice</h1>
+<img src="@Model.StayPic" alt="@Model.StayName">
+
+@foreach (var a in Model.Activities)
+{
+	<h1>@a.Name</h1>
+}
+@foreach (var a in Model.Travels)
+{
+	<div class="el1">
+		<h1>@a.Start</h1>
+		<h1>@a.DateStart.ToString()</h1>
+	</div>
+	<div class="el1">
+		<h1>@a.Finish</h1>
+		<h1>@a.DateFinish</h1>
+	</div>
+	<h1>@a.Transport</h1>
+}
+<h1>@Model.OfferPrice</h1>
+<a asp-controller="Booking" asp-action="Book">Book</a>
+<a asp-controller="Booking" asp-action="Cancel">Cancel</a>*/
 }

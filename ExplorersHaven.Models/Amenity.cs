@@ -8,19 +8,13 @@ using System.Threading.Tasks;
 
 namespace Explorers_Haven.Models
 {
-    public class Stay
+    public class Amenity
     {
         [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public string? Disc { get; set; }
-        public string? Image { get; set; }
-        public decimal? Price { get; set; }
-        public int? Stars { get; set; }
-
-
-        public ICollection<Offer>? Offers { get; set; }
+        public string? Icon { get; set; }
         public ICollection<StayAmenity>? StayAmenities { get; set; } = new List<StayAmenity>();
     }
 }

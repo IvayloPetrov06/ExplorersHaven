@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250308105720_setup")]
+    [Migration("20250309183409_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -79,6 +79,33 @@ namespace Explorers_Haven.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Amenity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Amenities");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Parking places"
+                        });
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Booking", b =>
                 {
                     b.Property<int>("Id")
@@ -109,6 +136,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BackImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Clicks")
                         .HasColumnType("int");
@@ -141,6 +171,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
+                            BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                             Name = "Egypt",
                             Price = 100m,
@@ -172,9 +203,18 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("Stars")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -184,7 +224,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Megawish Hotel"
+                            Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
+                            Name = "Megawish Hotel",
+                            Price = 100m,
+                            Stars = 5
                         },
                         new
                         {
@@ -198,6 +241,37 @@ namespace Explorers_Haven.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.StayAmenity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AmenityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StayId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AmenityId");
+
+                    b.HasIndex("StayId");
+
+                    b.ToTable("StayAmenity");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AmenityId = 1,
+                            StayId = 1
+                        });
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Travel", b =>
                 {
                     b.Property<int>("Id")
@@ -205,6 +279,12 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly?>("DateFinish")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("DateStart")
+                        .HasColumnType("date");
 
                     b.Property<string>("Finish")
                         .IsRequired()
@@ -561,6 +641,23 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.StayAmenity", b =>
+                {
+                    b.HasOne("Explorers_Haven.Models.Amenity", "Amenity")
+                        .WithMany("StayAmenities")
+                        .HasForeignKey("AmenityId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Explorers_Haven.Models.Stay", "Stay")
+                        .WithMany("StayAmenities")
+                        .HasForeignKey("StayId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Amenity");
+
+                    b.Navigation("Stay");
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Travel", b =>
                 {
                     b.HasOne("Explorers_Haven.Models.Offer", "Offer")
@@ -634,6 +731,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Amenity", b =>
+                {
+                    b.Navigation("StayAmenities");
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
                     b.Navigation("Activities");
@@ -646,6 +748,8 @@ namespace Explorers_Haven.DataAccess.Migrations
             modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
                 {
                     b.Navigation("Offers");
+
+                    b.Navigation("StayAmenities");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>

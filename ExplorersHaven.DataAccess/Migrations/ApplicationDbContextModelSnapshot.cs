@@ -183,7 +183,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 2,
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
                             Name = "Poland",
-                            Price = 200m,
+                            Price = 20m,
                             StayId = 2
                         },
                         new

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250310050240_setup2")]
-    partial class setup2
+    [Migration("20250310053148_setup")]
+    partial class setup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -186,7 +186,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 2,
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
                             Name = "Poland",
-                            Price = 200m,
+                            Price = 20m,
                             StayId = 2
                         },
                         new
@@ -319,8 +319,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            DateFinish = new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            DateFinish = new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
@@ -329,8 +329,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            DateFinish = new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateFinish = new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Sofia",
                             OfferId = 1,
                             Start = "Cairo",

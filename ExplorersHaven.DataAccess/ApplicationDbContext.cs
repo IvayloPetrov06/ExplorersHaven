@@ -96,7 +96,7 @@ namespace Explorers_Haven.DataAccess
 
             //offer 2
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 200 , StayId = 2}
+                new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 20 , StayId = 2}
                 );
             modelBuilder.Entity<Travel>().HasData(
                 new Travel { Id = 3, Start = "Sofia", Finish = "Warsaw", Transport = "Plane", OfferId = 2 }

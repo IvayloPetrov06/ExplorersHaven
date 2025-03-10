@@ -105,6 +105,7 @@ namespace Explorers_Haven.Controllers
             userModel.Username = user.Name;
             userModel.Email = user.Email;
             userModel.Bio = user.Bio;
+            userModel.ProfilePicture = user.ProfilePicture;
 
             if (user.ImageFile != null)
             {

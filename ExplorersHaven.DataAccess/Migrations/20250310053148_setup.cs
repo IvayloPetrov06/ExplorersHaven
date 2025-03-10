@@ -359,7 +359,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 values: new object[,]
                 {
                     { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", "Egypt", 100m, 1, null },
-                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, "Poland", 200m, 2, null },
+                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, "Poland", 20m, 2, null },
                     { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, "Germany", 500m, 3, null }
                 });
 
@@ -385,8 +385,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "DateFinish", "DateStart", "Finish", "OfferId", "Start", "Transport" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", "Plane" },
-                    { 2, new DateTime(2025, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", "Plane" },
+                    { 1, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", "Plane" },
+                    { 2, new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", "Plane" },
                     { 3, null, null, "Warsaw", 2, "Sofia", "Plane" },
                     { 4, null, null, "Sofia", 2, "Warsaw", "Plane" },
                     { 5, null, null, "Berlin", 3, "Sofia", "Plane" },

@@ -47,8 +47,8 @@ namespace Explorers_Haven.DataAccess
                 new Travel { Id = 1,
                     Start = "Sofia",
                     Finish = "Cairo",
-                    DateFinish = new DateTime(2025, 3, 15),
-                    DateStart = new DateTime(2025, 3, 16),
+                    DateStart = new DateTime(2025, 3, 9,6,30,0),
+                    DateFinish = new DateTime(2025, 3, 10,8,30,0),
                     Transport = "Plane",
                     OfferId = 1 }
                 );
@@ -57,8 +57,8 @@ namespace Explorers_Haven.DataAccess
                     Id = 2,
                     Start = "Cairo",
                     Finish = "Sofia",
-                    DateFinish = new DateTime(2025, 3, 9),
-                    DateStart = new DateTime(2025, 3, 10),
+                    DateStart = new DateTime(2025, 3, 15,12,0,0),
+                    DateFinish = new DateTime(2025, 3, 16,14,0,0),
                     Transport = "Plane",
                     OfferId = 1 }
                 );

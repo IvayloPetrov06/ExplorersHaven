@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250309183409_setup")]
-    partial class setup
+    [Migration("20250310050240_setup2")]
+    partial class setup2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -146,6 +146,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<string>("CoverImage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Disc")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -173,6 +176,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 1,
                             BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
+                            Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
                             Name = "Egypt",
                             Price = 100m,
                             StayId = 1
@@ -203,6 +207,9 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Disc")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Image")
                         .HasColumnType("nvarchar(max)");
 
@@ -224,6 +231,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
+                            Disc = "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.",
                             Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
                             Name = "Megawish Hotel",
                             Price = 100m,
@@ -280,11 +288,11 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly?>("DateFinish")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateFinish")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly?>("DateStart")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateStart")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Finish")
                         .IsRequired()
@@ -311,6 +319,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
+                            DateFinish = new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
@@ -319,6 +329,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
+                            DateFinish = new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Sofia",
                             OfferId = 1,
                             Start = "Cairo",

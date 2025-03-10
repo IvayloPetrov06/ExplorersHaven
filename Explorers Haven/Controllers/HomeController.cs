@@ -94,6 +94,8 @@ namespace Explorers_Haven.Controllers
                     Search = filter.Search
                 };
             };
+            var sortedList = query.OrderBy(x => x).ToList();
+            filterModel.Cheapest_Offers = sortedList;
 
             return View(filterModel);
         }

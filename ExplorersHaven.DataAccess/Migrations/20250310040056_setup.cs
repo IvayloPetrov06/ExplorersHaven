@@ -73,6 +73,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Disc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Stars = table.Column<int>(type: "int", nullable: true)
@@ -244,6 +245,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Disc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BackImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -320,8 +322,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Finish = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateStart = table.Column<DateOnly>(type: "date", nullable: true),
-                    DateFinish = table.Column<DateOnly>(type: "date", nullable: true),
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateFinish = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Transport = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -343,22 +345,22 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Stays",
-                columns: new[] { "Id", "Image", "Name", "Price", "Stars" },
+                columns: new[] { "Id", "Disc", "Image", "Name", "Price", "Stars" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5 },
-                    { 2, null, "InterContinental Warsaw Hotel", null, null },
-                    { 3, null, "Mitte Hotel", null, null }
+                    { 1, "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5 },
+                    { 2, null, null, "InterContinental Warsaw Hotel", null, null },
+                    { 3, null, null, "Mitte Hotel", null, null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Offers",
-                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Name", "Price", "StayId", "UserId" },
+                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Name", "Price", "StayId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Egypt", 100m, 1, null },
-                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", "Poland", 200m, 2, null },
-                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Germany", 500m, 3, null }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", "Egypt", 100m, 1, null },
+                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, "Poland", 200m, 2, null },
+                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, "Germany", 500m, 3, null }
                 });
 
             migrationBuilder.InsertData(
@@ -383,8 +385,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "DateFinish", "DateStart", "Finish", "OfferId", "Start", "Transport" },
                 values: new object[,]
                 {
-                    { 1, null, null, "Cairo", 1, "Sofia", "Plane" },
-                    { 2, null, null, "Sofia", 1, "Cairo", "Plane" },
+                    { 1, new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", "Plane" },
+                    { 2, new DateTime(2025, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", "Plane" },
                     { 3, null, null, "Warsaw", 2, "Sofia", "Plane" },
                     { 4, null, null, "Sofia", 2, "Warsaw", "Plane" },
                     { 5, null, null, "Berlin", 3, "Sofia", "Plane" },

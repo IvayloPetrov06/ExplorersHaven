@@ -316,8 +316,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            DateFinish = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateFinish = new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
@@ -326,8 +326,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            DateFinish = new DateTime(2025, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateFinish = new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Sofia",
                             OfferId = 1,
                             Start = "Cairo",

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250309210148_setup4")]
-    partial class setup4
+    [Migration("20250310050359_setup3")]
+    partial class setup3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -319,8 +319,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            DateFinish = new DateTime(2025, 3, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 16, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateFinish = new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
@@ -329,8 +329,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            DateFinish = new DateTime(2025, 3, 9, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateFinish = new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
+                            DateStart = new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
                             Finish = "Sofia",
                             OfferId = 1,
                             Start = "Cairo",

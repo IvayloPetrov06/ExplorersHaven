@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250309202214_setup2")]
-    partial class setup2
+    [Migration("20250310040056_setup")]
+    partial class setup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,7 +176,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 1,
                             BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
-                            Disc = "",
+                            Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
                             Name = "Egypt",
                             Price = 100m,
                             StayId = 1

@@ -1,18 +1,17 @@
 ﻿@using Explorers_Haven.ViewModels.Offer
 @model OfferFilterViewModel
 <div class="albums-header">
-    <h1 class="albums-title">oferti</h1>
+    <h1 class="albums-title">Оферти</h1>
     <form>
         <div class="search-container">
-            <input type="text" asp-for="Search" class="search-bar" placeholder="Търси oferti...">
+            <input type="text" asp-for="Search" class="search-bar" placeholder="Търси оферти...">
             <button class="search-btn">
                 <i class="fas fa-search"></i> <!-- Search icon with i tag -->
             </button>
         </div>
     </form>
-    <a asp-controller="Offer" asp-action="AddOffer" class="add-album-btn">Добави oferta</a>
 </div>
-
+<h2 class="page-title">Offers</h2>
 <div class="albums-container">
     <h2 class="page-title">Offers</h2>
     <div class="albums-grid">
@@ -21,21 +20,36 @@
             <div class="album-card">
                 <div class="album-cover">
                     <img src="@offer.CoverImage" alt="@offer.Name">
-                    <div class="play-overlay">
+                    <h3 class="album-title">@offer.Price</h3>
+                    @*<div class="play-overlay">
                         <button class="play-button"><i class="fas fa-play"></i></button>
-                    </div>
+                    </div>*@
                 </div>
                 <div class="album-info">
                     <h3 class="album-title">@offer.Name</h3>@*<i class="fas fa-trash"></i>*@
-                    <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="offer_page_btn">View</a>
+                    <a class="btn btn-view"asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="offer_page_btn">View</a>
                 </div>
-                <div class="card-buttons">
-                    <a asp-controller="Offer" asp-action="EditOffer" asp-route-id="@offer.Id" class="edit-btn">
-                        <i class="fas fa-edit"></i>
-                    </a>
-                    <a asp-controller="Offer" asp-action="Delete" asp-route-id="@offer.Id" class="delete-btn">
-                        <i class="fas fa-trash"></i>
-                    </a>
+            </div>
+        }
+    </div>
+</div>
+<h2 class="page-title">Cheapest Offers</h2>
+<div class="albums-container">
+    
+    <div class="albums-grid">
+        @foreach (var offer in Model.Cheapest_Offers)
+        {
+            <div class="album-card">
+                <div class="album-cover">
+                    <img src="@offer.CoverImage" alt="@offer.Name">
+                    @*<div class="play-overlay">
+                        <button class="play-button"><i class="fas fa-play"></i></button>
+                    </div>*@
+                </div>
+                <div class="album-info">
+                    <h3 class="album-title">@offer.Name</h3>@*<i class="fas fa-trash"></i>*@
+                    <h3 class="album-title">@offer.Price</h3>
+                    <a class="btn btn-view"asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="offer_page_btn">View</a>
                 </div>
             </div>
         }
@@ -48,7 +62,6 @@
     .albums-container {
         padding: 20px;
         color: white;
-        background: #121212;
     }
 
     .page-title {
@@ -64,17 +77,18 @@
     }
 
     .album-card {
-        background: #181818;
+        background-color:white;
         border-radius: 10px;
         padding: 15px;
         transition: transform 0.2s, background 0.2s;
         position: relative;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
 
-        .album-card:hover {
+        @*.album-card:hover {
             background: #282828;
             transform: scale(1.05);
-        }
+        }*@
 
     .album-cover {
         position: relative;
@@ -89,7 +103,7 @@
             display: block;
         }
 
-    .play-overlay {
+    @*.play-overlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -124,7 +138,7 @@
 
         .play-button:hover {
             background: #1ed760;
-        }
+        }*@
 
     .album-info {
         text-align: center;
@@ -132,6 +146,7 @@
     }
 
     .album-title {
+        color:black;
         font-size: 16px;
         font-weight: bold;
     }
@@ -159,6 +174,7 @@
     .search-container {
         display: flex;
         align-items: center;
+
         gap: 8px;
     }
 
@@ -225,6 +241,27 @@
         display: flex;
         justify-content: space-between;
     }
+    .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .btn-view {
+        background-color: #0071c2;
+        color: white;
+        min-width: 150px;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+        .btn-view:hover {
+            background-color: #005999;
+        }
 
     .edit-btn,
     .delete-btn {

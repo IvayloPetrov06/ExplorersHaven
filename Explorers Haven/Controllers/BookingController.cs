@@ -28,10 +28,11 @@ namespace Explorers_Haven.Controllers
             Booking b = await _bookingService.GetBookingAsync(x => x.OfferId == id && x.UserId == user.Id);
             if (b != null)
             {
-                await _bookingService.DeleteBookingAsync(b);
+                await _bookingService.DeleteBookingAsync(b); TempData["success"] = "Booking canceled!";
+                return RedirectToAction("HomePage", "Home");
             }
-            TempData["success"] = "Booking canceled!";
-            return RedirectToAction("HomePage", "Home");
+            TempData["error"] = "Booking doesn't exist!";
+            return RedirectToAction("OfferPage", "Home");
         }
         public async Task<IActionResult> Book(int id)
         {

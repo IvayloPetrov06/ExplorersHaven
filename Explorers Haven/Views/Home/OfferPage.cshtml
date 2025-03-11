@@ -54,9 +54,16 @@
                             <div class="travel-value">@a.DateFinish</div>
                         </div>
                     </div>
-                    
-                    <div class="transport-info">
+
+                    <div class="travel-col">
+                        <div class="travel-label">Transport</div>
+
                         <span class="transport-icon">
+                            @*takeoff-the-plane-svgrepo-com <img src="plane.jpg" alt="External SVG Image" />
+                            <object data="C:\Users\user\source\repos\Ivo2\ExplorersHaven\Explorers Haven\wwwroot\Im/takeoff-the-plane-svgrepo-com.svg" type="image/svg+xml">
+                                <img src="C:\Users\user\source\repos\Ivo2\ExplorersHaven\Explorers Haven\wwwroot\Im/plane.jpg" />
+                            </object>*@
+                            <img class="mini-icon" src="~/Images/Plane.svg" alt="Plane" />
                         </span> @a.Transport
                     </div>
                 </div>
@@ -67,8 +74,8 @@
     <div class="booking-section">
         <div class="total-price">@Model.OfferPrice лв</div>
         <div class="booking-actions">
-            <a class="btn btn-book" asp-controller="Booking" asp-action="Book">Book Now</a>
-            <a class="btn btn-cancel" asp-controller="Booking" asp-action="Cancel">Cancel</a>
+            <a class="btn btn-book" asp-controller="Booking" asp-action="Book" asp-route-id="@Model.OfferId">Book Now</a>
+            <a class="btn btn-cancel" asp-controller="Booking" asp-action="Cancel" asp-route-id="@Model.OfferId">Cancel</a>
         </div>
     </div>
 </div>
@@ -249,11 +256,17 @@
         color: #333;
     }
 
+    .mini-icon {
+        width:18px;
+        height: 18px;
+    }
+
     .transport-info {
         padding: 15px 0;
         font-size: 18px;
         font-weight: 500;
         color: #0071c2;
+        flex: 1;
         display: flex;
         align-items: center;
     }

@@ -27,6 +27,7 @@ namespace Explorers_Haven.Models
         public ICollection<Models.Activity>? Activities { get; set; }
         public ICollection<Travel>? Travels { get; set; }
         public ICollection<Booking>? Bookings { get; set; } = new List<Booking>();
+        public ICollection<Rating>? Ratings { get; set; } = new List<Rating>();
 
     }
 }

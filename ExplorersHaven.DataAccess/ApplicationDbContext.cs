@@ -19,6 +19,7 @@ namespace Explorers_Haven.DataAccess
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Rating> Ratings { get; set; }
         public DbSet<Amenity> Amenities { get; set; }
         public DbSet<Offer> Offers { get; set; }
         //public DbSet<Trip> Trips { get; set; }
@@ -261,6 +262,18 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Booking>()
               .HasOne(x => x.User)
               .WithMany(l => l.Bookings)
+              .HasForeignKey(x => x.UserId)
+              .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Rating>()
+                .HasOne(x => x.Offer)
+                .WithMany(l => l.Ratings)
+                .HasForeignKey(x => x.OfferId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Rating>()
+              .HasOne(x => x.User)
+              .WithMany(l => l.Ratings)
               .HasForeignKey(x => x.UserId)
               .OnDelete(DeleteBehavior.NoAction);
 

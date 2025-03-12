@@ -14,7 +14,7 @@ namespace Explorers_Haven.Models
         public int Id { get; set; }
 
         [MaxLength(500)]
-        public string? Content { get; set; }
+        public string Content { get; set; }
 
         public int? UserId { get; set; }
 

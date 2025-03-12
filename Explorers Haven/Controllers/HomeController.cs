@@ -129,9 +129,10 @@ namespace Explorers_Haven.Controllers
             //if (offers == null) { return NotFound(); }
             // View(offers);
             var tempOffer = await _offerService.GetOfferByIdAsync(id);
+            var commUsers = await userService.GetAllUsersAsync();
             var tempStay = await _stayService.GetStayByIdAsync(tempOffer.StayId.Value);
-            
 
+            
             var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
             .Select(x => new OfferPageViewModel()
             {
@@ -144,11 +145,12 @@ namespace Explorers_Haven.Controllers
                 StayPic = tempStay.Image,
                 StayPrice = tempStay.Price,
                 StayDisc = tempStay.Disc,
+                Users= commUsers.ToList(),
                 UserId = x.UserId
             }).FirstOrDefault();
             var tempRate = await _ratingService.GetAllRatingsAsync(x => x.OfferId == id);
             var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == id);
-
+            model.Comments=tempCom.ToList();
             //Comments=tempCom.ToList(),
             if (tempRate.Count() != 0)
             {

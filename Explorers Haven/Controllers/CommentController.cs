@@ -36,7 +36,35 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> WriteComment(int id, string comment)
         {
-            if (comment == null)
+            if (string.IsNullOrEmpty(comment))
+            {
+                return Json(new { success = false, message = "Can't add empty comments!" });
+            }
+
+            var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
+            User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
+
+            Offer offer = await _offerService.GetOfferByIdAsync(id);
+
+            Comment newComment = new Comment()
+            {
+                OfferId = id,
+                Offer = offer,
+                Content = comment,
+                User = user,
+                UserId = user.Id
+            };
+
+            await _commentService.AddCommentAsync(newComment);
+
+            return Json(new
+            {
+                success = true,
+                message = "Comment added successfully!",
+                commentContent = comment,
+                profilePicture = user.ProfilePicture // Assuming user has a ProfilePicture field
+            });
+            /*if (comment == null)
             {
                 return Ok(new { message = "Cant add empty comments!" });
             }
@@ -61,7 +89,7 @@ namespace Explorers_Haven.Controllers
                 //var data = new { success = "Offer was rated!" };
                 return Ok(new { message = "Item deleted successfully!" });
                 //return RedirectToAction("OfferPage", "Home");
-            }
+            }*/
 
         }
         public IActionResult Index()

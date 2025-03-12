@@ -67,7 +67,7 @@
 
 
 
-    
+
 
 
 @foreach (var a in Model.Activities)
@@ -88,15 +88,26 @@
 	<h1>@a.Transport</h1>
 }
 <div class="comment">
-<a asp-controller="Comment" asp-action="WriteComment" asp-route-id="@Model.OfferId">
-	<input type ="text" id="userInput" name="userInput" />
-	</a>
-	</div>
+	<form id="commentForm" method="POST">
+		<input type="text" id="userInput" name="userInput" placeholder="Write a comment..." />
+		<button type="submit">Submit</button>
+	</form>
+</div>
 
-@foreach (var a in Model.Comments)
-{
-	<h1>@a.Content</h1>
-}
+<div id="commentsSection">
+
+	@foreach (var a in Model.Comments)
+	{
+		foreach (var u in Model.Users)
+		{
+			if (u.Id==a.UserId)
+			{
+				<img src="@u.ProfilePicture" class="profile-pic">
+			}
+		}
+		<h1>@a.Content</h1>
+	}
+</div>
 
 
 <style>
@@ -126,6 +137,14 @@
 				color: #6f00ff;
 				transition: color 0.3s;
 			}
+
+	.profile-pic {
+		width: 130px;
+		height: 130px;
+		border-radius: 50%;
+		object-fit: cover;
+		border: 3px solid #1DB954;
+	}
 </style>
 
 <script>
@@ -146,21 +165,57 @@
 				
 			});
 		});
-		var comms = document.querySelector(".comment").querySelectorAll("input");
+			document.querySelector("#commentForm").addEventListener("submit", async function (event) {
+		event.preventDefault(); // Prevent form from submitting traditionally
 
-		comms.forEach(function (comm, idx) {
-			comm.addEventListener('submit', async function () {
-				const url = "/Comment/WriteComment/@Model.OfferId?comment=" + this.value;
-				try {
-					const response = await fetch(url);
-					const json = await response.json();
-					console.log(json);
-					//alert(json.success);
-				} catch (error) {
-					alert("error");
+		const comment = document.querySelector("#userInput").value;
+		const offerId = @Model.OfferId; // Ensure that the OfferId is passed from the model
+
+		const url = `/Comment/WriteComment/${offerId}?comment=${encodeURIComponent(comment)}`;
+
+		try {
+			const response = await fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
 				}
-
 			});
-		});
+			const json = await response.json();
+			console.log(json);
+
+
+			// Optionally, update the comments section or handle success
+			if (json.success) {
+			// Create a new div to hold the comment content and the profile picture
+			const commentDiv = document.createElement("div");
+
+			// Create and add the profile picture
+			const profilePic = document.createElement("img");
+			profilePic.src = json.profilePicture;  // Profile picture from the response
+			profilePic.classList.add("profile-pic");
+
+			// Create and add the comment content
+			const commentContent = document.createElement("h1");
+			commentContent.textContent = json.commentContent;  // Comment content from the response
+
+			// Append the profile picture and comment content to the commentDiv
+			commentDiv.appendChild(profilePic);
+			commentDiv.appendChild(commentContent);
+
+			// Append the new comment to the comments section
+			const commentsSection = document.querySelector("#commentsSection");
+			commentsSection.appendChild(commentDiv);
+
+			// Clear the input field
+			document.querySelector("#userInput").value = '';
+			} else {
+				alert("Failed to add comment.");
+			}
+
+		} catch (error) {
+			console.error(error);
+			alert("Error occurred while submitting the comment.");
+		}
+	});
 	});
 </script>

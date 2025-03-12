@@ -2,220 +2,594 @@
 @using Explorers_Haven.ViewModels.Main
 @model OfferPageViewModel
 
-<h1>@Model.OfferName</h1>
-<img src="@Model.OfferPic" alt="@Model.OfferName">
-<h1>@Model.OfferDisc</h1>
-<h1>@Model.OfferRating</h1>
-<label for="star5"></label>
-<a asp-controller="Booking" asp-action="Book" asp-route-id="@Model.OfferId">
-	<div class="rating">
-		@if (Model.OfferRatingStars == 5)
-		{
-			<input value="5" name="rating" id="star5" type="radio" checked>
-		}
-		else
-		{
-			<input value="5" name="rating" id="star5" type="radio">
-		}
-		<label for="star5"></label>
-		@if (Model.OfferRatingStars == 4)
-		{
-			<input value="4" name="rating" id="star4" type="radio" checked>
-		}
-		else
-		{ 
-			<input value="4" name="rating" id="star4" type="radio">
-		}
-		<label for="star4"></label>
-		@if (Model.OfferRatingStars == 3)
-		{
-			<input value="3" name="rating" id="star3" type="radio" checked>
-		}
-		else
-		{
-			<input value="3" name="rating" id="star3" type="radio">
-		}
-		<label for="star3"></label>
-		@if (Model.OfferRatingStars == 2)
-		{
-			<input value="2" name="rating" id="star2" type="radio" checked>
-		}
-		else
-		{
-			<input value="2" name="rating" id="star2" type="radio">
-		}
-		<label for="star2"></label>
-		@if (Model.OfferRatingStars == 1)
-		{
-			<input value="1" name="rating" id="star1" type="radio" checked>
-		}
-		else
-		{
-			<input value="1" name="rating" id="star1" type="radio">
-		}
-		<label for="star1"></label>
-	</div>
-</a>
-<h1>@Model.OfferPrice лв</h1>
-<a asp-controller="Booking" asp-action="Book" asp-route-id="@Model.OfferId">Book</a>
-<a asp-controller="Booking" asp-action="Cancel" asp-route-id="@Model.OfferId">Cancel</a>
-<h1>@Model.StayName</h1>
-<h1>@Model.StayStars</h1>
-<h1>@Model.StayPrice лв</h1>
-<h1>@Model.StayDisc</h1>
-<img src="@Model.StayPic" alt="@Model.StayName">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.OfferName - Explorers Haven</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
 
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
+        .offer-header {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
 
+        .offer-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f294d;
+            margin-bottom: 10px;
+        }
 
+        .offer-gallery {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-gap: 10px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            overflow: hidden;
+            height: 400px;
+        }
 
-@foreach (var a in Model.Activities)
-{
-	<h1>@a.Name</h1>
-}
-@foreach (var a in Model.Travels)
-{
-	<div class="el1">
-		<h1>@a.Start</h1>
-		<h1>@a.DateStart.ToString()</h1>
-	</div>
-	<div class="el1">
-		<h1>@a.Finish</h1>
-		<h1>@a.DateFinish</h1>
-	</div>
-	<img class="mini-icon" src="~/Images/Plane.svg" alt="Plane" />
-	<h1>@a.Transport</h1>
-}
-<div class="comment">
-	<form id="commentForm" method="POST">
-		<input type="text" id="userInput" name="userInput" placeholder="Write a comment..." />
-		<button type="submit">Submit</button>
-	</form>
-</div>
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
-<div id="commentsSection">
+        .offer-details {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
 
-	@foreach (var a in Model.Comments)
-	{
-		foreach (var u in Model.Users)
-		{
-			if (u.Id==a.UserId)
-			{
-				<img src="@u.ProfilePicture" class="profile-pic">
-			}
-		}
-		<h1>@a.Content</h1>
-	}
-</div>
+        .offer-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid #eaeaea;
+        }
 
+            .offer-section:last-child {
+                border-bottom: none;
+            }
 
-<style>
-	.rating {
-		display: inline-block;
-	}
+        .section-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #666;
+        }
 
-		.rating input {
-			display: none;
-		}
+        .section-content {
+            font-size: 16px;
+            font-weight: 500;
+            color: #0f294d;
+        }
 
-		.rating label {
-			float: right;
-			cursor: pointer;
-			color: #ccc;
-			transition: color 0.3s;
-		}
+        .price-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
 
-			.rating label:before {
-				content: '\2605';
-				font-size: 30px;
-			}
+        .price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #ff5722;
+        }
 
-			.rating input:checked ~ label,
-			.rating label:hover,
-			.rating label:hover ~ label {
-				color: #6f00ff;
-				transition: color 0.3s;
-			}
+        .currency {
+            font-size: 16px;
+            color: #ff5722;
+        }
 
-	.profile-pic {
-		width: 130px;
-		height: 130px;
-		border-radius: 50%;
-		object-fit: cover;
-		border: 3px solid #1DB954;
-	}
-</style>
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+        }
 
-<script>
-	$(document).ready( function () {
-		var stars = document.querySelector(".rating").querySelectorAll("input");
-		
-		stars.forEach(function (star, idx) {
-			star.addEventListener('click', async function () {
-				const url = "/Rating/Rate/@Model.OfferId?rating=" + this.value;
-				try {
-					const response = await fetch(url);
-					const json = await response.json();
-					console.log(json);
-					//alert(json.success);
-				} catch (error) {
-					alert("error");
-				}
-				
-			});
-		});
-			document.querySelector("#commentForm").addEventListener("submit", async function (event) {
-		event.preventDefault(); // Prevent form from submitting traditionally
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
 
-		const comment = document.querySelector("#userInput").value;
-		const offerId = @Model.OfferId; // Ensure that the OfferId is passed from the model
+        .btn-primary {
+            background-color: #1677ff;
+            color: white;
+        }
 
-		const url = `/Comment/WriteComment/${offerId}?comment=${encodeURIComponent(comment)}`;
+            .btn-primary:hover {
+                background-color: #0e5ecf;
+            }
 
-		try {
-			const response = await fetch(url, {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-			const json = await response.json();
-			console.log(json);
+        .btn-secondary {
+            background-color: white;
+            color: #1677ff;
+            border: 1px solid #1677ff;
+        }
 
+            .btn-secondary:hover {
+                background-color: #f0f7ff;
+            }
 
-			// Optionally, update the comments section or handle success
-			if (json.success) {
-			// Create a new div to hold the comment content and the profile picture
-			const commentDiv = document.createElement("div");
+        .rating-container {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
 
-			// Create and add the profile picture
-			const profilePic = document.createElement("img");
-			profilePic.src = json.profilePicture;  // Profile picture from the response
-			profilePic.classList.add("profile-pic");
+        .rating {
+            display: inline-flex;
+            margin-right: 10px;
+        }
 
-			// Create and add the comment content
-			const commentContent = document.createElement("h1");
-			commentContent.textContent = json.commentContent;  // Comment content from the response
+            .rating input {
+                display: none;
+            }
 
-			// Append the profile picture and comment content to the commentDiv
-			commentDiv.appendChild(profilePic);
-			commentDiv.appendChild(commentContent);
+            .rating label {
+                cursor: pointer;
+                color: #ddd;
+                transition: color 0.3s;
+            }
 
-			// Append the new comment to the comments section
-			const commentsSection = document.querySelector("#commentsSection");
-			commentsSection.appendChild(commentDiv);
+                .rating label:before {
+                    content: '\2605';
+                    font-size: 24px;
+                }
 
-			// Clear the input field
-			document.querySelector("#userInput").value = '';
-			} else {
-				alert("Failed to add comment.");
-			}
+                .rating input:checked ~ label,
+                .rating label:hover,
+                .rating label:hover ~ label {
+                    color: #ff9800;
+                    transition: color 0.3s;
+                }
 
-		} catch (error) {
-			console.error(error);
-			alert("Error occurred while submitting the comment.");
-		}
-	});
-	});
-</script>
+        .rating-number {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f294d;
+            margin-left: 10px;
+        }
+
+        .section-header {
+            font-size: 22px;
+            font-weight: 700;
+            color: #0f294d;
+            margin: 30px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        .travel-details {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .travel-point {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .travel-location {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f294d;
+        }
+
+        .travel-date {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .travel-icon {
+            margin: 0 20px;
+            width: 40px;
+            height: 40px;
+        }
+
+        .travel-type {
+            font-size: 16px;
+            font-weight: 500;
+            color: #0f294d;
+            margin-left: 20px;
+        }
+
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-gap: 20px;
+            margin-top: 20px;
+        }
+
+        .activity-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            transition: transform 0.3s;
+        }
+
+            .activity-card:hover {
+                transform: translateY(-5px);
+            }
+
+        .activity-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f294d;
+            margin-bottom: 10px;
+        }
+
+        .comments-section {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 30px;
+        }
+
+        .comment-form {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .comment-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+            .comment-input:focus {
+                border-color: #1677ff;
+            }
+
+        .comment-submit {
+            padding: 12px 20px;
+            margin-left: 10px;
+            background-color: #1677ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+            .comment-submit:hover {
+                background-color: #0e5ecf;
+            }
+
+        .comment {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+            .comment:last-child {
+                border-bottom: none;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+
+        .profile-pic {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #1677ff;
+            margin-right: 15px;
+        }
+
+        .comment-content {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .stay-details {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stay-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0f294d;
+        }
+
+        .stay-stars {
+            color: #ff9800;
+            font-size: 20px;
+        }
+
+        .stay-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ff5722;
+            margin-top: 10px;
+        }
+
+        .stay-description {
+            color: #666;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        .stay-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="offer-header">
+            <h1 class="offer-title">@Model.OfferName</h1>
+            <div class="rating-container">
+                <div class="rating">
+                    @if (Model.OfferRatingStars == 5)
+                    {
+                        <input value="5" name="rating" id="star5" type="radio" checked>
+                    }
+                    else
+                    {
+                        <input value="5" name="rating" id="star5" type="radio">
+                    }
+                    <label for="star5"></label>
+                    @if (Model.OfferRatingStars == 4)
+                    {
+                        <input value="4" name="rating" id="star4" type="radio" checked>
+                    }
+                    else
+                    {
+                        <input value="4" name="rating" id="star4" type="radio">
+                    }
+                    <label for="star4"></label>
+                    @if (Model.OfferRatingStars == 3)
+                    {
+                        <input value="3" name="rating" id="star3" type="radio" checked>
+                    }
+                    else
+                    {
+                        <input value="3" name="rating" id="star3" type="radio">
+                    }
+                    <label for="star3"></label>
+                    @if (Model.OfferRatingStars == 2)
+                    {
+                        <input value="2" name="rating" id="star2" type="radio" checked>
+                    }
+                    else
+                    {
+                        <input value="2" name="rating" id="star2" type="radio">
+                    }
+                    <label for="star2"></label>
+                    @if (Model.OfferRatingStars == 1)
+                    {
+                        <input value="1" name="rating" id="star1" type="radio" checked>
+                    }
+                    else
+                    {
+                        <input value="1" name="rating" id="star1" type="radio">
+                    }
+                    <label for="star1"></label>
+                </div>
+                <span class="rating-number">@Model.OfferRating</span>
+            </div>
+        </div>
+
+        <div class="offer-gallery">
+            <img src="@Model.OfferPic" alt="@Model.OfferName" class="main-image">
+        </div>
+
+        <div class="offer-details">
+            <div class="offer-section">
+                <div class="section-title">Description</div>
+                <div class="section-content">@Model.OfferDisc</div>
+            </div>
+
+            <div class="price-section">
+                <div>
+                    <div class="section-title">Price per person</div>
+                    <div class="price">@Model.OfferPrice <span class="currency">лв</span></div>
+                </div>
+                <div class="action-buttons">
+                    <a href="/Booking/Book/@Model.OfferId" class="btn btn-primary">Book Now</a>
+                    <a href="/Booking/Cancel/@Model.OfferId" class="btn btn-secondary">Cancel</a>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="section-header">Accommodation Details</h2>
+        <div class="stay-details">
+            <div class="stay-header">
+                <h3 class="stay-title">@Model.StayName</h3>
+                <div class="stay-stars">
+                    @for (int i = 0; i < Model.StayStars; i++)
+                    {
+                        <span>★</span>
+                    }
+                </div>
+            </div>
+
+            <p class="stay-description">@Model.StayDisc</p>
+            <div class="stay-price">@Model.StayPrice <span class="currency">лв</span></div>
+            <img src="@Model.StayPic" alt="@Model.StayName" class="stay-image">
+        </div>
+
+        <h2 class="section-header">Travel Details</h2>
+        @foreach (var a in Model.Travels)
+        {
+            <div class="travel-details">
+                <div class="travel-point">
+                    <div class="travel-location">@a.Start</div>
+                    <div class="travel-date">@a.DateStart.ToString()</div>
+                </div>
+                <img class="travel-icon" src="/Images/Plane.svg" alt="Plane" />
+                <div class="travel-point">
+                    <div class="travel-location">@a.Finish</div>
+                    <div class="travel-date">@a.DateFinish</div>
+                </div>
+                <div class="travel-type">@a.Transport</div>
+            </div>
+        }
+
+        <h2 class="section-header">Activities</h2>
+        <div class="activities-grid">
+            @foreach (var a in Model.Activities)
+            {
+                <div class="activity-card">
+                    <h3 class="activity-name">@a.Name</h3>
+                </div>
+            }
+        </div>
+
+        <div class="comments-section">
+            <h2 class="section-header">Reviews</h2>
+            <form id="commentForm" method="POST" class="comment-form">
+                <input type="text" id="userInput" name="userInput" placeholder="Share your experience..." class="comment-input" />
+                <button type="submit" class="comment-submit">Submit</button>
+            </form>
+
+            <div id="commentsSection">
+                @foreach (var a in Model.Comments)
+                {
+                    <div class="comment">
+                        @foreach (var u in Model.Users)
+                        {
+                            if (u.Id == a.UserId)
+                            {
+                                <img src="@u.ProfilePicture" class="profile-pic">
+                            }
+                        }
+                        <div class="comment-content">@a.Content</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var stars = document.querySelector(".rating").querySelectorAll("input");
+
+            stars.forEach(function(star) {
+                star.addEventListener('click', async function() {
+                    const url = "/Rating/Rate/@Model.OfferId?rating=" + this.value;
+                    try {
+                        const response = await fetch(url);
+                        const json = await response.json();
+                        console.log(json);
+                    } catch (error) {
+                        alert("Error rating this offer");
+                    }
+                });
+            });
+
+            document.querySelector("#commentForm").addEventListener("submit", async function(event) {
+                event.preventDefault();
+
+                const comment = document.querySelector("#userInput").value;
+                const offerId = @Model.OfferId;
+
+                const url = `/Comment/WriteComment/${offerId}?comment=${encodeURIComponent(comment)}`;
+
+                try {
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    const json = await response.json();
+                    console.log(json);
+
+                    if (json.success) {
+                        const commentDiv = document.createElement("div");
+                        commentDiv.classList.add("comment");
+
+                        const profilePic = document.createElement("img");
+                        profilePic.src = json.profilePicture;
+                        profilePic.classList.add("profile-pic");
+
+                        const commentContent = document.createElement("div");
+                        commentContent.classList.add("comment-content");
+                        commentContent.textContent = json.commentContent;
+
+                        commentDiv.appendChild(profilePic);
+                        commentDiv.appendChild(commentContent);
+
+                        const commentsSection = document.querySelector("#commentsSection");
+                        commentsSection.prepend(commentDiv);
+
+                        document.querySelector("#userInput").value = '';
+                    } else {
+                        alert("Failed to add comment.");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    alert("Error occurred while submitting the comment.");
+                }
+            });
+        });
+    </script>
+</body>

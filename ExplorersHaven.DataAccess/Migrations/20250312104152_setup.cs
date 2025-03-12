@@ -249,6 +249,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BackImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Clicks = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     StayId = table.Column<int>(type: "int", nullable: true)
@@ -309,6 +310,32 @@ namespace Explorers_Haven.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Bookings_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    OfferId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Offers_OfferId",
+                        column: x => x.OfferId,
+                        principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
@@ -381,12 +408,12 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Offers",
-                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Name", "Price", "StayId", "UserId" },
+                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Name", "Price", "Rating", "StayId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", "Egypt", 100m, 1, null },
-                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, "Poland", 20m, 2, null },
-                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, "Germany", 500m, 3, null }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", "Egypt", 100m, null, 1, null },
+                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, "Poland", 20m, null, 2, null },
+                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, "Germany", 500m, null, 3, null }
                 });
 
             migrationBuilder.InsertData(
@@ -474,6 +501,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comments_OfferId",
+                table: "Comments",
+                column: "OfferId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_UserId",
+                table: "Comments",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Offers_StayId",
                 table: "Offers",
                 column: "StayId");
@@ -538,6 +575,9 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Bookings");
+
+            migrationBuilder.DropTable(
+                name: "Comments");
 
             migrationBuilder.DropTable(
                 name: "Ratings");

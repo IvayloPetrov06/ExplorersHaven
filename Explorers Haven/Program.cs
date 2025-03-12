@@ -46,6 +46,7 @@ using CloudinaryDotNet;
     builder.Services.AddScoped(typeof(IBookingService), typeof(BookingService));
     builder.Services.AddScoped(typeof(IRatingService), typeof(RatingService));
     builder.Services.AddScoped(typeof(IAmenityService), typeof(AmenityService));
+    builder.Services.AddScoped(typeof(ICommentService), typeof(CommentService));
     builder.Services.AddScoped<CloudinaryService>();
     builder.Services.AddRazorPages();
 

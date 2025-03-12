@@ -34,6 +34,7 @@ namespace Explorers_Haven.Models
 
         public ICollection<Booking>? Bookings { get; set; } = new List<Booking>();
         public ICollection<Rating>? Ratings { get; set; } = new List<Rating>();
+        public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
 
         //*public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
         //*public ICollection<Like>? Likes { get; set; } = new List<Like>();

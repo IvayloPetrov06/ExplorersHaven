@@ -1,9 +1,12 @@
-﻿@using Explorers_Haven.ViewModels.Main
+﻿
+@using Explorers_Haven.ViewModels.Main
 @model OfferPageViewModel
+
 <h1>@Model.OfferName</h1>
 <img src="@Model.OfferPic" alt="@Model.OfferName">
 <h1>@Model.OfferDisc</h1>
 <h1>@Model.OfferRating</h1>
+<label for="star5"></label>
 <a asp-controller="Booking" asp-action="Book" asp-route-id="@Model.OfferId">
 	<div class="rating">
 		@if (Model.OfferRatingStars == 5)
@@ -84,6 +87,17 @@
 	<img class="mini-icon" src="~/Images/Plane.svg" alt="Plane" />
 	<h1>@a.Transport</h1>
 }
+<div class="comment">
+<a asp-controller="Comment" asp-action="WriteComment" asp-route-id="@Model.OfferId">
+	<input type ="text" id="userInput" name="userInput" />
+	</a>
+	</div>
+
+@foreach (var a in Model.Comments)
+{
+	<h1>@a.Content</h1>
+}
+
 
 <style>
 	.rating {
@@ -130,6 +144,22 @@
 					alert("error");
 				}
 				
+			});
+		});
+		var comms = document.querySelector(".comment").querySelectorAll("input");
+
+		comms.forEach(function (comm, idx) {
+			comm.addEventListener('submit', async function () {
+				const url = "/Comment/WriteComment/@Model.OfferId?comment=" + this.value;
+				try {
+					const response = await fetch(url);
+					const json = await response.json();
+					console.log(json);
+					//alert(json.success);
+				} catch (error) {
+					alert("error");
+				}
+
 			});
 		});
 	});

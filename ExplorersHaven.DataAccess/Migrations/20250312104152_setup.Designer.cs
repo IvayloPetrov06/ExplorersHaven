@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250312073355_setup")]
+    [Migration("20250312104152_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -129,6 +129,34 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.ToTable("Bookings");
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<int?>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
                     b.Property<int>("Id")
@@ -154,6 +182,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Rating")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("StayId")
@@ -663,6 +694,23 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Comment", b =>
+                {
+                    b.HasOne("Explorers_Haven.Models.Offer", "Offer")
+                        .WithMany("Comments")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Explorers_Haven.Models.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Offer");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
                     b.HasOne("Explorers_Haven.Models.Stay", "Stay")
@@ -797,6 +845,8 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     b.Navigation("Bookings");
 
+                    b.Navigation("Comments");
+
                     b.Navigation("Ratings");
 
                     b.Navigation("Travels");
@@ -812,6 +862,8 @@ namespace Explorers_Haven.DataAccess.Migrations
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>
                 {
                     b.Navigation("Bookings");
+
+                    b.Navigation("Comments");
 
                     b.Navigation("Offers");
 

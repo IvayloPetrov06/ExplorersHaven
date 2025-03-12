@@ -37,12 +37,13 @@ namespace Explorers_Haven.Controllers
         private readonly ITravelService _travelService;
         private readonly IStayService _stayService;
         private readonly IRatingService _ratingService;
+        private readonly ICommentService _commentService;
         IUserService userService;
 
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public HomeController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, IAmenityService amenityService, IRatingService ratingService, IStayService stayService,IOfferService offerService, IUserService userService)
+        public HomeController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, ICommentService commentService, IAmenityService amenityService, IRatingService ratingService, IStayService stayService,IOfferService offerService, IUserService userService)
         {
             _offerService = offerService;
             this.userService = userService;
@@ -51,6 +52,7 @@ namespace Explorers_Haven.Controllers
             _amenityService = amenityService;
             _stayService = stayService;
             _ratingService = ratingService;
+            _commentService = commentService;
 
             userManager = _userManager;
 
@@ -128,15 +130,7 @@ namespace Explorers_Haven.Controllers
             // View(offers);
             var tempOffer = await _offerService.GetOfferByIdAsync(id);
             var tempStay = await _stayService.GetStayByIdAsync(tempOffer.StayId.Value);
-            var tempRate = await _ratingService.GetAllRatingsAsync(x => x.OfferId == id);
             
-            int rates=0;
-            foreach (var r in tempRate)
-            {
-                rates += r.Stars;
-            }
-            decimal AverageRate =rates/tempRate.Count();
-            decimal ofst = Math.Round(AverageRate);
 
             var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
             .Select(x => new OfferPageViewModel()
@@ -146,14 +140,57 @@ namespace Explorers_Haven.Controllers
                 OfferPrice = x.Price,
                 OfferName = x.Name,
                 OfferDisc = x.Disc,
-                OfferRatingStars = ofst,
-                OfferRating = AverageRate,
                 StayName = tempStay.Name,
                 StayPic = tempStay.Image,
                 StayPrice = tempStay.Price,
                 StayDisc = tempStay.Disc,
                 UserId = x.UserId
             }).FirstOrDefault();
+            var tempRate = await _ratingService.GetAllRatingsAsync(x => x.OfferId == id);
+            var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == id);
+
+            //Comments=tempCom.ToList(),
+            if (tempRate.Count() != 0)
+            {
+                decimal rates = 0;
+                foreach (var r in tempRate)
+                {
+                    rates += r.Stars;
+                }
+                decimal AverageRate;
+                decimal ofst;
+                if (tempOffer.Rating != null)
+                {
+                    rates =+ tempOffer.Rating.Value;
+                    int countt = tempRate.Count() + 1;
+                    AverageRate = rates/ countt;
+                    ofst = Math.Round(AverageRate,2);
+                }
+                else 
+                {
+                    AverageRate = rates / tempRate.Count();
+                    ofst = Math.Round(AverageRate,2);
+                }
+                model.OfferRatingStars = ofst;
+                model.OfferRating = AverageRate;
+            }
+            else 
+            {
+                if (tempOffer.Rating != null)
+                {
+                    model.OfferRatingStars = Math.Round(tempOffer.Rating.Value);
+                    model.OfferRating = tempOffer.Rating;
+                }
+                else 
+                {
+                    model.OfferRatingStars = 3;
+                    model.OfferRating = 3;
+                }
+                
+            }
+            
+
+
             var tempActivities = _activityService.GetAll().ToList();
             foreach (var ac in tempActivities)
             {

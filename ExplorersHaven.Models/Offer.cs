@@ -18,6 +18,7 @@ namespace Explorers_Haven.Models
         public string? CoverImage { get; set; }
         public string? BackImage { get; set; }
         public decimal? Price { get; set; }
+        public decimal? Rating { get; set; }
         public int? Clicks { get; set; }
         public int? UserId { get; set; }
         public int? StayId { get; set; }
@@ -28,6 +29,7 @@ namespace Explorers_Haven.Models
         public ICollection<Travel>? Travels { get; set; }
         public ICollection<Booking>? Bookings { get; set; } = new List<Booking>();
         public ICollection<Rating>? Ratings { get; set; } = new List<Rating>();
+        public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
 
     }
 }

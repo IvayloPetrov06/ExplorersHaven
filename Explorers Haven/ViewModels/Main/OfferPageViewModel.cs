@@ -25,6 +25,7 @@ namespace Explorers_Haven.ViewModels.Main
         public List<Models.Amenity> Amenities { get; set; }
         public List<Models.Activity> Activities { get; set; }
         public List<Models.Travel> Travels { get; set; }
+        public List<Models.Comment> Comments { get; set; }
 
         public IFormFile? ImageFileOfferCover { get; set; }
         public SelectList? UserList { get; set; }
@@ -33,6 +34,7 @@ namespace Explorers_Haven.ViewModels.Main
         {
             Activities = new List<Models.Activity>(); // Initialize the list
             Travels = new List<Models.Travel>();
+            Comments = new List<Models.Comment>();
             Amenities = new List<Models.Amenity>();
         }
     }

@@ -154,6 +154,29 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.ToTable("Comments");
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Favorite", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("OfferId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Favorites");
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
                     b.Property<int>("Id")
@@ -708,6 +731,23 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Favorite", b =>
+                {
+                    b.HasOne("Explorers_Haven.Models.Offer", "Offer")
+                        .WithMany("Favorites")
+                        .HasForeignKey("OfferId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Explorers_Haven.Models.User", "User")
+                        .WithMany("Favorites")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("Offer");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Offer", b =>
                 {
                     b.HasOne("Explorers_Haven.Models.Stay", "Stay")
@@ -844,6 +884,8 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     b.Navigation("Comments");
 
+                    b.Navigation("Favorites");
+
                     b.Navigation("Ratings");
 
                     b.Navigation("Travels");
@@ -861,6 +903,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("Bookings");
 
                     b.Navigation("Comments");
+
+                    b.Navigation("Favorites");
 
                     b.Navigation("Offers");
 

@@ -8,7 +8,16 @@ using System.Threading.Tasks;
 
 namespace Explorers_Haven.Models
 {
-    internal class Favorites
+    public class Favorite
     {
+        [Key]
+        public int Id { get; set; }
+
+        public int? UserId { get; set; }
+
+        public int? OfferId { get; set; }
+
+        public User? User { get; set; }
+        public Offer? Offer { get; set; }
     }
 }

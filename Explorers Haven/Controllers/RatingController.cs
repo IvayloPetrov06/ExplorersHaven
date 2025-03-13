@@ -41,6 +41,8 @@ namespace Explorers_Haven.Controllers
 
             Offer o = await _offerService.GetOfferByIdAsync(id);
             //var tempRating = await
+
+            var existingRating = await _ratingService.GetRatingAsync(x => x.OfferId == id && x.UserId == user.Id);
             
             Rating b = new Rating()
             {
@@ -50,7 +52,23 @@ namespace Explorers_Haven.Controllers
                 User = user,
                 UserId = user.Id
             };
-            await _ratingService.AddRatingAsync(b);
+            if (existingRating != null)
+            {
+                b.Id = existingRating.Id;
+                try
+                {
+
+                    await _ratingService.UpdateRatingAsync(b);
+                }
+                catch (Exception e)
+                {
+                    var message = e.Message;
+                    throw e;
+                }
+            }
+            else { 
+                await _ratingService.AddRatingAsync(b);
+            }
             TempData["success"] = "Offer was rated!";
             var data = new { success = "Offer was rated!"};
             return Json(data);

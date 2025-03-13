@@ -76,7 +76,7 @@ namespace Explorers_Haven.DataAccess.Repository
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> filter)
         {
-            T entity = await _dbSet.FirstOrDefaultAsync(filter);
+            T entity = await _dbSet.AsNoTracking().FirstOrDefaultAsync(filter);
             return entity;
         }
 
@@ -93,8 +93,9 @@ namespace Explorers_Haven.DataAccess.Repository
 
         public async Task UpdateAsync(T entity)
         {
+            _context.ChangeTracker.Clear();
             _dbSet.Update(entity);
-            await SaveAsync();
+            await (_context.SaveChangesAsync());
         }
         /*
         public T Add(T entity)

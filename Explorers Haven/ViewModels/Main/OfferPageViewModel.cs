@@ -11,8 +11,11 @@ namespace Explorers_Haven.ViewModels.Main
         public int OfferId { get; set; }
         public string OfferName { get; set; }//OfferRating
         public decimal? OfferPrice { get; set; }
+        public decimal? OfferDays { get; set; }//
+        public DateOnly? OfferDates { get; set; }//
+        public decimal? OfferPeople { get; set; }//
         public string? OfferPic { get; set; }
-        public string OfferDisc { get; set; }
+        public string? OfferDisc { get; set; }
         public decimal? OfferRatingStars { get; set; }
         public decimal? OfferRating { get; set; }
 

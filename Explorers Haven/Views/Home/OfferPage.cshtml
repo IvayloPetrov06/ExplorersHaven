@@ -1,476 +1,18 @@
-﻿
-@using Explorers_Haven.ViewModels.Main
+﻿@using Explorers_Haven.ViewModels.Main
 @model OfferPageViewModel
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Model.OfferName - Explorers Haven</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
-        }
-
-        body {
-            background-color: #f5f5f5;
-            color: #333;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .offer-header {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 20px;
-        }
-
-        .offer-title {
-            font-size: 28px;
-            font-weight: 700;
-            color: #0f294d;
-            margin-bottom: 10px;
-        }
-
-        .offer-gallery {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            grid-gap: 10px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            overflow: hidden;
-            height: 400px;
-        }
-
-        .main-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .offer-details {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .offer-section {
-            display: flex;
-            justify-content: space-between;
-            padding: 15px 0;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-            .offer-section:last-child {
-                border-bottom: none;
-            }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 500;
-            color: #666;
-        }
-
-        .section-content {
-            font-size: 16px;
-            font-weight: 500;
-            color: #0f294d;
-        }
-
-        .price-section {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-        }
-
-        .price {
-            font-size: 24px;
-            font-weight: 700;
-            color: #ff5722;
-        }
-
-        .currency {
-            font-size: 16px;
-            color: #ff5722;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            margin: 20px 0;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            border: none;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #1677ff;
-            color: white;
-        }
-
-            .btn-primary:hover {
-                background-color: #0e5ecf;
-            }
-
-        .btn-secondary {
-            background-color: white;
-            color: #1677ff;
-            border: 1px solid #1677ff;
-        }
-
-            .btn-secondary:hover {
-                background-color: #f0f7ff;
-            }
-
-        .rating-container {
-            display: flex;
-            align-items: center;
-            margin: 10px 0;
-        }
-
-        .rating {
-            display: inline-flex;
-            margin-right: 10px;
-        }
-
-            .rating input {
-                display: none;
-            }
-
-            .rating label {
-                cursor: pointer;
-                color: #ddd;
-                transition: color 0.3s;
-            }
-
-                .rating label:before {
-                    content: '\2605';
-                    font-size: 24px;
-                }
-
-                .rating input:checked ~ label,
-                .rating label:hover,
-                .rating label:hover ~ label {
-                    color: #ff9800;
-                    transition: color 0.3s;
-                }
-
-        .rating-number {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0f294d;
-            margin-left: 10px;
-        }
-
-        .section-header {
-            font-size: 22px;
-            font-weight: 700;
-            color: #0f294d;
-            margin: 30px 0 15px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .travel-details {
-            display: flex;
-            align-items: center;
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .travel-point {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .travel-location {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0f294d;
-        }
-
-        .travel-date {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .travel-icon {
-            margin: 0 20px;
-            width: 40px;
-            height: 40px;
-        }
-
-        .travel-type {
-            font-size: 16px;
-            font-weight: 500;
-            color: #0f294d;
-            margin-left: 20px;
-        }
-
-        .activities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            grid-gap: 20px;
-            margin-top: 20px;
-        }
-
-        .activity-card {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            transition: transform 0.3s;
-        }
-
-            .activity-card:hover {
-                transform: translateY(-5px);
-            }
-
-        .activity-name {
-            font-size: 18px;
-            font-weight: 700;
-            color: #0f294d;
-            margin-bottom: 10px;
-        }
-
-        .comments-section {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 30px;
-        }
-
-        .comment-form {
-            display: flex;
-            margin-bottom: 20px;
-        }
-
-        .comment-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-            outline: none;
-        }
-
-            .comment-input:focus {
-                border-color: #1677ff;
-            }
-
-        .comment-submit {
-            padding: 12px 20px;
-            margin-left: 10px;
-            background-color: #1677ff;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-        }
-
-            .comment-submit:hover {
-                background-color: #0e5ecf;
-            }
-
-        .comment {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-            .comment:last-child {
-                border-bottom: none;
-                margin-bottom: 0;
-                padding-bottom: 0;
-            }
-
-        .profile-pic {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #1677ff;
-            margin-right: 15px;
-        }
-
-        .comment-content {
-            flex: 1;
-            font-size: 16px;
-            color: #333;
-        }
-
-        .stay-details {
-            background-color: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-
-        .stay-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .stay-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #0f294d;
-        }
-
-        .stay-stars {
-            color: #ff9800;
-            font-size: 20px;
-        }
-
-        .stay-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: #ff5722;
-            margin-top: 10px;
-        }
-
-        .stay-description {
-            color: #666;
-            margin: 10px 0;
-            line-height: 1.6;
-        }
-
-        .stay-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 15px;
-        }
-
-        /* From Uiverse.io by barisdogansutcu*/
-                .favorite-lable {
-            background-color: white;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 10px 15px 10px 10px;
-            cursor: pointer;
-            user-select: none;
-            border-radius: 10px;
-            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-            color: black;
-                }
-
-        input {
-            display: none;
-        }
-
-            input:checked + label svg {
-                fill: hsl(0deg 100% 50%);
-                stroke: hsl(0deg 100% 50%);
-                animation: heartButton 1s;
-            }
-
-        keyframes heartButton {
-            0%
-
-        {
-            transform: scale(1);
-        }
-
-        25% {
-            transform: scale(1.3);
-        }
-
-        50% {
-            transform: scale(1);
-        }
-
-        75% {
-            transform: scale(1.3);
-        }
-
-        100% {
-            transform: scale(1);
-        }
-
-        }
-
-        input + label .action {
-            position: relative;
-            overflow: hidden;
-            display: grid;
-        }
-
-            input + label .action span {
-                grid-column-start: 1;
-                grid-column-end: 1;
-                grid-row-start: 1;
-                grid-row-end: 1;
-                transition: all .5s;
-            }
-
-                input + label .action span.option-1 {
-                    transform: translate(0px,0%);
-                    opacity: 1;
-                }
-
-        input:checked + label .action span.option-1 {
-            transform: translate(0px,-100%);
-            opacity: 0;
-        }
-
-        input + label .action span.option-2 {
-            transform: translate(0px,100%);
-            opacity: 0;
-        }
-
-        input:checked + label .action span.option-2 {
-            transform: translate(0px,0%);
-            opacity: 1;
-        }
-
-    </style>
 </head>
 <body>
-    <div class="container">
-        <div class="offer-header">
-            <h1 class="offer-title">@Model.OfferName</h1>
-            <div class="rating-container">
-                <div class="rating">
+    <div>
+        <div>
+            <h1>@Model.OfferName</h1>
+            <div>
+                <div>
                     @if (Model.OfferRatingStars == 5)
                     {
                         <input value="5" name="rating" id="star5" type="radio" checked>
@@ -517,48 +59,75 @@
                     }
                     <label for="star1"></label>
                 </div>
-                <span class="rating-number">@Model.OfferRating</span>
+                <span>@Model.OfferRating</span>
             </div>
         </div>
-        @*favorite*@
-        <div class="favorite-checkbox1">
-        <input type="checkbox" id="favorite" name="favorite-checkbox" value="favorite-button">
-        <label class="favorite-lable" for="favorite" class="container">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-            <div class="action">
-                <span class="option-1">Add to Favorites</span>
-                <span class="option-2">Added to Favorites</span>
-            </div>
-        </label>
-        </div>
 
-        <div class="offer-gallery">
-            <img src="@Model.OfferPic" alt="@Model.OfferName" class="main-image">
-        </div>
-
-        <div class="offer-details">
-            <div class="offer-section">
-                <div class="section-title">Description</div>
-                <div class="section-content">@Model.OfferDisc</div>
-            </div>
-
-            <div class="price-section">
+        <div>
+            <input type="checkbox" id="favorite" name="favorite-checkbox" value="favorite-button">
+            <label for="favorite">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                 <div>
-                    <div class="section-title">Price per person</div>
-                    <div class="price">@Model.OfferPrice <span class="currency">лв</span></div>
+                    <span>Add to Favorites</span>
+                    <span>Added to Favorites</span>
                 </div>
-                <div class="action-buttons">
-                    <a href="/Booking/Book/@Model.OfferId" class="btn btn-primary">Book Now</a>
-                    <a href="/Booking/Cancel/@Model.OfferId" class="btn btn-secondary">Cancel</a>
+            </label>
+        </div>
+
+        <div>
+            <img src="@Model.OfferPic" alt="@Model.OfferName">
+        </div>
+
+        <div>
+            <div>
+                <div>Description</div>
+                <div>@Model.OfferDisc</div>
+            </div>
+
+            <div>
+                <div>
+                    <div>Price per person</div>
+                    <div>@Model.OfferPrice лв</div>
                 </div>
+                <form method="post" action="/Booking/Book">
+                    <!-- Hidden field for offer ID -->
+                    <input type="hidden" name="id" value="@Model.OfferId" />
+
+                    <!-- People Count Input -->
+                    <label for="ppl">People Count:</label>
+                    <input type="number" id="ppl" name="ppl" required min="1" />
+
+                    <br>
+
+                    <!-- Discounted People Count Input -->
+                    <label for="discppl">Discounted People Count:</label>
+                    <input type="number" id="discppl" name="discppl" required min="0" />
+
+                    <br>
+
+                    <!-- Start Date Input -->
+                    <label for="st">Start Date:</label>
+                    <input type="date" id="st" name="st" required />
+
+                    <br><br>
+
+                    <!-- Submit Button -->
+                    <button type="submit">Book Now</button>
+                </form>
+                <form method="post" enctype="multipart/form-data">
+                <div>
+                    <a href="/Booking/Book/@Model.OfferId">Book Now</a>
+                    <a href="/Booking/Cancel/@Model.OfferId">Cancel</a>
+                </div>
+                <</form>/>
             </div>
         </div>
 
-        <h2 class="section-header">Accommodation Details</h2>
-        <div class="stay-details">
-            <div class="stay-header">
-                <h3 class="stay-title">@Model.StayName</h3>
-                <div class="stay-stars">
+        <h2>Accommodation Details</h2>
+        <div>
+            <div>
+                <h3>@Model.StayName</h3>
+                <div>
                     @for (int i = 0; i < Model.StayStars; i++)
                     {
                         <span>★</span>
@@ -566,57 +135,60 @@
                 </div>
             </div>
 
-            <p class="stay-description">@Model.StayDisc</p>
-            <div class="stay-price">@Model.StayPrice <span class="currency">лв</span></div>
-            <img src="@Model.StayPic" alt="@Model.StayName" class="stay-image">
+            <p>@Model.StayDisc</p>
+            <div>@Model.StayPrice лв</div>
+            <img src="@Model.StayPic" alt="@Model.StayName">
         </div>
 
-        <h2 class="section-header">Travel Details</h2>
+        <h2>Travel Details</h2>
         @foreach (var a in Model.Travels)
         {
-            <div class="travel-details">
-                <div class="travel-point">
-                    <div class="travel-location">@a.Start</div>
-                    <div class="travel-date">@a.DateStart.ToString()</div>
+            <div>
+                <div>
+                    <div>@a.Start</div>
+                    <div>@a.DateStart.ToString()</div>
                 </div>
-                <img class="travel-icon" src="/Images/Plane.svg" alt="Plane" />
-                <div class="travel-point">
-                    <div class="travel-location">@a.Finish</div>
-                    <div class="travel-date">@a.DateFinish</div>
+                <img src="/Images/Plane.svg" alt="Plane" />
+                <div>
+                    <div>@a.Finish</div>
+                    <div>@a.DateFinish</div>
                 </div>
-                <div class="travel-type">@a.Transport</div>
+                <div>@a.Transport</div>
             </div>
         }
 
-        <h2 class="section-header">Activities</h2>
-        <div class="activities-grid">
+        <h2>Activities</h2>
+        <div>
             @foreach (var a in Model.Activities)
             {
-                <div class="activity-card">
-                    <h3 class="activity-name">@a.Name</h3>
+                <div>
+                    <h3>@a.CoverImage</h3>
+                </div>
+                <div>
+                    <h3>@a.Name</h3>
                 </div>
             }
         </div>
 
-        <div class="comments-section">
-            <h2 class="section-header">Reviews</h2>
-            <form id="commentForm" method="POST" class="comment-form">
-                <input type="text" id="userInput" name="userInput" placeholder="Share your experience..." class="comment-input" />
-                <button type="submit" class="comment-submit">Submit</button>
+        <div>
+            <h2>Reviews</h2>
+            <form id="commentForm" method="POST">
+                <input type="text" id="userInput" name="userInput" placeholder="Share your experience..." />
+                <button type="submit">Submit</button>
             </form>
 
             <div id="commentsSection">
                 @foreach (var a in Model.Comments)
                 {
-                    <div class="comment">
+                    <div>
                         @foreach (var u in Model.Users)
                         {
                             if (u.Id == a.UserId)
                             {
-                                <img src="@u.ProfilePicture" class="profile-pic">
+                                <img src="@u.ProfilePicture">
                             }
                         }
-                        <div class="comment-content">@a.Content</div>
+                        <div>@a.Content</div>
                     </div>
                 }
             </div>
@@ -624,6 +196,7 @@
     </div>
 
     <script>
+        if(false) {
         $(document).ready(function() {
             var stars = document.querySelector(".rating").querySelectorAll("input");
 
@@ -640,15 +213,11 @@
                 });
             });
 
-            
-           
-
             document.querySelector("#commentForm").addEventListener("submit", async function(event) {
                 event.preventDefault();
 
                 const comment = document.querySelector("#userInput").value;
                 const offerId = @Model.OfferId;
-                const rating = 3;
                 const url = `/Comment/WriteComment/${offerId}?comment=${encodeURIComponent(comment)}`;
 
                 try {
@@ -663,14 +232,11 @@
 
                     if (json.success) {
                         const commentDiv = document.createElement("div");
-                        commentDiv.classList.add("comment");
 
                         const profilePic = document.createElement("img");
                         profilePic.src = json.profilePicture;
-                        profilePic.classList.add("profile-pic");
 
                         const commentContent = document.createElement("div");
-                        commentContent.classList.add("comment-content");
                         commentContent.textContent = json.commentContent;
 
                         commentDiv.appendChild(profilePic);
@@ -689,5 +255,6 @@
                 }
             });
         });
+        }
     </script>
 </body>

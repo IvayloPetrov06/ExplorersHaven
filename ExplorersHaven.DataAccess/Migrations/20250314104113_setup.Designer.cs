@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250313105624_setup")]
+    [Migration("20250314104113_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -32,6 +32,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CoverImage")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -117,7 +120,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int?>("OfferId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PeopleCount")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly?>("StartDate")
+                        .HasColumnType("date");
+
                     b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("YoungOldPeopleCount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -200,6 +212,18 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<string>("Disc")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DurationDays")
+                        .HasColumnType("int");
+
+                    b.Property<DateOnly?>("LastDate")
+                        .HasColumnType("date");
+
+                    b.Property<int?>("MaxPeople")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -209,6 +233,9 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     b.Property<decimal?>("Rating")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateOnly?>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<int?>("StayId")
                         .HasColumnType("int");
@@ -360,6 +387,44 @@ namespace Explorers_Haven.DataAccess.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Explorers_Haven.Models.Transport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transports");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Plane"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Train"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Boat"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Plane"
+                        });
+                });
+
             modelBuilder.Entity("Explorers_Haven.Models.Travel", b =>
                 {
                     b.Property<int>("Id")
@@ -385,13 +450,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Transport")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("TransportId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OfferId");
+
+                    b.HasIndex("TransportId");
 
                     b.ToTable("Travels");
 
@@ -404,7 +470,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
-                            Transport = "Plane"
+                            TransportId = 1
                         },
                         new
                         {
@@ -414,7 +480,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Finish = "Sofia",
                             OfferId = 1,
                             Start = "Cairo",
-                            Transport = "Plane"
+                            TransportId = 1
                         },
                         new
                         {
@@ -422,7 +488,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Finish = "Warsaw",
                             OfferId = 2,
                             Start = "Sofia",
-                            Transport = "Plane"
+                            TransportId = 1
                         },
                         new
                         {
@@ -430,7 +496,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Finish = "Sofia",
                             OfferId = 2,
                             Start = "Warsaw",
-                            Transport = "Plane"
+                            TransportId = 1
                         },
                         new
                         {
@@ -438,7 +504,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Finish = "Berlin",
                             OfferId = 3,
                             Start = "Sofia",
-                            Transport = "Plane"
+                            TransportId = 1
                         },
                         new
                         {
@@ -446,7 +512,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Finish = "Sofia",
                             OfferId = 3,
                             Start = "Berlin",
-                            Transport = "Plane"
+                            TransportId = 1
                         });
                 });
 
@@ -809,7 +875,15 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Explorers_Haven.Models.Transport", "Transport")
+                        .WithMany("Travels")
+                        .HasForeignKey("TransportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Offer");
+
+                    b.Navigation("Transport");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>
@@ -899,6 +973,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("Offers");
 
                     b.Navigation("StayAmenities");
+                });
+
+            modelBuilder.Entity("Explorers_Haven.Models.Transport", b =>
+                {
+                    b.Navigation("Travels");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>

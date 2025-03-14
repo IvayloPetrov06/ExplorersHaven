@@ -26,15 +26,56 @@ namespace Explorers_Haven.DataAccess
         public DbSet<Offer> Offers { get; set; }
         //public DbSet<Trip> Trips { get; set; }
         public DbSet<Travel> Travels { get; set; }
+        public DbSet<Transport> Transports { get; set; }
         public DbSet<Stay> Stays { get; set; }
         public DbSet<Activity> Activites { get; set; }
 
         public DbSet<Booking> Bookings { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        /*public async Task Seed()
         {
+            if (!Transports.Any())
+            {
+                Transports.AddRange(
+                    new Transport { Name = "Plane" },
+                    new Transport { Name = "Train" },
+                    new Transport { Name = "Ferry" },
+                    new Transport { Name = "Custom" }
+                );
+                await SaveChangesAsync();
+
+            }
+        }*/
+        protected async override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            //await this.Seed();
             //offer 1
-           modelBuilder.Entity<Offer>().HasData(
+            modelBuilder.Entity<Transport>().HasData(
+                new Transport
+                {
+                    Id = 1,
+                    Name = "Plane"
+                });
+            modelBuilder.Entity<Transport>().HasData(
+                new Transport
+                {
+                    Id = 2,
+                    Name = "Train"
+                });
+            modelBuilder.Entity<Transport>().HasData(
+                new Transport
+                {
+                    Id = 3,
+                    Name = "Boat"
+                });
+            modelBuilder.Entity<Transport>().HasData(
+                new Transport
+                {
+                    Id = 4,
+                    Name = "Plane"
+                });
+
+            modelBuilder.Entity<Offer>().HasData(
                 new Offer {
                     Id = 1,
                     Name ="Egypt",
@@ -52,8 +93,9 @@ namespace Explorers_Haven.DataAccess
                     Finish = "Cairo",
                     DateStart = new DateTime(2025, 3, 9,6,30,0),
                     DateFinish = new DateTime(2025, 3, 10,8,30,0),
-                    Transport = "Plane",
-                    OfferId = 1 }
+                    OfferId = 1,
+                    TransportId = 1
+                }
                 );
             modelBuilder.Entity<Travel>().HasData(
                 new Travel {
@@ -62,8 +104,9 @@ namespace Explorers_Haven.DataAccess
                     Finish = "Sofia",
                     DateStart = new DateTime(2025, 3, 15,12,0,0),
                     DateFinish = new DateTime(2025, 3, 16,14,0,0),
-                    Transport = "Plane",
-                    OfferId = 1 }
+                    OfferId = 1,
+                    TransportId = 1
+                }
                 );
             modelBuilder.Entity<Stay>().HasData(
                 new Stay {
@@ -102,10 +145,10 @@ namespace Explorers_Haven.DataAccess
                 new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 20 , StayId = 2}
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 3, Start = "Sofia", Finish = "Warsaw", Transport = "Plane", OfferId = 2 }
+                new Travel { Id = 3, Start = "Sofia", Finish = "Warsaw", OfferId = 2, TransportId =1  }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 4, Start = "Warsaw", Finish = "Sofia", Transport = "Plane", OfferId = 2 }
+                new Travel { Id = 4, Start = "Warsaw", Finish = "Sofia", OfferId = 2, TransportId =1  }
                 );
             modelBuilder.Entity<Stay>().HasData(
                 new Stay { Id = 2, Name = "InterContinental Warsaw Hotel"}
@@ -119,10 +162,10 @@ namespace Explorers_Haven.DataAccess
                 new Offer { Id = 3, Name = "Germany",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", Price = 500,StayId=3 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 5, Start = "Sofia", Finish = "Berlin", Transport = "Plane", OfferId = 3 }
+                new Travel { Id = 5, Start = "Sofia", Finish = "Berlin", OfferId = 3, TransportId = 1 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 6, Start = "Berlin", Finish = "Sofia", Transport = "Plane", OfferId = 3 }
+                new Travel { Id = 6, Start = "Berlin", Finish = "Sofia", OfferId = 3, TransportId = 1 }
                 );
             modelBuilder.Entity<Stay>().HasData(
                 new Stay { Id = 3, Name = "Mitte Hotel" }
@@ -207,17 +250,17 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Travel>(b =>
             {
 
-                b.HasKey(e => e.Id);
+                //b.HasKey(e => e.Id);
 
 
-                b.Property(e => e.Start)
-                 .IsRequired();
+                //b.Property(e => e.Start)
+                // .IsRequired();
 
-                b.Property(e => e.Finish)
-                 .IsRequired();
+                //b.Property(e => e.Finish)
+                // .IsRequired();
 
-                b.Property(e => e.Transport)
-                 .IsRequired();
+                //b.Property(e => e.Transport)
+                // .IsRequired();
 
 
                 b.HasOne(e => e.Offer)
@@ -225,7 +268,19 @@ namespace Explorers_Haven.DataAccess
                 .HasForeignKey(e => e.OfferId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+                b.HasOne(e => e.Transport)  // This is the navigation property
+                 .WithMany(t => t.Travels)
+                 .HasForeignKey(e => e.TransportId)
+                 .OnDelete(DeleteBehavior.Restrict);
             });
+
+            modelBuilder.Entity<Transport>()
+                .HasMany(e => e.Travels)
+                .WithOne(b => b.Transport)
+                .HasForeignKey(e => e.TransportId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+
 
             modelBuilder.Entity<Offer>(b =>
             {
@@ -320,17 +375,6 @@ namespace Explorers_Haven.DataAccess
 
             base.OnModelCreating(modelBuilder);
         }
-        /*public async Task Seed()
-        {
-            if (!Amenities.Any())
-            {
-                Amenities.AddRange(
-                    new Amenity { Name = "Zakuska" }
-                    
-                );
-                await SaveChangesAsync();
-
-            }
-        }*/
+        
     }
 }

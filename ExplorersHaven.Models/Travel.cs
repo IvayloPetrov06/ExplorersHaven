@@ -12,14 +12,17 @@ namespace Explorers_Haven.Models
     {
         [Key]
         public int Id { get; set; }
+
         [Required]
         public string Start { get; set; }
         public string Finish { get; set; }
 
         public DateTime? DateStart { get; set; }
         public DateTime? DateFinish { get; set; }
-        public string? Transport { get; set; }
 
+
+        public int TransportId { get; set; }
+        public Transport Transport { get; set; }
 
         public int OfferId { get; set; }
         public Offer Offer { get; set; }

@@ -84,6 +84,19 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Transports",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transports", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -245,6 +258,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaxPeople = table.Column<int>(type: "int", nullable: true),
+                    Discount = table.Column<int>(type: "int", nullable: true),
+                    DurationDays = table.Column<int>(type: "int", nullable: true),
+                    StartDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    LastDate = table.Column<DateOnly>(type: "date", nullable: true),
                     Disc = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BackImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -277,6 +295,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -296,6 +315,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    PeopleCount = table.Column<int>(type: "int", nullable: true),
+                    YoungOldPeopleCount = table.Column<int>(type: "int", nullable: true),
+                    StartDate = table.Column<DateOnly>(type: "date", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     OfferId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -402,7 +424,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Finish = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateStart = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DateFinish = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Transport = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TransportId = table.Column<int>(type: "int", nullable: false),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -412,6 +434,12 @@ namespace Explorers_Haven.DataAccess.Migrations
                         name: "FK_Travels_Offers_OfferId",
                         column: x => x.OfferId,
                         principalTable: "Offers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Travels_Transports_TransportId",
+                        column: x => x.TransportId,
+                        principalTable: "Transports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -432,13 +460,24 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Offers",
-                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Name", "Price", "Rating", "StayId", "UserId" },
+                table: "Transports",
+                columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", "Egypt", 100m, null, 1, null },
-                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, "Poland", 20m, null, 2, null },
-                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, "Germany", 500m, null, 3, null }
+                    { 1, "Plane" },
+                    { 2, "Train" },
+                    { 3, "Boat" },
+                    { 4, "Plane" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Offers",
+                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Discount", "DurationDays", "LastDate", "MaxPeople", "Name", "Price", "Rating", "StartDate", "StayId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", null, null, null, null, "Egypt", 100m, null, null, 1, null },
+                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, null, null, null, null, "Poland", 20m, null, null, 2, null },
+                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, null, null, null, null, "Germany", 500m, null, null, 3, null }
                 });
 
             migrationBuilder.InsertData(
@@ -448,27 +487,27 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Activites",
-                columns: new[] { "Id", "Name", "OfferId" },
+                columns: new[] { "Id", "CoverImage", "Name", "OfferId" },
                 values: new object[,]
                 {
-                    { 1, "Camel riding", 1 },
-                    { 2, "Sightseeing", 1 },
-                    { 3, "Sightseeing", 2 },
-                    { 4, "Sightseeing", 3 },
-                    { 5, "Archery", 3 }
+                    { 1, null, "Camel riding", 1 },
+                    { 2, null, "Sightseeing", 1 },
+                    { 3, null, "Sightseeing", 2 },
+                    { 4, null, "Sightseeing", 3 },
+                    { 5, null, "Archery", 3 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Travels",
-                columns: new[] { "Id", "DateFinish", "DateStart", "Finish", "OfferId", "Start", "Transport" },
+                columns: new[] { "Id", "DateFinish", "DateStart", "Finish", "OfferId", "Start", "TransportId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", "Plane" },
-                    { 2, new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", "Plane" },
-                    { 3, null, null, "Warsaw", 2, "Sofia", "Plane" },
-                    { 4, null, null, "Sofia", 2, "Warsaw", "Plane" },
-                    { 5, null, null, "Berlin", 3, "Sofia", "Plane" },
-                    { 6, null, null, "Sofia", 3, "Berlin", "Plane" }
+                    { 1, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", 1 },
+                    { 2, new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", 1 },
+                    { 3, null, null, "Warsaw", 2, "Sofia", 1 },
+                    { 4, null, null, "Sofia", 2, "Warsaw", 1 },
+                    { 5, null, null, "Berlin", 3, "Sofia", 1 },
+                    { 6, null, null, "Sofia", 3, "Berlin", 1 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -581,6 +620,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                 column: "OfferId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Travels_TransportId",
+                table: "Travels",
+                column: "TransportId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_UserIdentityId",
                 table: "Users",
                 column: "UserIdentityId",
@@ -634,6 +678,9 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Offers");
+
+            migrationBuilder.DropTable(
+                name: "Transports");
 
             migrationBuilder.DropTable(
                 name: "Stays");

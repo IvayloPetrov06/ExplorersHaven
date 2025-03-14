@@ -12,7 +12,15 @@ namespace Explorers_Haven.Models
     {
         [Key]
         public int Id { get; set; }
+        public int? PeopleCount {  get; set; }
+        public int? YoungOldPeopleCount { get; set; }
+        public DateOnly? StartDate { get; set; }
 
+        /*public int? MaxPeople { get; set; }
+        public int? Discount { get; set; }
+        public int? DurationDays { get; set; }
+        public DateOnly? StartDate { get; set; }
+        public DateOnly? LastDate { get; set; }*/
         public int? UserId { get; set; }
 
         public int? OfferId { get; set; }

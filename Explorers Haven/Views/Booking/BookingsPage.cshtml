@@ -1,5 +1,5 @@
-﻿@using Explorers_Haven.ViewModels.Offer
-@model OfferFilterViewModel
+﻿@using Explorers_Haven.ViewModels.Booking
+@model BookingFilterViewModel
 <div class="albums-header">
     <h1 class="albums-title">Оферти</h1>
     <form>
@@ -15,46 +15,25 @@
 <div class="albums-container">
     <h2 class="page-title">Offers</h2>
     <div class="albums-grid">
-        @foreach (var offer in Model.Offers)
+        @foreach (var offer in Model.Bookings)
         {
             <div class="album-card">
                 <div class="album-cover">
-                    <img src="@offer.CoverImage" alt="@offer.Name">
+                    <img src="@offer.OfferCoverImage" alt="@offer.OfferName">
                     <h3 class="album-title">@offer.Price</h3>
-                    @*<div class="play-overlay">
-                        <button class="play-button"><i class="fas fa-play"></i></button>
-                    </div>*@
                 </div>
                 <div class="album-info">
-                    <h3 class="album-title">@offer.Name</h3>@*<i class="fas fa-trash"></i>*@
-                    <a class="btn btn-view" asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="offer_page_btn">View</a>
+                    <h3 class="album-title">@offer.OfferName ofn</h3>@*<i class="fas fa-trash"></i>*@
+                    <h3 class="album-title">@offer.PeopleCount ppl</h3>
+                    <h3 class="album-title">@offer.StartDate stdate</h3>
+                    <h3 class="album-title">@offer.Price lv</h3>
+                    <h3 class="album-title">@offer.YoungOldPeopleCount yngoldppl</h3>
                 </div>
             </div>
         }
     </div>
 </div>
-<h2 class="page-title">Cheapest Offers</h2>
-<div class="albums-container">
 
-    <div class="albums-grid">
-        @foreach (var offer in Model.Cheapest_Offers)
-        {
-            <div class="album-card">
-                <div class="album-cover">
-                    <img src="@offer.CoverImage" alt="@offer.Name">
-                    @*<div class="play-overlay">
-                        <button class="play-button"><i class="fas fa-play"></i></button>
-                    </div>*@
-                </div>
-                <div class="album-info">
-                    <h3 class="album-title">@offer.Name</h3>@*<i class="fas fa-trash"></i>*@
-                    <h3 class="album-title">@offer.Price</h3>
-                    <a class="btn btn-view" asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="offer_page_btn">View</a>
-                </div>
-            </div>
-        }
-    </div>
-</div>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 

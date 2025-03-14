@@ -12,10 +12,11 @@ namespace Explorers_Haven.Models
     {
         [Key]
         public int Id { get; set; }
-        public int? PeopleCount {  get; set; }
+        public decimal? PeopleCount {  get; set; }
         public int? YoungOldPeopleCount { get; set; }
         public DateOnly? StartDate { get; set; }
-
+        public decimal? Price { get; set; }
+        public string? OfferName { get; set; }
         /*public int? MaxPeople { get; set; }
         public int? Discount { get; set; }
         public int? DurationDays { get; set; }

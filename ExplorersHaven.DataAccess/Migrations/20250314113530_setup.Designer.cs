@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250314104113_setup")]
+    [Migration("20250314113530_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -120,8 +120,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int?>("OfferId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PeopleCount")
-                        .HasColumnType("int");
+                    b.Property<string>("OfferName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("PeopleCount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateOnly?>("StartDate")
                         .HasColumnType("date");

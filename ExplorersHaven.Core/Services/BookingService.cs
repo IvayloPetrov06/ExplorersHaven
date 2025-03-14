@@ -49,6 +49,7 @@ namespace Explorers_Haven.Core.Services
         {
             return _bookingService.GetAll();
         }
+        
 
         public async Task<IEnumerable<Booking>> GetAllBookingsAsync(Expression<Func<Booking, bool>> filter)
         {

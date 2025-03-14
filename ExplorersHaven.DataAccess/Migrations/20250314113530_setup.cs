@@ -315,9 +315,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PeopleCount = table.Column<int>(type: "int", nullable: true),
+                    PeopleCount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     YoungOldPeopleCount = table.Column<int>(type: "int", nullable: true),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    OfferName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     OfferId = table.Column<int>(type: "int", nullable: true)
                 },

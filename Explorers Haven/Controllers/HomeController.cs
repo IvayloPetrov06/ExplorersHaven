@@ -38,13 +38,19 @@ namespace Explorers_Haven.Controllers
         private readonly IStayService _stayService;
         private readonly IRatingService _ratingService;
         private readonly ICommentService _commentService;
+        private readonly IFavoriteService _favoriteService;
+        private readonly ITransportService _transportService;
+        private readonly IBookingService _bookingService;
         IUserService userService;
 
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public HomeController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, ICommentService commentService, IAmenityService amenityService, IRatingService ratingService, IStayService stayService,IOfferService offerService, IUserService userService)
+        public HomeController(IBookingService bookingService, IFavoriteService favoriteService, ITransportService transportService,UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, ICommentService commentService, IAmenityService amenityService, IRatingService ratingService, IStayService stayService,IOfferService offerService, IUserService userService)
         {
+            _bookingService = bookingService;
+            _transportService = transportService;
+            _favoriteService=favoriteService;
             _offerService = offerService;
             this.userService = userService;
             _activityService = activyService;
@@ -131,7 +137,7 @@ namespace Explorers_Haven.Controllers
             var tempOffer = await _offerService.GetOfferByIdAsync(id);
             var commUsers = await userService.GetAllUsersAsync();
             var tempStay = await _stayService.GetStayByIdAsync(tempOffer.StayId.Value);
-
+            var transports = await _transportService.GetAllTransportsAsync();
             
             var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
             .Select(x => new OfferPageViewModel()
@@ -146,9 +152,32 @@ namespace Explorers_Haven.Controllers
                 StayPrice = tempStay.Price,
                 StayDisc = tempStay.Disc,
                 Users= commUsers.ToList(),
-                UserId = x.UserId
+                UserId = x.UserId,
+                Transports=transports.ToList()//booking
+
             }).FirstOrDefault();
+            var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+            User userModel = await userService.GetUserAsync(x => x.Email == tempUser.Email);
+            var fav = await _favoriteService.GetFavoriteAsync(x=>x.OfferId==tempOffer.Id&&x.UserId == userModel.Id);
+            if (fav == null)
+            {
+                model.IsFavorited = false;
+            }
+            else
+            { 
+            model.IsFavorited= true;
+            }
+            var bo = await _bookingService.GetBookingAsync(x => x.OfferId == tempOffer.Id && x.UserId == userModel.Id);
+            if (bo == null)
+            {
+                model.IsBooked = false;
+            }
+            else
+            {
+                model.IsBooked = true;
+            }
             var tempRate = await _ratingService.GetAllRatingsAsync(x => x.OfferId == id);
+            model.Ratings = tempRate.ToList();
             var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == id);
             model.Comments=tempCom.ToList();
             //Comments=tempCom.ToList(),
@@ -174,6 +203,7 @@ namespace Explorers_Haven.Controllers
                     ofst = Math.Round(AverageRate,2);
                 }
                 model.OfferRatingStars = ofst;
+                model.StayStars = ofst;
                 model.OfferRating = AverageRate;
             }
             else 
@@ -181,11 +211,13 @@ namespace Explorers_Haven.Controllers
                 if (tempOffer.Rating != null)
                 {
                     model.OfferRatingStars = Math.Round(tempOffer.Rating.Value);
+                    model.StayStars = model.OfferRatingStars;
                     model.OfferRating = tempOffer.Rating;
                 }
                 else 
                 {
                     model.OfferRatingStars = 3;
+                    model.StayStars = model.OfferRatingStars;
                     model.OfferRating = 3;
                 }
                 

@@ -45,25 +45,28 @@ namespace Explorers_Haven.Controllers
             User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
 
             Offer offer = await _offerService.GetOfferByIdAsync(id);
-
-            Comment newComment = new Comment()
+            var com = await _commentService.GetCommentAsync(x => x.UserId == user.Id&&x.OfferId == offer.Id);
+            if (com == null)
             {
-                OfferId = id,
-                Offer = offer,
-                Content = comment,
-                User = user,
-                UserId = user.Id
-            };
+                Comment newComment = new Comment()
+                {
+                    OfferId = id,
+                    Offer = offer,
+                    Content = comment,
+                    User = user,
+                    UserId = user.Id
+                };
 
-            await _commentService.AddCommentAsync(newComment);
-
-            return Json(new
+                await _commentService.AddCommentAsync(newComment);
+                return RedirectToAction("OfferPage","Home", new { Id = id });
+            }
+            else 
             {
-                success = true,
-                message = "Comment added successfully!",
-                commentContent = comment,
-                profilePicture = user.ProfilePicture // Assuming user has a ProfilePicture field
-            });
+                com.Content = comment;
+                await _commentService.UpdateCommentAsync(com);
+                return RedirectToAction("OfferPage", "Home", new { Id = id});
+            }
+           
             /*if (comment == null)
             {
                 return Ok(new { message = "Cant add empty comments!" });

@@ -70,8 +70,7 @@ namespace Explorers_Haven.Controllers
                 await _ratingService.AddRatingAsync(b);
             }
             TempData["success"] = "Offer was rated!";
-            var data = new { success = "Offer was rated!"};
-            return Json(data);
+            return RedirectToAction("OfferPage", "Home", new { Id = id });
             //return RedirectToAction("OfferPage", "Home");
         }
         public IActionResult Index()

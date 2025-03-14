@@ -58,18 +58,12 @@ namespace Explorers_Haven.Controllers
                 };
 
                 await _favoriteService.AddFavoriteAsync(newFavorite);
-                var data = new { success = "Offer was favorited!" };
-                return Json(data);
-            }
-            if (fav != null)
-            { 
-            await _favoriteService.DeleteFavoriteAsync(fav);
-                var data = new { success = "Existing offer favorite as deleted!" };
-                return Json(data);
+                return RedirectToAction("OfferPage", "Home", new { Id = id });
             }
             else
-            {
-                return Json(new { success = false, message = "Action could not be performed." });
+            { 
+                await _favoriteService.DeleteFavoriteAsync(fav);
+                return RedirectToAction("OfferPage", "Home", new { Id = id });
             }
         }
     }

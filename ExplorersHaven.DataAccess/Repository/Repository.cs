@@ -76,7 +76,7 @@ namespace Explorers_Haven.DataAccess.Repository
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> filter)
         {
-            T entity = await _dbSet.FirstOrDefaultAsync(filter);
+            T entity = await _dbSet.AsNoTracking().FirstOrDefaultAsync(filter);
             return entity;
         }
 

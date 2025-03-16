@@ -41,13 +41,15 @@ namespace Explorers_Haven.Controllers
         private readonly IFavoriteService _favoriteService;
         private readonly ITransportService _transportService;
         private readonly IBookingService _bookingService;
+        private readonly IStayAmenityService _StayAmenityService;
         IUserService userService;
 
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public HomeController(IBookingService bookingService, IFavoriteService favoriteService, ITransportService transportService,UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, ICommentService commentService, IAmenityService amenityService, IRatingService ratingService, IStayService stayService,IOfferService offerService, IUserService userService)
+        public HomeController(IStayAmenityService StayAmenityService,IBookingService bookingService, IFavoriteService favoriteService, ITransportService transportService,UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, ICommentService commentService, IAmenityService amenityService, IRatingService ratingService, IStayService stayService,IOfferService offerService, IUserService userService)
         {
+            _StayAmenityService = StayAmenityService;
             _bookingService = bookingService;
             _transportService = transportService;
             _favoriteService=favoriteService;
@@ -128,12 +130,7 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> OfferPage(int id)
         {
-            //var trav = _offerService.GetOfferByIdAsync(Id);
-            //if (trav == null) { return NotFound(); }
-            //return View(trav);
-            //Offer offers = await _offerService.GetOfferByIdAsync(Id);
-            //if (offers == null) { return NotFound(); }
-            // View(offers);
+            //isBook
             var tempOffer = await _offerService.GetOfferByIdAsync(id);
             var commUsers = await userService.GetAllUsersAsync();
             var tempStay = await _stayService.GetStayByIdAsync(tempOffer.StayId.Value);
@@ -142,6 +139,11 @@ namespace Explorers_Haven.Controllers
             var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
             .Select(x => new OfferPageViewModel()
             {
+                OfferDiscount = x.Discount,
+                OfferPeople = x.MaxPeople,
+                OfferDays = x.DurationDays,
+                OfferStart = x.StartDate,
+                OfferLast = x.LastDate,
                 OfferId = tempOffer.Id,
                 OfferPic = x.BackImage,
                 OfferPrice = x.Price,
@@ -151,11 +153,20 @@ namespace Explorers_Haven.Controllers
                 StayPic = tempStay.Image,
                 StayPrice = tempStay.Price,
                 StayDisc = tempStay.Disc,
-                Users= commUsers.ToList(),
+                StayStars = tempStay.Stars,
+                Users = commUsers.ToList(),
                 UserId = x.UserId,
-                Transports=transports.ToList()//booking
-
+                Transports=transports.ToList(),
             }).FirstOrDefault();
+
+            if (tempOffer.Discount != null)
+            {
+                model.IsOnDiscount = true;
+            }
+            else 
+            {
+                model.IsOnDiscount = false;
+            }
             var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
             User userModel = await userService.GetUserAsync(x => x.Email == tempUser.Email);
             var fav = await _favoriteService.GetFavoriteAsync(x=>x.OfferId==tempOffer.Id&&x.UserId == userModel.Id);
@@ -176,6 +187,7 @@ namespace Explorers_Haven.Controllers
             {
                 model.IsBooked = true;
             }
+            
             var tempRate = await _ratingService.GetAllRatingsAsync(x => x.OfferId == id);
             model.Ratings = tempRate.ToList();
             var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == id);
@@ -203,7 +215,6 @@ namespace Explorers_Haven.Controllers
                     ofst = Math.Round(AverageRate,2);
                 }
                 model.OfferRatingStars = ofst;
-                model.StayStars = ofst;
                 model.OfferRating = AverageRate;
             }
             else 
@@ -211,13 +222,11 @@ namespace Explorers_Haven.Controllers
                 if (tempOffer.Rating != null)
                 {
                     model.OfferRatingStars = Math.Round(tempOffer.Rating.Value);
-                    model.StayStars = model.OfferRatingStars;
                     model.OfferRating = tempOffer.Rating;
                 }
                 else 
                 {
                     model.OfferRatingStars = 3;
-                    model.StayStars = model.OfferRatingStars;
                     model.OfferRating = 3;
                 }
                 
@@ -243,14 +252,18 @@ namespace Explorers_Haven.Controllers
                 }
 
             }
-            var tempAmenities = _amenityService.GetAll();//napravi service za stayamenity incahe nqma da izleznat
-            foreach (var a in tempAmenities)
+            var tempStAm =await  _StayAmenityService.GetAllStayAmenitysAsync();
+            var tempAmenities = await _amenityService.GetAllAmenitiesAsync();//napravi service za stayamenity incahe nqma da izleznat
+            foreach (var StA in tempStAm)
             {
-                foreach (var sa in a.StayAmenities)
+                if (StA.StayId == tempStay.Id)
                 {
-                    if (sa.StayId == tempStay.Id)
+                    foreach (var a in tempAmenities)
                     {
-                        model.Amenities.Add(a);
+                        if (a.Id == StA.AmenityId)
+                        {
+                            model.Amenities.Add(a);
+                        }
                     }
                 }
             }

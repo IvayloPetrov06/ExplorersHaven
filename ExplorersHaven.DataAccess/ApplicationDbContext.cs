@@ -72,9 +72,11 @@ namespace Explorers_Haven.DataAccess
                 new Transport
                 {
                     Id = 4,
-                    Name = "Plane"
+                    Name = "Custom"
                 });
-
+            /*public int? DurationDays { get; set; }
+        public DateOnly? StartDate { get; set; }
+        public DateOnly? LastDate { get; s*/
             modelBuilder.Entity<Offer>().HasData(
                 new Offer {
                     Id = 1,
@@ -83,18 +85,35 @@ namespace Explorers_Haven.DataAccess
                     BackImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                     Price=100,
                     StayId = 1,
-                    Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza."
+                    Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
+                    DurationDays = 4,
+                    StartDate = new DateOnly(2025, 4, 1),
+                    LastDate = new DateOnly(2025, 4, 8),
+                    Discount = 20,
+                    MaxPeople = 8
 
                 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 1,
+                new Travel { Id = 7,
                     Start = "Sofia",
                     Finish = "Cairo",
                     DateStart = new DateTime(2025, 3, 9,6,30,0),
                     DateFinish = new DateTime(2025, 3, 10,8,30,0),
                     OfferId = 1,
-                    TransportId = 1
+                    TransportId = 2
+                }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel
+                {
+                    Id = 1,
+                    Start = "Sofia",
+                    Finish = "Cairo",
+                    DateStart = new DateTime(2025, 3, 9, 6, 30, 0),
+                    DateFinish = new DateTime(2025, 3, 10, 8, 30, 0),
+                    OfferId = 1,
+                    TransportId = 3
                 }
                 );
             modelBuilder.Entity<Travel>().HasData(
@@ -105,7 +124,7 @@ namespace Explorers_Haven.DataAccess
                     DateStart = new DateTime(2025, 3, 15,12,0,0),
                     DateFinish = new DateTime(2025, 3, 16,14,0,0),
                     OfferId = 1,
-                    TransportId = 1
+                    TransportId = 4
                 }
                 );
             modelBuilder.Entity<Stay>().HasData(
@@ -122,6 +141,7 @@ namespace Explorers_Haven.DataAccess
                 new Amenity
                 {
                     Id = 1,
+                    Icon = "/Images/parking.svg",
                     Name = "Parking places"
                 }
                 );
@@ -134,10 +154,15 @@ namespace Explorers_Haven.DataAccess
                 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 1, Name = "Camel riding", OfferId = 1 }
+                new Models.Activity { 
+                    Id = 1,
+                    Name = "Camel riding",
+                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
+                    OfferId = 1 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 2, Name = "Sightseeing", OfferId = 1 }
+                new Models.Activity { Id = 2, Name = "Sightseeing",
+                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", OfferId = 1 }
                 );
 
             //offer 2

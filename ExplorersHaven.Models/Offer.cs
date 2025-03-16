@@ -14,8 +14,8 @@ namespace Explorers_Haven.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int? MaxPeople { get; set; }
-        public int? Discount { get; set; }
+        public decimal? MaxPeople { get; set; }
+        public decimal? Discount { get; set; }
         public int? DurationDays { get; set; }
         public DateOnly? StartDate { get; set; }
         public DateOnly? LastDate { get; set; }

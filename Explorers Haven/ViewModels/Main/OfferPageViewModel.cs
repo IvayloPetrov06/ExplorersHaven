@@ -11,8 +11,10 @@ namespace Explorers_Haven.ViewModels.Main
         public int OfferId { get; set; }
         public string OfferName { get; set; }//OfferRating
         public decimal? OfferPrice { get; set; }
-        public decimal? OfferDays { get; set; }//
-        public DateOnly? OfferDates { get; set; }//
+        public decimal? OfferDays { get; set; }//free
+
+        public DateOnly? OfferStart { get; set; }
+        public DateOnly? OfferLast { get; set; }
         public decimal? OfferPeople { get; set; }//
         public string? OfferPic { get; set; }
         public string? OfferDisc { get; set; }
@@ -20,6 +22,8 @@ namespace Explorers_Haven.ViewModels.Main
         public decimal? OfferRating { get; set; }//IsFavorited
         public bool? IsFavorited { get; set; }
         public bool? IsBooked { get; set; }
+        public bool? IsOnDiscount { get; set; }
+        public decimal? OfferDiscount { get; set; }
 
         public string? StayName { get; set; }
         public string? StayDisc { get; set; }

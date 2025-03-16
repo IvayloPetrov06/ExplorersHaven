@@ -13,7 +13,7 @@ namespace Explorers_Haven.Models
         [Key]
         public int Id { get; set; }
         public decimal? PeopleCount {  get; set; }
-        public int? YoungOldPeopleCount { get; set; }
+        public decimal? YoungOldPeopleCount { get; set; }
         public DateOnly? StartDate { get; set; }
         public decimal? Price { get; set; }
         public string? OfferName { get; set; }

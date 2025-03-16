@@ -4,6 +4,7 @@ using Explorers_Haven.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250315194717_updateValues1")]
+    partial class updateValues1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,7 +107,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Icon = "/Images/parking.svg",
                             Name = "Parking places"
                         });
                 });
@@ -135,8 +137,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("YoungOldPeopleCount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("YoungOldPeopleCount")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -218,8 +220,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<string>("Disc")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal?>("Discount")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("Discount")
+                        .HasColumnType("int");
 
                     b.Property<int?>("DurationDays")
                         .HasColumnType("int");
@@ -227,8 +229,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<DateOnly?>("LastDate")
                         .HasColumnType("date");
 
-                    b.Property<decimal?>("MaxPeople")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int?>("MaxPeople")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -264,13 +266,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                             BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                             Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
-                            Discount = 20m,
-                            DurationDays = 4,
-                            LastDate = new DateOnly(2025, 4, 8),
-                            MaxPeople = 8m,
                             Name = "Egypt",
                             Price = 100m,
-                            StartDate = new DateOnly(2025, 4, 1),
                             StayId = 1
                         },
                         new

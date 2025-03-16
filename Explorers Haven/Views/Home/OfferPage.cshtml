@@ -10,534 +10,534 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #2681ff;
-            --secondary-color: #ff6500;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --medium-gray: #e0e0e0;
-            --dark-gray: #666;
-            --white: #fff;
-            --border-radius: 8px;
-            --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        --primary-color: #2681ff;
+        --secondary-color: #ff6500;
+        --text-color: #333;
+        --light-gray: #f5f5f5;
+        --medium-gray: #e0e0e0;
+        --dark-gray: #666;
+        --white: #fff;
+        --border-radius: 8px;
+        --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
         body {
-            background-color: #f5f7fa;
-            color: var(--text-color);
-            line-height: 1.6;
+        background-color: #f5f7fa;
+        color: var(--text-color);
+        line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
         }
 
         /* Header section */
         .offer-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--medium-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--medium-gray);
         }
 
         .offer-title {
-            flex: 1;
+        flex: 1;
         }
 
         .offer-title h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: #333;
+        font-size: 28px;
+        margin-bottom: 10px;
+        color: #333;
         }
 
         .rating-container {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
         }
 
         .stars {
-            display: flex;
-            position: relative;
-            direction: rtl; /* Ensure the stars go from left to right */
+        display: flex;
+        position: relative;
+        direction: rtl; /* Ensure the stars go from left to right */
         }
 
-            .stars label {
-                font-size: 0;
-                cursor: pointer; /* Make the stars clickable */
-            }
+        .stars label {
+        font-size: 0;
+        cursor: pointer; /* Make the stars clickable */
+        }
 
-                .stars label:before {
-                    content: "★";
-                    color: #ddd;
-                    font-size: 24px;
-                }
+        .stars label:before {
+        content: "★";
+        color: #ddd;
+        font-size: 24px;
+        }
 
-            .stars input:checked ~ label:before,
-            .stars:not(:checked) > label:hover:before,
-            .stars:not(:checked) > label:hover ~ label:before {
-                color: #ffb700;
-            }
+        .stars input:checked ~ label:before,
+        .stars:not(:checked) > label:hover:before,
+        .stars:not(:checked) > label:hover ~ label:before {
+        color: #ffb700;
+        }
 
-            .stars input {
-                position: absolute;
-                right: -9999px;
-            }
+        .stars input {
+        position: absolute;
+        right: -9999px;
+        }
 
 
         .rating-number {
-            margin-left: 10px;
-            font-size: 16px;
-            color: var(--dark-gray);
+        margin-left: 10px;
+        font-size: 16px;
+        color: var(--dark-gray);
         }
 
         .favorite-btn .favorite-checkbox {
-            display: none;
+        display: none;
         }
 
         .favorite-btn .favorite-btn-label {
-            background-color: white;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 10px 15px 10px 10px;
-            cursor: pointer;
-            user-select: none;
-            border-radius: 10px;
-            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-            color: black;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 15px 10px 10px;
+        cursor: pointer;
+        user-select: none;
+        border-radius: 10px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        color: black;
         }
 
         .favorite-btn .favorite-checkbox:checked + .favorite-btn-label svg {
-            fill: hsl(0deg 100% 50%);
-            stroke: hsl(0deg 100% 50%);
-            animation: heartButton 1s;
+        fill: hsl(0deg 100% 50%);
+        stroke: hsl(0deg 100% 50%);
+        animation: heartButton 1s;
         }
 
         keyframes heartButton {
-            0%
+        0%
 
         {
-            transform: scale(1);
+        transform: scale(1);
         }
 
         25% {
-            transform: scale(1.3);
+        transform: scale(1.3);
         }
 
         50% {
-            transform: scale(1);
+        transform: scale(1);
         }
 
         75% {
-            transform: scale(1.3);
+        transform: scale(1.3);
         }
 
         100% {
-            transform: scale(1);
+        transform: scale(1);
         }
 
         }
 
         .favorite-btn .favorite-checkbox + .favorite-btn-label .action {
-            position: relative;
-            overflow: hidden;
-            display: grid;
+        position: relative;
+        overflow: hidden;
+        display: grid;
         }
 
-            .favorite-btn .favorite-checkbox + .favorite-btn-label .action span {
-                grid-column-start: 1;
-                grid-column-end: 1;
-                grid-row-start: 1;
-                grid-row-end: 1;
-                transition: all .5s;
-            }
+        .favorite-btn .favorite-checkbox + .favorite-btn-label .action span {
+        grid-column-start: 1;
+        grid-column-end: 1;
+        grid-row-start: 1;
+        grid-row-end: 1;
+        transition: all .5s;
+        }
 
-                .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-1 {
-                    transform: translate(0px, 0%);
-                    opacity: 1;
-                }
+        .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-1 {
+        transform: translate(0px, 0%);
+        opacity: 1;
+        }
 
         .favorite-btn .favorite-checkbox:checked + .favorite-btn-label .action span.option-1 {
-            transform: translate(0px, -100%);
-            opacity: 0;
+        transform: translate(0px, -100%);
+        opacity: 0;
         }
 
         .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-2 {
-            transform: translate(0px, 100%);
-            opacity: 0;
+        transform: translate(0px, 100%);
+        opacity: 0;
         }
 
         .favorite-btn .favorite-checkbox:checked + .favorite-btn-label .action span.option-2 {
-            transform: translate(0px, 0%);
-            opacity: 1;
+        transform: translate(0px, 0%);
+        opacity: 1;
         }
 
 
 
         /* Main image */
         .main-image {
-            width: 100%;
-            margin-bottom: 20px;
-            border-radius: var(--border-radius);
-            overflow: hidden;
+        width: 100%;
+        margin-bottom: 20px;
+        border-radius: var(--border-radius);
+        overflow: hidden;
         }
 
         .main-image img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
         }
 
         /* Content sections */
         .content-section {
-            display: flex;
-            margin-bottom: 30px;
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
+        display: flex;
+        margin-bottom: 30px;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
         }
 
         .description {
-            flex: 3;
-            padding: 20px;
+        flex: 3;
+        padding: 20px;
         }
 
         .description-title {
-            font-size: 20px;
-            margin-bottom: 10px;
-            color: var(--primary-color);
+        font-size: 20px;
+        margin-bottom: 10px;
+        color: var(--primary-color);
         }
 
         .description-content {
-            line-height: 1.8;
-            color: var(--text-color);
+        line-height: 1.8;
+        color: var(--text-color);
         }
 
         .booking-details {
-            flex: 2;
-            padding: 20px;
-            background-color: #f9f9f9;
-            border-left: 1px solid var(--medium-gray);
+        flex: 2;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-left: 1px solid var(--medium-gray);
         }
 
         .price-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid var(--medium-gray);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--medium-gray);
         }
 
         .price-label {
-            font-size: 14px;
-            color: var(--dark-gray);
+        font-size: 14px;
+        color: var(--dark-gray);
         }
 
         .price-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--secondary-color);
+        font-size: 24px;
+        font-weight: bold;
+        color: var(--secondary-color);
         }
 
         form {
-            display: flex;
-            flex-direction: column;
+        display: flex;
+        flex-direction: column;
         }
 
         label {
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: var(--dark-gray);
+        margin-bottom: 5px;
+        font-size: 14px;
+        color: var(--dark-gray);
         }
 
         input[type="number"],
         input[type="date"] {
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid var(--medium-gray);
-            border-radius: var(--border-radius);
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
         }
 
         button[type="submit"],
         .book-now-btn {
-            padding: 12px 20px;
-            margin-top: 10px;
-            background-color: var(--secondary-color);
-            color: var(--white);
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
+        padding: 12px 20px;
+        margin-top: 10px;
+        background-color: var(--secondary-color);
+        color: var(--white);
+        border: none;
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
         }
 
         button[type="submit"]:hover,
         .book-now-btn:hover {
-            background-color: #e65c00;
+        background-color: #e65c00;
         }
 
         .cancel-btn {
-            padding: 12px 20px;
-            margin-top: 10px;
-            background-color: var(--light-gray);
-            color: var(--dark-gray);
-            border: 1px solid var(--medium-gray);
-            border-radius: var(--border-radius);
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            margin-left: 10px;
+        padding: 12px 20px;
+        margin-top: 10px;
+        background-color: var(--light-gray);
+        color: var(--dark-gray);
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        margin-left: 10px;
         }
 
         .cancel-btn:hover {
-            background-color: #e0e0e0;
+        background-color: #e0e0e0;
         }
 
         /* Accommodation section */
         .accommodation-section {
-            margin-bottom: 30px;
+        margin-bottom: 30px;
         }
 
         .section-title {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: var(--primary-color);
+        font-size: 24px;
+        margin-bottom: 15px;
+        color: var(--primary-color);
         }
 
         .accommodation-card {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
-            display: flex;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
+        display: flex;
         }
 
         .accommodation-image {
-            flex: 1;
-            max-width: 300px;
+        flex: 1;
+        max-width: 300px;
         }
 
         .accommodation-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         }
 
         .accommodation-details {
-            flex: 2;
-            padding: 20px;
+        flex: 2;
+        padding: 20px;
         }
 
         .accommodation-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
         }
 
         .accommodation-name {
-            font-size: 20px;
-            color: var(--text-color);
+        font-size: 20px;
+        color: var(--text-color);
         }
 
         .stay-stars {
-            color: #ffb700;
-            font-size: 16px;
+        color: #ffb700;
+        font-size: 16px;
         }
 
         .stay-price {
-            font-size: 20px;
-            font-weight: bold;
-            color: var(--secondary-color);
-            margin-top: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        color: var(--secondary-color);
+        margin-top: 10px;
         }
 
         /* Travel details section */
         .travel-section {
-            margin-bottom: 30px;
+        margin-bottom: 30px;
         }
 
         .travel-card {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
         }
 
         .travel-point {
-            flex: 1;
-            text-align: center;
+        flex: 1;
+        text-align: center;
         }
 
         .travel-location {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--text-color);
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--text-color);
         }
 
         .travel-date {
-            font-size: 14px;
-            color: var(--dark-gray);
+        font-size: 14px;
+        color: var(--dark-gray);
         }
 
         .travel-icon {
-            flex: 0.5;
-            text-align: center;
+        flex: 0.5;
+        text-align: center;
         }
 
         .travel-icon img {
-            width: 30px;
-            opacity: 0.6;
+        width: 30px;
+        opacity: 0.6;
         }
 
         .travel-transport {
-            flex: 1;
-            text-align: center;
-            padding: 8px 15px;
-            background-color: var(--light-gray);
-            border-radius: 20px;
-            font-size: 14px;
-            color: var(--dark-gray);
+        flex: 1;
+        text-align: center;
+        padding: 8px 15px;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        font-size: 14px;
+        color: var(--dark-gray);
         }
 
         /* Activities section */
         .activities-section {
-            margin-bottom: 30px;
+        margin-bottom: 30px;
         }
 
         .activities-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
         }
 
         .activity-card {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            overflow: hidden;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        overflow: hidden;
         }
 
         .activity-image {
-            height: 180px;
-            overflow: hidden;
+        height: 180px;
+        overflow: hidden;
         }
 
         .activity-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         }
 
         .activity-name {
-            padding: 15px;
-            font-size: 16px;
-            font-weight: bold;
-            color: var(--text-color);
+        padding: 15px;
+        font-size: 16px;
+        font-weight: bold;
+        color: var(--text-color);
         }
 
         /* Reviews section */
         .reviews-section {
-            margin-bottom: 30px;
+        margin-bottom: 30px;
         }
 
         .review-form {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 20px;
-            margin-bottom: 20px;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 20px;
+        margin-bottom: 20px;
         }
 
         .review-form input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--medium-gray);
-            border-radius: var(--border-radius);
-            margin-bottom: 10px;
+        width: 100%;
+        padding: 12px;
+        border: 1px solid var(--medium-gray);
+        border-radius: var(--border-radius);
+        margin-bottom: 10px;
         }
 
         .review-form button {
-            padding: 10px 20px;
-            background-color: var(--primary-color);
-            color: var(--white);
-            border: none;
-            border-radius: var(--border-radius);
-            cursor: pointer;
-            transition: background-color 0.2s;
+        padding: 10px 20px;
+        background-color: var(--primary-color);
+        color: var(--white);
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: background-color 0.2s;
         }
 
         .review-form button:hover {
-            background-color: #1a6ac2;
+        background-color: #1a6ac2;
         }
 
         .comment-list {
-            background-color: var(--white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--box-shadow);
-            padding: 20px;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 20px;
         }
 
         .comment-item {
-            display: flex;
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--medium-gray);
+        display: flex;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--medium-gray);
         }
 
         .comment-item:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
         }
 
         .comment-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            margin-right: 15px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-right: 15px;
         }
 
         .comment-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         }
 
         .comment-content {
-            flex: 1;
-            line-height: 1.5;
+        flex: 1;
+        line-height: 1.5;
         }
 
         .booking-actions {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
         }
     </style>
 </head>
@@ -553,7 +553,7 @@
                             <span>★</span>
                         </div>
                     }
-                    
+
                     <span class="rating-number">@Model.OfferRating</span>
                 </div>
             </div>
@@ -580,6 +580,11 @@
             <div class="description">
                 <div class="description-title">Description</div>
                 <div class="description-content">@Model.OfferDisc</div>
+                <div class="description-content">Bookings available every week the same day as starting date. Last available week for booking is on the last date.</div>
+                <div class="description-content">Starting Date: @Model.OfferStart</div>
+                <div class="description-content">Last Date: @Model.OfferLast</div>
+                <div class="description-content">Max number of people: @Model.OfferPeople</div>
+                <div class="description-content">Duration in days: @Model.OfferDays</div>
             </div>
 
             <div class="booking-details">
@@ -596,8 +601,16 @@
                     <input type="number" id="ppl" name="ppl" required min="1" />
 
                     <!-- Discounted People Count Input -->
-                    <label for="discppl">Discounted People Count:</label>
-                    <input type="number" id="discppl" name="discppl" required min="0" />
+                    @if (Model.IsOnDiscount == true)
+                    {
+                        <label for="discppl">Elders or Kids Count with @Model.OfferDiscount% discount:</label>
+                        <input type="number" id="discppl" name="discppl" required min="0" />
+                    }
+                    else
+                    {
+                        <input type="hidden" id="discppl" name="discppl" value="1" />
+                    }
+
 
                     <!-- Start Date Input -->
                     <label for="st">Start Date:</label>
@@ -606,10 +619,6 @@
                     <!-- Submit Button -->
                     <button type="submit">Book Now</button>
                 </form>
-                <div class="booking-actions">
-                    
-                    <a href="/Booking/Cancel/@Model.OfferId" class="cancel-btn" @(Model.IsBooked.Value? "visible" : "hidden")>Cancel</a>
-                </div>
             </div>
         </div>
 
@@ -634,7 +643,16 @@
                 </div>
             </div>
         </div>
-
+        <div class="activities-section">
+            <h2 class="section-title">Amenitites</h2>
+            <div class="activities-grid">
+                @foreach (var a in Model.Amenities)
+                {
+                    <div class="activity-name">@a.Icon</div>
+                    <div class="activity-name">@a.Name</div>
+                }
+            </div>
+        </div>
         <div class="travel-section">
             <h2 class="section-title">Travel Details</h2>
             @foreach (var a in Model.Travels)
@@ -642,7 +660,6 @@
                 <div class="travel-card">
                     <div class="travel-point">
                         <div class="travel-location">@a.Start</div>
-                        <div class="travel-date">@a.DateStart.ToString()</div>
                     </div>
                     @foreach(var tr in Model.Transports)
                     {
@@ -680,7 +697,6 @@
                     
                     <div class="travel-point">
                         <div class="travel-location">@a.Finish</div>
-                        <div class="travel-date">@a.DateFinish</div>
                     </div>
                     
                 </div>

@@ -99,6 +99,7 @@ namespace Explorers_Haven.Controllers
                 {
                     Id = x.Id,
                     Name = x.Name,
+                    Price = x.Price,
                     CoverImage = x.CoverImage,
                     UserName = x.User.Username
                 }).ToList();
@@ -130,6 +131,7 @@ namespace Explorers_Haven.Controllers
                 {
                     Name = x.Name,
                     CoverImage = x.CoverImage,
+                    Price = x.Price,
                     Id = x.Id,
                     UserName = x.User.Username
                 }).ToList(),

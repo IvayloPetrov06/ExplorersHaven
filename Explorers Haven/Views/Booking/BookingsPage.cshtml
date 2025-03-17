@@ -1,276 +1,358 @@
 ﻿@using Explorers_Haven.ViewModels.Booking
 @model BookingFilterViewModel
-<div class="albums-header">
-    <h1 class="albums-title">Оферти</h1>
-    <form>
-        <div class="search-container">
-            <input type="text" asp-for="Search" class="search-bar" placeholder="Търси оферти...">
-            <button class="search-btn">
-                <i class="fas fa-search"></i> <!-- Search icon with i tag -->
-            </button>
-        </div>
-    </form>
-</div>
-<h2 class="page-title">Offers</h2>
-<div class="albums-container">
-    <h2 class="page-title">Offers</h2>
-    <div class="albums-grid">
-        @foreach (var offer in Model.Bookings)
-        {
-            <div class="album-card">
-                <div class="album-cover">
-                    <img src="@offer.OfferCoverImage" alt="@offer.OfferName">
-                    <h3 class="album-title">@offer.Price</h3>
-                </div>
-                <div class="album-info">
-                    <h3 class="album-title">@offer.OfferName ofn</h3>@*<i class="fas fa-trash"></i>*@
-                    <h3 class="album-title">@offer.PeopleCount ppl</h3>
-                    <h3 class="album-title">@offer.StartDate stdate</h3>
-                    <h3 class="album-title">@offer.Price lv</h3>
-                    <h3 class="album-title">@offer.YoungOldPeopleCount yngoldppl</h3>
-                </div>
-                <a href="/Booking/Cancel/@offer.Id">Cancel</a>
+
+<!-- Main Container -->
+<div class="trivago-container">
+    <!-- Hero Search Section -->
+    <div class="hero-section">
+        <div class="search-wrapper">
+            <h1 class="main-heading">Find your ideal hotel and compare prices from different websites</h1>
+
+            <div class="search-box">
+                <form>
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" asp-for="Search" class="search-input" placeholder="Where would you like to go?">
+                        <button type="submit" class="search-button">Search</button>
+                    </div>
+                </form>
             </div>
-            
-        }
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section">
+        <div class="results-header">
+            <h2 class="section-title">Your Bookings</h2>
+            <div class="filters">
+                <span class="filter-label">Sort by:</span>
+                <select class="filter-dropdown">
+                    <option>Our recommendations</option>
+                    <option>Price (lowest first)</option>
+                    <option>Rating (highest first)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Offers Grid -->
+        <div class="offers-grid">
+            @foreach (var offer in Model.Bookings)
+            {
+                <div class="offer-card">
+                    <div class="offer-image">
+                        <img src="@offer.OfferCoverImage" alt="@offer.OfferName">
+                    </div>
+                    <div class="offer-details">
+                        <div class="offer-info">
+                            <h3 class="offer-name">@offer.OfferName</h3>
+                            <div class="offer-metadata">
+                                <span class="people-count"><i class="fas fa-user"></i> @offer.PeopleCount people</span>
+                                <span class="date"><i class="fas fa-calendar"></i> @offer.StartDate</span>
+                                @if (offer.YoungOldPeopleCount > 0)
+                                {
+                                    <span class="children-count"><i class="fas fa-child"></i> @offer.YoungOldPeopleCount children/seniors</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="offer-actions">
+                            <div class="price-tag">
+                                <span class="price-label">Price</span>
+                                <span class="price-value">@offer.Price лв</span>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="/Booking/Cancel/@offer.Id" class="btn-cancel">Cancel</a>
+                                <a href="#" class="btn-view">View Deal</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 </div>
 
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- Font Awesome and Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
-    .albums-container {
-        padding: 20px;
-        color: white;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
     }
 
-    .page-title {
-        font-size: 24px;
-        font-weight: bold;
+    body {
+        background-color: #f5f5f5;
+        color: #333;
+    }
+
+    .trivago-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Hero Section Styles */
+    .hero-section {
+        background-color: #0a84ff;
+        padding: 40px 20px;
+        border-radius: 0 0 8px 8px;
+        margin-bottom: 30px;
+    }
+
+    .search-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .main-heading {
+        color: white;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 30px;
+    }
+
+    .search-box {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-input-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        color: #666;
+        font-size: 18px;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 15px 15px 15px 45px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        outline: none;
+    }
+
+        .search-input:focus {
+            border-color: #0a84ff;
+        }
+
+    .search-button {
+        padding: 15px 25px;
+        background-color: #f48f00;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.2s;
+    }
+
+        .search-button:hover {
+            background-color: #e57f00;
+        }
+
+    /* Results Section Styles */
+    .results-section {
+        padding: 0 20px 40px;
+    }
+
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 20px;
     }
 
-    .albums-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    .section-title {
+        font-size: 24px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .filters {
+        display: flex;
+        align-items: center;
+    }
+
+    .filter-label {
+        margin-right: 10px;
+        color: #666;
+    }
+
+    .filter-dropdown {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Offer Cards Styles */
+    .offers-grid {
+        display: flex;
+        flex-direction: column;
         gap: 20px;
     }
 
-    .album-card {
+    .offer-card {
+        display: flex;
         background-color: white;
-        border-radius: 10px;
-        padding: 15px;
-        transition: transform 0.2s, background 0.2s;
-        position: relative;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    }
-
-    @*.album-card:hover {
-            background: #282828;
-            transform: scale(1.05);
-        }*@
-
-    .album-cover {
-        position: relative;
+        border-radius: 8px;
         overflow: hidden;
-        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .album-cover img {
-        width: 100%;
-        height: auto;
-        border-radius: 8px;
-        display: block;
+        .offer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+    .offer-image {
+        width: 240px;
+        min-width: 240px;
+        overflow: hidden;
     }
 
-    @*.play-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        .offer-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .offer-details {
+        flex: 1;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        background: rgba(0, 0, 0, 0.6);
-        opacity: 0;
-        transition: opacity 0.2s;
+        padding: 20px;
+        justify-content: space-between;
     }
 
-    .album-card:hover .play-overlay {
-        opacity: 1;
+    .offer-info {
+        flex: 1;
     }
 
-    .play-button {
-        background: #1db954;
-        border: none;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .offer-name {
         font-size: 20px;
-        color: white;
-        cursor: pointer;
-        transition: background 0.2s;
+        font-weight: 500;
+        color: #0a84ff;
+        margin-bottom: 10px;
     }
 
-        .play-button:hover {
-            background: #1ed760;
-        }*@
-
-    .album-info {
-        text-align: center;
-        margin-top: 10px;
-    }
-
-    .album-title {
-        color: black;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .album-artist {
-        font-size: 14px;
-        color: #b3b3b3;
-    }
-
-    .albums-header {
+    .offer-metadata {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-        margin-bottom: 30px;
-        padding: 0 20px;
-    }
-
-    .albums-title {
-        font-size: 36px;
-        font-weight: bold;
-        color: #fff;
-    }
-
-    .search-container {
-        display: flex;
-        align-items: center;
+        flex-direction: column;
         gap: 8px;
+        color: #666;
     }
 
-    .search-bar {
-        padding: 12px 20px;
-        font-size: 18px;
-        border-radius: 30px; /* More rounded corners */
-        border: none;
-        width: 320px; /* Increased width */
-        background-color: #333;
-        color: #fff;
-        text-align: left;
-        outline: none;
-        transition: background 0.3s;
-    }
-
-        .search-bar::placeholder {
-            color: #bbb;
+        .offer-metadata span {
+            display: flex;
+            align-items: center;
         }
 
-        .search-bar:focus {
-            background-color: #444;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* Subtle glow effect */
+        .offer-metadata i {
+            margin-right: 8px;
+            width: 16px;
         }
 
-    .search-btn {
-        background-color: transparent;
-        border: none;
-        color: white;
-        font-size: 18px;
-        cursor: pointer;
-        transition: transform 0.3s ease;
-    }
-
-        .search-btn i {
-            font-size: 22px;
-        }
-
-        .search-btn:hover i {
-            color: #4CAF50; /* Green glow on icon */
-            transform: scale(1.1);
-        }
-
-    .add-album-btn {
-        background-color: #1DB954;
-        color: white;
-        border: none;
-        padding: 12px 18px;
-        font-size: 18px;
-        border-radius: 8px; /* Slightly curved corners */
-        cursor: pointer;
-        transition: background 0.3s;
-    }
-
-        .add-album-btn:hover {
-            background-color: #1aa34a;
-        }
-
-    .card-buttons {
-        position: absolute;
-        bottom: 10px;
-        left: 10px;
-        right: 10px;
+    .offer-actions {
         display: flex;
+        flex-direction: column;
         justify-content: space-between;
+        align-items: flex-end;
+        min-width: 180px;
     }
 
-    .btn {
+    .price-tag {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .price-label {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .price-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-view, .btn-cancel {
         display: inline-block;
-        padding: 12px 24px;
+        padding: 10px 20px;
         border-radius: 4px;
         text-decoration: none;
-        font-weight: 600;
-        font-size: 16px;
+        font-weight: 500;
         text-align: center;
-        transition: all 0.3s ease;
+        transition: background-color 0.2s;
     }
 
     .btn-view {
-        background-color: #0071c2;
+        background-color: #f48f00;
         color: white;
-        min-width: 150px;
-        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
 
         .btn-view:hover {
-            background-color: #005999;
+            background-color: #e57f00;
         }
 
-    .edit-btn,
-    .delete-btn {
-        background: none;
-        border: none;
-        color: #bbb;
-        font-size: 20px;
-        cursor: pointer;
-        transition: color 0.3s;
+    .btn-cancel {
+        background-color: #f1f1f1;
+        color: #666;
     }
 
-        .edit-btn:hover,
-        .delete-btn:hover {
-            color: #1db954; /* Green color for edit button */
+        .btn-cancel:hover {
+            background-color: #e0e0e0;
         }
 
-        .delete-btn:hover {
-            color: #f44336; /* Red color for delete button */
-        }
+    /* Responsive Styles */
+    media (max-width: 768px) {
+        .offer-card
 
-        .edit-btn i,
-        .delete-btn i {
-            transition: transform 0.2s;
-        }
+    {
+        flex-direction: column;
+    }
 
-        .edit-btn:hover i,
-        .delete-btn:hover i {
-            transform: scale(1.2); /* Slight grow effect for the icons */
-        }
+    .offer-image {
+        width: 100%;
+        height: 200px;
+    }
+
+    .offer-details {
+        flex-direction: column;
+    }
+
+    .offer-actions {
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+
+    .price-tag {
+        align-items: flex-start;
+    }
+
+    }
 </style>
-

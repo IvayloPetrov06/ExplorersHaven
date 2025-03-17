@@ -19,6 +19,7 @@
         --white: #fff;
         --border-radius: 8px;
         --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        --discount-color: #e74c3c;
         }
 
         * {
@@ -101,6 +102,7 @@
         color: var(--dark-gray);
         }
 
+        /* Fixed favorite button animation */
         .favorite-btn .favorite-checkbox {
         display: none;
         }
@@ -125,9 +127,7 @@
         }
 
         keyframes heartButton {
-        0%
-
-        {
+        0% {
         transform: scale(1);
         }
 
@@ -146,7 +146,6 @@
         100% {
         transform: scale(1);
         }
-
         }
 
         .favorite-btn .favorite-checkbox + .favorite-btn-label .action {
@@ -183,8 +182,6 @@
         opacity: 1;
         }
 
-
-
         /* Main image */
         .main-image {
         width: 100%;
@@ -209,20 +206,51 @@
         overflow: hidden;
         }
 
+        /* Improved description styling */
         .description {
         flex: 3;
         padding: 20px;
         }
 
         .description-title {
-        font-size: 20px;
-        margin-bottom: 10px;
+        font-size: 22px;
+        margin-bottom: 15px;
         color: var(--primary-color);
+        font-weight: 600;
         }
 
         .description-content {
         line-height: 1.8;
         color: var(--text-color);
+        margin-bottom: 12px;
+        font-size: 15px;
+        }
+
+        .info-label {
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-right: 5px;
+        }
+
+        .trip-info {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 20px;
+        padding-top: 15px;
+        border-top: 1px solid var(--medium-gray);
+        }
+
+        .trip-info-item {
+        flex: 1;
+        min-width: 200px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        }
+
+        .trip-info-item i {
+        margin-right: 8px;
+        color: var(--primary-color);
         }
 
         .booking-details {
@@ -261,6 +289,25 @@
         margin-bottom: 5px;
         font-size: 14px;
         color: var(--dark-gray);
+        }
+
+        /* Improved discount styling */
+        .discount-label {
+        color: var(--discount-color);
+        font-weight: 600;
+        margin-bottom: 5px;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        }
+
+        .discount-label i {
+        margin-right: 5px;
+        }
+
+        .discount-value {
+        font-weight: bold;
+        color: var(--discount-color);
         }
 
         input[type="number"],
@@ -373,6 +420,40 @@
         margin-top: 10px;
         }
 
+        /* Improved amenities section */
+        .amenities-section {
+        margin-bottom: 30px;
+        }
+
+        .amenities-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 20px;
+        }
+
+        .amenity-item {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        border-radius: var(--border-radius);
+        background-color: #f5f7fa;
+        }
+
+        .amenity-icon {
+        margin-right: 10px;
+        font-size: 18px;
+        color: var(--primary-color);
+        }
+
+        .amenity-name {
+        font-size: 15px;
+        color: var(--text-color);
+        }
+
         /* Travel details section */
         .travel-section {
         margin-bottom: 30px;
@@ -453,6 +534,7 @@
         object-fit: cover;
         }
 
+        
         .activity-name {
         padding: 15px;
         font-size: 16px;
@@ -502,8 +584,10 @@
         padding: 20px;
         }
 
+        /* Updated comment styling */
         .comment-item {
         display: flex;
+        flex-direction: column;
         margin-bottom: 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid var(--medium-gray);
@@ -513,6 +597,12 @@
         margin-bottom: 0;
         padding-bottom: 0;
         border-bottom: none;
+        }
+
+        .comment-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
         }
 
         .comment-avatar {
@@ -529,9 +619,15 @@
         object-fit: cover;
         }
 
+        .comment-rating {
+        display: flex;
+        margin-bottom: 8px;
+        }
+
         .comment-content {
         flex: 1;
         line-height: 1.5;
+        margin-left: 65px;
         }
 
         .booking-actions {
@@ -565,7 +661,10 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
-                        <span>Add to Favorites</span>
+                        <div class="action">
+                            <span class="option-1">Add to Favorites</span>
+                            <span class="option-2">Added to Favorites</span>
+                        </div>
                     </label>
                 </div>
                 <button type="submit" style="display:none;">Submit</button>
@@ -581,10 +680,25 @@
                 <div class="description-title">Description</div>
                 <div class="description-content">@Model.OfferDisc</div>
                 <div class="description-content">Bookings available every week the same day as starting date. Last available week for booking is on the last date.</div>
-                <div class="description-content">Starting Date: @Model.OfferStart</div>
-                <div class="description-content">Last Date: @Model.OfferLast</div>
-                <div class="description-content">Max number of people: @Model.OfferPeople</div>
-                <div class="description-content">Duration in days: @Model.OfferDays</div>
+                
+                <div class="trip-info">
+                    <div class="trip-info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span><span class="info-label">Starting Date:</span> @Model.OfferStart</span>
+                    </div>
+                    <div class="trip-info-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <span><span class="info-label">Last Date:</span> @Model.OfferLast</span>
+                    </div>
+                    <div class="trip-info-item">
+                        <i class="fas fa-users"></i>
+                        <span><span class="info-label">Max people:</span> @Math.Floor(Model.OfferPeople.Value)</span>
+                    </div>
+                    <div class="trip-info-item">
+                        <i class="fas fa-clock"></i>
+                        <span><span class="info-label">Duration:</span> @Math.Floor(Model.OfferDays.Value) days</span>
+                    </div>
+                </div>
             </div>
 
             <div class="booking-details">
@@ -603,7 +717,10 @@
                     <!-- Discounted People Count Input -->
                     @if (Model.IsOnDiscount == true)
                     {
-                        <label for="discppl">Elders or Kids Count with @Model.OfferDiscount% discount:</label>
+                        <label for="discppl" class="discount-label">
+                            <i class="fas fa-tag"></i>
+                            Elders or Kids Count with <span class="discount-value"> @Math.Floor(Model.OfferDiscount.Value)% discount</span>:
+                        </label>
                         <input type="number" id="discppl" name="discppl" required min="0" />
                     }
                     else
@@ -643,16 +760,21 @@
                 </div>
             </div>
         </div>
-        <div class="activities-section">
-            <h2 class="section-title">Amenitites</h2>
-            <div class="activities-grid">
+        
+        <!-- Improved amenities section -->
+        <div class="amenities-section">
+            <h2 class="section-title">Amenities</h2>
+            <div class="amenities-grid">
                 @foreach (var a in Model.Amenities)
                 {
-                    <div class="activity-name">@a.Icon</div>
-                    <div class="activity-name">@a.Name</div>
+                    <div class="amenity-item">
+                        <div class="amenity-icon">@a.Icon</div>
+                        <div class="amenity-name">@a.Name</div>
+                    </div>
                 }
             </div>
         </div>
+        
         <div class="travel-section">
             <h2 class="section-title">Travel Details</h2>
             @foreach (var a in Model.Travels)
@@ -799,7 +921,7 @@
                                 @for (int i = 0; i < u.Stars; i++)
                                 {
                                     <div class="stay-stars">
-                                    <span>★</span>
+                                        <span>★</span>
                                     </div>
                                 }
                             }
@@ -808,21 +930,23 @@
                     </div>
                 }
             </div>
+
         </div>
     </div>
     <script>
+
         document.getElementById('favorite').addEventListener('change', function() {
-            this.form.submit();  // Submit the form when checkbox is toggled
+            this.form.submit();  
         });
 
 
-            const form = document.getElementById('ratingForm');
+        const form = document.getElementById('ratingForm');
 
-        // Add event listener to the form
+        
         form.addEventListener('change', function(event) {
-            // Check if a radio button is selected
+            
             if (event.target.name === 'rating') {
-                // Automatically submit the form when a radio button is selected
+                
                 form.submit();
             }
         });

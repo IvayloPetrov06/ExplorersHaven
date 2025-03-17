@@ -25,6 +25,19 @@ using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
 using Newtonsoft.Json.Linq;
 using static System.Collections.Specialized.BitVector32;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Microsoft.CodeAnalysis.Options;
+using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.Extensions.Options;
+using Mono.TextTemplating;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Collections;
+using System.Drawing.Drawing2D;
+using System.IO;
+using System.Reflection;
+using System.Runtime.ConstrainedExecution;
+using System.Security.Policy;
+using System.Xml.Linq;
 
 namespace Explorers_Haven.Controllers
 {
@@ -281,400 +294,839 @@ namespace Explorers_Haven.Controllers
         }
     }
     /*
-     * @using Explorers_Haven.ViewModels.Main
+     @using Explorers_Haven.ViewModels.Main
 @model OfferPageViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.OfferName - Explorers Haven</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+        --primary-color: #2681ff;
+        --secondary-color: #ff6500;
+        --text-color: #333;
+        --light-gray: #f5f5f5;
+        --medium-gray: #e0e0e0;
+        --dark-gray: #666;
+        --white: #fff;
+        --border-radius: 8px;
+        --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
 
-<div class="offer-container">
-    <div class="offer-header">
-        <h1 class="offer-name">@Model.OfferName</h1>
-        <img class="offer-image" src="@Model.OfferPic" alt="@Model.OfferName">
-        <p class="text-custom">@Model.OfferDisc</p>
-    </div>
-
-    <div class="stay-section">
-        <div class="stay-image-container">
-            <img class="stay-image" src="@Model.StayPic" alt="@Model.StayName">
-        </div>
-        <div class="stay-details">
-            <h2 class="stay-name">@Model.StayName</h2>
-            <div class="stay-stars">@Model.StayStars.ToString()</div>
-            <div class="stay-price">@Model.StayPrice лв</div>
-            <div class="text-custom">@Model.StayDisc</div>
-        </div>
-    </div>
-
-    @if (Model.Activities.Any())
-    {
-        <div class="activities-section">
-            <h3 class="section-title">Activities</h3>
-            <div class="activities-list">
-                @foreach (var a in Model.Activities)
-                {
-                    <div class="activity-item">
-                        <h4 class="activity-name">@a.Name</h4>
-                    </div>
-                }
-            </div>
-        </div>
-    }
-
-    @if (Model.Travels.Any())
-    {
-        <div class="travel-section">
-            <h3 class="section-title">Travel Details</h3>
-            @foreach (var a in Model.Travels)
-            {
-                <div class="travel-item">
-                    <div class="travel-row">
-                        <div class="travel-col">
-                            <div class="travel-label">Departure</div>
-                            <div class="travel-value">@a.Start</div>
-                            <div class="travel-value">@a.DateStart.ToString()</div>
-                        </div>
-                        <div class="travel-col">
-                            <div class="travel-label">Arrival</div>
-                            <div class="travel-value">@a.Finish</div>
-                            <div class="travel-value">@a.DateFinish</div>
-                        </div>
-                    </div>
-
-                    <div class="travel-col">
-                        <div class="travel-label">Transport</div>
-
-                        <span class="transport-icon">
-                            @*takeoff-the-plane-svgrepo-com <img src="plane.jpg" alt="External SVG Image" />
-                            <object data="C:\Users\user\source\repos\Ivo2\ExplorersHaven\Explorers Haven\wwwroot\Im/takeoff-the-plane-svgrepo-com.svg" type="image/svg+xml">
-                                <img src="C:\Users\user\source\repos\Ivo2\ExplorersHaven\Explorers Haven\wwwroot\Im/plane.jpg" />
-                            </object>*@
-                            <img class="mini-icon" src="~/Images/Plane.svg" alt="Plane" />
-                        </span> @a.Transport
-                    </div>
-                </div>
-            }
-        </div>
-    }
-
-    <div class="booking-section">
-        <div class="total-price">@Model.OfferPrice лв</div>
-        <div class="booking-actions">
-            <a class="btn btn-book" asp-controller="Booking" asp-action="Book" asp-route-id="@Model.OfferId">Book Now</a>
-            <a class="btn btn-cancel" asp-controller="Booking" asp-action="Cancel" asp-route-id="@Model.OfferId">Cancel</a>
-        </div>
-    </div>
-</div>
-<style>
-    /* Base styles and reset 
-    * {
+        * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
-    }
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
 
-body {
-        font-family: 'Segoe UI', Arial, sans-serif;
-background - color: #f5f5f5;
-        color: #333;
-        line - height: 1.6;
-    }
+        body {
+        background-color: #f5f7fa;
+        color: var(--text-color);
+        line-height: 1.6;
+        }
 
-    /* Main container 
-    .offer - container {
-    max - width: 1200px;
-margin: 20px auto;
-    background - color: #fff;
-        border - radius: 8px;
-    box - shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-padding: 30px;
+        .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        }
+
+        /* Header section 
+        .offer-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--medium-gray);
 }
 
-path[Attributes Style] {
-d: path("M 21.0001 20 C 21.5524 20 22.0001 20.4477 22.0001 21 C 22.0001 21.5128 21.6141 21.9355 21.1167 21.9933 L 21.0001 22 L 3.00008 22 C 2.44779 22 2.00008 21.5523 2.00008 21 C 2.00008 20.4872 2.38612 20.0645 2.88346 20.0067 L 3.00008 20 L 21.0001 20 Z M 7.93041 4.17678 L 14.493 9.53711 L 14.493 9.53711 L 19.0655 8.68222 C 20.1891 8.47192 21.3346 8.91842 22.0194 9.83365 L 22.1806 10.0527 C 22.3605 10.3096 22.4966 10.577 22.4262 10.9212 C 22.205 12.002 21.3922 12.8651 20.3266 13.1506 L 5.20745 17.2017 C 4.59963 17.3646 3.95476 17.1308 3.59258 16.6162 L 0.929819 12.8329 C 0.72978 12.5486 0.873576 12.1521 1.20929 12.0621 L 2.83331 11.627 C 3.31775 11.4972 3.83501 11.6181 4.21174 11.9491 L 4.95832 12.6052 L 4.96856 12.607 L 4.96856 12.607 L 9.16743 10.9666 C 9.17376 10.9641 9.17583 10.9562 9.17152 10.9509 L 4.44679 5.19599 C 4.21618 4.9151 4.35278 4.48982 4.70382 4.39576 L 6.59315 3.88951 C 7.05916 3.76464 7.55679 3.87154 7.93041 4.17678 Z");
-fill: rgb(9, 36, 75);
+        .offer - title {
+flex: 1;
 }
 
-    /* Offer header section 
-    .offer - header {
-    border - bottom: 1px solid #eaeaea;
-        padding - bottom: 20px;
-    margin - bottom: 30px;
-}
-
-    .offer - name {
-    font - size: 28px;
-    font - weight: 700;
+        .offer - title h1 {
+        font-size: 28px;
+margin - bottom: 10px;
 color: #333;
-        margin - bottom: 10px;
+        }
+
+        .rating - container {
+display: flex;
+    align - items: center;
+    margin - bottom: 10px;
 }
 
-    .offer - desc {
+        .stars {
+        display: flex;
+position: relative;
+direction: rtl; /* Ensure the stars go from left to right 
+        }
+
+        .stars label
+{
+    font-size: 0;
+    cursor: pointer; /* Make the stars clickable 
+}
+
+        .stars label:before {
+        content: "★";
+color: #ddd;
+        font - size: 24px;
+        }
+
+        .stars input:checked ~label:before,
+        .stars: not(:checked) > label:hover: before,
+        .stars:not(:checked) > label:hover ~label:before {
+color: #ffb700;
+        }
+
+        .stars input {
+position: absolute;
+right: -9999px;
+}
+
+
+        .rating - number {
+    margin - left: 10px;
     font - size: 16px;
-color: #666;
-        margin - bottom: 20px;
-    line - height: 1.5;
+color: var(--dark - gray);
 }
 
-    /* Stay info section 
-    .stay - section {
+        .favorite - btn.favorite - checkbox {
+display: none;
+}
+
+        .favorite - btn.favorite - btn - label {
+    background - color: white;
 display: flex;
-    flex - wrap: wrap;
-gap: 30px;
+    align - items: center;
+gap: 14px;
+padding: 10px 15px 10px 10px;
+cursor: pointer;
+    user - select: none;
+    border - radius: 10px;
+    box - shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+color: black;
+}
+
+        .favorite - btn.favorite - checkbox:checked + .favorite - btn - label svg {
+fill: hsl(0deg 100 % 50 %);
+stroke: hsl(0deg 100 % 50 %);
+animation: heartButton 1s;
+}
+
+keyframes heartButton {
+    0 %
+
+        {
+    transform: scale(1);
+    }
+
+    25 % {
+    transform: scale(1.3);
+    }
+
+    50 % {
+    transform: scale(1);
+    }
+
+    75 % {
+    transform: scale(1.3);
+    }
+
+    100 % {
+    transform: scale(1);
+    }
+
+}
+
+        .favorite - btn.favorite - checkbox + .favorite - btn - label.action {
+position: relative;
+overflow: hidden;
+display: grid;
+}
+
+        .favorite - btn.favorite - checkbox + .favorite - btn - label.action span {
+    grid - column - start: 1;
+    grid - column - end: 1;
+    grid - row - start: 1;
+    grid - row - end: 1;
+transition: all .5s;
+}
+
+        .favorite - btn.favorite - checkbox + .favorite - btn - label.action span.option - 1 {
+transform: translate(0px, 0 %);
+opacity: 1;
+}
+
+        .favorite - btn.favorite - checkbox:checked + .favorite - btn - label.action span.option - 1 {
+transform: translate(0px, -100 %);
+opacity: 0;
+}
+
+        .favorite - btn.favorite - checkbox + .favorite - btn - label.action span.option - 2 {
+transform: translate(0px, 100 %);
+opacity: 0;
+}
+
+        .favorite - btn.favorite - checkbox:checked + .favorite - btn - label.action span.option - 2 {
+transform: translate(0px, 0 %);
+opacity: 1;
+}
+
+
+
+        /* Main image 
+        .main - image {
+width: 100 %;
+    margin - bottom: 20px;
+    border - radius: var(--border - radius);
+overflow: hidden;
+}
+
+        .main - image img {
+width: 100 %;
+height: 400px;
+    object-fit: cover;
+}
+
+        /* Content sections 
+        .content - section {
+display: flex;
     margin - bottom: 30px;
+    background - color: var(--white);
+    border - radius: var(--border - radius);
+    box - shadow: var(--box - shadow);
+overflow: hidden;
 }
 
-    .stay - image - container {
-flex: 1;
-    min - width: 300px;
+        .description {
+flex: 3;
+padding: 20px;
 }
 
-    .stay - image {
-width: 100 %;
-height: 350px;
-    object-fit: cover;
-    border - radius: 8px;
-}
-
-    .offer - image {
-width: 100 %;
-height: auto;
-    max - height: 500px;
-    object-fit: cover;
-    border - radius: 8px;
-    margin - bottom: 25px;
-}
-
-    .stay - details {
-flex: 1;
-    min - width: 300px;
-}
-    .text - custom {
+        .description - title {
     font - size: 20px;
-    font - weight: 600;
+    margin - bottom: 10px;
+color: var(--primary - color);
 }
 
-    .stay - name {
-    font - size: 24px;
-    font - weight: 600;
-color: #0071c2;
-        margin - bottom: 10px;
+        .description - content {
+    line - height: 1.8;
+color: var(--text - color);
 }
 
-    .stay - stars {
-color: #ffc107;
-        font - size: 20px;
-    margin - bottom: 15px;
+        .booking - details {
+flex: 2;
+padding: 20px;
+    background - color: #f9f9f9;
+        border - left: 1px solid var(--medium - gray);
 }
 
-    .stay - price {
-    font - size: 26px;
-    font - weight: bold;
-color: forestgreen;
-    margin - bottom: 15px;
-}
-
-    /* Activities section 
-    .activities - section {
-    margin - bottom: 30px;
-}
-
-    .section - title {
-    font - size: 22px;
-    font - weight: 600;
-color: #333;
-        margin - bottom: 15px;
-    padding - bottom: 10px;
-    border - bottom: 1px solid #eaeaea;
-    }
-
-    .activities - list {
+        .price - container {
 display: flex;
-    flex - wrap: wrap;
-gap: 15px;
+    justify - content: space - between;
+    align - items: center;
+    margin - bottom: 20px;
+    padding - bottom: 15px;
+    border - bottom: 1px solid var(--medium - gray);
 }
 
-    .activity - item {
-    background - color: #f9f9f9;
-        padding: 15px;
-    border - radius: 6px;
-width: calc(33.33 % -10px);
-    min - width: 200px;
+        .price - label {
+    font - size: 14px;
+color: var(--dark - gray);
 }
 
-    .activity - name {
-    font - size: 18px;
-    font - weight: 500;
-color: #333;
-    }
+        .price - value {
+    font - size: 24px;
+    font - weight: bold;
+color: var(--secondary - color);
+}
 
-    /* Travel details section 
-    .travel - section {
+form {
+display: flex;
+    flex - direction: column;
+}
+
+label {
+    margin - bottom: 5px;
+    font - size: 14px;
+color: var(--dark - gray);
+}
+
+input[type = "number"],
+        input[type = "date"] {
+padding: 10px;
+    margin - bottom: 15px;
+border: 1px solid var(--medium - gray);
+    border - radius: var(--border - radius);
+}
+
+button[type = "submit"],
+        .book - now - btn {
+padding: 12px 20px;
+    margin - top: 10px;
+    background - color: var(--secondary - color);
+color: var(--white);
+border: none;
+    border - radius: var(--border - radius);
+    font - size: 16px;
+    font - weight: bold;
+cursor: pointer;
+transition: background - color 0.2s;
+    text - align: center;
+    text - decoration: none;
+display: inline - block;
+}
+
+button[type = "submit"]:hover,
+        .book - now - btn:hover {
+    background - color: #e65c00;
+        }
+
+        .cancel - btn {
+padding: 12px 20px;
+    margin - top: 10px;
+    background - color: var(--light - gray);
+color: var(--dark - gray);
+border: 1px solid var(--medium - gray);
+    border - radius: var(--border - radius);
+    font - size: 16px;
+    font - weight: bold;
+cursor: pointer;
+transition: background - color 0.2s;
+    text - align: center;
+    text - decoration: none;
+display: inline - block;
+    margin - left: 10px;
+}
+
+        .cancel - btn:hover {
+    background - color: #e0e0e0;
+        }
+
+        /* Accommodation section 
+        .accommodation - section {
     margin - bottom: 30px;
 }
 
-    .travel - item {
-    background - color: #f9f9f9;
-        border - radius: 8px;
+        .section - title {
+    font - size: 24px;
+    margin - bottom: 15px;
+color: var(--primary - color);
+}
+
+        .accommodation - card {
+    background - color: var(--white);
+    border - radius: var(--border - radius);
+    box - shadow: var(--box - shadow);
+overflow: hidden;
+display: flex;
+}
+
+        .accommodation - image {
+flex: 1;
+    max - width: 300px;
+}
+
+        .accommodation - image img {
+width: 100 %;
+height: 100 %;
+    object-fit: cover;
+}
+
+        .accommodation - details {
+flex: 2;
+padding: 20px;
+}
+
+        .accommodation - title {
+display: flex;
+    justify - content: space - between;
+    align - items: center;
+    margin - bottom: 10px;
+}
+
+        .accommodation - name {
+    font - size: 20px;
+color: var(--text - color);
+}
+
+        .stay - stars {
+color: #ffb700;
+        font - size: 16px;
+}
+
+        .stay - price {
+    font - size: 20px;
+    font - weight: bold;
+color: var(--secondary - color);
+    margin - top: 10px;
+}
+
+        /* Travel details section 
+        .travel - section {
+    margin - bottom: 30px;
+}
+
+        .travel - card {
+    background - color: var(--white);
+    border - radius: var(--border - radius);
+    box - shadow: var(--box - shadow);
+padding: 20px;
+    margin - bottom: 15px;
+display: flex;
+    align - items: center;
+}
+
+        .travel - point {
+flex: 1;
+    text - align: center;
+}
+
+        .travel - location {
+    font - size: 18px;
+    font - weight: bold;
+color: var(--text - color);
+}
+
+        .travel - date {
+    font - size: 14px;
+color: var(--dark - gray);
+}
+
+        .travel - icon {
+flex: 0.5;
+    text - align: center;
+}
+
+        .travel - icon img {
+width: 30px;
+opacity: 0.6;
+}
+
+        .travel - transport {
+flex: 1;
+    text - align: center;
+padding: 8px 15px;
+    background - color: var(--light - gray);
+    border - radius: 20px;
+    font - size: 14px;
+color: var(--dark - gray);
+}
+
+        /* Activities section 
+        .activities - section {
+    margin - bottom: 30px;
+}
+
+        .activities - grid {
+display: grid;
+    grid - template - columns: repeat(auto - fill, minmax(280px, 1fr));
+gap: 20px;
+}
+
+        .activity - card {
+    background - color: var(--white);
+    border - radius: var(--border - radius);
+    box - shadow: var(--box - shadow);
+overflow: hidden;
+}
+
+        .activity - image {
+height: 180px;
+overflow: hidden;
+}
+
+        .activity - image img {
+width: 100 %;
+height: 100 %;
+    object-fit: cover;
+}
+
+        .activity - name {
+padding: 15px;
+    font - size: 16px;
+    font - weight: bold;
+color: var(--text - color);
+}
+
+        /* Reviews section *
+        .reviews - section {
+    margin - bottom: 30px;
+}
+
+        .review - form {
+    background - color: var(--white);
+    border - radius: var(--border - radius);
+    box - shadow: var(--box - shadow);
 padding: 20px;
     margin - bottom: 20px;
 }
 
-    .travel - row {
-display: flex;
-    margin - bottom: 15px;
-    align - items: center;
+        .review - form input[type = "text"] {
+width: 100 %;
+padding: 12px;
+border: 1px solid var(--medium - gray);
+    border - radius: var(--border - radius);
+    margin - bottom: 10px;
 }
 
-    .travel - col {
+        .review - form button {
+padding: 10px 20px;
+    background - color: var(--primary - color);
+color: var(--white);
+border: none;
+    border - radius: var(--border - radius);
+cursor: pointer;
+transition: background - color 0.2s;
+}
+
+        .review - form button: hover {
+    background - color: #1a6ac2;
+        }
+
+        .comment - list {
+    background - color: var(--white);
+    border - radius: var(--border - radius);
+    box - shadow: var(--box - shadow);
+padding: 20px;
+}
+
+        .comment - item {
+display: flex;
+    margin - bottom: 20px;
+    padding - bottom: 20px;
+    border - bottom: 1px solid var(--medium - gray);
+}
+
+        .comment - item:last - child {
+    margin - bottom: 0;
+    padding - bottom: 0;
+    border - bottom: none;
+}
+
+        .comment - avatar {
+width: 50px;
+height: 50px;
+    border - radius: 50 %;
+overflow: hidden;
+    margin - right: 15px;
+}
+
+        .comment - avatar img {
+width: 100 %;
+height: 100 %;
+    object-fit: cover;
+}
+
+        .comment - content {
 flex: 1;
+    line - height: 1.5;
 }
 
-    .travel - label {
-    font - size: 14px;
-color: #666;
-        margin - bottom: 5px;
-}
-
-    .travel - value {
-    font - size: 18px;
-    font - weight: 500;
-color: #333;
-    }
-
-    .mini - icon {
-width: 18px;
-height: 18px;
-}
-
-    .transport - info {
-padding: 15px 0;
-    font - size: 18px;
-    font - weight: 500;
-color: #0071c2;
-        flex: 1;
+        .booking - actions {
 display: flex;
-    align - items: center;
-}
-
-    .transport - icon {
-    margin - right: 10px;
-    font - size: 20px;
-}
-
-    /* Price and booking section 
-    .booking - section {
-    background - color: #f9f9f9;
-        border - radius: 8px;
-padding: 25px;
-display: flex;
-    flex - wrap: wrap;
     justify - content: space - between;
-    align - items: center;
-gap: 20px;
+    margin - top: 20px;
 }
+    </ style >
+</ head >
+< body >
+    < div class= "container" >
+        < div class= "offer-header" >
+            < div class= "offer-title" >
+                < h1 > @Model.OfferName </ h1 >
+                < div class= "rating-container" >
+                    @for(int i = 0; i < Model.OfferRatingStars; i++)
+                    {
+                        < div class= "stay-stars" >
+                            < span >★</ span >
+                        </ div >
+                    }
 
-    .total - price {
-    font - size: 28px;
-    font - weight: bold;
-color: forestgreen;
-}
+                    < span class= "rating-number" > @Model.OfferRating </ span >
+                </ div >
+            </ div >
+            < form method = "post" action = "/Favorite/Favorite" >
+                < div class= "favorite-btn" >
+                    < input type = "hidden" name = "id" value = "@Model.OfferId" />
+                    < input type = "checkbox" id = "favorite" class= "favorite-checkbox" name = "favorite-checkbox" value = "true" @(Model.IsFavorited.Value ? "checked" : "") >
+                    < label class= "favorite-btn-label" for= "favorite" >
+                        < svg xmlns = "http://www.w3.org/2000/svg" width = "24" height = "24" viewBox = "0 0 24 24" fill = "none" stroke = "currentColor" stroke - width = "2" stroke - linecap = "round" stroke - linejoin = "round" class= "feather feather-heart" >
+                            < path d = "M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" ></ path >
+                        </ svg >
+                        < span > Add to Favorites</span>
+                    </label>
+                </div>
+                <button type = "submit" style= "display:none;" > Submit </ button >
+            </ form >
+        </ div >
 
-    .booking - actions {
-display: flex;
-gap: 15px;
-}
+        < div class= "main-image" >
+            < img src = "@Model.OfferPic" alt = "@Model.OfferName" >
+        </ div >
 
-    .btn {
-        display: inline - block;
-padding: 12px 24px;
-border - radius: 4px;
-text - decoration: none;
-font - weight: 600;
-font - size: 16px;
-text - align: center;
-transition: all 0.3s ease;
-    }
+        < div class= "content-section" >
+            < div class= "description" >
+                < div class= "description-title" > Description </ div >
+                < div class= "description-content" > @Model.OfferDisc </ div >
+                < div class= "description-content" > Bookings available every week the same day as starting date. Last available week for booking is on the last date.</div>
+                <div class= "description-content" > Starting Date: @Model.OfferStart </ div >
+                < div class= "description-content" > Last Date: @Model.OfferLast </ div >
+                < div class= "description-content" > Max number of people: @Model.OfferPeople </ div >
+                < div class= "description-content" > Duration in days: @Model.OfferDays </ div >
+            </ div >
 
-    .btn - book {
-    background - color: #0071c2;
-        color: white;
-    min - width: 150px;
-    box - shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
+            < div class= "booking-details" >
+                < div class= "price-container" >
+                    < div class= "price-label" > Price per person</div>
+                    <div class= "price-value" > @Model.OfferPrice лв </ div >
+                </ div >
+                < form method = "post" action = "/Booking/Book" >
+                    < !--Hidden field for offer ID -->
+                    <input type="hidden" name="id" value="@Model.OfferId" />
 
-        .btn - book:hover {
-            background-color: #005999;
-        }
+                    <!-- People Count Input -->
+                    <label for="ppl">People Count:</ label >
+                    < input type = "number" id = "ppl" name = "ppl" required min = "1" />
 
-    .btn - cancel {
-    background - color: #fff;
-        color: #0071c2;
-        border: 1px solid #0071c2;
-        box - shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
+                    < !--Discounted People Count Input -->
+                    @if (Model.IsOnDiscount == true)
+                    {
+                        <label for="discppl">Elders or Kids Count with @Model.OfferDiscount% discount:</ label >
+                        < input type = "number" id = "discppl" name = "discppl" required min = "0" />
+                    }
+                    else
+{
+                        < input type = "hidden" id = "discppl" name = "discppl" value = "1" />
+                    }
 
-        .btn - cancel:hover {
-            background-color: #f5f9fc;
-        }
 
-    /* Utility class for travel details grid *
-    .el1 {
-        flex: 1;
-min - width: 200px;
-    }
+                    < !--Start Date Input -->
+                    <label for="st">Start Date:</ label >
+                    < input type = "date" id = "st" name = "st" required />
 
-    /* Responsive adjustments 
-    media(max - width: 768px) {
-        .stay - section, .travel - row, .booking - section
+                    < !--Submit Button-- >
+                    < button type = "submit" > Book Now </ button >
+                </ form >
+            </ div >
+        </ div >
 
+        < div class= "accommodation-section" >
+            < h2 class= "section-title" > Accommodation Details </ h2 >
+            < div class= "accommodation-card" >
+                < div class= "accommodation-image" >
+                    < img src = "@Model.StayPic" alt = "@Model.StayName" >
+                </ div >
+                < div class= "accommodation-details" >
+                    < div class= "accommodation-title" >
+                        < h3 class= "accommodation-name" > @Model.StayName </ h3 >
+                        < div class= "stay-stars" >
+                            @for(int i = 0; i < Model.StayStars.Value; i++)
+                            {
+                                < span >★</ span >
+                            }
+                        </ div >
+                    </ div >
+                    < p > @Model.StayDisc </ p >
+                    < div class= "stay-price" > @Model.StayPrice лв </ div >
+                </ div >
+            </ div >
+        </ div >
+        < div class= "activities-section" >
+            < h2 class= "section-title" > Amenitites </ h2 >
+            < div class= "activities-grid" >
+                @foreach(var a in Model.Amenities)
+                {
+                    < div class= "activity-name" > @a.Icon </ div >
+                    < div class= "activity-name" > @a.Name </ div >
+                }
+            </ div >
+        </ div >
+        < div class= "travel-section" >
+            < h2 class= "section-title" > Travel Details </ h2 >
+            @foreach(var a in Model.Travels)
+            {
+                < div class= "travel-card" >
+                    < div class= "travel-point" >
+                        < div class= "travel-location" > @a.Start </ div >
+                    </ div >
+                    @foreach(var tr in Model.Transports)
+                    {
+    if (@a.TransportId == tr.Id && tr.Name == "Plane")
     {
-        flex - direction: column;
-    }
+                            < div class= "travel-transport" > @tr.Name </ div >
+                    < div class= "travel-icon" >
 
-    .activity - item {
-    width: 100 %;
-    }
 
-    .booking - actions {
-    width: 100 %;
-    }
-
-    .btn {
-    width: 100 %;
-    }
-
-}
-
-/* Convert regular h1 headings to appropriate styles based on context 
-h1 {
-        font-size: 1.2rem;
-margin - bottom: 10px;
-    }
-</ style > @using Explorers_Haven.ViewModels.Main
-@model OfferPageViewModel
-<h1>@Model.OfferName</h1>
-<img src="@Model.OfferPic" alt="@Model.OfferName">
-<h1>@Model.OfferDisc</h1>
-<h1>@Model.StayName</h1>
-<h1>@Model.StayStars</h1>
-<h1>@Model.StayPrice</h1>
-<img src="@Model.StayPic" alt="@Model.StayName">
-
-@foreach (var a in Model.Activities)
+                        < img src = "/Images/Plane.svg" alt = "Plane" />
+                    </ div >
+                    }
+                    if (@a.TransportId == tr.Id && tr.Name == "Train")
 {
-	<h1>@a.Name</h1>
-}
-@foreach (var a in Model.Travels)
+                    < div class= "travel-icon" >
+                                < div class= "travel-transport" > @tr.Name </ div >
+                                < img src = "/Images/Train.svg" alt = "Train" />
+                    </ div >
+                    }
+                        if (@a.TransportId == tr.Id && tr.Name == "Boat")
 {
-	<div class="el1">
-		<h1>@a.Start</h1>
-		<h1>@a.DateStart.ToString()</h1>
-	</div>
-	<div class="el1">
-		<h1>@a.Finish</h1>
-		<h1>@a.DateFinish</h1>
-	</div>
-	<h1>@a.Transport</h1>
-}
-<h1>@Model.OfferPrice</h1>
-<a asp-controller="Booking" asp-action="Book">Book</a>
-<a asp-controller="Booking" asp-action="Cancel">Cancel</a>*/
+                            < div class= "travel-icon" >
+                                < div class= "travel-transport" > @tr.Name </ div >
+                                < img src = "/Images/boat.svg" alt = "boat" />
+                            </ div >
+                        }
+                        if (@a.TransportId == tr.Id && tr.Name == "Custom")
+{
+                            < div class= "travel-icon" >
+                                < div class= "travel-transport" > @tr.Name </ div >
+                                < img src = "/Images/custom.svg" alt = "custom" />
+                            </ div >
+                        }
+                    }
+
+
+
+                    < div class= "travel-point" >
+                        < div class= "travel-location" > @a.Finish </ div >
+                    </ div >
+
+
+                </ div >
+            }
+        </ div >
+
+        < div class= "activities-section" >
+            < h2 class= "section-title" > Activities </ h2 >
+            < div class= "activities-grid" >
+                @foreach(var a in Model.Activities)
+                {
+                    < div class= "activity-card" >
+                        < div class= "activity-image" >
+                            < img src = "@a.CoverImage" alt = "@a.Name" >
+                        </ div >
+                        < div class= "activity-name" > @a.Name </ div >
+                    </ div >
+                }
+            </ div >
+        </ div >
+
+        < div class= "reviews-section" >
+            < h2 class= "section-title" > Reviews </ h2 >
+            < div class= "review-form" >
+                < form method = "post" action = "/Rating/Rate" id = "ratingForm" >
+                    < input type = "hidden" name = "id" value = "@Model.OfferId" />
+                    < div class= "stars" >
+                        @if(Model.OfferRatingStars == 1)
+                        {
+                            < input value = "1" name = "rating" id = "star1" type = "radio" checked>
+                        }
+                        else
+    {
+                            < input value = "1" name = "rating" id = "star1" type = "radio" >
+                        }
+                        < label for= "star1" ></ label >
+                        @if(Model.OfferRatingStars == 2)
+                        {
+                            < input value = "2" name = "rating" id = "star2" type = "radio" checked>
+                        }
+                        else
+        {
+                            < input value = "2" name = "rating" id = "star2" type = "radio" >
+                        }
+                        < label for= "star2" ></ label >
+                        @if(Model.OfferRatingStars == 3)
+                        {
+                            < input value = "3" name = "rating" id = "star3" type = "radio" checked>
+                        }
+                        else
+            {
+                            < input value = "3" name = "rating" id = "star3" type = "radio" >
+                        }
+                        < label for= "star3" ></ label >
+                        @if(Model.OfferRatingStars == 4)
+                        {
+                            < input value = "4" name = "rating" id = "star4" type = "radio" checked>
+                        }
+                        else
+                {
+                            < input value = "4" name = "rating" id = "star4" type = "radio" >
+                        }
+                        < label for= "star4" ></ label >
+                        @if(Model.OfferRatingStars == 5)
+                        {
+                            < input value = "5" name = "rating" id = "star5" type = "radio" checked>
+                        }
+                        else
+                    {
+                            < input value = "5" name = "rating" id = "star5" type = "radio" >
+                        }
+                        < label for= "star5" ></ label >
+                    </ div >
+                    < button type = "submit" style = "display:none;" > Submit </ button >
+                </ form >
+                < form method = "post" action = "/Comment/WriteComment" >
+                    < input type = "hidden" name = "id" value = "@Model.OfferId" />
+                    < input type = "text" id = "comment" name = "comment" placeholder = "Share your experience..." />
+                    < button type = "submit" > Submit </ button >
+                </ form >
+            </ div >
+
+            < div class= "comment-list" id = "commentsSection" >
+                @foreach(var a in Model.Comments)
+                {
+                    < div class= "comment-item" >
+                        @foreach(var u in Model.Users)
+                        {
+    if (u.Id == a.UserId)
+    {
+                                < div class= "comment-avatar" >
+                                    < img src = "@u.ProfilePicture" alt = "User profile" >
+                                </ div >
+                            }
+                        }
+                        @foreach(var u in Model.Ratings)
+                        {
+    if (u.UserId == a.UserId)
+    {
+        @for(int i = 0; i < u.Stars; i++)
+                                {
+                                    < div class= "stay-stars" >
+                                    < span >★</ span >
+                                    </ div >
+                                }
+                            }
+                        }
+                        < div class= "comment-content" > @a.Content </ div >
+                    </ div >
+                }
+            </ div >
+        </ div >
+    </ div >
+    < script >
+        document.getElementById('favorite').addEventListener('change', function() {
+    this.form.submit();  // Submit the form when checkbox is toggled
+});
+
+
+const form = document.getElementById('ratingForm');
+
+// Add event listener to the form
+form.addEventListener('change', function(event) {
+    // Check if a radio button is selected
+    if (event.target.name === 'rating') {
+        // Automatically submit the form when a radio button is selected
+        form.submit();
+    }
+});
+    </ script >
+</ body >
+</ html > */
 }

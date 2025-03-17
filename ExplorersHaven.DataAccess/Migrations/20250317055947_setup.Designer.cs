@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250315214708_updateValues3")]
-    partial class updateValues3
+    [Migration("20250317055947_setup")]
+    partial class setup
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,6 +107,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
+                            Icon = "/Images/parking.svg",
                             Name = "Parking places"
                         });
                 });
@@ -229,8 +230,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<DateOnly?>("LastDate")
                         .HasColumnType("date");
 
-                    b.Property<int?>("MaxPeople")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("MaxPeople")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -266,8 +267,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                             BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                             Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
+                            Discount = 20m,
                             DurationDays = 4,
                             LastDate = new DateOnly(2025, 4, 8),
+                            MaxPeople = 8m,
                             Name = "Egypt",
                             Price = 100m,
                             StartDate = new DateOnly(2025, 4, 1),

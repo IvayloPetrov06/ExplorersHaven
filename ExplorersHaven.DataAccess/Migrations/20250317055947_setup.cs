@@ -258,8 +258,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MaxPeople = table.Column<int>(type: "int", nullable: true),
-                    Discount = table.Column<int>(type: "int", nullable: true),
+                    MaxPeople = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Discount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     DurationDays = table.Column<int>(type: "int", nullable: true),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: true),
                     LastDate = table.Column<DateOnly>(type: "date", nullable: true),
@@ -316,7 +316,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PeopleCount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    YoungOldPeopleCount = table.Column<int>(type: "int", nullable: true),
+                    YoungOldPeopleCount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     OfferName = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -449,7 +449,7 @@ namespace Explorers_Haven.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Amenities",
                 columns: new[] { "Id", "Icon", "Name" },
-                values: new object[] { 1, null, "Parking places" });
+                values: new object[] { 1, "/Images/parking.svg", "Parking places" });
 
             migrationBuilder.InsertData(
                 table: "Stays",
@@ -469,7 +469,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     { 1, "Plane" },
                     { 2, "Train" },
                     { 3, "Boat" },
-                    { 4, "Plane" }
+                    { 4, "Custom" }
                 });
 
             migrationBuilder.InsertData(
@@ -477,7 +477,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Discount", "DurationDays", "LastDate", "MaxPeople", "Name", "Price", "Rating", "StartDate", "StayId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", null, null, null, null, "Egypt", 100m, null, null, 1, null },
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Egypt", 100m, null, new DateOnly(2025, 4, 1), 1, null },
                     { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, null, null, null, null, "Poland", 20m, null, null, 2, null },
                     { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, null, null, null, null, "Germany", 500m, null, null, 3, null }
                 });
@@ -492,8 +492,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "CoverImage", "Name", "OfferId" },
                 values: new object[,]
                 {
-                    { 1, null, "Camel riding", 1 },
-                    { 2, null, "Sightseeing", 1 },
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Camel riding", 1 },
+                    { 2, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Sightseeing", 1 },
                     { 3, null, "Sightseeing", 2 },
                     { 4, null, "Sightseeing", 3 },
                     { 5, null, "Archery", 3 }
@@ -504,12 +504,13 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "DateFinish", "DateStart", "Finish", "OfferId", "Start", "TransportId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", 1 },
-                    { 2, new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", 1 },
+                    { 1, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", 3 },
+                    { 2, new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", 4 },
                     { 3, null, null, "Warsaw", 2, "Sofia", 1 },
                     { 4, null, null, "Sofia", 2, "Warsaw", 1 },
                     { 5, null, null, "Berlin", 3, "Sofia", 1 },
-                    { 6, null, null, "Sofia", 3, "Berlin", 1 }
+                    { 6, null, null, "Sofia", 3, "Berlin", 1 },
+                    { 7, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", 2 }
                 });
 
             migrationBuilder.CreateIndex(

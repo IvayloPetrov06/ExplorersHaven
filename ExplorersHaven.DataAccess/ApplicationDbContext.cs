@@ -90,7 +90,8 @@ namespace Explorers_Haven.DataAccess
                     StartDate = new DateOnly(2025, 4, 1),
                     LastDate = new DateOnly(2025, 4, 8),
                     Discount = 20,
-                    MaxPeople = 8
+                    MaxPeople = 8,
+                    Rating = 3
 
                 }
                 );

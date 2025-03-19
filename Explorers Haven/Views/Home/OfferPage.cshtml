@@ -445,7 +445,8 @@
 
         .amenity-icon {
         margin-right: 10px;
-        font-size: 18px;
+        font-size: 10px;
+            width: 30px;
         color: var(--primary-color);
         }
 
@@ -643,14 +644,13 @@
             <div class="offer-title">
                 <h1>@Model.OfferName</h1>
                 <div class="rating-container">
+                    <span class="rating-number" style="margin-left: 4px;">@Model.OfferRating.Value.ToString("0.0")</span>
                     @for (int i = 0; i < Model.OfferRatingStars; i++)
                     {
                         <div class="stay-stars">
                             <span>★</span>
                         </div>
                     }
-
-                    <span class="rating-number">@Model.OfferRating</span>
                 </div>
             </div>
             <form method="post" action="/Favorite/Favorite">
@@ -679,6 +679,7 @@
             <div class="description">
                 <div class="description-title">Description</div>
                 <div class="description-content">@Model.OfferDisc</div>
+                <div class="description-title">Booking options</div>
                 <div class="description-content">Bookings available every week the same day as starting date. Last available week for booking is on the last date.</div>
                 
                 <div class="trip-info">
@@ -719,7 +720,7 @@
                     {
                         <label for="discppl" class="discount-label">
                             <i class="fas fa-tag"></i>
-                            Elders or Kids Count with <span class="discount-value"> @Math.Floor(Model.OfferDiscount.Value)% discount</span>:
+                            Elders or Kids Count with <span class="discount-value" style="margin-left: 4px;"> @Math.Floor(Model.OfferDiscount.Value)% discount</span>:
                         </label>
                         <input type="number" id="discppl" name="discppl" required min="0" />
                     }
@@ -768,7 +769,7 @@
                 @foreach (var a in Model.Amenities)
                 {
                     <div class="amenity-item">
-                        <div class="amenity-icon">@a.Icon</div>
+                        <img class="amenity-icon" src="@a.Icon" alt="Amenity Icon" />
                         <div class="amenity-name">@a.Name</div>
                     </div>
                 }

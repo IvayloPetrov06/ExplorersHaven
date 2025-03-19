@@ -4,6 +4,7 @@ using Explorers_Haven.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250319065959_setup2")]
+    partial class setup2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -270,7 +273,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                             MaxPeople = 8m,
                             Name = "Egypt",
                             Price = 100m,
-                            Rating = 3m,
                             StartDate = new DateOnly(2025, 4, 1),
                             StayId = 1
                         },

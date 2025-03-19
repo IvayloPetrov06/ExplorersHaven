@@ -16,6 +16,6 @@ namespace Explorers_Haven.Models
         public string Name { get; set; }
         public string? CoverImage { get; set; }
         public int OfferId { get; set; }
-        public Offer Offer { get; set; }
+        public Offer Offer { get; set; }//https:/>/github.com>/ppashova/Game-Hive/blob/main/GameHive.Models/GameImage.cs
     }
 }

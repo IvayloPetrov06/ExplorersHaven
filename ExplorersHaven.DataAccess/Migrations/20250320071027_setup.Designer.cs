@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250319065853_setup")]
+    [Migration("20250320071027_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -273,6 +273,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             MaxPeople = 8m,
                             Name = "Egypt",
                             Price = 100m,
+                            Rating = 3m,
                             StartDate = new DateOnly(2025, 4, 1),
                             StayId = 1
                         },
@@ -291,6 +292,22 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Name = "Germany",
                             Price = 500m,
                             StayId = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
+                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
+                            Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
+                            Discount = 20m,
+                            DurationDays = 4,
+                            LastDate = new DateOnly(2025, 4, 8),
+                            MaxPeople = 8m,
+                            Name = "Test",
+                            Price = 100m,
+                            Rating = 3m,
+                            StartDate = new DateOnly(2025, 4, 1),
+                            StayId = 1
                         });
                 });
 

@@ -202,6 +202,25 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { Id = 5, Name = "Archery", OfferId = 3 }
                 );
+            modelBuilder.Entity<Offer>().HasData(
+                new Offer
+                {
+                    Id = 4,
+                    Name = "Test",
+                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
+                    BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
+                    Price = 100,
+                    StayId = 1,
+                    Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
+                    DurationDays = 4,
+                    StartDate = new DateOnly(2025, 4, 1),
+                    LastDate = new DateOnly(2025, 4, 8),
+                    Discount = 20,
+                    MaxPeople = 8,
+                    Rating = 3
+
+                }
+                );
             modelBuilder.Entity<User>(b =>
             {
                 modelBuilder.Entity<User>()

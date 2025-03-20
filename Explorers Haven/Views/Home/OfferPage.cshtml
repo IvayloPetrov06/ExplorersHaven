@@ -653,10 +653,10 @@
                     }
                 </div>
             </div>
-            <form method="post" action="/Favorite/Favorite">
+            <form id="favoriteForm" method="post" action="/Favorite/Favorite">
                 <div class="favorite-btn">
                     <input type="hidden" name="id" value="@Model.OfferId" />
-                    <input type="checkbox" id="favorite" class="favorite-checkbox" name="favorite-checkbox" value="true" @(Model.IsFavorited.Value? "checked" : "")>
+                    <input type="checkbox" id="favorite" class="favorite-checkbox" name="favorite-checkbox" value="true" @(Model.IsFavorited.Value ? "checked" : "")>
                     <label class="favorite-btn-label" for="favorite">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -844,62 +844,35 @@
         <div class="reviews-section">
             <h2 class="section-title">Reviews</h2>
             <div class="review-form">
-                <form method="post" action="/Rating/Rate" id="ratingForm">
-                    <input type="hidden" name="id" value="@Model.OfferId" />
+                <!-- Rating Form -->
+                <form id="ratingForm">
+                    <input type="hidden" name="id" value="@Model.OfferId" /> <!-- Hidden ID Field -->
                     <div class="stars">
-                        @if (Model.OfferRatingStars == 1)
-                        {
-                            <input value="1" name="rating" id="star1" type="radio" checked>
-                        }
-                        else
-                        {
-                            <input value="1" name="rating" id="star1" type="radio">
-                        }
-                        <label for="star1"></label>
-                        @if (Model.OfferRatingStars == 2)
-                        {
-                            <input value="2" name="rating" id="star2" type="radio" checked>
-                        }
-                        else
-                        {
-                            <input value="2" name="rating" id="star2" type="radio">
-                        }
-                        <label for="star2"></label>
-                        @if (Model.OfferRatingStars == 3)
-                        {
-                            <input value="3" name="rating" id="star3" type="radio" checked>
-                        }
-                        else
-                        {
-                            <input value="3" name="rating" id="star3" type="radio">
-                        }
-                        <label for="star3"></label>
-                        @if (Model.OfferRatingStars == 4)
-                        {
-                            <input value="4" name="rating" id="star4" type="radio" checked>
-                        }
-                        else
-                        {
-                            <input value="4" name="rating" id="star4" type="radio">
-                        }
-                        <label for="star4"></label>
-                        @if (Model.OfferRatingStars == 5)
-                        {
-                            <input value="5" name="rating" id="star5" type="radio" checked>
-                        }
-                        else
-                        {
-                            <input value="5" name="rating" id="star5" type="radio">
-                        }
+                        <input value="5" name="rating" id="star5" type="radio" @(Model.OfferRatingStars == 5 ? "checked" : "") disabled>
                         <label for="star5"></label>
+
+                        <input value="4" name="rating" id="star4" type="radio" @(Model.OfferRatingStars == 4 ? "checked" : "") disabled>
+                        <label for="star4"></label>
+
+                        <input value="3" name="rating" id="star3" type="radio" @(Model.OfferRatingStars == 3 ? "checked" : "") disabled>
+                        <label for="star3"></label>
+                        
+                        <input value="2" name="rating" id="star2" type="radio" @(Model.OfferRatingStars == 2 ? "checked" : "") disabled>
+                        <label for="star2"></label>
+                        
+                        <input value="1" name="rating" id="star1" type="radio" @(Model.OfferRatingStars == 1 ? "checked" : "") disabled>
+                        <label for="star1"></label>
                     </div>
-                    <button type="submit" style="display:none;">Submit</button>
                 </form>
-                <form method="post" action="/Comment/WriteComment">
-                    <input type="hidden" name="id" value="@Model.OfferId" />
+
+                <!-- Comment Form -->
+                <form id="commentForm">
+                    <input type="hidden" name="id" value="@Model.OfferId" />  <!-- Hidden ID Field -->
                     <input type="text" id="comment" name="comment" placeholder="Share your experience..." />
-                    <button type="submit">Submit</button>
                 </form>
+
+                <!-- Submit Button -->
+                <button id="submitReview" type="button">Submit Review</button>
             </div>
 
             <div class="comment-list" id="commentsSection">
@@ -935,21 +908,93 @@
         </div>
     </div>
     <script>
+                document.addEventListener('DOMContentLoaded', function() {
+            // Favorite functionality
+            const favoriteCheckbox = document.getElementById('favorite');
+            favoriteCheckbox.addEventListener('change', function() {
+                const formData = new FormData(document.getElementById('favoriteForm'));
 
-        document.getElementById('favorite').addEventListener('change', function() {
-            this.form.submit();  
-        });
+                fetch('/Favorite/Favorite', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const option1 = document.querySelector('.option-1');
+                        const option2 = document.querySelector('.option-2');
 
+                        if (favoriteCheckbox.checked) {
+                            option1.style.display = 'none';
+                            option2.style.display = 'block';
+                        } else {
+                            option1.style.display = 'block';
+                            option2.style.display = 'none';
+                        }
+                    } else {
+                        alert('Something went wrong, please try again later.');
+                        favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred, please try again later.');
+                    favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                });
+            });
 
-        const form = document.getElementById('ratingForm');
+            // Rating and Comment functionality
+            const submitButton = document.getElementById('submitReview');
 
-        
-        form.addEventListener('change', function(event) {
-            
-            if (event.target.name === 'rating') {
-                
-                form.submit();
-            }
+            submitButton.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const selectedRating = document.querySelector('input[name="rating"]:checked');
+                const comment = document.getElementById('comment').value; // Get the comment value
+
+                // If rating or comment is missing, alert the user
+                if (!selectedRating) {
+                    alert('Please select a rating before submitting.');
+                    return;
+                }
+
+                if (!comment.trim()) {
+                    alert('Please write a comment before submitting.');
+                    return;
+                }
+
+                // Get the offerId (hidden in the form)
+                const offerId = document.querySelector('input[name="id"]').value;
+
+                // Prepare the data to be sent in the AJAX request
+                const formData = new FormData();
+                formData.append('id', offerId);
+                formData.append('rating', selectedRating.value);
+                formData.append('comment', comment);
+
+                // Submit the data to the server using fetch (AJAX)
+                fetch('/Home/SubmitReview', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        console.log('Review submitted successfully!');
+                        alert('Review submitted successfully!');
+                        // Optionally, clear the comment field or reset the rating here
+                        document.getElementById('comment').value = '';
+                        // Optionally, reset the stars
+                        document.querySelector('input[name="rating"]:checked').checked = false;
+                    } else {
+                        alert('There was an error submitting your review.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error submitting review:', error);
+                    alert('There was an error submitting your review.');
+                });
+            });
         });
     </script>
 </body>

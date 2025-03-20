@@ -34,17 +34,21 @@ namespace Explorers_Haven.Controllers
             TempData["error"] = "Rating doesn't exist!";
             return RedirectToAction("OfferPage", "Home");
         }
-        public async Task<IActionResult> Rate(int id,int rating)
+        [HttpPost]
+        public async Task<IActionResult> Rate(int id, int rating)
         {
+            // Get the current logged-in user
             var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
             User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
 
+            // Fetch the offer from the database
             Offer o = await _offerService.GetOfferByIdAsync(id);
-            //var tempRating = await
 
+            // Get the existing rating for the current offer and user
             var existingRating = await _ratingService.GetRatingAsync(x => x.OfferId == id && x.UserId == user.Id);
-            
-            Rating b = new Rating()
+
+            // Create a new Rating object with the provided rating
+            Rating newRating = new Rating()
             {
                 OfferId = id,
                 Offer = o,
@@ -52,26 +56,25 @@ namespace Explorers_Haven.Controllers
                 User = user,
                 UserId = user.Id
             };
+
             if (existingRating != null)
             {
-                b.Id = existingRating.Id;
-                try
-                {
+                // If the rating already exists, update its properties
+                existingRating.Stars = rating;  // Update the rating stars value
+                existingRating.Offer = o;       // Update the offer reference
+                existingRating.OfferId = id;    // Update the offer ID if needed
 
-                    await _ratingService.UpdateRatingAsync(b);
-                }
-                catch (Exception e)
-                {
-                    var message = e.Message;
-                    throw e;
-                }
+                // Call the update method in your service
+                await _ratingService.UpdateRatingAsync(existingRating);
             }
-            else { 
-                await _ratingService.AddRatingAsync(b);
+            else
+            {
+                // If no existing rating, create a new one and add it
+                await _ratingService.AddRatingAsync(newRating);
             }
-            TempData["success"] = "Offer was rated!";
-            return RedirectToAction("OfferPage", "Home", new { Id = id });
-            //return RedirectToAction("OfferPage", "Home");
+
+            // Return a success response to the frontend
+            return Json(new { success = true, message = "Rating submitted successfully!" });
         }
         public IActionResult Index()
         {

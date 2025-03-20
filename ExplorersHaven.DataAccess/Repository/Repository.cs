@@ -78,6 +78,7 @@ namespace Explorers_Haven.DataAccess.Repository
         {
             T entity = await _dbSet.FirstOrDefaultAsync(filter);//.AsNoTracking()
             return entity;
+
         }
 
         public async Task<T> GetByIdAsync(int id)
@@ -93,9 +94,14 @@ namespace Explorers_Haven.DataAccess.Repository
 
         public async Task UpdateAsync(T entity)
         {
-            _dbSet.Update(entity);
-            await SaveAsync();
+            if (entity != null)
+            {
+                _dbSet.Update(entity);
+                await _context.SaveChangesAsync();
+            }
+            
         }
+
         /*
         public T Add(T entity)
         {

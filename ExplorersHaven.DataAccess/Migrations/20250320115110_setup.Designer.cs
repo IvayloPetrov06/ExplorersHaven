@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250320071027_setup")]
+    [Migration("20250320115110_setup")]
     partial class setup
     {
         /// <inheritdoc />

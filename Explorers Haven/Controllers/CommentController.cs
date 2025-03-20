@@ -45,8 +45,9 @@ namespace Explorers_Haven.Controllers
             User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
 
             Offer offer = await _offerService.GetOfferByIdAsync(id);
-            var com = await _commentService.GetCommentAsync(x => x.UserId == user.Id&&x.OfferId == offer.Id);
-            if (com == null)
+            var existingComment = await _commentService.GetCommentAsync(x => x.UserId == user.Id && x.OfferId == offer.Id);
+
+            if (existingComment == null)
             {
                 Comment newComment = new Comment()
                 {
@@ -58,42 +59,14 @@ namespace Explorers_Haven.Controllers
                 };
 
                 await _commentService.AddCommentAsync(newComment);
-                return RedirectToAction("OfferPage","Home", new { Id = id });
+                return Json(new { success = true, message = "Comment added successfully!" });
             }
-            else 
+            else
             {
-                com.Content = comment;
-                await _commentService.UpdateCommentAsync(com);
-                return RedirectToAction("OfferPage", "Home", new { Id = id});
+                existingComment.Content = comment;
+                await _commentService.UpdateCommentAsync(existingComment);
+                return Json(new { success = true, message = "Comment updated successfully!" });
             }
-           
-            /*if (comment == null)
-            {
-                return Ok(new { message = "Cant add empty comments!" });
-            }
-            else 
-            {
-                var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
-                User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
-
-                Offer o = await _offerService.GetOfferByIdAsync(id);
-                //var tempComment = await
-
-                Comment b = new Comment()
-                {
-                    OfferId = id,
-                    Offer = o,
-                    Content = comment,
-                    User = user,
-                    UserId = user.Id
-                };
-                await _commentService.AddCommentAsync(b);
-                TempData["success"] = "Offer was rated!";
-                //var data = new { success = "Offer was rated!" };
-                return Ok(new { message = "Item deleted successfully!" });
-                //return RedirectToAction("OfferPage", "Home");
-            }*/
-
         }
         public IActionResult Index()
         {

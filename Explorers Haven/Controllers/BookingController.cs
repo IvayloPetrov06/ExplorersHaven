@@ -125,7 +125,7 @@ namespace Explorers_Haven.Controllers
             if (string.IsNullOrEmpty(filter.Search))
             {
 
-                var model = _bookingService.AllWithInclude().Include(x => x.Offer).Include(x => x.User).Select(x => new BookingViewModel()
+                var model = _bookingService.AllWithInclude().Include(x => x.Offer).Include(x => x.User).Select(x => new FavoriteViewModel()
                 {
                     PeopleCount = x.PeopleCount,
                     YoungOldPeopleCount = x.YoungOldPeopleCount,
@@ -161,7 +161,7 @@ namespace Explorers_Haven.Controllers
                 filterModel = new BookingFilterViewModel
                 {
                     Bookings = query.Include(x => x.User)
-                .Select(x => new BookingViewModel()
+                .Select(x => new FavoriteViewModel()
                 {
                     PeopleCount = x.PeopleCount,
                     YoungOldPeopleCount = x.YoungOldPeopleCount,
@@ -195,7 +195,7 @@ namespace Explorers_Haven.Controllers
             }
             var userBookings = await _bookingService.GetAll().Where(x => x.UserId == user.Id)
         .Include(x => x.Offer) // Including related Offer data for displaying the Offer Name
-        .Select(x => new BookingViewModel
+        .Select(x => new FavoriteViewModel
         {
             PeopleCount = x.PeopleCount,
             YoungOldPeopleCount = x.YoungOldPeopleCount,

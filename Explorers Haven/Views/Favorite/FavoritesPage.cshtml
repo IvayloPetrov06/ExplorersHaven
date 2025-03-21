@@ -1,0 +1,358 @@
+﻿@using Explorers_Haven.ViewModels.Favorite
+@model FavoriteFilterViewModel
+
+<!-- Main Container -->
+<div class="trivago-container">
+    <!-- Hero Search Section -->
+    <div class="hero-section">
+        <div class="search-wrapper">
+            <h1 class="main-heading">Find your ideal hotel and compare prices from different websites</h1>
+
+            <div class="search-box">
+                <form>
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" asp-for="Search" class="search-input" placeholder="Where would you like to go?">
+                        <button type="submit" class="search-button">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="results-section">
+        <div class="results-header">
+            <h2 class="section-title">Your Favorites</h2>
+            <div class="filters">
+                <span class="filter-label">Sort by:</span>
+                <select class="filter-dropdown">
+                    <option>Our recommendations</option>
+                    <option>Price (lowest first)</option>
+                    <option>Rating (highest first)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Offers Grid -->
+        <div class="offers-grid">
+            @foreach (var offer in Model.Favorites)
+            {
+                <div class="offer-card">
+                    <div class="offer-image">
+                        <img src="@offer.OfferCoverImage" alt="@offer.OfferName">
+                    </div>
+                    <div class="offer-details">
+                        <div class="offer-info">
+                            <h3 class="offer-name">@offer.OfferName</h3>
+                            <div class="offer-metadata">
+                                <span class="people-count"><i class="fas fa-user"></i> @offer.PeopleCount people</span>
+                                <span class="date"><i class="fas fa-calendar"></i> @offer.StartDate</span>
+                                @if (offer.YoungOldPeopleCount > 0)
+                                {
+                                    <span class="children-count"><i class="fas fa-child"></i> @offer.YoungOldPeopleCount children/seniors</span>
+                                }
+                            </div>
+                        </div>
+                        <div class="offer-actions">
+                            <div class="price-tag">
+                                <span class="price-label">Price</span>
+                                <span class="price-value">@offer.Price лв</span>
+                            </div>
+                            <div class="action-buttons">
+                                <a href="/Favorite/Cancel/@offer.Id" class="btn-cancel">Cancel</a>
+                                <a href="#" class="btn-view">View Deal</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome and Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        background-color: #f5f5f5;
+        color: #333;
+    }
+
+    .trivago-container {
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* Hero Section Styles */
+    .hero-section {
+        background-color: #0a84ff;
+        padding: 40px 20px;
+        border-radius: 0 0 8px 8px;
+        margin-bottom: 30px;
+    }
+
+    .search-wrapper {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .main-heading {
+        color: white;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 30px;
+    }
+
+    .search-box {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-input-wrapper {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 15px;
+        color: #666;
+        font-size: 18px;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 15px 15px 15px 45px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 16px;
+        outline: none;
+    }
+
+        .search-input:focus {
+            border-color: #0a84ff;
+        }
+
+    .search-button {
+        padding: 15px 25px;
+        background-color: #f48f00;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: pointer;
+        margin-left: 10px;
+        transition: background-color 0.2s;
+    }
+
+        .search-button:hover {
+            background-color: #e57f00;
+        }
+
+    /* Results Section Styles */
+    .results-section {
+        padding: 0 20px 40px;
+    }
+
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .filters {
+        display: flex;
+        align-items: center;
+    }
+
+    .filter-label {
+        margin-right: 10px;
+        color: #666;
+    }
+
+    .filter-dropdown {
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        outline: none;
+        cursor: pointer;
+    }
+
+    /* Offer Cards Styles */
+    .offers-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .offer-card {
+        display: flex;
+        background-color: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .offer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+    .offer-image {
+        width: 240px;
+        min-width: 240px;
+        overflow: hidden;
+    }
+
+        .offer-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .offer-details {
+        flex: 1;
+        display: flex;
+        padding: 20px;
+        justify-content: space-between;
+    }
+
+    .offer-info {
+        flex: 1;
+    }
+
+    .offer-name {
+        font-size: 20px;
+        font-weight: 500;
+        color: #0a84ff;
+        margin-bottom: 10px;
+    }
+
+    .offer-metadata {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        color: #666;
+    }
+
+        .offer-metadata span {
+            display: flex;
+            align-items: center;
+        }
+
+        .offer-metadata i {
+            margin-right: 8px;
+            width: 16px;
+        }
+
+    .offer-actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-end;
+        min-width: 180px;
+    }
+
+    .price-tag {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-bottom: 20px;
+    }
+
+    .price-label {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .price-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-view, .btn-cancel {
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+        text-align: center;
+        transition: background-color 0.2s;
+    }
+
+    .btn-view {
+        background-color: #f48f00;
+        color: white;
+    }
+
+        .btn-view:hover {
+            background-color: #e57f00;
+        }
+
+    .btn-cancel {
+        background-color: #f1f1f1;
+        color: #666;
+    }
+
+        .btn-cancel:hover {
+            background-color: #e0e0e0;
+        }
+
+    /* Responsive Styles */
+    media (max-width: 768px) {
+        .offer-card
+
+    {
+        flex-direction: column;
+    }
+
+    .offer-image {
+        width: 100%;
+        height: 200px;
+    }
+
+    .offer-details {
+        flex-direction: column;
+    }
+
+    .offer-actions {
+        align-items: flex-start;
+        margin-top: 20px;
+    }
+
+    .price-tag {
+        align-items: flex-start;
+    }
+
+    }
+</style>

@@ -80,7 +80,7 @@ namespace Explorers_Haven.Controllers
 
                   //  await _signInManager.SignInAsync(user, isPersistent: false);                    return RedirectToAction("Index", "Home");
 
-                    return RedirectToAction("HomePage", "Home");
+                    return RedirectToAction("Login", "Account");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -93,7 +93,7 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("HomePage", "Home");
+            return RedirectToAction("Register", "Account");
         }
 
         public IActionResult AccessDenied()

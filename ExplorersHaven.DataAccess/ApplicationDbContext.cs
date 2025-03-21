@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity;
 using Explorers_Haven.Models;
 using System.Runtime.ConstrainedExecution;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Explorers_Haven.DataAccess
 {
@@ -47,9 +48,32 @@ namespace Explorers_Haven.DataAccess
         }*/
         protected async override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            /*
+            modelBuilder.Entity<IdentityUser>().HasData(
+                new IdentityUser
+                {
+                    Id = "928fa85a-ca2b-4b26-a029-f9c7268edcaa",
 
+                });
+            modelBuilder.Entity<User>().HasData(
+                new User
+                {
+                    Id = 1,
+                    Username = "Test",
+                    Email = "a@abv.bg",
+                    Password = "1234bG@",
+                    UserIdentityId= "928fa85a-ca2b-4b26-a029-f9c7268edcaa"
+
+                });
+            modelBuilder.Entity<Favorite>().HasData(
+                new Favorite
+                {
+                    Id = 1,
+                    UserId=1,
+                    OfferId=1
+                });
             //await this.Seed();
-            //offer 1
+            offer 1*/
             modelBuilder.Entity<Transport>().HasData(
                 new Transport
                 {

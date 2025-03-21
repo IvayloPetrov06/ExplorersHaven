@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250321074441_setup")]
+    [Migration("20250321100751_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -191,6 +191,9 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     b.Property<int?>("OfferId")
                         .HasColumnType("int");
+
+                    b.Property<string>("OfferName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace Explorers_Haven.ViewModels.Booking
+namespace Explorers_Haven.ViewModels.Favorite
 {
     public class FavoriteViewModel
     {
@@ -16,13 +16,5 @@ namespace Explorers_Haven.ViewModels.Booking
         public int? OfferId { get; set; }
         public string? OfferName { get; set; }
         public string? OfferCoverImage { get; set; }
-        /* PeopleCount = ppl,
-                YoungOldPeopleCount = discppl,
-                StartDate = st,
-                Price = realprice,
-                OfferId = id,
-                Offer = o,
-                User = user,
-                UserId = user.Id*/
     }
 }

@@ -14,7 +14,7 @@ namespace Explorers_Haven.Models
         public int Id { get; set; }
 
         public int? UserId { get; set; }
-
+        public string? OfferName { get; set; }
         public int? OfferId { get; set; }
 
         public User? User { get; set; }

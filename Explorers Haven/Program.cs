@@ -118,7 +118,7 @@ if (!app.Environment.IsDevelopment())
 
     app.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=HomePage}/{id?}");
+        pattern: "{controller=Account}/{action=Register}/{id?}");
 
     app.Run();
 

@@ -373,6 +373,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: true),
+                    OfferName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OfferId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>

@@ -636,6 +636,38 @@
         justify-content: space-between;
         margin-top: 20px;
         }
+        /*new css*/
+        .stars-container {
+            margin-bottom: 15px;
+        }
+
+        .star-rating {
+            display: inline-block;
+            direction: rtl;
+            unicode-bidi: bidi-override;
+        }
+
+            .star-rating .star {
+                display: inline-block;
+                font-size: 24px;
+                color: #ddd;
+                cursor: pointer;
+                margin-right: 2px;
+            }
+
+                .star-rating .star:hover,
+                .star-rating .star:hover ~ .star,
+                .star-rating .star.active,
+                .star-rating .star.active ~ .star {
+                    color: #ffb700;
+                }
+
+        .rating-text {
+            display: inline-block;
+            margin-left: 10px;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
     </style>
 </head>
 <body>
@@ -843,38 +875,37 @@
 
         <div class="reviews-section">
             <h2 class="section-title">Reviews</h2>
+
             <div class="review-form">
-                <!-- Rating Form -->
-                <form id="ratingForm">
-                    <input type="hidden" name="id" value="@Model.OfferId" /> <!-- Hidden ID Field -->
-                    <div class="stars">
-                        <input value="5" name="rating" id="star5" type="radio" @(Model.OfferRatingStars == 5 ? "checked" : "") disabled>
-                        <label for="star5"></label>
+                <form method="post" action="/Comment/WriteComment" id="reviewForm">
+                    <input type="hidden" name="id" value="@Model.OfferId" />
+                    <input type="hidden" name="rating" id="ratingValue" value="0" />
 
-                        <input value="4" name="rating" id="star4" type="radio" @(Model.OfferRatingStars == 4 ? "checked" : "") disabled>
-                        <label for="star4"></label>
+                    <!-- Review Form Layout -->
+                    <div class="form-container">
+                        <div class="profile-container">
+                            <img src="path-to-your-profile-image" alt="Profile Picture" class="profile-picture">
+                        </div>
+                        <div class="comment-container">
+                            <div class="stars-container">
+                                <div class="star-rating">
+                                    <span class="star" data-value="1">&#9733;</span>
+                                    <span class="star" data-value="2">&#9733;</span>
+                                    <span class="star" data-value="3">&#9733;</span>
+                                    <span class="star" data-value="4">&#9733;</span>
+                                    <span class="star" data-value="5">&#9733;</span>
+                                </div>
+                                <div class="rating-text">Click to rate</div>
+                            </div>
 
-                        <input value="3" name="rating" id="star3" type="radio" @(Model.OfferRatingStars == 3 ? "checked" : "") disabled>
-                        <label for="star3"></label>
-                        
-                        <input value="2" name="rating" id="star2" type="radio" @(Model.OfferRatingStars == 2 ? "checked" : "") disabled>
-                        <label for="star2"></label>
-                        
-                        <input value="1" name="rating" id="star1" type="radio" @(Model.OfferRatingStars == 1 ? "checked" : "") disabled>
-                        <label for="star1"></label>
+                            <input type="text" id="comment" name="comment" placeholder="Share your experience..." />
+                            <button type="submit">Submit</button>
+                        </div>
                     </div>
                 </form>
-
-                <!-- Comment Form -->
-                <form id="commentForm">
-                    <input type="hidden" name="id" value="@Model.OfferId" />  <!-- Hidden ID Field -->
-                    <input type="text" id="comment" name="comment" placeholder="Share your experience..." />
-                </form>
-
-                <!-- Submit Button -->
-                <button id="submitReview" type="button">Submit Review</button>
             </div>
 
+            <!-- Display Comments Section -->
             <div class="comment-list" id="commentsSection">
                 @foreach (var a in Model.Comments)
                 {
@@ -888,112 +919,99 @@
                                 </div>
                             }
                         }
-                        @foreach (var u in Model.Ratings)
-                        {
-                            if (u.UserId == a.UserId)
+                        <div class="comment-rating">
+                            @for (int i = 0; i < a.Stars; i++)
                             {
-                                @for (int i = 0; i < u.Stars; i++)
-                                {
-                                    <div class="stay-stars">
-                                        <span>★</span>
-                                    </div>
-                                }
+                                <div class="stay-stars">
+                                    <span>★</span>
+                                </div>
                             }
-                        }
+                        </div>
                         <div class="comment-content">@a.Content</div>
                     </div>
                 }
             </div>
-
         </div>
     </div>
     <script>
-                document.addEventListener('DOMContentLoaded', function() {
-            // Favorite functionality
-            const favoriteCheckbox = document.getElementById('favorite');
-            favoriteCheckbox.addEventListener('change', function() {
-                const formData = new FormData(document.getElementById('favoriteForm'));
+        document.addEventListener('DOMContentLoaded', function() {
+            Star rating functionality
+            const stars = document.querySelectorAll('.star-rating .star');
+            const ratingValue = document.getElementById('ratingValue');
+            const ratingText = document.querySelector('.rating-text');
 
-                fetch('/Favorite/Favorite', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const option1 = document.querySelector('.option-1');
-                        const option2 = document.querySelector('.option-2');
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const value = this.getAttribute('data-value');
+                    ratingValue.value = value;
 
-                        if (favoriteCheckbox.checked) {
-                            option1.style.display = 'none';
-                            option2.style.display = 'block';
-                        } else {
-                            option1.style.display = 'block';
-                            option2.style.display = 'none';
+                    Reset all stars
+                    stars.forEach(s => s.classList.remove('active'));
+
+                    Set active stars
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-value')) <= parseInt(value)) {
+                            s.classList.add('active');
                         }
-                    } else {
-                        alert('Something went wrong, please try again later.');
-                        favoriteCheckbox.checked = !favoriteCheckbox.checked;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred, please try again later.');
-                    favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                    });
+
+                    Update rating text
+                    ratingText.textContent = `${value} star${value > 1 ? 's' : ''}`;
                 });
             });
 
-            // Rating and Comment functionality
-            const submitButton = document.getElementById('submitReview');
+            Favorite functionality
+            const favoriteCheckbox = document.getElementById('favorite');
+            if (favoriteCheckbox) {
+                favoriteCheckbox.addEventListener('change', function() {
+                    const formData = new FormData(document.getElementById('favoriteForm'));
 
-            submitButton.addEventListener('click', function(event) {
-                event.preventDefault(); // Prevent default form submission
+                    fetch('/Favorite/Favorite', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const option1 = document.querySelector('.option-1');
+                            const option2 = document.querySelector('.option-2');
 
-                const selectedRating = document.querySelector('input[name="rating"]:checked');
-                const comment = document.getElementById('comment').value; // Get the comment value
-
-                // If rating or comment is missing, alert the user
-                if (!selectedRating) {
-                    alert('Please select a rating before submitting.');
-                    return;
-                }
-
-                if (!comment.trim()) {
-                    alert('Please write a comment before submitting.');
-                    return;
-                }
-
-                // Get the offerId (hidden in the form)
-                const offerId = document.querySelector('input[name="id"]').value;
-
-                // Prepare the data to be sent in the AJAX request
-                const formData = new FormData();
-                formData.append('id', offerId);
-                formData.append('rating', selectedRating.value);
-                formData.append('comment', comment);
-
-                // Submit the data to the server using fetch (AJAX)
-                fetch('/Home/SubmitReview', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Review submitted successfully!');
-                        alert('Review submitted successfully!');
-                        // Optionally, clear the comment field or reset the rating here
-                        document.getElementById('comment').value = '';
-                        // Optionally, reset the stars
-                        document.querySelector('input[name="rating"]:checked').checked = false;
-                    } else {
-                        alert('There was an error submitting your review.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error submitting review:', error);
-                    alert('There was an error submitting your review.');
+                            if (favoriteCheckbox.checked) {
+                                option1.style.display = 'none';
+                                option2.style.display = 'block';
+                            } else {
+                                option1.style.display = 'block';
+                                option2.style.display = 'none';
+                            }
+                        } else {
+                            alert('Something went wrong, please try again later.');
+                            favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred, please try again later.');
+                        favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                    });
                 });
+            }
+
+            Prevent form submission on Enter key in comment input
+            document.getElementById('comment').addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            Form submission only on button click
+            document.getElementById('reviewForm').addEventListener('submit', function(event) {
+                Check if rating is selected
+                if (ratingValue.value === "0") {
+                    event.preventDefault();
+                    alert('Please select a rating before submitting');
+                    return false;
+                }
             });
         });
     </script>

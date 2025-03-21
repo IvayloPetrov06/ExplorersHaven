@@ -204,40 +204,38 @@ namespace Explorers_Haven.Controllers
                 model.IsBooked = true;
             }
 
-            var tempRate = await _ratingService.GetAllRatingsAsync(x => x.OfferId == id);
-            model.Ratings = tempRate.ToList();
             var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == id);
             model.Comments = tempCom.ToList();
-            //Comments=tempCom.ToList(),
-            if (tempRate.Count() != 0)
+
+            if (tempCom.Count() != 0)//ako ima reviewta
             {
                 decimal rates = 0;
-                foreach (var r in tempRate)
+                foreach (var r in tempCom)
                 {
                     rates += r.Stars;
                 }
                 decimal AverageRate;
                 decimal ofst;
-                if (tempOffer.Rating != null)
+                if (tempOffer.Rating != null)//ako ofertata ima default rating
                 {
                     rates = +tempOffer.Rating.Value;
-                    int countt = tempRate.Count() + 1;
+                    int countt = tempCom.Count() + 1;
                     AverageRate = rates / countt;
                     ofst = Math.Round(AverageRate, 2);
                 }
-                else
+                else//ako nqma
                 {
-                    AverageRate = rates / tempRate.Count();
+                    AverageRate = rates / tempCom.Count();
                     ofst = Math.Round(AverageRate, 2);
                 }
-                model.OfferRatingStars = ofst;
                 model.OfferRating = AverageRate;
+                model.OfferRatingStars = ofst;
             }
-            else
+            else//ako nqma reviewta
             {
                 if (tempOffer.Rating != null)
                 {
-                    model.OfferRatingStars = Math.Round(tempOffer.Rating.Value);
+                    model.OfferRatingStars = Math.Round(tempOffer.Rating.Value,2);
                     model.OfferRating = tempOffer.Rating;
                 }
                 else
@@ -247,9 +245,6 @@ namespace Explorers_Haven.Controllers
                 }
 
             }
-
-
-
             var tempActivities = _activityService.GetAll().ToList();
             foreach (var ac in tempActivities)
             {
@@ -283,73 +278,12 @@ namespace Explorers_Haven.Controllers
                     }
                 }
             }
-            /*foreach (var a in Model.Amenities)
-{ 
-	<h1>@a.Name</h1>
-}*/
-
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> OfferPage(int id, OfferPageViewModel model)//copied from edit offer
         {
             return View(model);
-        }
-        [HttpPost]
-        public async Task<IActionResult> SubmitReview(int id, int rating, string comment)
-        {
-            if (string.IsNullOrEmpty(comment))
-            {
-                return Json(new { success = false, message = "Can't add empty comments!" });
-            }
-
-            var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
-            User user = await userService.GetUserAsync(x => x.Email == tempUser.Email);
-            Offer offer = await _offerService.GetOfferByIdAsync(id);
-
-            // Handle the Rating
-            var existingRating = await _ratingService.GetRatingAsync(x => x.OfferId == id && x.UserId == user.Id);
-            Rating newRating = new Rating()
-            {
-                OfferId = id,
-                Offer = offer,
-                Stars = rating,
-                User = user,
-                UserId = user.Id
-            };
-
-            if (existingRating != null)
-            {
-                existingRating.Stars = rating;
-                await _ratingService.UpdateRatingAsync(existingRating);
-            }
-            else
-            {
-                await _ratingService.AddRatingAsync(newRating);
-            }
-
-            // Handle the Comment
-            var existingComment = await _commentService.GetCommentAsync(x => x.UserId == user.Id && x.OfferId == offer.Id);
-            Comment newComment = new Comment()
-            {
-                OfferId = id,
-                Offer = offer,
-                Content = comment,
-                User = user,
-                UserId = user.Id
-            };
-
-            if (existingComment == null)
-            {
-                await _commentService.AddCommentAsync(newComment);
-            }
-            else
-            {
-                existingComment.Content = comment;
-                await _commentService.UpdateCommentAsync(existingComment);
-            }
-
-            return Json(new { success = true, message = "Review submitted successfully!" });
         }
     }
 

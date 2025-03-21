@@ -16,6 +16,9 @@ namespace Explorers_Haven.Models
         [MaxLength(500)]
         public string Content { get; set; }
 
+        [Range(1, 5, ErrorMessage = "Value must be between 1 and 5.")]
+        public int Stars { get; set; }
+
         public int? UserId { get; set; }
 
         public int? OfferId { get; set; }

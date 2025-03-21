@@ -34,7 +34,7 @@ namespace Explorers_Haven.Controllers
             TempData["error"] = "Comment doesn't exist!";
             return RedirectToAction("OfferPage", "Home");
         }
-        public async Task<IActionResult> WriteComment(int id, string comment)
+        public async Task<IActionResult> WriteComment(int id, string comment, int rating)
         {
             if (string.IsNullOrEmpty(comment))
             {
@@ -45,27 +45,28 @@ namespace Explorers_Haven.Controllers
             User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
 
             Offer offer = await _offerService.GetOfferByIdAsync(id);
-            var existingComment = await _commentService.GetCommentAsync(x => x.UserId == user.Id && x.OfferId == offer.Id);
-
-            if (existingComment == null)
+            var com = await _commentService.GetCommentAsync(x => x.UserId == user.Id && x.OfferId == offer.Id);
+            if (com == null)
             {
                 Comment newComment = new Comment()
                 {
                     OfferId = id,
                     Offer = offer,
+                    Stars = rating,
                     Content = comment,
                     User = user,
                     UserId = user.Id
                 };
 
                 await _commentService.AddCommentAsync(newComment);
-                return Json(new { success = true, message = "Comment added successfully!" });
+                return RedirectToAction("OfferPage", "Home", new { Id = id });
             }
             else
             {
-                existingComment.Content = comment;
-                await _commentService.UpdateCommentAsync(existingComment);
-                return Json(new { success = true, message = "Comment updated successfully!" });
+                com.Content = comment;
+                com.Stars = rating;
+                await _commentService.UpdateCommentAsync(com);
+                return RedirectToAction("OfferPage", "Home", new { Id = id });
             }
         }
         public IActionResult Index()

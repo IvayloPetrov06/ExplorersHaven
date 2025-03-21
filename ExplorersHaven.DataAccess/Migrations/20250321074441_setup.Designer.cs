@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250320115110_setup")]
+    [Migration("20250321074441_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -164,6 +164,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .HasColumnType("nvarchar(500)");
 
                     b.Property<int?>("OfferId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Stars")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId")

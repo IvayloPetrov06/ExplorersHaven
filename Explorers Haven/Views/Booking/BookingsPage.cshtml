@@ -52,6 +52,56 @@
                                 {
                                     <span class="children-count"><i class="fas fa-child"></i> @offer.YoungOldPeopleCount children/seniors</span>
                                 }
+                                <div class="travel-section">
+                                    <h2 class="section-title">Travel Details</h2>
+                                    
+                                    @foreach (var a in offer.Travels)
+                                    {
+                                        <div class="travel-card">
+                                            <div class="travel-point">
+                                                <div class="travel-location">@a.Start</div>
+                                            </div>
+                                            @foreach (var tr in Model.Transports)
+                                            {
+                                                if (@a.TransportId == tr.Id && tr.Name == "Plane")
+                                                {
+                                                    <div class="travel-transport">@tr.Name</div>
+                                                    <div class="travel-icon">
+
+                                                        <img src="/Images/Plane.svg" alt="Plane" />
+                                                    </div>
+                                                }
+                                                if (@a.TransportId == tr.Id && tr.Name == "Train")
+                                                {
+                                                    <div class="travel-icon">
+                                                        <div class="travel-transport">@tr.Name</div>
+                                                        <img src="/Images/Train.svg" alt="Train" />
+                                                    </div>
+                                                }
+                                                if (@a.TransportId == tr.Id && tr.Name == "Boat")
+                                                {
+                                                    <div class="travel-icon">
+                                                        <div class="travel-transport">@tr.Name</div>
+                                                        <img src="/Images/boat.svg" alt="boat" />
+                                                    </div>
+                                                }
+                                                if (@a.TransportId == tr.Id && tr.Name == "Custom")
+                                                {
+                                                    <div class="travel-icon">
+                                                        <div class="travel-transport">@tr.Name</div>
+                                                        <img src="/Images/custom.svg" alt="custom" />
+                                                    </div>
+                                                }
+                                            }
+
+
+                                            <div class="travel-point">
+                                                <div class="travel-location">@a.Finish</div>
+                                            </div>
+
+                                        </div>
+                                    }
+                                </div>
                             </div>
                         </div>
                         <div class="offer-actions">
@@ -61,7 +111,7 @@
                             </div>
                             <div class="action-buttons">
                                 <a href="/Booking/Cancel/@offer.Id" class="btn-cancel">Cancel</a>
-                                <a href="#" class="btn-view">View Deal</a>
+                                <a href="/Home/OfferPage/@offer.Id" class="btn-view">View Deal</a>
                             </div>
                         </div>
                     </div>
@@ -76,6 +126,56 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
+    /*travels*/
+    .travel-section {
+        margin-bottom: 30px;
+    }
+
+    .travel-card {
+        background-color: var(--white);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        padding: 20px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+    .travel-point {
+        flex: 1;
+        text-align: center;
+    }
+
+    .travel-location {
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--text-color);
+    }
+
+    .travel-date {
+        font-size: 14px;
+        color: var(--dark-gray);
+    }
+
+    .travel-icon {
+        flex: 0.5;
+        text-align: center;
+    }
+
+        .travel-icon img {
+            width: 30px;
+            opacity: 0.6;
+        }
+
+    .travel-transport {
+        flex: 1;
+        text-align: center;
+        padding: 8px 15px;
+        background-color: var(--light-gray);
+        border-radius: 20px;
+        font-size: 14px;
+        color: var(--dark-gray);
+    }
     * {
         margin: 0;
         padding: 0;

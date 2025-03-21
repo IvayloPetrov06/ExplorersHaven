@@ -17,6 +17,7 @@ namespace Explorers_Haven.Models
         public DateOnly? StartDate { get; set; }
         public decimal? Price { get; set; }
         public string? OfferName { get; set; }
+        public int? DurationDays { get; set; }
         /*public int? MaxPeople { get; set; }
         public int? Discount { get; set; }
         public int? DurationDays { get; set; }

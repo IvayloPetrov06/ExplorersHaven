@@ -5,7 +5,7 @@ namespace Explorers_Haven.ViewModels.Booking
     public class BookingPageViewModel
     {
         public string Search { get; set; }
-        public List<FavoriteViewModel> Bookings { get; set; }
+        public List<BookingViewModel> Bookings { get; set; }
     }
 
 }

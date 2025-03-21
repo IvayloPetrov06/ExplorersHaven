@@ -16,9 +16,7 @@ namespace Explorers_Haven.Models
         [Required]
         public string Start { get; set; }
         public string Finish { get; set; }
-
-        public DateTime? DateStart { get; set; }
-        public DateTime? DateFinish { get; set; }
+        public int? DurationDays { get; set; }
 
 
         public int TransportId { get; set; }

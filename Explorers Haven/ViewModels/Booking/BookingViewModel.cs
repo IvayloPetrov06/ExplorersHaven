@@ -2,12 +2,13 @@
 
 namespace Explorers_Haven.ViewModels.Booking
 {
-    public class FavoriteViewModel
+    public class BookingViewModel
     {
         public int Id { get; set; }
 
         public decimal? PeopleCount { get; set; }
         public decimal? YoungOldPeopleCount { get; set; }
+        public int? DurationDays { get; set; }
         public DateOnly? StartDate { get; set; }
         public decimal? Price { get; set; }
 
@@ -16,6 +17,8 @@ namespace Explorers_Haven.ViewModels.Booking
         public int? OfferId { get; set; }
         public string? OfferName { get; set; }
         public string? OfferCoverImage { get; set; }
+        public List<Models.Travel> Travels { get; set; }
+        
         /* PeopleCount = ppl,
                 YoungOldPeopleCount = discppl,
                 StartDate = st,

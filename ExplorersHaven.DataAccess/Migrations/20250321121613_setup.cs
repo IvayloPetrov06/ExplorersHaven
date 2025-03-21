@@ -320,6 +320,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     StartDate = table.Column<DateOnly>(type: "date", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     OfferName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DurationDays = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     OfferId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -426,8 +427,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Finish = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DateFinish = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DurationDays = table.Column<int>(type: "int", nullable: true),
                     TransportId = table.Column<int>(type: "int", nullable: false),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -504,16 +504,16 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Travels",
-                columns: new[] { "Id", "DateFinish", "DateStart", "Finish", "OfferId", "Start", "TransportId" },
+                columns: new[] { "Id", "DurationDays", "Finish", "OfferId", "Start", "TransportId" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", 3 },
-                    { 2, new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified), "Sofia", 1, "Cairo", 4 },
-                    { 3, null, null, "Warsaw", 2, "Sofia", 1 },
-                    { 4, null, null, "Sofia", 2, "Warsaw", 1 },
-                    { 5, null, null, "Berlin", 3, "Sofia", 1 },
-                    { 6, null, null, "Sofia", 3, "Berlin", 1 },
-                    { 7, new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified), "Cairo", 1, "Sofia", 2 }
+                    { 1, 1, "Cairo", 1, "Sofia", 3 },
+                    { 2, 1, "Sofia", 1, "Cairo", 4 },
+                    { 3, null, "Warsaw", 2, "Sofia", 1 },
+                    { 4, null, "Sofia", 2, "Warsaw", 1 },
+                    { 5, null, "Berlin", 3, "Sofia", 1 },
+                    { 6, null, "Sofia", 3, "Berlin", 1 },
+                    { 7, 1, "Cairo", 1, "Sofia", 2 }
                 });
 
             migrationBuilder.CreateIndex(

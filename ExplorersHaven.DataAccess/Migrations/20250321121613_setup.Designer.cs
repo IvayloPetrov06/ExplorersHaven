@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250321100751_setup")]
+    [Migration("20250321121613_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -119,6 +119,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("DurationDays")
+                        .HasColumnType("int");
 
                     b.Property<int?>("OfferId")
                         .HasColumnType("int");
@@ -470,11 +473,8 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DateFinish")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DateStart")
-                        .HasColumnType("datetime2");
+                    b.Property<int?>("DurationDays")
+                        .HasColumnType("int");
 
                     b.Property<string>("Finish")
                         .IsRequired()
@@ -502,8 +502,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 7,
-                            DateFinish = new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified),
+                            DurationDays = 1,
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
@@ -512,8 +511,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            DateFinish = new DateTime(2025, 3, 10, 8, 30, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 9, 6, 30, 0, 0, DateTimeKind.Unspecified),
+                            DurationDays = 1,
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
@@ -522,8 +520,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            DateFinish = new DateTime(2025, 3, 16, 14, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateStart = new DateTime(2025, 3, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            DurationDays = 1,
                             Finish = "Sofia",
                             OfferId = 1,
                             Start = "Cairo",

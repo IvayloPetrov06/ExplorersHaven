@@ -17,12 +17,16 @@ namespace Explorers_Haven.Controllers
         IBookingService _bookingService;
         IOfferService _offerService;
         IStayService _stayService;
+        ITravelService _TravelService;
+        ITransportService _TransportService;
         private readonly UserManager<IdentityUser> _userManager;
         IUserService _userService;
 
 
-        public BookingController(IStayService stayService,IUserService userService, UserManager<IdentityUser> userManager, IOfferService offerService, IBookingService bookingService)
+        public BookingController(ITransportService TransportService,ITravelService TravelService,IStayService stayService,IUserService userService, UserManager<IdentityUser> userManager, IOfferService offerService, IBookingService bookingService)
         {
+            _TransportService = TransportService;
+            _TravelService = TravelService;
             _stayService = stayService;
             _bookingService = bookingService;
             _offerService = offerService;
@@ -121,27 +125,42 @@ namespace Explorers_Haven.Controllers
             User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
             var query = _bookingService.GetAll().Where(x=>x.UserId== user.Id);
             var filterModel = new BookingFilterViewModel();
-
+            var tempTrans = _TransportService.GetAll();
             if (string.IsNullOrEmpty(filter.Search))
             {
 
-                var model = _bookingService.AllWithInclude().Include(x => x.Offer).Include(x => x.User).Select(x => new FavoriteViewModel()
+                var model = _bookingService.AllWithInclude().Include(x => x.Offer).Include(x => x.User).Select(x => new BookingViewModel()
                 {
                     PeopleCount = x.PeopleCount,
                     YoungOldPeopleCount = x.YoungOldPeopleCount,
+                    DurationDays = x.DurationDays,
                     StartDate = x.StartDate,
                     Price = x.Price,
                     Id = x.Id,
                     UserId = x.UserId,
                     UserName = x.User.Username,
+                    OfferId = x.OfferId,
                     OfferName = x.Offer.Name,
                     OfferCoverImage = x.Offer.CoverImage,
                 }).ToList();
+                var tempTravels = _TravelService.GetAll();
+                foreach (var ac in tempTravels)
+                {
+                    foreach (var b in model)
+                    {
+                        if (ac.OfferId == b.OfferId )
+                        {
+                            b.Travels.Add(ac);
+                        }
+                    }
+                }
+                
 
                 filterModel = new BookingFilterViewModel
                 {
                     Bookings = model,
                     Search = filter.Search,
+                    Transports = tempTrans.ToList()
 
                 };
             }
@@ -160,29 +179,44 @@ namespace Explorers_Haven.Controllers
 
                 filterModel = new BookingFilterViewModel
                 {
+                    Transports = tempTrans.ToList(),
                     Bookings = query.Include(x => x.User)
-                .Select(x => new FavoriteViewModel()
+                .Select(x => new BookingViewModel()
                 {
                     PeopleCount = x.PeopleCount,
                     YoungOldPeopleCount = x.YoungOldPeopleCount,
                     StartDate = x.StartDate,
+                    DurationDays = x.DurationDays,
                     Price = x.Price,
                     Id = x.Id,
                     UserId = x.UserId,
                     UserName = x.User.Username,
                     OfferName = x.Offer.Name,
                     OfferCoverImage = x.Offer.CoverImage,
+                     
                 }).ToList(),
                     Search = filter.Search
                 };
+                var tempTravels = _TravelService.GetAll();
+                foreach (var ac in tempTravels)
+                {
+                    foreach (var b in filterModel.Bookings)
+                    {
+                        if (ac.OfferId == b.OfferId)
+                        {
+                            b.Travels.Add(ac);
+                        }
+                    }
+                }
             };
-            var sortedList = query.OrderBy(x => x.Price).ToList();
-            filterModel.Cheapest_Bookings = sortedList;
+           
 
             return View(filterModel);
         }
         public async Task<IActionResult> BookingsPage()
         {
+
+            var tempTrans = _TransportService.GetAll();
             var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
             if (tempUser == null)
             {
@@ -195,7 +229,7 @@ namespace Explorers_Haven.Controllers
             }
             var userBookings = await _bookingService.GetAll().Where(x => x.UserId == user.Id)
         .Include(x => x.Offer) // Including related Offer data for displaying the Offer Name
-        .Select(x => new FavoriteViewModel
+        .Select(x => new BookingViewModel
         {
             PeopleCount = x.PeopleCount,
             YoungOldPeopleCount = x.YoungOldPeopleCount,
@@ -211,8 +245,20 @@ namespace Explorers_Haven.Controllers
             // Create and pass a view model with the user's bookings
             var filterModel = new BookingFilterViewModel
             {
+                Transports = tempTrans.ToList(),
                 Bookings = userBookings,
             };
+            var tempTravels = _TravelService.GetAll();
+            foreach (var ac in tempTravels)
+            {
+                foreach (var b in filterModel.Bookings)
+                {
+                    if (ac.OfferId == b.OfferId)
+                    {
+                        b.Travels.Add(ac);
+                    }
+                }
+            }
 
             return View(filterModel);
 

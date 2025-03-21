@@ -643,8 +643,8 @@
 
         .star-rating {
             display: inline-block;
-            direction: ltr; /* Change from rtl to ltr */
-            unicode-bidi: normal; /* Reset the bidi-override */
+            direction: rtl;
+            unicode-bidi: bidi-override;
         }
 
             .star-rating .star {
@@ -657,14 +657,10 @@
 
                 .star-rating .star:hover,
                 .star-rating .star:hover ~ .star,
-                .star-rating .star.active {
+                .star-rating .star.active,
+                .star-rating .star.active ~ .star {
                     color: #ffb700;
                 }
-
-                    /* Fix the selection behavior for left-to-right stars */
-                    .star-rating .star.active ~ .star {
-                        color: #ddd; /* Reset color for stars after the selected one */
-                    }
 
         .rating-text {
             display: inline-block;
@@ -674,13 +670,12 @@
         }
         /*comment section order css*/
         /* Updated comment item styling */
-        /* Updated comment item styling */
         .comment-item {
             display: flex;
             margin-bottom: 20px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--medium-gray);
-            flex-direction: row;
+            flex-direction: row; /* Change from column to row */
         }
 
             .comment-item:last-child {
@@ -712,33 +707,28 @@
             flex: 1;
         }
 
-        .comment-username {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--text-color);
-            font-size: 15px;
-        }
-
         .comment-rating {
             display: flex;
             margin-bottom: 5px;
-            direction: ltr; /* Ensures left-to-right display */
         }
 
             .comment-rating .review-star {
                 color: #ffb700;
                 margin-right: 2px;
                 font-size: 16px;
-                display: inline-block;
             }
 
         .comment-content {
             line-height: 1.5;
-            margin-left: 0;
+            margin-left: 0; /* Remove the left margin that was pushing content to the right */
         }
 
-        /* Fix for the star rating input (submission form) */
-        
+        .comment-username {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-color);
+            font-size: 15px;
+        }
     </style>
 </head>
 <body>
@@ -793,6 +783,10 @@
                     <div class="trip-info-item">
                         <i class="fas fa-calendar-check"></i>
                         <span><span class="info-label">Last Date:</span> @Model.OfferLast</span>
+                    </div>
+                    <div class="trip-info-item">
+                        <i class="fas fa-calendar-check"></i>
+                        <span><span class="info-label">Duration in days:</span> @Model.OfferDays</span>
                     </div>
                     <div class="trip-info-item">
                         <i class="fas fa-users"></i>
@@ -1009,7 +1003,7 @@
         </div>
     </div>
     <script>
-                     document.addEventListener('DOMContentLoaded', function() {
+                document.addEventListener('DOMContentLoaded', function() {
             //Star rating functionality
             const stars = document.querySelectorAll('.star-rating .star');
             const ratingValue = document.getElementById('ratingValue');
@@ -1023,20 +1017,78 @@
                     //Reset all stars
                     stars.forEach(s => s.classList.remove('active'));
 
-                    //Set active stars - for left to right
-                    for (let i = 0; i < stars.length; i++) {
-                        if (parseInt(stars[i].getAttribute('data-value')) <= parseInt(value)) {
-                            stars[i].classList.add('active');
+                    //Set active stars
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-value')) <= parseInt(value)) {
+                            s.classList.add('active');
                         }
-                    }
+                    });
 
                     //Update rating text
                     ratingText.textContent = `${value} star${value > 1 ? 's' : ''}`;
                 });
             });
 
-            // Rest of your JavaScript remains the same
+            //Favorite functionality
+            const favoriteCheckbox = document.getElementById('favorite');
+            const favoriteForm = document.getElementById('favoriteForm');
+            if (favoriteCheckbox) {
+                favoriteCheckbox.addEventListener('change', function() {
+                    // Create a FormData object to send the form data
+                    const formData = new FormData(favoriteForm);
+
+                    // Send the data using Fetch API
+                    fetch('/Favorite/Favorite', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            const option1 = document.querySelector('.option-1');
+                            const option2 = document.querySelector('.option-2');
+
+                            // Update the UI based on whether it's favorited or not
+                            if (favoriteCheckbox.checked) {
+                                option1.style.display = 'none';
+                                option2.style.display = 'block';
+                            } else {
+                                option1.style.display = 'block';
+                                option2.style.display = 'none';
+                            }
+                        } else {
+                            alert('Something went wrong, please try again later.');
+                            // Rollback the checkbox state if the request fails
+                            favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('An error occurred, please try again later.');
+                        // Rollback the checkbox state if the request fails
+                        favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                    });
+                });
+            }
+
+            // Prevent form submission on Enter key in comment input
+            document.getElementById('comment').addEventListener('keydown', function(event) {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
+            // Form submission only on button click for comment form
+            document.getElementById('reviewForm').addEventListener('submit', function(event) {
+                if (ratingValue.value === "0") {
+                    event.preventDefault();
+                    alert('Please select a rating before submitting');
+                    return false;
+                }
+            });
         });
+
     </script>
 </body>
 </html>

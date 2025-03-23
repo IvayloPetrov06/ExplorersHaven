@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Explorers_Haven.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Explorers_Haven.ViewModels.Booking
 {
@@ -18,7 +19,11 @@ namespace Explorers_Haven.ViewModels.Booking
         public string? OfferName { get; set; }
         public string? OfferCoverImage { get; set; }
         public List<Models.Travel> Travels { get; set; }
-        
+        public BookingViewModel()
+        {
+            Travels = new List<Models.Travel>();
+        }
+
         /* PeopleCount = ppl,
                 YoungOldPeopleCount = discppl,
                 StartDate = st,

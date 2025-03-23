@@ -72,7 +72,8 @@ namespace Explorers_Haven.Controllers
                 Offer = o,
                 User = user,
                 UserId = user.Id,
-                OfferName = o.Name
+                OfferName = o.Name,
+                DurationDays = o.DurationDays
             };
             var tempBook = await _bookingService.GetAllBookingsAsync(x=>x.StartDate==st);
             DateOnly dayss = st.AddDays(o.DurationDays.Value);
@@ -234,11 +235,13 @@ namespace Explorers_Haven.Controllers
             PeopleCount = x.PeopleCount,
             YoungOldPeopleCount = x.YoungOldPeopleCount,
             StartDate = x.StartDate,
+            DurationDays = x.DurationDays,
             Price = x.Price,
             Id = x.Id,
             UserId = x.UserId,
             UserName = x.User.Username,
             OfferName = x.Offer.Name,
+            OfferId = x.Offer.Id,
             OfferCoverImage=x.Offer.CoverImage,
         }).ToListAsync();
 
@@ -248,13 +251,14 @@ namespace Explorers_Haven.Controllers
                 Transports = tempTrans.ToList(),
                 Bookings = userBookings,
             };
-            var tempTravels = _TravelService.GetAll();
+            var tempTravels = _TravelService.GetAll().ToList();
             foreach (var ac in tempTravels)
             {
                 foreach (var b in filterModel.Bookings)
                 {
                     if (ac.OfferId == b.OfferId)
                     {
+                        if()
                         b.Travels.Add(ac);
                     }
                 }

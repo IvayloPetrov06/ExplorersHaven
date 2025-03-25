@@ -151,6 +151,16 @@ namespace Explorers_Haven.Controllers
                     {
                         if (ac.OfferId == b.OfferId )
                         {
+                            if (ac.Arrival == true)
+                            {
+                                ac.DateStart = b.StartDate;
+                                ac.DateFinish = ac.DateStart.Value.AddDays(ac.DurationDays.Value);
+                            }
+                            else 
+                            {
+                                ac.DateFinish = b.StartDate.Value.AddDays(b.DurationDays.Value);
+                                ac.DateStart = ac.DateFinish.Value.AddDays(-ac.DurationDays.Value);
+                            }
                             b.Travels.Add(ac);
                         }
                     }
@@ -205,6 +215,16 @@ namespace Explorers_Haven.Controllers
                     {
                         if (ac.OfferId == b.OfferId)
                         {
+                            if (ac.Arrival == true)
+                            {
+                                ac.DateStart = b.StartDate;
+                                ac.DateFinish = ac.DateStart.Value.AddDays(ac.DurationDays.Value);
+                            }
+                            else
+                            {
+                                ac.DateFinish = b.StartDate.Value.AddDays(b.DurationDays.Value);
+                                ac.DateStart = ac.DateFinish.Value.AddDays(-ac.DurationDays.Value);
+                            }
                             b.Travels.Add(ac);
                         }
                     }
@@ -258,7 +278,16 @@ namespace Explorers_Haven.Controllers
                 {
                     if (ac.OfferId == b.OfferId)
                     {
-                        if()
+                        if (ac.Arrival == true)
+                        {
+                            ac.DateStart = b.StartDate;
+                            ac.DateFinish = ac.DateStart.Value.AddDays(ac.DurationDays.Value);
+                        }
+                        else
+                        {
+                            ac.DateFinish = b.StartDate.Value.AddDays(b.DurationDays.Value);
+                            ac.DateStart = ac.DateFinish.Value.AddDays(-ac.DurationDays.Value);
+                        }
                         b.Travels.Add(ac);
                     }
                 }

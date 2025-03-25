@@ -102,8 +102,25 @@ namespace Explorers_Haven.Controllers
                     Name = x.Name,
                     Price = x.Price,
                     CoverImage = x.CoverImage,
-                    UserName = x.User.Username
+                    UserName = x.User.Username,
+                    
+
                 }).ToList();
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                User userModel = await userService.GetUserAsync(x => x.Email == tempUser.Email);
+                foreach (var o in model)
+                {
+                    var fav = await _favoriteService.GetFavoriteAsync(x => x.OfferId == o.Id && x.UserId == userModel.Id);
+                    if (fav == null)
+                    {
+                        o.IsFavorited = false;
+                    }
+                    else
+                    {
+                        o.IsFavorited = true;
+                    }
+                }
+                
 
                 filterModel = new OfferFilterViewModel
                 {

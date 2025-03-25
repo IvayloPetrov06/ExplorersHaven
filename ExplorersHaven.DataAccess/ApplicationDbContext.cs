@@ -120,23 +120,13 @@ namespace Explorers_Haven.DataAccess
                 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 7,
+                new Travel { Id = 1,
                     Start = "Sofia",
                     Finish = "Cairo",
                     DurationDays = 1,
                     OfferId = 1,
-                    TransportId = 2
-                }
-                );
-            modelBuilder.Entity<Travel>().HasData(
-                new Travel
-                {
-                    Id = 1,
-                    Start = "Sofia",
-                    Finish = "Cairo",
-                    DurationDays = 1,
-                    OfferId = 1,
-                    TransportId = 3
+                    TransportId = 1,
+                    Arrival = true
                 }
                 );
             modelBuilder.Entity<Travel>().HasData(
@@ -146,7 +136,8 @@ namespace Explorers_Haven.DataAccess
                     Finish = "Sofia",
                     DurationDays = 1,
                     OfferId = 1,
-                    TransportId = 4
+                    TransportId = 1,
+                    Arrival = false
                 }
                 );
             modelBuilder.Entity<Stay>().HasData(

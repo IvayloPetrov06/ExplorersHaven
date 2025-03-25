@@ -428,6 +428,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                     Start = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Finish = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DurationDays = table.Column<int>(type: "int", nullable: true),
+                    Arrival = table.Column<bool>(type: "bit", nullable: true),
+                    DateStart = table.Column<DateOnly>(type: "date", nullable: true),
+                    DateFinish = table.Column<DateOnly>(type: "date", nullable: true),
                     TransportId = table.Column<int>(type: "int", nullable: false),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -504,16 +507,15 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Travels",
-                columns: new[] { "Id", "DurationDays", "Finish", "OfferId", "Start", "TransportId" },
+                columns: new[] { "Id", "Arrival", "DateFinish", "DateStart", "DurationDays", "Finish", "OfferId", "Start", "TransportId" },
                 values: new object[,]
                 {
-                    { 1, 1, "Cairo", 1, "Sofia", 3 },
-                    { 2, 1, "Sofia", 1, "Cairo", 4 },
-                    { 3, null, "Warsaw", 2, "Sofia", 1 },
-                    { 4, null, "Sofia", 2, "Warsaw", 1 },
-                    { 5, null, "Berlin", 3, "Sofia", 1 },
-                    { 6, null, "Sofia", 3, "Berlin", 1 },
-                    { 7, 1, "Cairo", 1, "Sofia", 2 }
+                    { 1, true, null, null, 1, "Cairo", 1, "Sofia", 1 },
+                    { 2, false, null, null, 1, "Sofia", 1, "Cairo", 1 },
+                    { 3, null, null, null, null, "Warsaw", 2, "Sofia", 1 },
+                    { 4, null, null, null, null, "Sofia", 2, "Warsaw", 1 },
+                    { 5, null, null, null, null, "Berlin", 3, "Sofia", 1 },
+                    { 6, null, null, null, null, "Sofia", 3, "Berlin", 1 }
                 });
 
             migrationBuilder.CreateIndex(

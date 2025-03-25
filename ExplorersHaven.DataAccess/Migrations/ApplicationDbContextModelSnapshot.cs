@@ -470,6 +470,15 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<bool?>("Arrival")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly?>("DateFinish")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("DateStart")
+                        .HasColumnType("date");
+
                     b.Property<int?>("DurationDays")
                         .HasColumnType("int");
 
@@ -498,30 +507,23 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 7,
-                            DurationDays = 1,
-                            Finish = "Cairo",
-                            OfferId = 1,
-                            Start = "Sofia",
-                            TransportId = 2
-                        },
-                        new
-                        {
                             Id = 1,
+                            Arrival = true,
                             DurationDays = 1,
                             Finish = "Cairo",
                             OfferId = 1,
                             Start = "Sofia",
-                            TransportId = 3
+                            TransportId = 1
                         },
                         new
                         {
                             Id = 2,
+                            Arrival = false,
                             DurationDays = 1,
                             Finish = "Sofia",
                             OfferId = 1,
                             Start = "Cairo",
-                            TransportId = 4
+                            TransportId = 1
                         },
                         new
                         {

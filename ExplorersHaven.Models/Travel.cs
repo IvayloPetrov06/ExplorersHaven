@@ -17,9 +17,10 @@ namespace Explorers_Haven.Models
         public string Start { get; set; }
         public string Finish { get; set; }
         public int? DurationDays { get; set; }
+        public bool? Arrival { get; set; }
 
-        public DateTime? DateStart { get; set; }
-        public DateTime? DateFinish { get; set; }
+        public DateOnly? DateStart { get; set; }
+        public DateOnly? DateFinish { get; set; }
         public int TransportId { get; set; }
         public Transport Transport { get; set; }
 

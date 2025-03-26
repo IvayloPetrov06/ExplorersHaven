@@ -38,6 +38,7 @@ using System.Reflection;
 using System.Runtime.ConstrainedExecution;
 using System.Security.Policy;
 using System.Xml.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Explorers_Haven.Controllers
 {
@@ -98,19 +99,26 @@ namespace Explorers_Haven.Controllers
 
                 var model = _offerService.CombinedInclude().Include(x => x.User).Select(x => new OfferViewModel()
                 {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Price = x.Price,
-                    CoverImage = x.CoverImage,
-                    UserName = x.User.Username,
+                    OfferId = x.Id,
+                    OfferName = x.Name,
+                    OfferPrice = x.Price,
+                    OfferPic = x.CoverImage,
                     
 
                 }).ToList();
+                filterModel = new OfferFilterViewModel
+                {
+                    Offers = model,
+                    Search = filter.Search,
+
+                };
                 var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
                 User userModel = await userService.GetUserAsync(x => x.Email == tempUser.Email);
-                foreach (var o in model)
+                foreach (var o in filterModel.Offers)
                 {
-                    var fav = await _favoriteService.GetFavoriteAsync(x => x.OfferId == o.Id && x.UserId == userModel.Id);
+                    if (o == null) continue;
+                    
+                    var fav = await _favoriteService.GetFavoriteAsync(x => x.OfferId == o.OfferId && x.UserId == userModel.Id);
                     if (fav == null)
                     {
                         o.IsFavorited = false;
@@ -121,13 +129,55 @@ namespace Explorers_Haven.Controllers
                     }
                 }
                 
-
-                filterModel = new OfferFilterViewModel
+                foreach (var b in filterModel.Offers)
                 {
-                    Offers = model,
-                    Search = filter.Search,
+                    if (b == null) continue;
+                    var tempOffer = await _offerService.GetOfferByIdAsync(b.OfferId);
+                    var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == b.OfferId);
+                    b.Comments = tempCom.ToList();
+                    if (tempCom.Count() != 0)//ako ima reviewta
+                    {
+                        decimal rates = 0;
+                        foreach (var r in tempCom)
+                        {
+                            rates += r.Stars;
+                        }
+                        decimal AverageRate;
+                        decimal ofst;
+                        if (tempOffer.Rating != null)//ako ofertata ima default rating
+                        {
+                            rates = +tempOffer.Rating.Value;
+                            int countt = tempCom.Count() + 1;
+                            AverageRate = rates / countt;
+                            ofst = Math.Round(AverageRate, 2);
+                        }
+                        else//ako nqma
+                        {
+                            AverageRate = rates / tempCom.Count();
+                            ofst = Math.Round(AverageRate, 2);
+                        }
+                        b.OfferRating = AverageRate;
+                        b.OfferRatingStars = ofst;
+                    }
+                    else//ako nqma reviewta
+                    {
+                        if (tempOffer.Rating != null)
+                        {
+                            b.OfferRatingStars = Math.Round(tempOffer.Rating.Value, 2);
+                            b.OfferRating = tempOffer.Rating;
+                        }
+                        else
+                        {
+                            b.OfferRatingStars = 3;
+                            b.OfferRating = 3;
+                        }
 
-                };
+                    }
+                }
+
+                var sortedList1 = filterModel.Offers.OrderBy(x => x.OfferPrice).ToList();
+                filterModel.Cheapest_Offers = sortedList1;
+
             }
             else
             {
@@ -139,7 +189,7 @@ namespace Explorers_Haven.Controllers
                 }
                 if (tempOffers.Contains(filter.Search))
                 {
-                    query = query.Where(x => x.Name == filter.Search);
+                    query = query.Where(x => x.Name.ToLower() == filter.Search.ToLower());
                 }
 
                 filterModel = new OfferFilterViewModel
@@ -147,16 +197,75 @@ namespace Explorers_Haven.Controllers
                     Offers = query.Include(x => x.User)
                 .Select(x => new OfferViewModel()
                 {
-                    Name = x.Name,
-                    CoverImage = x.CoverImage,
-                    Price = x.Price,
-                    Id = x.Id,
-                    UserName = x.User.Username
+                    OfferName = x.Name,
+                    OfferPic = x.CoverImage,
+                    OfferPrice = x.Price,
+                    OfferId = x.Id
                 }).ToList(),
                     Search = filter.Search
                 };
+                foreach (var o in filterModel.Offers)
+                {
+                    var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                    User userModel = await userService.GetUserAsync(x => x.Email == tempUser.Email);
+                    var fav = await _favoriteService.GetFavoriteAsync(x => x.OfferId == o.OfferId && x.UserId == userModel.Id);
+                    if (fav == null)
+                    {
+                        o.IsFavorited = false;
+                    }
+                    else
+                    {
+                        o.IsFavorited = true;
+                    }
+                }
+
+                foreach (var o in filterModel.Offers)
+                {
+                    var tempOffer = await _offerService.GetOfferByIdAsync(o.OfferId);
+                    var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == o.OfferId);
+                    o.Comments = tempCom.ToList();
+                    if (tempCom.Count() != 0)//ako ima reviewta
+                    {
+                        decimal rates = 0;
+                        foreach (var r in tempCom)
+                        {
+                            rates += r.Stars;
+                        }
+                        decimal AverageRate;
+                        decimal ofst;
+                        if (tempOffer.Rating != null)//ako ofertata ima default rating
+                        {
+                            rates = +tempOffer.Rating.Value;
+                            int countt = tempCom.Count() + 1;
+                            AverageRate = rates / countt;
+                            ofst = Math.Round(AverageRate, 2);
+                        }
+                        else//ako nqma
+                        {
+                            AverageRate = rates / tempCom.Count();
+                            ofst = Math.Round(AverageRate, 2);
+                        }
+                        o.OfferRating = AverageRate;
+                        o.OfferRatingStars = ofst;
+                    }
+                    else//ako nqma reviewta
+                    {
+                        if (tempOffer.Rating != null)
+                        {
+                            o.OfferRatingStars = Math.Round(tempOffer.Rating.Value, 2);
+                            o.OfferRating = tempOffer.Rating;
+                        }
+                        else
+                        {
+                            o.OfferRatingStars = 3;
+                            o.OfferRating = 3;
+                        }
+
+                    }
+                }
+
             };
-            var sortedList = query.OrderBy(x => x.Price).ToList();
+            var sortedList = filterModel.Offers.OrderBy(x => x.OfferPrice).ToList();
             filterModel.Cheapest_Offers = sortedList;
 
             return View(filterModel);
@@ -170,7 +279,7 @@ namespace Explorers_Haven.Controllers
             var transports = await _transportService.GetAllTransportsAsync();
 
             var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
-            .Select(x => new OfferPageViewModel()
+            .Select(x => new OfferViewModel()
             {
                 OfferDiscount = x.Discount,
                 OfferPeople = x.MaxPeople,
@@ -298,7 +407,7 @@ namespace Explorers_Haven.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> OfferPage(int id, OfferPageViewModel model)//copied from edit offer
+        public async Task<IActionResult> OfferPage(int id, OfferViewModel model)//copied from edit offer
         {
             return View(model);
         }

@@ -44,43 +44,43 @@
                         <div class="carousel-item @(i < 3 ? "active" : "")">
                             <div class="offer-card">
                                 <div class="offer-image">
-                                    <img src="@offer.CoverImage" alt="@offer.Name">
+                                    <img src="@offer.OfferPic" alt="@offer.OfferName">
+                                    <form id="favoriteForm" method="post" action="/Favorite/Favorite">
+                                        <div class="favorite-btn">
+                                            <input type="hidden" name="id" value="@offer.OfferId" />
+                                            <input type="checkbox" id="favorite" class="favorite-checkbox" name="favorite-checkbox" value="true" @(offer.IsFavorited.Value ? "checked" : "")>
+                                            <label class="favorite-btn-label" for="favorite">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
+                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                                </svg>
+                                                <div class="action">
+                                                    <span class="option-1"></span>
+                                                    <span class="option-2"></span>
+                                                </div>
+                                            </label>
+                                        </div>
+                                        <button type="submit" style="display:none;">Submit</button>
+                                    </form>
                                 </div>
                                 <div class="offer-details">
                                     <div class="offer-info">
-                                        <h3 class="offer-name">@offer.Name</h3>
-                                        <div class="offer-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
+                                        <h3 class="offer-name">@offer.OfferName</h3>
+                                        <div class="rating-container">
+                                            <span class="rating-number" style="margin-left: 4px;">@offer.OfferRating.Value.ToString("0.0")</span>
+                                            @for (int j = 0; j < offer.OfferRatingStars; j++)
+                                            {
+                                                <div class="stay-stars">
+                                                    <span>★</span>
+                                                </div>
+                                            }
                                         </div>
-                                        <form id="favoriteForm" method="post" action="/Favorite/Favorite">
-                                            <div class="favorite-btn">
-                                                <input type="hidden" name="id" value="@Model.Offers[i].Id" />
-                                                <input type="checkbox" id="favorite" class="favorite-checkbox" name="favorite-checkbox" value="true" @(offer.IsFavorited.Value ? "checked" : "")>
-                                                <label class="favorite-btn-label" for="favorite">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
-                                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                                    </svg>
-                                                    <div class="action">
-                                                        <span class="option-1"></span>
-                                                        <span class="option-2"></span>
-                                                    </div>
-                                                </label>
-                                            </div>
-                                            <button type="submit" style="display:none;">Submit</button>
-                                        </form>
                                     </div>
                                     <div class="offer-actions">
                                         <div class="price-tag">
                                             <span class="price-label">Цена от</span>
-                                            <span class="price-value">@offer.Price лв</span>
+                                            <span class="price-value">@offer.OfferPrice лв</span>
                                         </div>
-                                        <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="btn-view">
+                                        <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.OfferId" class="btn-view">
                                             Виж оферта
                                         </a>
                                     </div>
@@ -118,27 +118,27 @@
                                     <div class="discount-badge-corner">
                                         <span>Промо</span>
                                     </div>
-                                    <img src="@offer.CoverImage" alt="@offer.Name">
+                                    <img src="@offer.OfferPic" alt="@offer.OfferName">
                                 </div>
                                 <div class="offer-details">
                                     <div class="offer-info">
-                                        <h3 class="offer-name">@offer.Name</h3>
-                                        <div class="offer-rating">
-                                            <div class="stars">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                            </div>
+                                        <h3 class="offer-name">@offer.OfferName</h3>
+                                        <div class="rating-container">
+                                            <span class="rating-number" style="margin-left: 4px;">@offer.OfferRating.Value.ToString("0.0")</span>
+                                            @for (int j = 0; j < offer.OfferRatingStars; j++)
+                                            {
+                                                <div class="stay-stars">
+                                                    <span>★</span>
+                                                </div>
+                                            }
                                         </div>
                                     </div>
                                     <div class="offer-actions">
                                         <div class="price-tag">
                                             <span class="price-label">Специална цена</span>
-                                            <span class="price-value highlight">@offer.Price лв</span>
+                                            <span class="price-value highlight">@offer.OfferPrice лв</span>
                                         </div>
-                                        <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="btn-view">
+                                        <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.OfferId" class="btn-view">
                                             Виж оферта
                                         </a>
                                     </div>
@@ -165,6 +165,72 @@
 <style>
     /*favorite*/
     /* Fixed favorite button animation */
+    .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+    }
+
+        .favorite-btn .favorite-checkbox {
+            display: none;
+        }
+
+        .favorite-btn .favorite-btn-label {
+            background-color: transparent;
+            padding: 0;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: none;
+        }
+
+            .favorite-btn .favorite-btn-label svg {
+                width: 30px;
+                height: 30px;
+                fill: rgba(255,255,255,0.7);
+                stroke: white;
+                stroke-width: 2;
+                transition: all 0.3s ease;
+            }
+
+            .favorite-btn .favorite-btn-label:hover svg {
+                fill: rgba(255,255,255,0.9);
+            }
+
+        .favorite-btn .favorite-checkbox:checked + .favorite-btn-label svg {
+            fill: hsl(0deg 100% 50%);
+            stroke: hsl(0deg 100% 50%);
+            animation: heartButton 1s;
+        }
+
+    keyframes heartButton {
+        0%
+
+    {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.3);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+    }
+
+    .favorite-btn .favorite-btn-label .action {
+        display: none; /* Hide the action spans as they're no longer needed */
+    }
     .favorite-btn .favorite-checkbox {
         display: none;
     }
@@ -548,15 +614,84 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
+    /*stars*/
+    .stars-container {
+        margin-bottom: 15px;
+    }
 
-    .offer-rating {
+    .stay-stars {
+        color: #ffb700;
+        font-size: 20px;
+        padding-left: 5px;
+    }
+
+    .star-rating {
+        display: inline-block;
+        direction: rtl;
+        unicode-bidi: bidi-override;
+    }
+
+        .star-rating .star {
+            display: inline-block;
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            margin-right: 2px;
+        }
+
+            .star-rating .star:hover,
+            .star-rating .star:hover ~ .star,
+            .star-rating .star.active,
+            .star-rating .star.active ~ .star {
+                color: #ffb700;
+            }
+
+    .rating-text {
+        display: inline-block;
+        margin-left: 10px;
+        color: var(--dark-gray);
+        font-size: 14px;
+    }
+    /*more stars*/
+    .rating-container {
         display: flex;
-        flex-direction: column;
-        gap: 8px;
+        align-items: center;
+        margin-bottom: 10px;
     }
 
     .stars {
-        color: #f48f00;
+        display: flex;
+        position: relative;
+        direction: rtl; /* Ensure the stars go from left to right */
+    }
+
+        .stars label {
+            font-size: 0;
+            cursor: pointer; /* Make the stars clickable */
+        }
+
+            .stars label:before {
+                content: "★";
+                color: #ffb700;
+                font-size: 24px;
+            }
+
+        .stars input:checked ~ label:before,
+        .stars:not(:checked) > label:hover:before,
+        .stars:not(:checked) > label:hover ~ label:before {
+            color: #ffb700;
+        }
+
+        .stars input {
+            position: absolute;
+            right: -9999px;
+        }
+
+
+    .rating-number {
+        margin-left: 10px;
+        font-size: 16px;
+        color: var(--dark-gray);
     }
 
     .location {

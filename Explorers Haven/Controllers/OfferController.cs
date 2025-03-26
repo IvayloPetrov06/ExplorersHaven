@@ -51,9 +51,9 @@ namespace Explorers_Haven.Controllers
 
                 var model = _offerService.CombinedInclude().Include(x => x.User).Select(x => new OfferViewModel()
                 {
-                    Id = x.Id,
-                    Name= x.Name,
-                    CoverImage = x.CoverImage,
+                    OfferId = x.Id,
+                    OfferName= x.Name,
+                    OfferPic = x.CoverImage,
                     UserName = x.User.Username
                 }).ToList();
 
@@ -82,9 +82,9 @@ namespace Explorers_Haven.Controllers
                     Offers = query.Include(x => x.User)
                 .Select(x => new OfferViewModel()
                 {
-                    Name = x.Name,
-                    CoverImage = x.CoverImage,
-                    Id = x.Id,
+                    OfferId = x.Id,
+                    OfferName = x.Name,
+                    OfferPic = x.CoverImage,
                     UserName = x.User.Username
                 }).ToList(),
                     Search = filter.Search

@@ -20,19 +20,19 @@
         {
             <div class="album-card">
                 <div class="album-cover">
-                    <img src="@offer.CoverImage" alt="@offer.Name">
+                    <img src="@offer.OfferPic" alt="@offer.OfferName">
                     <div class="play-overlay">
                         <button class="play-button"><i class="fas fa-play"></i></button>
                     </div>
                 </div>
                 <div class="album-info">
-                    <h3 class="album-title">@offer.Name</h3>
+                    <h3 class="album-title">@offer.OfferName</h3>
                 </div>
                 <div class="card-buttons">
-                    <a asp-controller="Offer" asp-action="EditOffer" asp-route-id="@offer.Id" class="edit-btn">
+                    <a asp-controller="Offer" asp-action="EditOffer" asp-route-id="@offer.OfferId" class="edit-btn">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a asp-controller="Offer" asp-action="Delete" asp-route-id="@offer.Id" class="delete-btn">
+                    <a asp-controller="Offer" asp-action="Delete" asp-route-id="@offer.OfferId" class="delete-btn">
                         <i class="fas fa-trash"></i>
                     </a>
                 </div>

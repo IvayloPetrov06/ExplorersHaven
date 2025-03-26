@@ -1,5 +1,5 @@
-﻿@using Explorers_Haven.ViewModels.Main
-@model OfferPageViewModel
+﻿@using Explorers_Haven.ViewModels.Offer
+@model OfferViewModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,631 +10,634 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-        --primary-color: #2681ff;
-        --secondary-color: #ff6500;
-        --text-color: #333;
-        --light-gray: #f5f5f5;
-        --medium-gray: #e0e0e0;
-        --dark-gray: #666;
-        --white: #fff;
-        --border-radius: 8px;
-        --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        --discount-color: #e74c3c;
+            --primary-color: #2681ff;
+            --secondary-color: #ff6500;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #666;
+            --white: #fff;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            --discount-color: #e74c3c;
         }
 
         * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         }
 
         body {
-        background-color: #f5f7fa;
-        color: var(--text-color);
-        line-height: 1.6;
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
         }
 
         .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         /* Header section */
         .offer-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--medium-gray);
         }
 
         .offer-title {
-        flex: 1;
+            flex: 1;
         }
 
-        .offer-title h1 {
-        font-size: 28px;
-        margin-bottom: 10px;
-        color: #333;
-        }
+            .offer-title h1 {
+                font-size: 28px;
+                margin-bottom: 10px;
+                color: #333;
+            }
 
         .rating-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .stars {
-        display: flex;
-        position: relative;
-        direction: rtl; /* Ensure the stars go from left to right */
+            display: flex;
+            position: relative;
+            direction: rtl; /* Ensure the stars go from left to right */
         }
 
-        .stars label {
-        font-size: 0;
-        cursor: pointer; /* Make the stars clickable */
-        }
+            .stars label {
+                font-size: 0;
+                cursor: pointer; /* Make the stars clickable */
+            }
 
-        .stars label:before {
-        content: "★";
-        color: #ddd;
-        font-size: 24px;
-        }
+                .stars label:before {
+                    content: "★";
+                    color: #ddd;
+                    font-size: 24px;
+                }
 
-        .stars input:checked ~ label:before,
-        .stars:not(:checked) > label:hover:before,
-        .stars:not(:checked) > label:hover ~ label:before {
-        color: #ffb700;
-        }
+            .stars input:checked ~ label:before,
+            .stars:not(:checked) > label:hover:before,
+            .stars:not(:checked) > label:hover ~ label:before {
+                color: #ffb700;
+            }
 
-        .stars input {
-        position: absolute;
-        right: -9999px;
-        }
+            .stars input {
+                position: absolute;
+                right: -9999px;
+            }
 
 
         .rating-number {
-        margin-left: 10px;
-        font-size: 16px;
-        color: var(--dark-gray);
+            margin-left: 10px;
+            font-size: 16px;
+            color: var(--dark-gray);
         }
 
         /* Fixed favorite button animation */
         .favorite-btn .favorite-checkbox {
-        display: none;
+            display: none;
         }
 
         .favorite-btn .favorite-btn-label {
-        background-color: white;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        padding: 10px 15px 10px 10px;
-        cursor: pointer;
-        user-select: none;
-        border-radius: 10px;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-        color: black;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 15px 10px 10px;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 10px;
+            box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+            color: black;
         }
 
         .favorite-btn .favorite-checkbox:checked + .favorite-btn-label svg {
-        fill: hsl(0deg 100% 50%);
-        stroke: hsl(0deg 100% 50%);
-        animation: heartButton 1s;
+            fill: hsl(0deg 100% 50%);
+            stroke: hsl(0deg 100% 50%);
+            animation: heartButton 1s;
         }
 
         keyframes heartButton {
-        0% {
-        transform: scale(1);
+            0%
+
+        {
+            transform: scale(1);
         }
 
         25% {
-        transform: scale(1.3);
+            transform: scale(1.3);
         }
 
         50% {
-        transform: scale(1);
+            transform: scale(1);
         }
 
         75% {
-        transform: scale(1.3);
+            transform: scale(1.3);
         }
 
         100% {
-        transform: scale(1);
+            transform: scale(1);
         }
+
         }
 
         .favorite-btn .favorite-checkbox + .favorite-btn-label .action {
-        position: relative;
-        overflow: hidden;
-        display: grid;
+            position: relative;
+            overflow: hidden;
+            display: grid;
         }
 
-        .favorite-btn .favorite-checkbox + .favorite-btn-label .action span {
-        grid-column-start: 1;
-        grid-column-end: 1;
-        grid-row-start: 1;
-        grid-row-end: 1;
-        transition: all .5s;
-        }
+            .favorite-btn .favorite-checkbox + .favorite-btn-label .action span {
+                grid-column-start: 1;
+                grid-column-end: 1;
+                grid-row-start: 1;
+                grid-row-end: 1;
+                transition: all .5s;
+            }
 
-        .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-1 {
-        transform: translate(0px, 0%);
-        opacity: 1;
-        }
+                .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-1 {
+                    transform: translate(0px, 0%);
+                    opacity: 1;
+                }
 
         .favorite-btn .favorite-checkbox:checked + .favorite-btn-label .action span.option-1 {
-        transform: translate(0px, -100%);
-        opacity: 0;
+            transform: translate(0px, -100%);
+            opacity: 0;
         }
 
         .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-2 {
-        transform: translate(0px, 100%);
-        opacity: 0;
+            transform: translate(0px, 100%);
+            opacity: 0;
         }
 
         .favorite-btn .favorite-checkbox:checked + .favorite-btn-label .action span.option-2 {
-        transform: translate(0px, 0%);
-        opacity: 1;
+            transform: translate(0px, 0%);
+            opacity: 1;
         }
 
         /* Main image */
         .main-image {
-        width: 100%;
-        margin-bottom: 20px;
-        border-radius: var(--border-radius);
-        overflow: hidden;
+            width: 100%;
+            margin-bottom: 20px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
         }
 
-        .main-image img {
-        width: 100%;
-        height: 400px;
-        object-fit: cover;
-        }
+            .main-image img {
+                width: 100%;
+                height: 400px;
+                object-fit: cover;
+            }
 
         /* Content sections */
         .content-section {
-        display: flex;
-        margin-bottom: 30px;
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        overflow: hidden;
+            display: flex;
+            margin-bottom: 30px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
         }
 
         /* Improved description styling */
         .description {
-        flex: 3;
-        padding: 20px;
+            flex: 3;
+            padding: 20px;
         }
 
         .description-title {
-        font-size: 22px;
-        margin-bottom: 15px;
-        color: var(--primary-color);
-        font-weight: 600;
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 600;
         }
 
         .description-content {
-        line-height: 1.8;
-        color: var(--text-color);
-        margin-bottom: 12px;
-        font-size: 15px;
+            line-height: 1.8;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            font-size: 15px;
         }
 
         .info-label {
-        font-weight: 600;
-        color: var(--primary-color);
-        margin-right: 5px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-right: 5px;
         }
 
         .trip-info {
-        display: flex;
-        flex-wrap: wrap;
-        margin-top: 20px;
-        padding-top: 15px;
-        border-top: 1px solid var(--medium-gray);
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid var(--medium-gray);
         }
 
         .trip-info-item {
-        flex: 1;
-        min-width: 200px;
-        margin-bottom: 10px;
-        display: flex;
-        align-items: center;
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
         }
 
-        .trip-info-item i {
-        margin-right: 8px;
-        color: var(--primary-color);
-        }
+            .trip-info-item i {
+                margin-right: 8px;
+                color: var(--primary-color);
+            }
 
         .booking-details {
-        flex: 2;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-left: 1px solid var(--medium-gray);
+            flex: 2;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-left: 1px solid var(--medium-gray);
         }
 
         .price-container {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        padding-bottom: 15px;
-        border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
         }
 
         .price-label {
-        font-size: 14px;
-        color: var(--dark-gray);
+            font-size: 14px;
+            color: var(--dark-gray);
         }
 
         .price-value {
-        font-size: 24px;
-        font-weight: bold;
-        color: var(--secondary-color);
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--secondary-color);
         }
 
         form {
-        display: flex;
-        flex-direction: column;
+            display: flex;
+            flex-direction: column;
         }
 
         label {
-        margin-bottom: 5px;
-        font-size: 14px;
-        color: var(--dark-gray);
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--dark-gray);
         }
 
         /* Improved discount styling */
         .discount-label {
-        color: var(--discount-color);
-        font-weight: 600;
-        margin-bottom: 5px;
-        font-size: 14px;
-        display: flex;
-        align-items: center;
+            color: var(--discount-color);
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
         }
 
-        .discount-label i {
-        margin-right: 5px;
-        }
+            .discount-label i {
+                margin-right: 5px;
+            }
 
         .discount-value {
-        font-weight: bold;
-        color: var(--discount-color);
+            font-weight: bold;
+            color: var(--discount-color);
         }
 
         input[type="number"],
         input[type="date"] {
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid var(--medium-gray);
-        border-radius: var(--border-radius);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
         }
 
         button[type="submit"],
         .book-now-btn {
-        padding: 12px 20px;
-        margin-top: 10px;
-        background-color: var(--secondary-color);
-        color: var(--white);
-        border: none;
-        border-radius: var(--border-radius);
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
+            padding: 12px 20px;
+            margin-top: 10px;
+            background-color: var(--secondary-color);
+            color: var(--white);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        button[type="submit"]:hover,
-        .book-now-btn:hover {
-        background-color: #e65c00;
-        }
+            button[type="submit"]:hover,
+            .book-now-btn:hover {
+                background-color: #e65c00;
+            }
 
         .cancel-btn {
-        padding: 12px 20px;
-        margin-top: 10px;
-        background-color: var(--light-gray);
-        color: var(--dark-gray);
-        border: 1px solid var(--medium-gray);
-        border-radius: var(--border-radius);
-        font-size: 16px;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.2s;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        margin-left: 10px;
+            padding: 12px 20px;
+            margin-top: 10px;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
         }
 
-        .cancel-btn:hover {
-        background-color: #e0e0e0;
-        }
+            .cancel-btn:hover {
+                background-color: #e0e0e0;
+            }
 
         /* Accommodation section */
         .accommodation-section {
-        margin-bottom: 30px;
+            margin-bottom: 30px;
         }
 
         .section-title {
-        font-size: 24px;
-        margin-bottom: 15px;
-        color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
         }
 
         .accommodation-card {
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        overflow: hidden;
-        display: flex;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            display: flex;
         }
 
         .accommodation-image {
-        flex: 1;
-        max-width: 300px;
+            flex: 1;
+            max-width: 300px;
         }
 
-        .accommodation-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        }
+            .accommodation-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
         .accommodation-details {
-        flex: 2;
-        padding: 20px;
+            flex: 2;
+            padding: 20px;
         }
 
         .accommodation-title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .accommodation-name {
-        font-size: 20px;
-        color: var(--text-color);
+            font-size: 20px;
+            color: var(--text-color);
         }
 
         .stay-stars {
-        color: #ffb700;
-        font-size: 16px;
+            color: #ffb700;
+            font-size: 16px;
         }
 
         .stay-price {
-        font-size: 20px;
-        font-weight: bold;
-        color: var(--secondary-color);
-        margin-top: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-top: 10px;
         }
 
         /* Improved amenities section */
         .amenities-section {
-        margin-bottom: 30px;
+            margin-bottom: 30px;
         }
 
         .amenities-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
         }
 
         .amenity-item {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        border-radius: var(--border-radius);
-        background-color: #f5f7fa;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: var(--border-radius);
+            background-color: #f5f7fa;
         }
 
         .amenity-icon {
-        margin-right: 10px;
-        font-size: 10px;
+            margin-right: 10px;
+            font-size: 10px;
             width: 30px;
-        color: var(--primary-color);
+            color: var(--primary-color);
         }
 
         .amenity-name {
-        font-size: 15px;
-        color: var(--text-color);
+            font-size: 15px;
+            color: var(--text-color);
         }
 
         /* Travel details section */
         .travel-section {
-        margin-bottom: 30px;
+            margin-bottom: 30px;
         }
 
         .travel-card {
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        padding: 20px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
         }
 
         .travel-point {
-        flex: 1;
-        text-align: center;
+            flex: 1;
+            text-align: center;
         }
 
         .travel-location {
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--text-color);
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text-color);
         }
 
         .travel-date {
-        font-size: 14px;
-        color: var(--dark-gray);
+            font-size: 14px;
+            color: var(--dark-gray);
         }
 
         .travel-icon {
-        flex: 0.5;
-        text-align: center;
+            flex: 0.5;
+            text-align: center;
         }
 
-        .travel-icon img {
-        width: 30px;
-        opacity: 0.6;
-        }
+            .travel-icon img {
+                width: 30px;
+                opacity: 0.6;
+            }
 
         .travel-transport {
-        flex: 1;
-        text-align: center;
-        padding: 8px 15px;
-        background-color: var(--light-gray);
-        border-radius: 20px;
-        font-size: 14px;
-        color: var(--dark-gray);
+            flex: 1;
+            text-align: center;
+            padding: 8px 15px;
+            background-color: var(--light-gray);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--dark-gray);
         }
 
         /* Activities section */
         .activities-section {
-        margin-bottom: 30px;
+            margin-bottom: 30px;
         }
 
         .activities-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .activity-card {
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        overflow: hidden;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
         }
 
         .activity-image {
-        height: 180px;
-        overflow: hidden;
+            height: 180px;
+            overflow: hidden;
         }
 
-        .activity-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        }
+            .activity-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
-        
+
         .activity-name {
-        padding: 15px;
-        font-size: 16px;
-        font-weight: bold;
-        color: var(--text-color);
+            padding: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--text-color);
         }
 
         /* Reviews section */
         .reviews-section {
-        margin-bottom: 30px;
+            margin-bottom: 30px;
         }
 
         .review-form {
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        padding: 20px;
-        margin-bottom: 20px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        .review-form input[type="text"] {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid var(--medium-gray);
-        border-radius: var(--border-radius);
-        margin-bottom: 10px;
-        }
+            .review-form input[type="text"] {
+                width: 100%;
+                padding: 12px;
+                border: 1px solid var(--medium-gray);
+                border-radius: var(--border-radius);
+                margin-bottom: 10px;
+            }
 
-        .review-form button {
-        padding: 10px 20px;
-        background-color: var(--primary-color);
-        color: var(--white);
-        border: none;
-        border-radius: var(--border-radius);
-        cursor: pointer;
-        transition: background-color 0.2s;
-        }
+            .review-form button {
+                padding: 10px 20px;
+                background-color: var(--primary-color);
+                color: var(--white);
+                border: none;
+                border-radius: var(--border-radius);
+                cursor: pointer;
+                transition: background-color 0.2s;
+            }
 
-        .review-form button:hover {
-        background-color: #1a6ac2;
-        }
+                .review-form button:hover {
+                    background-color: #1a6ac2;
+                }
 
         .comment-list {
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        padding: 20px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
         }
 
         /* Updated comment styling */
         .comment-item {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid var(--medium-gray);
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--medium-gray);
         }
 
-        .comment-item:last-child {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: none;
-        }
+            .comment-item:last-child {
+                margin-bottom: 0;
+                padding-bottom: 0;
+                border-bottom: none;
+            }
 
         .comment-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .comment-avatar {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        overflow: hidden;
-        margin-right: 15px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-right: 15px;
         }
 
-        .comment-avatar img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        }
+            .comment-avatar img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
 
         .comment-rating {
-        display: flex;
-        margin-bottom: 8px;
+            display: flex;
+            margin-bottom: 8px;
         }
 
         .comment-content {
-        flex: 1;
-        line-height: 1.5;
-        margin-left: 65px;
+            flex: 1;
+            line-height: 1.5;
+            margin-left: 65px;
         }
 
         .booking-actions {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
         }
         /*new css*/
         .stars-container {
@@ -643,7 +646,7 @@
 
         .star-rating {
             display: inline-block;
-            direction: rtl;
+            direction: ltr;
             unicode-bidi: bidi-override;
         }
 
@@ -774,7 +777,7 @@
                 <div class="description-content">@Model.OfferDisc</div>
                 <div class="description-title">Booking options</div>
                 <div class="description-content">Bookings available every week the same day as starting date. Last available week for booking is on the last date.</div>
-                
+
                 <div class="trip-info">
                     <div class="trip-info-item">
                         <i class="fas fa-calendar-alt"></i>
@@ -858,7 +861,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Improved amenities section -->
         <div class="amenities-section">
             <h2 class="section-title">Amenities</h2>
@@ -872,7 +875,7 @@
                 }
             </div>
         </div>
-        
+
         <div class="travel-section">
             <h2 class="section-title">Travel Details</h2>
             @foreach (var a in Model.Travels)
@@ -881,23 +884,23 @@
                     <div class="travel-point">
                         <div class="travel-location">@a.Start</div>
                     </div>
-                    @foreach(var tr in Model.Transports)
+                    @foreach (var tr in Model.Transports)
                     {
-                    if(@a.TransportId==tr.Id&&tr.Name=="Plane")
+                        if (@a.TransportId == tr.Id && tr.Name == "Plane")
                         {
-                            <div class="travel-transport">@tr.Name</div>
-                    <div class="travel-icon">
-                                
-                        <img src="/Images/Plane.svg" alt="Plane" />
-                    </div>
-                    }
-                    if(@a.TransportId==tr.Id&&tr.Name=="Train")
-                    {
-                    <div class="travel-icon">
+                            
+                            <div class="travel-icon">
+                                <div class="travel-transport">@tr.Name</div>
+                                <img src="/Images/Plane.svg" alt="Plane" />
+                            </div>
+                        }
+                        if (@a.TransportId == tr.Id && tr.Name == "Train")
+                        {
+                            <div class="travel-icon">
                                 <div class="travel-transport">@tr.Name</div>
                                 <img src="/Images/Train.svg" alt="Train" />
-                    </div>
-                    }
+                            </div>
+                        }
                         if (@a.TransportId == tr.Id && tr.Name == "Boat")
                         {
                             <div class="travel-icon">
@@ -913,12 +916,12 @@
                             </div>
                         }
                     }
-                    
-                    
+
+
                     <div class="travel-point">
                         <div class="travel-location">@a.Finish</div>
                     </div>
-                    
+
                 </div>
             }
         </div>

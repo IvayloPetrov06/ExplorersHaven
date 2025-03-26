@@ -5,6 +5,6 @@
         public string Search { get; set; }
         public List<OfferViewModel> Offers { get; set; }
 
-        public List<Models.Offer> Cheapest_Offers { get; set; }
+        public List<OfferViewModel> Cheapest_Offers { get; set; }
     }
 }

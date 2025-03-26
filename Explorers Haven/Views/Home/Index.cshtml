@@ -1,0 +1,192 @@
+﻿<section class="main-home">
+    <img src="/Images/main.jpg" alt="custom" />
+    <h1>Добре дошли в Explorer's Haven</h1>
+    <p>Открийте нови преживявания и планираите новото си пътешествие навсякъде.</p>
+    <div>
+        <a asp-action="HomePage" asp-controller="Home" class="hero-btn-home">Започнете сега</a>
+    </div>
+</section>
+
+<div class="container">
+    <section class="search-section">
+        <img src="/Images/search.jpg" alt="custom" />
+        <h3>Търсете лесно</h3>
+        <p>Търсете сред 5 милиона хотела само за няколко секунди.</p>
+    </section>
+
+    
+
+    @if (User.IsInRole("User"))
+    {
+        <section class="organiser-banner">
+            <h3>Станете организатор в Explorer's Haven</h3>
+                <p>Искате да планирате нови преживявания за хилядите ни потребители?. Станете част от организаторската ни програма днес.</p>
+                <a asp-controller="ArtistRequest" asp-action="Index" class="artist-btn">Станете изпълнител</a>
+        </section>
+    }
+</div>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Arial', sans-serif;
+    }
+
+    body {
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f4;
+    }
+
+    .main-home {
+        position: relative;
+        width: 100vw; /* Full viewport width */
+        height: 80vh;
+        margin-left: calc(-50vw + 50%); /* Center and extend to full width */
+        margin-right: calc(-50vw + 50%);
+        overflow: hidden;
+    }
+
+        .main-home img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .main-home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .main-home h1 {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            padding-top: 35vh;
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .main-home p {
+            position: relative;
+            z-index: 2;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1.2rem;
+        }
+
+    .hero-btn-home {
+        position: relative;
+        z-index: 2;
+        display: block;
+        width: 200px;
+        margin: 20px auto;
+        padding: 12px 24px;
+        background-color: #4CAF50;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .hero-btn-home:hover {
+            background-color: #45a049;
+        }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .search-section {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+        overflow: hidden;
+        text-align: center;
+    }
+
+        .search-section img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .search-section h3 {
+            padding: 15px 0;
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .search-section p {
+            padding: 0 20px 20px;
+            color: #666;
+        }
+
+    .organiser-banner {
+        background-color: #f0f0f0;
+        border-radius: 10px;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .organiser-banner h3 {
+            font-size: 1.8rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .organiser-banner p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+    .artist-btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #2196F3;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+        .artist-btn:hover {
+            background-color: #1976D2;
+        }
+
+    
+        .main-home h1
+
+    {
+        font-size: 2rem;
+        padding-top: 30vh;
+    }
+
+    .main-home p {
+        font-size: 1rem;
+    }
+
+    .hero-btn-home {
+        width: 180px;
+    }
+
+    
+</style>

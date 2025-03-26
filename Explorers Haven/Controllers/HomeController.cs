@@ -89,8 +89,20 @@ namespace Explorers_Haven.Controllers
              );
             _cloudinary = new Cloudinary(account);
         }
+        public IActionResult Index()
+        {
+
+                return View();
+            
+
+
+        }
         public async Task<IActionResult> HomePage(HomePageViewModel filter)
         {
+            if (!User.IsInRole("User") && !User.IsInRole("Artist") && !User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Login", "Account");
+            }
             var query = _offerService.GetAll().AsQueryable();
             var filterModel = new OfferFilterViewModel();
 

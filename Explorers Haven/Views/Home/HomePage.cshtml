@@ -5,6 +5,7 @@
 <div class="trivago-container">
     <!-- Hero Search Section -->
     <div class="hero-section">
+        <img src="/Images/beach.jpg" alt="custom" />
         <div class="search-wrapper">
             <h1 class="main-heading">Открийте идеалната почивка и сравнете оферти</h1>
 
@@ -317,15 +318,36 @@
 
     /* Hero Section Styles */
     .hero-section {
-        background-color: #007cc3;
-        padding: 40px 20px;
+        position: relative;
+        background-image: url('/Images/beach.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-radius: 0 0 8px 8px;
         margin-bottom: 30px;
+        overflow: hidden;
     }
 
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 124, 195, 0.6); /* Blue overlay for readability */
+            z-index: 1;
+        }
+
     .search-wrapper {
+        position: relative;
+        z-index: 2;
         max-width: 800px;
-        margin: 0 auto;
+        width: 100%;
+        padding: 0 20px;
         text-align: center;
     }
 
@@ -334,6 +356,7 @@
         font-size: 28px;
         font-weight: 500;
         margin-bottom: 30px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
     .search-box {
@@ -354,6 +377,7 @@
         left: 15px;
         color: #666;
         font-size: 18px;
+        z-index: 3;
     }
 
     .search-input {
@@ -364,10 +388,6 @@
         font-size: 16px;
         outline: none;
     }
-
-        .search-input:focus {
-            border-color: #007cc3;
-        }
 
     .search-button {
         padding: 15px 25px;
@@ -381,6 +401,10 @@
         margin-left: 10px;
         transition: background-color 0.2s;
     }
+
+        .search-input:focus {
+            border-color: #007cc3;
+        }
 
         .search-button:hover {
             background-color: #e57f00;

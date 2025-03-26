@@ -5,7 +5,6 @@
 <div class="trivago-container">
     <!-- Hero Search Section -->
     <div class="hero-section">
-        <img src="/Images/beach.jpg" alt="custom" />
         <div class="search-wrapper">
             <h1 class="main-heading">Открийте идеалната почивка и сравнете оферти</h1>
 
@@ -270,9 +269,8 @@
     /* Add these styles to your existing CSS */
 
     .carousel-track {
-        display: flex;
         position: relative;
-        transition: transform 0.3s ease;
+        z-index: 4;
     }
 
     .carousel-item {
@@ -305,30 +303,35 @@
         font-family: 'Roboto', sans-serif;
     }
 
-    body {
-        background-color: #f8f8f8;
-        color: #333;
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
     }
 
     .trivago-container {
         width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
+        max-width: 100%;
+        padding: 0;
+        margin: 0;
     }
 
-    /* Hero Section Styles */
     .hero-section {
         position: relative;
         background-image: url('/Images/beach.jpg');
         background-size: cover;
         background-position: center;
         height: 400px;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: 0 0 8px 8px;
         margin-bottom: 30px;
-        overflow: hidden;
     }
 
         .hero-section::before {
@@ -339,12 +342,11 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 124, 195, 0.6); /* Blue overlay for readability */
-            z-index: 1;
         }
 
     .search-wrapper {
         position: relative;
-        z-index: 2;
+        z-index: 1;
         max-width: 800px;
         width: 100%;
         padding: 0 20px;
@@ -377,7 +379,6 @@
         left: 15px;
         color: #666;
         font-size: 18px;
-        z-index: 3;
     }
 
     .search-input {
@@ -411,20 +412,33 @@
         }
 
     /* Results Section Styles */
-    .results-section {
-        padding: 0 20px 40px;
-    }
+    
 
     .results-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        background-color: #f4f4f4;
+        padding-top: 20px;
         margin-bottom: 20px;
+        position: relative;
+        z-index: 10;
+    }
+
+    
+
+    .results-section {
+        position: relative;
+        background-color: #f4f4f4;
+        padding-bottom: 60px;
     }
 
     .mt-40 {
         margin-top: 40px;
+        background-color: #f4f4f4;
+        padding-bottom: 30px;
+        position: relative;
+        z-index: 1;
     }
+
+    
 
     .section-title {
         font-size: 24px;
@@ -466,11 +480,15 @@
             margin-right: 5px;
         }
 
-    /* Carousel Styles */
+    /* Carousel Styles results-header */
     .carousel-container {
         position: relative;
-        margin-bottom: 30px;
+        z-index: 1;
+        margin-bottom: 40px;
+        padding-bottom: 30px;
     }
+
+    
 
     .carousel-wrapper {
         position: relative;
@@ -478,16 +496,19 @@
         padding: 0 50px; /* Added padding to make room for the buttons */
     }
 
+    
+
     .carousel-track {
         display: flex;
-        transition: transform 0.3s ease;
-        margin: 0 -10px; /* Negative margin to align with the wrapper padding */
+        overflow: visible;
+        margin: 0 -10px; /* Negative margin to counteract item padding */
     }
 
     .carousel-item {
-        flex: 0 0 calc(33.333% - 20px);
+        flex: 0 0 calc(33.333% - 20px); /* Maintain 3-column layout */
         margin-right: 20px;
-        display: none;
+        padding: 10px; /* Add padding to create shadow space */
+        box-sizing: border-box;
     }
 
         .carousel-item.active {
@@ -523,22 +544,28 @@
             color: #007cc3;
         }
 
-    /* Offer Cards Styles */
     .offer-card {
         display: flex;
         flex-direction: column;
         background-color: white;
         border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
         transition: transform 0.2s, box-shadow 0.2s;
         height: 100%;
+        position: relative;
+        overflow: hidden;
     }
 
-        .offer-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
+    
+.offer-card:not(:hover) {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12), 
+                0 1px 3px rgba(0, 0, 0, 0.14);
+}
+
+.offer-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
 
     .special-offer {
         border: 2px solid #f48f00;

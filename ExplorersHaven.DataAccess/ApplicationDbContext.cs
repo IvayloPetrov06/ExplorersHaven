@@ -11,13 +11,18 @@ using Microsoft.Identity;
 using Explorers_Haven.Models;
 using System.Runtime.ConstrainedExecution;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace Explorers_Haven.DataAccess
 {
     public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
-        //     ApplicationDbContext
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        IServiceProvider serviceProvider;
+
+        public ApplicationDbContext(DbContextOptions options, IServiceProvider _serviceProvider) : base(options)
+        {
+            serviceProvider = _serviceProvider;
+        }
 
         public DbSet<User> Users { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
@@ -29,51 +34,13 @@ namespace Explorers_Haven.DataAccess
         public DbSet<Travel> Travels { get; set; }
         public DbSet<Transport> Transports { get; set; }
         public DbSet<Stay> Stays { get; set; }
-        public DbSet<Activity> Activites { get; set; }
+        public DbSet<Models.Activity> Activites { get; set; }
 
         public DbSet<Booking> Bookings { get; set; }
-        /*public async Task Seed()
-        {
-            if (!Transports.Any())
-            {
-                Transports.AddRange(
-                    new Transport { Name = "Plane" },
-                    new Transport { Name = "Train" },
-                    new Transport { Name = "Ferry" },
-                    new Transport { Name = "Custom" }
-                );
-                await SaveChangesAsync();
-
-            }
-        }*/
+        
         protected async override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            /*
-            modelBuilder.Entity<IdentityUser>().HasData(
-                new IdentityUser
-                {
-                    Id = "928fa85a-ca2b-4b26-a029-f9c7268edcaa",
-
-                });
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    Username = "Test",
-                    Email = "a@abv.bg",
-                    Password = "1234bG@",
-                    UserIdentityId= "928fa85a-ca2b-4b26-a029-f9c7268edcaa"
-
-                });
-            modelBuilder.Entity<Favorite>().HasData(
-                new Favorite
-                {
-                    Id = 1,
-                    UserId=1,
-                    OfferId=1
-                });
-            //await this.Seed();
-            offer 1*/
+            
             modelBuilder.Entity<Transport>().HasData(
                 new Transport
                 {
@@ -98,9 +65,7 @@ namespace Explorers_Haven.DataAccess
                     Id = 4,
                     Name = "Custom"
                 });
-            /*public int? DurationDays { get; set; }
-        public DateOnly? StartDate { get; set; }
-        public DateOnly? LastDate { get; s*/
+            
             modelBuilder.Entity<Offer>().HasData(
                 new Offer {
                     Id = 1,
@@ -240,41 +205,11 @@ namespace Explorers_Haven.DataAccess
                 .WithOne()
                 .HasForeignKey<User>(x => x.UserIdentityId)
                 .OnDelete(DeleteBehavior.Cascade);
-                /* // Each User can have many UserClaims
-                 b.HasMany(e => e.Claims)
-                     .WithOne()
-                     .HasForeignKey(uc => uc.UserId)
-                     .IsRequired()
-                     .OnDelete(DeleteBehavior.Cascade);
-
-                 // Each User can have many UserLogins
-                 b.HasMany(e => e.Logins)
-                     .WithOne()
-                     .HasForeignKey(ul => ul.UserId)
-                     .IsRequired()
-                     .OnDelete(DeleteBehavior.Cascade);
-
-                 // Each User can have many UserTokens
-                 b.HasMany(e => e.Tokens)
-                     .WithOne()
-                     .HasForeignKey(ut => ut.UserId)
-                     .IsRequired()
-                     .OnDelete(DeleteBehavior.Cascade);
-
-                 // Each User can have many entries in the UserRole join table
-                 b.HasMany(e => e.UserRoles)
-                     .WithOne()
-                     .HasForeignKey(ur => ur.UserId)
-                     .IsRequired()
-                     .OnDelete(DeleteBehavior.Cascade);*/
+                
             });
 
-         
-            
-                
-                
         
-        modelBuilder.Entity<Activity>(b =>
+        modelBuilder.Entity<Models.Activity>(b =>
             {
                 b.HasKey(e => e.Id);
 
@@ -307,25 +242,12 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Travel>(b =>
             {
 
-                //b.HasKey(e => e.Id);
-
-
-                //b.Property(e => e.Start)
-                // .IsRequired();
-
-                //b.Property(e => e.Finish)
-                // .IsRequired();
-
-                //b.Property(e => e.Transport)
-                // .IsRequired();
-
-
                 b.HasOne(e => e.Offer)
                  .WithMany(t => t.Travels)
                 .HasForeignKey(e => e.OfferId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-                b.HasOne(e => e.Transport)  // This is the navigation property
+                b.HasOne(e => e.Transport)  
                  .WithMany(t => t.Travels)
                  .HasForeignKey(e => e.TransportId)
                  .OnDelete(DeleteBehavior.Restrict);
@@ -427,11 +349,151 @@ namespace Explorers_Haven.DataAccess
               .HasForeignKey(x => x.AmenityId)
               .OnDelete(DeleteBehavior.NoAction);
 
-
-
-
             base.OnModelCreating(modelBuilder);
         }
-        
+        public async Task Seed()
+        {
+
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+            var adminEmail = "admin@admin.com";
+            if (await userManager.FindByEmailAsync(adminEmail) == null)
+            {
+                var userA = new IdentityUser { UserName = "admin@admin.com", Email = adminEmail };
+
+                var resultA = await userManager.CreateAsync(userA, "admin1234!");
+
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                if (!await roleManager.RoleExistsAsync("Admin"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("Admin"));
+                }
+
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                if (resultA.Succeeded)
+                {
+
+                    await userManager.AddToRoleAsync(userA, "Admin");
+                    User user1 = new User()
+                    {
+                        Username = "Admin",
+                        Email = "admin@admin.com",
+                        Password = "admin1234!",
+                        UserIdentityId = userA.Id,
+                        UserIdentity = userA
+                    };
+
+                    Users.Add(user1);
+                    await SaveChangesAsync();
+                }
+
+            }
+
+            var user = new IdentityUser { UserName = "ivan@abv.bg", Email = "ivan@abv.bg" };
+            var result = await userManager.CreateAsync(user, "Ivan123!");
+
+
+            var user2 = new IdentityUser { UserName = "elica@abv.bg", Email = "elica@abv.bg" };
+            var result2 = await userManager.CreateAsync(user2, "Elica123!");
+
+
+            var user3 = new IdentityUser { UserName = "teo@abv.bg", Email = "teo@abv.bg" };
+            var result3 = await userManager.CreateAsync(user3, "Teo123!");
+
+
+            if (Users.Count() <= 1)
+            {
+
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                if (result.Succeeded)
+                {
+
+                    await userManager.AddToRoleAsync(user, "User");
+                    User user1 = new User()
+                    {
+                        Username = "Ivan Vulkov",
+                        Email = "ivan@abv.bg",
+                        Password = "Ivan123!",
+                        UserIdentityId = user.Id,
+                        UserIdentity = user,
+                        ProfilePicture = "/Images/Ivan.jpg"
+                    };
+
+                    Users.Add(user1);
+                    await SaveChangesAsync();
+                    Comments.AddRange(
+                    new Comment() { Stars = 4, OfferId = 1, Content = "Чудесно преживяване!", UserId = user1.Id },
+                    new Comment() { Stars = 2, OfferId = 2, Content = "Можеше и по-добра организация!", UserId = user1.Id },
+                    new Comment() { Stars = 5, OfferId = 3, Content = "Разбиха очакванията!", UserId = user1.Id }
+                    );
+                }
+
+
+                if (!await roleManager.RoleExistsAsync("User"))
+                {
+                    await roleManager.CreateAsync(new IdentityRole("User"));
+                }
+
+                if (result2.Succeeded)
+                {
+
+                    await userManager.AddToRoleAsync(user, "User");
+                    User user1 = new User()
+                    {
+                        Username = "ЕlicaBG99",
+                        Email = "elica@abv.bg",
+                        Password = "elica123!",
+                        UserIdentityId = user2.Id,
+                        UserIdentity = user2,
+                        ProfilePicture = "/Images/dog.jpg"
+                    };
+                    Users.Add(user1);
+
+                    await SaveChangesAsync();
+
+                    Comments.AddRange(
+                    new Comment() { Stars = 3, OfferId = 1, Content = "Беше интересно, но 5 часа в пустинята никога отново!", UserId = user1.Id },
+                    new Comment() { Stars = 1, OfferId = 2, Content = "Ужас!", UserId = user1.Id },
+                    new Comment() { Stars = 4, OfferId = 3, Content = "Препоръчвам!", UserId = user1.Id }
+                    );
+                }
+
+                if (result3.Succeeded)
+                {
+
+                    await userManager.AddToRoleAsync(user3, "User");
+                    User user1 = new User()
+                    {
+                        Username = "Теодор Узунов",
+                        Email = "teo@abv.bg",
+                        Password = "Teo123!",
+                        UserIdentityId = user3.Id,
+                        UserIdentity = user3,
+                        ProfilePicture = "/Images/ken.jpg"
+
+                    };
+
+                    Users.Add(user1);
+                    await SaveChangesAsync();
+
+                    Comments.AddRange(
+                    new Comment() { Stars = 1, OfferId = 1, Content = "Откраднаха ми портфейла!", UserId = user1.Id },
+                    new Comment() { Stars = 2, OfferId = 2, Content = "Леглото в хотела беше продунено!", UserId = user1.Id },
+                    new Comment() { Stars = 5, OfferId = 3, Content = "Много моменти за цял живот!", UserId = user1.Id }
+                    );
+                }
+                await SaveChangesAsync();
+            }
+
+        }
+
     }
 }

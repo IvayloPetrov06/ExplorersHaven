@@ -39,8 +39,7 @@ namespace Explorers_Haven.Controllers
                     return View(model);
                 }
 
-                var result = await _signInManager.PasswordSignInAsync(user.Email, model.Password, model.RememberMe, false);
-                // var result = await _signInManager.PasswordSignInAsync("Admin", model.Password, model.RememberMe, false);            
+                var result = await _signInManager.PasswordSignInAsync(user.Email, model.Password, model.RememberMe, false);         
 
                 if (result.Succeeded)
                 {
@@ -58,36 +57,42 @@ namespace Explorers_Haven.Controllers
 
 
         [HttpPost]
+
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { UserName = model.Email, Email = model.Email};//name
+                var user = new IdentityUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
 
                 if (result.Succeeded)
                 {
-                    var user1 = new User
+                    await _userManager.AddToRoleAsync(user, "User"); // По подразбиране новите потребители са "User" 
+
+                                   await _signInManager.SignInAsync(user, isPersistent: false);
+                    User user2 = new User()
                     {
                         Username = model.Username,
-                        UserIdentityId = user.Id,
                         Email = model.Email,
                         Password = model.Password,
                         UserIdentity = user,
-                    };  // Свързваме с новосъздадения потребител                    };
-                  await _userService.AddAsync(user1);
-                        await _userManager.AddToRoleAsync(user, "User"); // По подразбиране новите потребители са "User"                    await _signInManager.SignInAsync(user, isPersistent: true);
+                        UserIdentityId = user.Id
+                    };
+                    await _userService.AddAsync(user2);
+                    return RedirectToAction("HomePage", "Home");
 
-                  //  await _signInManager.SignInAsync(user, isPersistent: false);                    return RedirectToAction("Index", "Home");
-
-                    return RedirectToAction("Login", "Account");
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError("", error.Description);
                 }
+
             }
+
             return View(model);
+
         }
 
         public async Task<IActionResult> Logout()

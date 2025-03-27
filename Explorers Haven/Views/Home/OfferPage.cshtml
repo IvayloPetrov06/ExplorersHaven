@@ -789,15 +789,11 @@
                     </div>
                     <div class="trip-info-item">
                         <i class="fas fa-calendar-check"></i>
-                        <span><span class="info-label">Duration in days:</span> @Model.OfferDays</span>
+                        <span><span class="info-label">Duration in days:</span>@Math.Floor(Model.OfferDays.Value)</span>
                     </div>
                     <div class="trip-info-item">
                         <i class="fas fa-users"></i>
                         <span><span class="info-label">Max people:</span> @Math.Floor(Model.OfferPeople.Value)</span>
-                    </div>
-                    <div class="trip-info-item">
-                        <i class="fas fa-clock"></i>
-                        <span><span class="info-label">Duration:</span> @Math.Floor(Model.OfferDays.Value) days</span>
                     </div>
                 </div>
             </div>

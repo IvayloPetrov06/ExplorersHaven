@@ -36,15 +36,5 @@ namespace Explorers_Haven.Models
         public ICollection<Rating>? Ratings { get; set; } = new List<Rating>();
         public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
         public ICollection<Favorite>? Favorites { get; set; } = new List<Favorite>();
-
-        //*public ICollection<Comment>? Comments { get; set; } = new List<Comment>();
-        //*public ICollection<Like>? Likes { get; set; } = new List<Like>();
-
-
-
-        //public virtual ICollection<IdentityUserClaim<string>>? Claims { get; set; } // claims
-        //public virtual ICollection<IdentityUserLogin<string>>? Logins { get; set; } // user
-        //public virtual ICollection<IdentityUserToken<string>>? Tokens { get; set; } // authentication
-        //public virtual ICollection<IdentityUserRole<string>>? UserRoles { get; set; } // roles
     }
 }

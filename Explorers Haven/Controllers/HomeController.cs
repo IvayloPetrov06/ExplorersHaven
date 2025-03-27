@@ -158,7 +158,7 @@ namespace Explorers_Haven.Controllers
                         decimal ofst;
                         if (tempOffer.Rating != null)//ako ofertata ima default rating
                         {
-                            rates = +tempOffer.Rating.Value;
+                            rates += tempOffer.Rating.Value;
                             int countt = tempCom.Count() + 1;
                             AverageRate = rates / countt;
                             ofst = Math.Round(AverageRate, 2);
@@ -247,7 +247,7 @@ namespace Explorers_Haven.Controllers
                         decimal ofst;
                         if (tempOffer.Rating != null)//ako ofertata ima default rating
                         {
-                            rates = +tempOffer.Rating.Value;
+                            rates += tempOffer.Rating.Value;
                             int countt = tempCom.Count() + 1;
                             AverageRate = rates / countt;
                             ofst = Math.Round(AverageRate, 2);
@@ -356,7 +356,7 @@ namespace Explorers_Haven.Controllers
                 decimal ofst;
                 if (tempOffer.Rating != null)//ako ofertata ima default rating
                 {
-                    rates = +tempOffer.Rating.Value;
+                    rates += tempOffer.Rating.Value;
                     int countt = tempCom.Count() + 1;
                     AverageRate = rates / countt;
                     ofst = Math.Round(AverageRate, 2);

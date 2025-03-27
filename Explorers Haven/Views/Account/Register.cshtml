@@ -1,39 +1,161 @@
 ﻿@using Explorers_Haven.ViewModels.Account
 @model RegisterViewModel
 
-<h2 class="text-center">Register</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-6 col-lg-5">
+            <div class="login-container animate__animated animate__fadeIn">
+                <h2 class="login-header">
+                    <i class="bi bi-person-plus-fill me-2"></i>Register
+                </h2>
+                <form asp-action="Register" method="post">
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label">
+                            <i class="bi bi-person me-2"></i>Username
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-person"></i></span>
+                            <input asp-for="Username" class="form-control" placeholder="Choose a username" />
+                        </div>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
 
-<form asp-action="Register" method="post" class="w-50 mx-auto border p-4 rounded shadow-sm bg-light">
-    <div class="mb-3">
-        <label asp-for="Username" class="form-label"></label>
-        <input asp-for="Username" class="form-control" />
-        <span asp-validation-for="Username" class="text-danger"></span>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">
+                            <i class="bi bi-envelope me-2"></i>Email
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                            <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                        </div>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Password" class="form-label">
+                            <i class="bi bi-key me-2"></i>Password
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-key"></i></span>
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Create a password" />
+                            <button type="button" class="btn btn-outline-secondary btn-toggle-password" onclick="togglePassword('passwordInput', 'passwordToggleIcon')">
+                                <i class="bi bi-eye" id="passwordToggleIcon"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ConfirmPassword" class="form-label">
+                            <i class="bi bi-shield-lock me-2"></i>Confirm Password
+                        </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
+                            <button type="button" class="btn btn-outline-secondary btn-toggle-password" onclick="togglePassword('confirmPasswordInput', 'confirmPasswordToggleIcon')">
+                                <i class="bi bi-eye" id="confirmPasswordToggleIcon"></i>
+                            </button>
+                        </div>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-login w-100">
+                        <i class="bi bi-person-plus me-2"></i>Register
+                    </button>
+                </form>
+
+                <div class="register-link">
+                    <p class="mt-3">
+                        Already have an account?
+                        <a asp-action="Login" asp-controller="Account" class="text-primary">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Log In
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    
+@section Scripts {
+    <script>
+        function togglePassword(inputId, iconId) {
+            let passwordInput = document.getElementById(inputId);
+            let toggleIcon = document.getElementById(iconId);
 
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleIcon.classList.remove("bi-eye");
+                toggleIcon.classList.add("bi-eye-slash");
+            } else {
+                passwordInput.type = "password";
+                toggleIcon.classList.remove("bi-eye-slash");
+                toggleIcon.classList.add("bi-eye");
+            }
+        }
+    </script>
+}
 
-   
+<style>
+    .login-container {
+        background-color: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        padding: 2.5rem;
+        margin-top: 3rem;
+        animation: fadeIn 0.5s ease-in-out;
+    }
 
-    <div class="mb-3">
-        <label asp-for="Password" class="form-label"></label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
+    .login-header {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+    }
 
-    <div class="mb-3">
-        <label asp-for="ConfirmPassword" class="form-label"></label>
-        <input asp-for="ConfirmPassword" type="password" class="form-control" />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
+    .form-control {
+        border-color: #3498db;
+        transition: all 0.3s ease;
+    }
 
-    <button type="submit" class="btn btn-primary w-100">Register</button>
-    <div class="description-content">Already have an account? Log in!</div>
-    <a class="nav-link" asp-action="Login" asp-controller="Account">Log in</a>
-</form>
+        .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+            border-color: #3498db;
+        }
 
+    .btn-toggle-password {
+        background-color: transparent;
+        border: 1px solid #ced4da;
+        color: #6c757d;
+    }
+
+    .btn-login {
+        background-color: #3498db;
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+        .btn-login:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+    .register-link {
+        text-align: center;
+        margin-top: 1rem;
+        color: #7f8c8d;
+    }
+    keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+</style>

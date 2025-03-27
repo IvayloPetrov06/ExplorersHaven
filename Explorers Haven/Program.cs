@@ -104,68 +104,46 @@ if (!app.Environment.IsDevelopment())
 
     app.MapRazorPages();
 
-    using (var scope = app.Services.CreateScope())
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await CreateRoles(services);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await CreateRoles(services);
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await dbContext.Seed();
+}
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.Run();
+
+static async Task CreateRoles(IServiceProvider serviceProvider)
+{
+    var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    string[] roleNames = { "Admin", "User" };
+
+    foreach (var roleName in roleNames)
     {
-        var services = scope.ServiceProvider;
-        await CreateRoles(services);
-    }
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        await CreateAdmin(services);
-    }
-
-    app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    app.Run();
-
-    static async Task CreateRoles(IServiceProvider serviceProvider)
-    {
-        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-        string[] roleNames = { "Admin", "User"};
-
-        foreach (var roleName in roleNames)
+        if (!await roleManager.RoleExistsAsync(roleName))
         {
-
-            if (!await roleManager.RoleExistsAsync(roleName))
-            {
-                await roleManager.CreateAsync(new IdentityRole(roleName));
-
-            }
-        }
-    }
-    static async Task CreateAdmin(IServiceProvider serviceProvider)
-    {
-        var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-        var adminEmail = "admin7@admin.com";
-
-        var adminUser = await userManager.FindByEmailAsync(adminEmail);
-
-
-
-
-
-        if (adminUser == null)
-
-        {
-
-            var user = new IdentityUser { UserName = "admin7@admin.com", Email = adminEmail };
-
-            var result = await userManager.CreateAsync(user, "AdminPassword1123!");
-
-            if (result.Succeeded)
-
-            {
-
-                await userManager.AddToRoleAsync(user, "Admin"); // Добавя роля "Admin" 
-
-            }
+            await roleManager.CreateAsync(new IdentityRole(roleName));
 
         }
     }
+}
+
 //}
 //}
 

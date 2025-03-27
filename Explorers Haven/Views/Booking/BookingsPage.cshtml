@@ -1,19 +1,17 @@
 ﻿@using Explorers_Haven.ViewModels.Booking
 @model BookingFilterViewModel
-
 <!-- Main Container -->
 <div class="trivago-container">
     <!-- Hero Search Section -->
     <div class="hero-section">
         <div class="search-wrapper">
-            <h1 class="main-heading">Find your ideal hotel and compare prices from different websites</h1>
-
+            <h1 class="main-heading">Вашите резервирани преживявания</h1>
             <div class="search-box">
                 <form>
                     <div class="search-input-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" asp-for="Search" class="search-input" placeholder="Where would you like to go?">
-                        <button type="submit" class="search-button">Search</button>
+                        <input type="text" asp-for="Search" class="search-input" placeholder="Търсене на резервации...">
+                        <button type="submit" class="search-button">Търсене</button>
                     </div>
                 </form>
             </div>
@@ -23,162 +21,206 @@
     <!-- Results Section -->
     <div class="results-section">
         <div class="results-header">
-            <h2 class="section-title">Your Bookings</h2>
+            <h2 class="section-title">Вашите резервации</h2>
             <div class="filters">
-                <span class="filter-label">Sort by:</span>
+                <span class="filter-label">Подреди по:</span>
                 <select class="filter-dropdown">
-                    <option>Our recommendations</option>
-                    <option>Price (lowest first)</option>
-                    <option>Rating (highest first)</option>
+                    <option>Препоръчани</option>
+                    <option>Цена (най-ниска първо)</option>
+                    <option>Дата</option>
                 </select>
             </div>
         </div>
 
-        <!-- Offers Grid -->
-        <div class="offers-grid">
-            @foreach (var offer in Model.Bookings)
-            {
-                <div class="offer-card">
-                    <div class="offer-image">
-                        <img src="@offer.OfferCoverImage" alt="@offer.OfferName">
-                    </div>
-                    <div class="offer-details">
-                        <div class="offer-info">
-                            <h3 class="offer-name">@offer.OfferName</h3>
-                            <div class="offer-metadata">
-                                <span class="people-count"><i class="fas fa-user"></i> @offer.PeopleCount.Value.ToString("0") people</span>
-                                <span class="date"><i class="fas fa-calendar"></i> @offer.StartDate</span>
-                                @if (offer.YoungOldPeopleCount > 0)
-                                {
-                                    <span class="children-count"><i class="fas fa-child"></i> @offer.YoungOldPeopleCount.Value.ToString("0") children/seniors</span>
-                                }
-                                <div class="travel-section">
-                                    <h2 class="section-title">Travel Details</h2>
-                                    
-                                    @foreach (var a in offer.Travels)
-                                    {
-                                        <div class="travel-card">
-                                            <div class="travel-point">
-                                                <div class="travel-location">@a.Start</div>
-                                                <div class="travel-location">@a.DateStart</div>
+        <!-- Bookings Carousel -->
+        <div class="carousel-container">
+            <div class="carousel-wrapper" id="bookings-carousel">
+                <div class="carousel-track">
+                    @for (int i = 0; i < Model.Bookings.Count; i++)
+                    {
+                        var offer = Model.Bookings[i];
+                        <div class="carousel-item @(i < 3 ? "active" : "")">
+                            <div class="offer-card">
+                                <div class="offer-image">
+                                    <img src="@offer.OfferCoverImage" alt="@offer.OfferName">
+                                </div>
+                                <div class="offer-details">
+                                    <div class="offer-info">
+                                        <h3 class="offer-name">@offer.OfferName</h3>
+                                        <div class="offer-metadata">
+                                            <div class="booking-details">
+                                                <span><i class="fas fa-user"></i> @offer.PeopleCount.Value.ToString("0") човека</span>
+                                                <span><i class="fas fa-calendar"></i> @offer.StartDate</span>
+                                                @if (offer.YoungOldPeopleCount > 0)
+                                                {
+                                                    <span><i class="fas fa-child"></i> @offer.YoungOldPeopleCount.Value.ToString("0") деца/възрастни</span>
+                                                }
                                             </div>
-                                            @foreach (var tr in Model.Transports)
-                                            {
-                                                if (@a.TransportId == tr.Id && tr.Name == "Plane")
-                                                {
-                                                    <div class="travel-icon">
-                                                        <div class="travel-transport">@tr.Name</div>
-                                                        <img src="/Images/Plane.svg" alt="Plane" />
-                                                    </div>
-                                                }
-                                                if (@a.TransportId == tr.Id && tr.Name == "Train")
-                                                {
-                                                    <div class="travel-icon">
-                                                        <div class="travel-transport">@tr.Name</div>
-                                                        <img src="/Images/Train.svg" alt="Train" />
-                                                    </div>
-                                                }
-                                                if (@a.TransportId == tr.Id && tr.Name == "Boat")
-                                                {
-                                                    <div class="travel-icon">
-                                                        <div class="travel-transport">@tr.Name</div>
-                                                        <img src="/Images/boat.svg" alt="boat" />
-                                                    </div>
-                                                }
-                                                if (@a.TransportId == tr.Id && tr.Name == "Custom")
-                                                {
-                                                    <div class="travel-icon">
-                                                        <div class="travel-transport">@tr.Name</div>
-                                                        <img src="/Images/custom.svg" alt="custom" />
-                                                    </div>
-                                                }
-                                            }
-
-
-                                            <div class="travel-point">
-                                                <div class="travel-location">@a.Finish</div>
-                                                <div class="travel-location">@a.DateFinish</div>
-                                            </div>
-
                                         </div>
-                                    }
+                                    </div>
+                                    <div class="offer-actions">
+                                        <div class="price-tag">
+                                            <span class="price-label">Цена</span>
+                                            <span class="price-value">@offer.Price лв</span>
+                                        </div>
+                                        <div class="action-buttons">
+                                            <a href="/Booking/Cancel/@offer.Id" class="btn-cancel">Отказ</a>
+                                            <a href="/Home/OfferPage/@offer.Id" class="btn-view">Виж оферта</a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="offer-actions">
-                            <div class="price-tag">
-                                @*<span class="price-label">Hotel bill</span>
-                            <span class="price-value">@offer.PeopleCount people - @offer.DurationDays - @offer.StayPrice лв</span>*@
-                                <span class="price-label">Price</span>
-                                <span class="price-value">@offer.Price лв</span>
-                            </div>
-                            <div class="action-buttons">
-                                <a href="/Booking/Cancel/@offer.Id" class="btn-cancel">Cancel</a>
-                                <a href="/Home/OfferPage/@offer.Id" class="btn-view">View Deal</a>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
-            }
+                <button class="carousel-control prev" data-carousel="bookings-carousel">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-control next" data-carousel="bookings-carousel">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
         </div>
     </div>
 </div>
-
 <!-- Font Awesome and Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 <style>
-    /*travels*/
-    .travel-section {
-        margin-bottom: 30px;
+    /*favorite*/
+    /* Fixed favorite button animation */
+
+    .favorite-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
     }
 
-    .travel-card {
-        background-color: var(--white);
-        border-radius: var(--border-radius);
-        box-shadow: var(--box-shadow);
-        padding: 20px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-    }
-
-    .travel-point {
-        flex: 1;
-        text-align: center;
-    }
-
-    .travel-location {
-        font-size: 18px;
-        font-weight: bold;
-        color: var(--text-color);
-    }
-
-    .travel-date {
-        font-size: 14px;
-        color: var(--dark-gray);
-    }
-
-    .travel-icon {
-        flex: 0.5;
-        text-align: center;
-    }
-
-        .travel-icon img {
-            width: 30px;
-            opacity: 0.6;
+        .favorite-btn .favorite-checkbox {
+            display: none;
         }
 
-    .travel-transport {
-        flex: 1;
-        text-align: center;
-        padding: 8px 15px;
-        background-color: var(--light-gray);
-        border-radius: 20px;
-        font-size: 14px;
-        color: var(--dark-gray);
+        .favorite-btn .favorite-btn-label {
+            background-color: transparent;
+            padding: 0;
+            cursor: pointer;
+            user-select: none;
+            box-shadow: none;
+        }
+
+            .favorite-btn .favorite-btn-label svg {
+                width: 30px;
+                height: 30px;
+                fill: rgba(255,255,255,0.7);
+                stroke: white;
+                stroke-width: 2;
+                transition: all 0.3s ease;
+            }
+
+            .favorite-btn .favorite-btn-label:hover svg {
+                fill: rgba(255,255,255,0.9);
+            }
+
+        .favorite-btn .favorite-checkbox:checked + .favorite-btn-label svg {
+            fill: hsl(0deg 100% 50%);
+            stroke: hsl(0deg 100% 50%);
+            animation: heartButton 1s;
+        }
+
+    keyframes heartButton {
+        0%
+
+    {
+        transform: scale(1);
     }
+
+    25% {
+        transform: scale(1.3);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+
+    75% {
+        transform: scale(1.3);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+    }
+
+    .favorite-btn .favorite-btn-label .action {
+        display: none;
+    }
+
+    .favorite-btn .favorite-checkbox + .favorite-btn-label .action {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+    }
+
+        .favorite-btn .favorite-checkbox + .favorite-btn-label .action span {
+            grid-column-start: 1;
+            grid-column-end: 1;
+            grid-row-start: 1;
+            grid-row-end: 1;
+            transition: all .5s;
+        }
+
+            .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-1 {
+                transform: translate(0px, 0%);
+                opacity: 1;
+            }
+
+    .favorite-btn .favorite-checkbox:checked + .favorite-btn-label .action span.option-1 {
+        transform: translate(0px, -100%);
+        opacity: 0;
+    }
+
+    .favorite-btn .favorite-checkbox + .favorite-btn-label .action span.option-2 {
+        transform: translate(0px, 100%);
+        opacity: 0;
+    }
+
+    .favorite-btn .favorite-checkbox:checked + .favorite-btn-label .action span.option-2 {
+        transform: translate(0px, 0%);
+        opacity: 1;
+    }
+    /* Add these styles to your existing CSS */
+
+    .carousel-track {
+        position: relative;
+        z-index: 4;
+    }
+
+    .carousel-item {
+        flex: 0 0 calc(33.333% - 20px);
+        margin-right: 20px;
+        display: none;
+        opacity: 1;
+        transform: translateX(0);
+        transition: transform 0.5s ease, opacity 0.5s ease;
+    }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+    /* Fix for responsive design */
+    media (max-width: 768px) {
+        .carousel-item
+
+    {
+        flex: 0 0 100%;
+        margin-right: 0;
+    }
+
+    }
+
     * {
         margin: 0;
         padding: 0;
@@ -186,28 +228,54 @@
         font-family: 'Roboto', sans-serif;
     }
 
-    body {
-        background-color: #f5f5f5;
-        color: #333;
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        overflow-x: hidden;
     }
 
     .trivago-container {
         width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
+        max-width: 100%;
+        padding: 0 5%; /* Add 5% padding on left and right */
+        margin: 0;
+        box-sizing: border-box; /* Ensure padding doesn't break the layout star*/
     }
 
-    /* Hero Section Styles */
     .hero-section {
-        background-color: #0a84ff;
-        padding: 40px 20px;
-        border-radius: 0 0 8px 8px;
+        position: relative;
+        background-image: url('/Images/res2.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 400px;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-bottom: 30px;
     }
 
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 124, 195, 0.6); /* Blue overlay for readability */
+        }
+
     .search-wrapper {
+        position: relative;
+        z-index: 1;
         max-width: 800px;
-        margin: 0 auto;
+        width: 100%;
+        padding: 0 20px;
         text-align: center;
     }
 
@@ -216,6 +284,7 @@
         font-size: 28px;
         font-weight: 500;
         margin-bottom: 30px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
     }
 
     .search-box {
@@ -247,10 +316,6 @@
         outline: none;
     }
 
-        .search-input:focus {
-            border-color: #0a84ff;
-        }
-
     .search-button {
         padding: 15px 25px;
         background-color: #f48f00;
@@ -264,21 +329,36 @@
         transition: background-color 0.2s;
     }
 
-        .search-button:hover {
-            background-color: #e57f00;
-        }
+    .search-input:focus {
+        border-color: #007cc3;
+    }
 
-    /* Results Section Styles */
+    .search-button:hover {
+        background-color: #e57f00;
+    }
+
+    /* Results Section Styles trivago  */
+
+
     .results-section {
-        padding: 0 20px 40px;
+        position: relative;
+        background-color: #f4f4f4;
+        padding-bottom: 60px;
+        padding-left: 5%; /* Add left padding */
+        padding-right: 5%; /* Add right padding */
     }
 
     .results-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
+        padding-left: 5%;
+        padding-right: 5%;
     }
+
+    .mt-40 {
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+
 
     .section-title {
         font-size: 24px;
@@ -304,31 +384,116 @@
         cursor: pointer;
     }
 
-    /* Offer Cards Styles */
-    .offers-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
+    .special-label {
+        background-color: #fff;
+        padding: 6px 12px;
+        border-radius: 4px;
+        border: 1px solid #eee;
     }
+
+    .discount-badge {
+        color: #f90404;
+        font-weight: 500;
+    }
+
+        .discount-badge i {
+            margin-right: 5px;
+        }
+
+    /* Carousel Styles results-header */
+    .carousel-container {
+        position: relative;
+        z-index: 1;
+        margin-bottom: 40px;
+        padding-bottom: 30px;
+    }
+
+
+
+    .carousel-wrapper {
+        position: relative;
+        overflow: hidden;
+        padding: 0 50px; /* Added padding to make room for the buttons */
+    }
+
+
+
+    .carousel-track {
+        display: flex;
+        overflow: visible;
+        margin: 0 -10px; /* Negative margin to counteract item padding */
+    }
+
+    .carousel-item {
+        flex: 0 0 calc(33.333% - 20px); /* Maintain 3-column layout */
+        margin-right: 20px;
+        padding: 10px; /* Add padding to create shadow space */
+        box-sizing: border-box;
+    }
+
+        .carousel-item.active {
+            display: block;
+        }
+
+    .carousel-control {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        z-index: 10;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+        .carousel-control.prev {
+            left: 0px; /* Changed from -20px to 10px */
+        }
+
+        .carousel-control.next {
+            right: 10px; /* Changed from -20px to 10px */
+        }
+
+        .carousel-control i {
+            color: #007cc3;
+        }
 
     .offer-card {
         display: flex;
+        flex-direction: column;
         background-color: white;
         border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.06);
         transition: transform 0.2s, box-shadow 0.2s;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
     }
+
+
+        .offer-card:not(:hover) {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.14);
+        }
 
         .offer-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
+    .special-offer {
+        border: 2.2px solid #f90404;
+    }
+
     .offer-image {
-        width: 240px;
-        min-width: 240px;
+        height: 200px;
         overflow: hidden;
+        position: relative;
     }
 
         .offer-image img {
@@ -337,54 +502,139 @@
             object-fit: cover;
         }
 
+    .discount-badge-corner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #f90404;
+        color: white;
+        padding: 5px 10px;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 0 0 8px 0;
+        z-index: 1;
+    }
+
     .offer-details {
-        flex: 1;
         display: flex;
+        flex-direction: column;
         padding: 20px;
-        justify-content: space-between;
+        flex: 1;
     }
 
     .offer-info {
         flex: 1;
+        margin-bottom: 15px;
     }
 
     .offer-name {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 500;
-        color: #0a84ff;
-        margin-bottom: 10px;
+        color: #007cc3;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+    /*stars offer*/
+    .stars-container {
+        margin-bottom: 15px;
     }
 
-    .offer-metadata {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        color: #666;
+    .stay-stars {
+        color: #ffb700;
+        font-size: 25px;
+        padding-left: 5px;
     }
 
-        .offer-metadata span {
-            display: flex;
-            align-items: center;
+    .star-rating {
+        display: inline-block;
+        direction: rtl;
+        unicode-bidi: bidi-override;
+    }
+
+        .star-rating .star {
+            display: inline-block;
+            font-size: 24px;
+            color: #ddd;
+            cursor: pointer;
+            margin-right: 2px;
         }
 
-        .offer-metadata i {
-            margin-right: 8px;
-            width: 16px;
+            .star-rating .star:hover,
+            .star-rating .star:hover ~ .star,
+            .star-rating .star.active,
+            .star-rating .star.active ~ .star {
+                color: #ffb700;
+            }
+
+    .rating-text {
+        display: inline-block;
+        margin-left: 10px;
+        color: var(--dark-gray);
+        font-size: 14px;
+    }
+    /*more stars*/
+    .rating-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .stars {
+        display: flex;
+        position: relative;
+        direction: rtl; /* Ensure the stars go from left to right */
+    }
+
+        .stars label {
+            font-size: 0;
+            cursor: pointer; /* Make the stars clickable */
+        }
+
+            .stars label:before {
+                content: "★";
+                color: #ffb700;
+                font-size: 24px;
+            }
+
+        .stars input:checked ~ label:before,
+        .stars:not(:checked) > label:hover:before,
+        .stars:not(:checked) > label:hover ~ label:before {
+            color: #ffb700;
+        }
+
+        .stars input {
+            position: absolute;
+            right: -9999px;
+        }
+
+
+    .rating-number {
+        margin-left: 10px;
+        font-size: 20px;
+        color: var(--dark-gray);
+    }
+
+    .location {
+        color: #666;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+    }
+
+        .location i {
+            margin-right: 5px;
         }
 
     .offer-actions {
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        align-items: flex-end;
-        min-width: 180px;
     }
 
     .price-tag {
         display: flex;
         flex-direction: column;
-        align-items: flex-end;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
 
     .price-label {
@@ -393,19 +643,19 @@
     }
 
     .price-value {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
         color: #333;
     }
 
-    .action-buttons {
-        display: flex;
-        gap: 10px;
-    }
+        .price-value.highlight {
+            color: #f48f00;
+        }
 
-    .btn-view, .btn-cancel {
-        display: inline-block;
-        padding: 10px 20px;
+    .btn-view {
+        padding: 12px 24px;
+        background-color: #f48f00;
+        color: white;
         border-radius: 4px;
         text-decoration: none;
         font-weight: 500;
@@ -413,49 +663,102 @@
         transition: background-color 0.2s;
     }
 
-    .btn-view {
-        background-color: #f48f00;
-        color: white;
-    }
-
         .btn-view:hover {
             background-color: #e57f00;
         }
 
-    .btn-cancel {
-        background-color: #f1f1f1;
-        color: #666;
-    }
-
-        .btn-cancel:hover {
-            background-color: #e0e0e0;
-        }
-
-    /* Responsive Styles */
+    /* Responsive Styles hero*/
     media (max-width: 768px) {
-        .offer-card
+        .results-section, .results-header, .mt-40
 
     {
-        flex-direction: column;
+        padding-left: 3%;
+        padding-right: 3%;
     }
 
-    .offer-image {
-        width: 100%;
-        height: 200px;
-    }
+    }</style>
+<script>
+    // Use the exact same JavaScript from the second document
+    document.addEventListener('DOMContentLoaded', function() {
+        initCarousels();
+    });
 
-    .offer-details {
-        flex-direction: column;
-    }
+    function initCarousels() {
+        const carousels = document.querySelectorAll('.carousel-wrapper');
 
-    .offer-actions {
-        align-items: flex-start;
-        margin-top: 20px;
-    }
+        carousels.forEach(carousel => {
+            const id = carousel.id;
+            const track = carousel.querySelector('.carousel-track');
+            const items = carousel.querySelectorAll('.carousel-item');
+            const prevBtn = carousel.querySelector('.carousel-control.prev');
+            const nextBtn = carousel.querySelector('.carousel-control.next');
 
-    .price-tag {
-        align-items: flex-start;
-    }
+            let currentIndex = 0;
+            const itemsPerSlide = getItemsPerSlide();
+            const totalSlides = Math.ceil(items.length / itemsPerSlide);
 
+            function getItemsPerSlide() {
+                if (window.innerWidth <= 768) {
+                    return 1;
+                }
+                return 3;
+            }
+
+            function updateCarousel() {
+                items.forEach((item, index) => {
+                    const startIndex = currentIndex * itemsPerSlide;
+                    const endIndex = startIndex + itemsPerSlide;
+
+                    if (index >= startIndex && index < endIndex) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+
+                // Update buttons visibility
+                if (currentIndex === 0) {
+                    prevBtn.style.visibility = 'hidden';
+                } else {
+                    prevBtn.style.visibility = 'visible';
+                }
+
+                if (currentIndex >= totalSlides - 1) {
+                    nextBtn.style.visibility = 'hidden';
+                } else {
+                    nextBtn.style.visibility = 'visible';
+                }
+            }
+
+            function nextSlide() {
+                if (currentIndex < totalSlides - 1) {
+                    currentIndex++;
+                    updateCarousel();
+                }
+            }
+
+            function prevSlide() {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateCarousel();
+                }
+            }
+
+            // Event listeners carousel
+            nextBtn.addEventListener('click', nextSlide);
+            prevBtn.addEventListener('click', prevSlide);
+
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                const newItemsPerSlide = getItemsPerSlide();
+                if (newItemsPerSlide !== itemsPerSlide) {
+                    currentIndex = 0;
+                    updateCarousel();
+                }
+            });
+
+            // Initialize carousel
+            updateCarousel();
+        });
     }
-</style>
+</script>

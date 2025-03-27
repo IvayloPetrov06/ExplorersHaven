@@ -14,144 +14,146 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <style>
-        /* Add a reset to prevent unexpected changes */
+        /* Previous reset and global styles remain the same */
         * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Global Typography Refinement */
         body {
-        font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
-        color: #2c3e50;
-        line-height: 1.6;
-        background-color: #ffffff; /* Ensure consistent background */
+            font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+            color: #2c3e50;
+            line-height: 1.6;
+            background-color: #ffffff;
         }
 
-        /* Prevent body from changing layout */
         html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        overflow-x: hidden;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        /* Refined Navigation Styling - with more specificity */
-        .navbar.navbar-light {
-        background-color: #f8f9fa !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        padding: 10px 0;
-        margin-top: 0;
-        margin-bottom: 0;
-        width: 100%;
-        }
-
+        /* Updated Navbar Container Styling */
         .navbar-container {
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0 20%; /* Add some padding from edges */
+        }
+
+        /* Separate brand and navigation groups */
+        .navbar-brand-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-nav-group {
+            display: flex;
+            align-items: center;
+            margin-left: auto; /* Push nav items to the right */
         }
 
         .navbar-nav {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
+            display: flex;
+            align-items: center;
         }
 
-        /* More specific selectors for nav items */
-        .navbar .home-nav-item,
+        .navbar.navbar-light {
+            background-color: #f8f9fa !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            padding: 10px 0;
+            margin-top: 0;
+            margin-bottom: 0;
+            width: 100%;
+        }
+
+        /* Navbar Brand Styling */
+        .navbar-brand {
+            margin-right: 2rem;
+        }
+
+        .brand-text {
+            color: #007cc3;
+            font-weight: 700;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            transition: all 0.25s ease;
+        }
+
+        .navbar-brand:hover .brand-text {
+            text-shadow: 0 0 5px rgba(29, 185, 84, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Navigation Item Styling */
         .navbar .nav-item {
-        margin: 0 12px;
+            margin: 0 12px;
         }
 
-        .navbar .home-nav-link,
         .navbar .nav-link {
-        color: #495057 !important;
-        font-weight: 500;
-        text-transform: capitalize;
-        letter-spacing: 0.5px;
-        transition: color 0.3s ease;
-        display: flex;
-        align-items: center;
+            color: #495057 !important;
+            font-weight: 500;
+            text-transform: capitalize;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
         }
 
-        .navbar .home-nav-link i,
-        .navbar .nav-link i {
-        margin-right: 8px;
-        color: #6c757d;
+            .navbar .nav-link i {
+                margin-right: 8px;
+                color: #6c757d;
+            }
+
+            .navbar .nav-link:hover {
+                color: #007bff !important;
+            }
+
+                .navbar .nav-link:hover i {
+                    color: #007bff;
+                }
+
+        /* Dropdown Menu Styling */
+        .dropdown-menu {
+            background-color: #fff !important;
+            border: 1px solid #e9ecef;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .navbar .home-nav-link:hover,
-        .navbar .nav-link:hover {
-        color: #007bff !important;
+        .dropdown-item {
+            color: #495057 !important;
+            transition: background-color 0.3s ease;
         }
 
-        .navbar .home-nav-link:hover i,
-        .navbar .nav-link:hover i {
-        color: #007bff;
-        }
+            .dropdown-item:hover {
+                background-color: #f8f9fa !important;
+            }
 
-        /* Wrapper for full-height layout */
+        /* Wrapper and Content Styling */
         .wrapper {
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .content {
-        flex: 1 0 auto;
-        width: 100%;
+            flex: 1 0 auto;
+            width: 100%;
         }
 
         /* Footer Styling */
         footer {
             background-color: #1a1616 !important;
             color: #007cc3 !important;
-        padding: 15px 0;
-        text-align: center;
-        font-family: 'Arial', sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        width: 100%;
-        flex-shrink: 0;
-        }
-
-        /* Brand Styling */
-        .navbar-brand {
-        font-weight: 700;
-        font-size: 1.8rem;
-        margin-right: 2rem;
-        }
-
-        .brand-text {
-        color: #007cc3;
-        letter-spacing: -0.5px;
-        transition: all 0.25s ease;
-        }
-
-        .navbar-brand:hover .brand-text {
-        text-shadow: 0 0 5px rgba(29, 185, 84, 0.3);
-        transform: translateY(-1px);
-        }
-
-        /* Dropdown Menu Styling */
-        .dropdown-menu {
-        background-color: #fff !important;
-        border: 1px solid #e9ecef;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .dropdown-item {
-        color: #495057 !important;
-        transition: background-color 0.3s ease;
-        }
-
-        .dropdown-item:hover {
-        background-color: #f8f9fa !important;
+            padding: 15px 0;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -159,55 +161,53 @@
     <header class="header">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white">
             <div class="container-fluid navbar-container">
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center">
-                    <ul class="navbar-nav flex-nowrap">
-                        <li class="navbar-brand">
-                            <a class="brand-text" asp-area="" asp-controller="Home" asp-action="HomePage">Explorer's Haven</a>
-                        </li>
-                        @if (User.IsInRole("Admin"))
-
-                        {
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-tasks"></i> Content Management
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Offer")"><i class="fas fa-filter"></i> Филтрирай оферта</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListOffers", "Offer")"><i class="fas fa-list"></i> Лист оферта</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Travel")"><i class="fas fa-filter"></i> Филтрирай предвижване</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListTravels", "Travel")"><i class="fas fa-list"></i> Лист предвижване</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Stay")"><i class="fas fa-filter"></i> Филтрирай престой</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListStays", "Stay")"><i class="fas fa-list"></i> Лист престой</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Activity")"><i class="fas fa-filter"></i> Филтрирай дейност</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListActivities", "Activity")"><i class="fas fa-list"></i> Лист дейност</a>
-                                </div>
-                            </li>
-
-                        }
-                        @if (User.IsInRole("User"))
-
-                        {
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="Profile" asp-controller="User">
-                                    <i class="fas fa-user"></i> Profile
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="BookingsPage" asp-controller="Booking">
-                                    <i class="fas fa-calendar-alt"></i> Bookings
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-action="FavoritesPage" asp-controller="Favorite">
-                                    <i class="fas fa-heart"></i> Favorites
-                                </a>
-                            </li>
-
-                        }
-                    </ul>
-                    <partial name="_LoginPartial" />
+                <div class="navbar-brand-group">
+                    <div class="navbar-brand">
+                        <a class="brand-text" asp-area="" asp-controller="Home" asp-action="HomePage">Explorer's Haven</a>
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+                    <div class="navbar-nav-group">
+                        <ul class="navbar-nav flex-nowrap">
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-tasks"></i> Content Management
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Offer")"><i class="fas fa-filter"></i> Филтрирай оферта</a>
+                                        <a class="dropdown-item" href="@Url.Action("ListOffers", "Offer")"><i class="fas fa-list"></i> Лист оферта</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Travel")"><i class="fas fa-filter"></i> Филтрирай предвижване</a>
+                                        <a class="dropdown-item" href="@Url.Action("ListTravels", "Travel")"><i class="fas fa-list"></i> Лист предвижване</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Stay")"><i class="fas fa-filter"></i> Филтрирай престой</a>
+                                        <a class="dropdown-item" href="@Url.Action("ListStays", "Stay")"><i class="fas fa-list"></i> Лист престой</a>
+                                        <a class="dropdown-item" href="@Url.Action("Index", "Activity")"><i class="fas fa-filter"></i> Филтрирай дейност</a>
+                                        <a class="dropdown-item" href="@Url.Action("ListActivities", "Activity")"><i class="fas fa-list"></i> Лист дейност</a>
+                                    </div>
+                                </li>
+                            }
+                            @if (User.IsInRole("User"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="Profile" asp-controller="User">
+                                        <i class="fas fa-user"></i> Profile
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="BookingsPage" asp-controller="Booking">
+                                        <i class="fas fa-calendar-alt"></i> Bookings
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-action="FavoritesPage" asp-controller="Favorite">
+                                        <i class="fas fa-heart"></i> Favorites
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>

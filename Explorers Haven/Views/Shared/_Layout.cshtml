@@ -7,80 +7,223 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Explorers_Haven.styles.css" asp-append-version="true" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">​</script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>​
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Add a reset to prevent unexpected changes */
+        * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        }
 
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="HomePage">Home</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        @* @if (User.IsInRole(SD.AdminRole)) *@
+        /* Global Typography Refinement */
+        body {
+        font-family: 'Inter', 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+        color: #2c3e50;
+        line-height: 1.6;
+        background-color: #ffffff; /* Ensure consistent background */
+        }
+
+        /* Prevent body from changing layout */
+        html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        }
+
+        /* Refined Navigation Styling - with more specificity */
+        .navbar.navbar-light {
+        background-color: #f8f9fa !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        padding: 10px 0;
+        margin-top: 0;
+        margin-bottom: 0;
+        width: 100%;
+        }
+
+        .navbar-container {
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        }
+
+        .navbar-nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        }
+
+        /* More specific selectors for nav items */
+        .navbar .home-nav-item,
+        .navbar .nav-item {
+        margin: 0 12px;
+        }
+
+        .navbar .home-nav-link,
+        .navbar .nav-link {
+        color: #495057 !important;
+        font-weight: 500;
+        text-transform: capitalize;
+        letter-spacing: 0.5px;
+        transition: color 0.3s ease;
+        display: flex;
+        align-items: center;
+        }
+
+        .navbar .home-nav-link i,
+        .navbar .nav-link i {
+        margin-right: 8px;
+        color: #6c757d;
+        }
+
+        .navbar .home-nav-link:hover,
+        .navbar .nav-link:hover {
+        color: #007bff !important;
+        }
+
+        .navbar .home-nav-link:hover i,
+        .navbar .nav-link:hover i {
+        color: #007bff;
+        }
+
+        /* Wrapper for full-height layout */
+        .wrapper {
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        }
+
+        .content {
+        flex: 1 0 auto;
+        width: 100%;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: #1a1616 !important;
+            color: #007cc3 !important;
+        padding: 15px 0;
+        text-align: center;
+        font-family: 'Arial', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        width: 100%;
+        flex-shrink: 0;
+        }
+
+        /* Brand Styling */
+        .navbar-brand {
+        font-weight: 700;
+        font-size: 1.8rem;
+        margin-right: 2rem;
+        }
+
+        .brand-text {
+        color: #007cc3;
+        letter-spacing: -0.5px;
+        transition: all 0.25s ease;
+        }
+
+        .navbar-brand:hover .brand-text {
+        text-shadow: 0 0 5px rgba(29, 185, 84, 0.3);
+        transform: translateY(-1px);
+        }
+
+        /* Dropdown Menu Styling */
+        .dropdown-menu {
+        background-color: #fff !important;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .dropdown-item {
+        color: #495057 !important;
+        transition: background-color 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+        background-color: #f8f9fa !important;
+        }
+    </style>
+</head>
+<body class="wrapper">
+    <header class="header">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white">
+            <div class="container-fluid navbar-container">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-center">
+                    <ul class="navbar-nav flex-nowrap">
+                        <li class="navbar-brand">
+                            <a class="brand-text" asp-area="" asp-controller="Home" asp-action="HomePage">Explorer's Haven</a>
+                        </li>
                         @if (User.IsInRole("Admin"))
+
                         {
 
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Content Management
+                                    <i class="fas fa-tasks"></i> Content Management
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">​
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Offer")">Филтрирай оферта</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListOffers", "Offer")">Лист оферта</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Travel")">Филтрирай предвижване</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListTravels", "Travel")">Лист предвижване</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Stay")">Филтрирай престой</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListStays", "Stay")">Лист престой</a>
-                                    <a class="dropdown-item" href="@Url.Action("Index", "Activity")">Филтрирай дейност</a>
-                                    <a class="dropdown-item" href="@Url.Action("ListActivities", "Activity")">Лист дейност</a>
-                                </div> 
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Offer")"><i class="fas fa-filter"></i> Филтрирай оферта</a>
+                                    <a class="dropdown-item" href="@Url.Action("ListOffers", "Offer")"><i class="fas fa-list"></i> Лист оферта</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Travel")"><i class="fas fa-filter"></i> Филтрирай предвижване</a>
+                                    <a class="dropdown-item" href="@Url.Action("ListTravels", "Travel")"><i class="fas fa-list"></i> Лист предвижване</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Stay")"><i class="fas fa-filter"></i> Филтрирай престой</a>
+                                    <a class="dropdown-item" href="@Url.Action("ListStays", "Stay")"><i class="fas fa-list"></i> Лист престой</a>
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Activity")"><i class="fas fa-filter"></i> Филтрирай дейност</a>
+                                    <a class="dropdown-item" href="@Url.Action("ListActivities", "Activity")"><i class="fas fa-list"></i> Лист дейност</a>
+                                </div>
                             </li>
+
                         }
                         @if (User.IsInRole("User"))
+
                         {
-                        <li class="nav-item">
-                                <a class="nav-link" asp-action="Profile" asp-controller="User">Profile</a>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-action="Profile" asp-controller="User">
+                                    <i class="fas fa-user"></i> Profile
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-action="BookingsPage" asp-controller="Booking">Bookings</a>
+                                <a class="nav-link" asp-action="BookingsPage" asp-controller="Booking">
+                                    <i class="fas fa-calendar-alt"></i> Bookings
+                                </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-action="FavoritesPage" asp-controller="Favorite">Favorites</a>
+                                <a class="nav-link" asp-action="FavoritesPage" asp-controller="Favorite">
+                                    <i class="fas fa-heart"></i> Favorites
+                                </a>
                             </li>
-                        
+
                         }
-                        
                     </ul>
-                    <partial name="_LoginPartial"/>​
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container content">
         <main role="main" class="pb-3">
             <partial name="_Notification"></partial>
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top_footer_text-muted">
-        <div class="container">
-            &copy; 2025 - Explorers_Haven - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer>
+        <div class="footer-container">
+            &copy; 2025 - Explorers_Haven
         </div>
     </footer>
-    <style>
-        .border-top_footer_text-muted{
-        position:fixed;
-        bottom: 0px;
-        }
-    </style>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

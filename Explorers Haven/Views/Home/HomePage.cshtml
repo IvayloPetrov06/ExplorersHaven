@@ -198,11 +198,11 @@
                 fill: rgba(255,255,255,0.9);
             }
 
-    .favorite-btn .favorite-checkbox:checked + .favorite-btn-label svg {
+        .favorite-btn .favorite-checkbox:checked + .favorite-btn-label svg {
             fill: hsl(0deg 100% 50%);
             stroke: hsl(0deg 100% 50%);
             animation: heartButton 1s;
-    }
+        }
 
     keyframes heartButton {
         0%
@@ -230,7 +230,7 @@
     }
 
     .favorite-btn .favorite-btn-label .action {
-        display: none; /* Hide the action spans as they're no longer needed */
+        display: none;
     }
 
     .favorite-btn .favorite-checkbox + .favorite-btn-label .action {
@@ -313,8 +313,9 @@
     .trivago-container {
         width: 100%;
         max-width: 100%;
-        padding: 0;
+        padding: 0 5%; /* Add 5% padding on left and right */
         margin: 0;
+        box-sizing: border-box; /* Ensure padding doesn't break the layout star*/
     }
 
     .hero-section {
@@ -411,31 +412,25 @@
             background-color: #e57f00;
         }
 
-    /* Results Section Styles */
-    
-
-    .results-header {
-        background-color: #f4f4f4;
-        padding-top: 20px;
-        margin-bottom: 20px;
-        position: relative;
-        z-index: 10;
-    }
-
+    /* Results Section Styles trivago  */
     
 
     .results-section {
         position: relative;
         background-color: #f4f4f4;
         padding-bottom: 60px;
+        padding-left: 5%; /* Add left padding */
+        padding-right: 5%; /* Add right padding */
+    }
+
+    .results-header {
+        padding-left: 5%;
+        padding-right: 5%;
     }
 
     .mt-40 {
-        margin-top: 40px;
-        background-color: #f4f4f4;
-        padding-bottom: 30px;
-        position: relative;
-        z-index: 1;
+        padding-left: 5%;
+        padding-right: 5%;
     }
 
     
@@ -612,21 +607,19 @@
         font-size: 18px;
         font-weight: 500;
         color: #007cc3;
-        margin-bottom: 10px;
-        height: 44px;
         overflow: hidden;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
-    /*stars*/
+    /*stars offer*/
     .stars-container {
         margin-bottom: 15px;
     }
 
     .stay-stars {
         color: #ffb700;
-        font-size: 20px;
+        font-size: 25px;
         padding-left: 5px;
     }
 
@@ -661,7 +654,6 @@
     .rating-container {
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
     }
 
     .stars {
@@ -695,7 +687,7 @@
 
     .rating-number {
         margin-left: 10px;
-        font-size: 16px;
+        font-size: 20px;
         color: var(--dark-gray);
     }
 
@@ -753,41 +745,11 @@
 
     /* Responsive Styles */
     media (max-width: 768px) {
-        .carousel-item
+        .results-section, .results-header, .mt-40
 
     {
-        flex: 0 0 100%;
-        margin-right: 0;
-    }
-
-    .carousel-control {
-        display: none;
-    }
-
-    .offer-card {
-        flex-direction: column;
-    }
-
-    .offer-image {
-        width: 100%;
-        height: 180px;
-    }
-
-    .offer-details {
-        padding: 15px;
-    }
-
-    .offer-name {
-        font-size: 16px;
-    }
-
-    .price-value {
-        font-size: 20px;
-    }
-
-    .btn-view {
-        padding: 10px 20px;
-        font-size: 14px;
+        padding-left: 3%;
+        padding-right: 3%;
     }
 
     }</style>

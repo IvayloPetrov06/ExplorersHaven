@@ -284,6 +284,10 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> OfferPage(int id)
         {
+            if (!User.IsInRole("User") && !User.IsInRole("Admin"))
+            {
+                return RedirectToAction("Login", "Account");
+            }
             //isBook
             var tempOffer = await _offerService.GetOfferByIdAsync(id);
             var commUsers = await userService.GetAllUsersAsync();

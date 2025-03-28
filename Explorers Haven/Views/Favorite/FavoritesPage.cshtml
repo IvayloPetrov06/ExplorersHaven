@@ -88,23 +88,47 @@
         color: #333;
     }
 
-    .trivago-container {
+    ..trivago-container {
         width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
+        max-width: 100%;
+        padding: 0 5%; /* Add 5% padding on left and right */
+        margin: 0;
+        box-sizing: border-box; /* Ensure padding doesn't break the layout star*/
     }
 
-    /* Hero Section Styles */
     .hero-section {
-        background-color: #0a84ff;
-        padding: 40px 20px;
-        border-radius: 0 0 8px 8px;
+        position: relative;
+        background-image: url('/Images/ocean.jpg');
+        background-size: cover;
+        background-position: center;
+        height: 400px;
+        width: 100vw;
+        left: 50%;
+        right: 50%;
+        margin-left: -50vw;
+        margin-right: -50vw;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-bottom: 30px;
     }
 
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 124, 195, 0.6); /* Blue overlay for readability */
+        }
+
     .search-wrapper {
+        position: relative;
+        z-index: 1;
         max-width: 800px;
-        margin: 0 auto;
+        width: 100%;
+        padding: 0 20px;
         text-align: center;
     }
 

@@ -185,7 +185,7 @@
             opacity: 1;
         }
 
-        /* Main image */
+        /* Main image carousel */
         .main-image {
             width: 100%;
             margin-bottom: 20px;
@@ -659,11 +659,12 @@
             }
 
                 .star-rating .star:hover,
-                .star-rating .star:hover ~ .star,
+                .star-rating .star:hover,
                 .star-rating .star.active,
-                .star-rating .star.active ~ .star {
+                .star-rating .star.active {
                     color: #ffb700;
                 }
+
 
         .rating-text {
             display: inline-block;
@@ -950,15 +951,15 @@
                         <div class="comment-container">
                             <div class="stars-container">
                                 <div class="star-rating">
-                                    <span class="star" data-value="1">&#9733;</span>
-                                    <span class="star" data-value="2">&#9733;</span>
-                                    <span class="star" data-value="3">&#9733;</span>
-                                    <span class="star" data-value="4">&#9733;</span>
-                                    <span class="star" data-value="5">&#9733;</span>
+                                    <div class="star" data-value="1">&#9733;</div>
+                                    <div class="star" data-value="2">&#9733;</div>
+                                    <div class="star" data-value="3">&#9733;</div>
+                                    <div class="star" data-value="4">&#9733;</div>
+                                    <div class="star" data-value="5">&#9733;</div>
                                 </div>
                                 <div class="rating-text">Click to rate</div>
                             </div>
-                            <input type="text" id="comment" name="comment" placeholder="Share your experience..." />
+                            <input type="text" id="comment" name="comment" placeholder="Share your experience..." value="" />
                             <button type="submit">Submit</button>
                         </div>
                     </div>
@@ -1025,6 +1026,27 @@
 
                     //Update rating text
                     ratingText.textContent = `${value} star${value > 1 ? 's' : ''}`;
+                });
+
+                star.addEventListener( "mouseout", function() {
+                    // alert("hi");
+                    const val = star.getAttribute('data-value');
+                    for (const el of star.parentNode.children) {
+                        el.style.color = "";
+                    }
+                });
+                star.addEventListener( "mouseover", function() {
+                    // alert("hi");
+                    const val = star.getAttribute('data-value');
+                    for (const el of star.parentNode.children) {
+                        // alert (val);
+                        if(el.getAttribute('data-value') <= val ){
+                            el.style.color = "#ffb700";
+                        }
+                        else{
+                            el.style.color = "#ddd";
+                        }
+                    }
                 });
             });
 

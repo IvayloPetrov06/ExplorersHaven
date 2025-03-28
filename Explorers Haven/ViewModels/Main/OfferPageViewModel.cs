@@ -42,6 +42,8 @@ namespace Explorers_Haven.ViewModels.Main
         public IFormFile? ImageFileOfferCover { get; set; }
         public SelectList? UserList { get; set; }
         public int? UserId { get; set; }
+        public string? UserComment { get; set; }
+        public string? UserRating { get; set; }
         public OfferPageViewModel()
         {
             Activities = new List<Models.Activity>(); // Initialize the list
@@ -51,6 +53,7 @@ namespace Explorers_Haven.ViewModels.Main
             Comments = new List<Models.Comment>();
             Amenities = new List<Models.Amenity>();
             Users = new List<Models.User>();
+
         }
     }
 }

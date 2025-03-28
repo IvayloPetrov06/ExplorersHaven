@@ -1,18 +1,16 @@
-﻿@using Explorers_Haven.ViewModels.Offer
-@model OfferFilterViewModel
-
+﻿﻿@using Explorers_Haven.ViewModels.Booking
+@model BookingFilterViewModel
 <!-- Main Container -->
 <div class="trivago-container">
     <!-- Hero Search Section -->
     <div class="hero-section">
         <div class="search-wrapper">
-            <h1 class="main-heading">Открийте идеалната почивка и сравнете оферти</h1>
-
+            <h1 class="main-heading">Вашите резервирани преживявания</h1>
             <div class="search-box">
                 <form>
                     <div class="search-input-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" asp-for="Search" class="search-input" placeholder="Търси оферти...">
+                        <input type="text" asp-for="Search" class="search-input" placeholder="Търсене на резервации...">
                         <button type="submit" class="search-button">Търсене</button>
                     </div>
                 </form>
@@ -23,145 +21,71 @@
     <!-- Results Section -->
     <div class="results-section">
         <div class="results-header">
-            <h2 class="section-title">Всички оферти</h2>
+            <h2 class="section-title">Вашите резервации</h2>
             <div class="filters">
                 <span class="filter-label">Подреди по:</span>
                 <select class="filter-dropdown">
                     <option>Препоръчани</option>
                     <option>Цена (най-ниска първо)</option>
-                    <option>Популярност</option>
+                    <option>Дата</option>
                 </select>
             </div>
         </div>
 
-        <!-- Offers Carousel -->
+        <!-- Bookings Carousel -->
         <div class="carousel-container">
-            <div class="carousel-wrapper" id="offers-carousel">
+            <div class="carousel-wrapper" id="bookings-carousel">
                 <div class="carousel-track">
-                    @for (int i = 0; i < Model.Offers.Count; i++)
+                    @for (int i = 0; i < Model.Bookings.Count; i++)
                     {
-                        var offer = Model.Offers[i];
+                        var offer = Model.Bookings[i];
                         <div class="carousel-item @(i < 3 ? "active" : "")">
                             <div class="offer-card">
                                 <div class="offer-image">
-                                    <img src="@offer.OfferPic" alt="@offer.OfferName">
-                                    <form id="favoriteForm" method="post" action="/Favorite/Favorite">
-                                        <div class="favorite-btn">
-                                            <input type="hidden" name="id" value="@offer.OfferId" />
-                                            <input type="checkbox" id="favorite" class="favorite-checkbox" name="favorite-checkbox" value="true" @(offer.IsFavorited.Value ? "checked" : "")>
-                                            <label class="favorite-btn-label" for="favorite">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
-                                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                                </svg>
-                                                <div class="action">
-                                                    <span class="option-1"></span>
-                                                    <span class="option-2"></span>
-                                                </div>
-                                            </label>
-                                        </div>
-                                        <button type="submit" style="display:none;">Submit</button>
-                                    </form>
+                                    <img src="@offer.OfferCoverImage" alt="@offer.OfferName">
                                 </div>
                                 <div class="offer-details">
                                     <div class="offer-info">
                                         <h3 class="offer-name">@offer.OfferName</h3>
-                                        <div class="rating-container">
-                                            <span class="rating-number" style="margin-left: 4px;">@offer.OfferRating.Value.ToString("0.0")</span>
-                                            @for (int j = 0; j < offer.OfferRatingStars; j++)
-                                            {
-                                                <div class="stay-stars">
-                                                    <span>★</span>
-                                                </div>
-                                            }
+                                        <div class="offer-metadata">
+                                            <div class="booking-details">
+                                                <span><i class="fas fa-user"></i> @offer.PeopleCount.Value.ToString("0") човека</span>
+                                                <span><i class="fas fa-calendar"></i> @offer.StartDate</span>
+                                                @if (offer.YoungOldPeopleCount > 0)
+                                                {
+                                                    <span><i class="fas fa-child"></i> @offer.YoungOldPeopleCount.Value.ToString("0") деца/възрастни</span>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="offer-actions">
                                         <div class="price-tag">
-                                            <span class="price-label">Цена от</span>
-                                            <span class="price-value">@offer.OfferPrice лв</span>
+                                            <span class="price-label">Цена</span>
+                                            <span class="price-value">@offer.Price лв</span>
                                         </div>
-                                        <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.OfferId" class="btn-view">
-                                            Виж оферта
-                                        </a>
+                                        <div class="action-buttons">
+                                            <a href="/Booking/Cancel/@offer.Id" class="btn-cancel">Отказ</a>
+                                            <a href="/Home/OfferPage/@offer.Id" class="btn-view">Виж оферта</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                <button class="carousel-control prev" data-carousel="offers-carousel">
+                <button class="carousel-control prev" data-carousel="bookings-carousel">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                <button class="carousel-control next" data-carousel="offers-carousel">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Cheapest Offers Section -->
-        <div class="results-header mt-40">
-            <h2 class="section-title">Най-изгодни оферти</h2>
-            <div class="special-label">
-                <span class="discount-badge"><i class="fas fa-tag"></i> Най-ниски цени</span>
-            </div>
-        </div>
-
-        <div class="carousel-container">
-            <div class="carousel-wrapper" id="cheapest-carousel">
-                <div class="carousel-track">
-                    @for (int i = 0; i < Model.Cheapest_Offers.Count; i++)
-                    {
-                        var offer = Model.Cheapest_Offers[i];
-                        <div class="carousel-item @(i < 3 ? "active" : "")">
-                            <div class="offer-card special-offer">
-                                <div class="offer-image">
-                                    <div class="discount-badge-corner">
-                                        <span>Промо</span>
-                                    </div>
-                                    <img src="@offer.OfferPic" alt="@offer.OfferName">
-                                </div>
-                                <div class="offer-details">
-                                    <div class="offer-info">
-                                        <h3 class="offer-name">@offer.OfferName</h3>
-                                        <div class="rating-container">
-                                            <span class="rating-number" style="margin-left: 4px;">@offer.OfferRating.Value.ToString("0.0")</span>
-                                            @for (int j = 0; j < offer.OfferRatingStars; j++)
-                                            {
-                                                <div class="stay-stars">
-                                                    <span>★</span>
-                                                </div>
-                                            }
-                                        </div>
-                                    </div>
-                                    <div class="offer-actions">
-                                        <div class="price-tag">
-                                            <span class="price-label">Специална цена</span>
-                                            <span class="price-value highlight">@offer.OfferPrice лв</span>
-                                        </div>
-                                        <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.OfferId" class="btn-view">
-                                            Виж оферта
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-                <button class="carousel-control prev" data-carousel="cheapest-carousel">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="carousel-control next" data-carousel="cheapest-carousel">
+                <button class="carousel-control next" data-carousel="bookings-carousel">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Font Awesome and Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 <style>
     /*favorite*/
     /* Fixed favorite button animation */
@@ -296,10 +220,12 @@
     }
 
     }
+
     * {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
     }
 
     html, body {
@@ -319,7 +245,7 @@
 
     .hero-section {
         position: relative;
-        background-image: url('/Images/beach.jpg');
+        background-image: url('/Images/res2.jpg');
         background-size: cover;
         background-position: center;
         height: 400px;
@@ -403,16 +329,16 @@
         transition: background-color 0.2s;
     }
 
-        .search-input:focus {
-            border-color: #007cc3;
-        }
+    .search-input:focus {
+        border-color: #007cc3;
+    }
 
-        .search-button:hover {
-            background-color: #e57f00;
-        }
+    .search-button:hover {
+        background-color: #e57f00;
+    }
 
     /* Results Section Styles trivago  */
-    
+
 
     .results-section {
         position: relative;
@@ -432,7 +358,7 @@
         padding-right: 5%;
     }
 
-    
+
 
     .section-title {
         font-size: 24px;
@@ -482,7 +408,7 @@
         padding-bottom: 30px;
     }
 
-    
+
 
     .carousel-wrapper {
         position: relative;
@@ -490,7 +416,7 @@
         padding: 0 50px; /* Added padding to make room for the buttons */
     }
 
-    
+
 
     .carousel-track {
         display: flex;
@@ -500,8 +426,7 @@
 
     .carousel-item {
         flex: 0 0 calc(33.333% - 20px); /* Maintain 3-column layout */
-        margin-right: 10px;
-        margin-left: 10px;
+        margin-right: 20px;
         padding: 10px; /* Add padding to create shadow space */
         box-sizing: border-box;
     }
@@ -528,7 +453,7 @@
     }
 
         .carousel-control.prev {
-            left: 10px; /* Changed from -20px to 10px */
+            left: 0px; /* Changed from -20px to 10px */
         }
 
         .carousel-control.next {
@@ -551,16 +476,15 @@
         overflow: hidden;
     }
 
-    
-.offer-card:not(:hover) {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12), 
-                0 1px 3px rgba(0, 0, 0, 0.14);
-}
 
-.offer-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
+        .offer-card:not(:hover) {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12), 0 1px 3px rgba(0, 0, 0, 0.14);
+        }
+
+        .offer-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
 
     .special-offer {
         border: 2.2px solid #f90404;
@@ -743,7 +667,7 @@
             background-color: #e57f00;
         }
 
-    /* Responsive Styles */
+    /* Responsive Styles hero*/
     media (max-width: 768px) {
         .results-section, .results-header, .mt-40
 
@@ -753,10 +677,9 @@
     }
 
     }</style>
-
 <script>
+    // Use the exact same JavaScript from the second document
     document.addEventListener('DOMContentLoaded', function() {
-        // Initialize all carousels
         initCarousels();
     });
 
@@ -836,46 +759,6 @@
 
             // Initialize carousel
             updateCarousel();
-        });
-    }
-    const favoriteCheckbox = document.getElementById('favorite');
-    const favoriteForm = document.getElementById('favoriteForm');
-    if (favoriteCheckbox) {
-        favoriteCheckbox.addEventListener('change', function () {
-            // Create a FormData object to send the form data
-            const formData = new FormData(favoriteForm);
-
-            // Send the data using Fetch API
-            fetch('/Favorite/Favorite', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        const option1 = document.querySelector('.option-1');
-                        const option2 = document.querySelector('.option-2');
-
-                        // Update the UI based on whether it's favorited or not
-                        if (favoriteCheckbox.checked) {
-                            option1.style.display = 'none';
-                            option2.style.display = 'block';
-                        } else {
-                            option1.style.display = 'block';
-                            option2.style.display = 'none';
-                        }
-                    } else {
-                        alert('Something went wrong, please try again later.');
-                        // Rollback the checkbox state if the request fails
-                        favoriteCheckbox.checked = !favoriteCheckbox.checked;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred, please try again later.');
-                    // Rollback the checkbox state if the request fails
-                    favoriteCheckbox.checked = !favoriteCheckbox.checked;
-                });
         });
     }
 </script>

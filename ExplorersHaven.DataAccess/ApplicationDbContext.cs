@@ -220,6 +220,11 @@ namespace Explorers_Haven.DataAccess
                 .WithMany(t => t.Activities)
                 .HasForeignKey(e => e.OfferId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+                b.HasOne(a => a.User)
+                .WithMany(a => a.Activities)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Stay>(b =>

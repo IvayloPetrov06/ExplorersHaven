@@ -44,6 +44,15 @@ namespace Explorers_Haven.Core.Services
             await _commentService.DeleteByIdAsync(id);
         }
 
+        public async Task DeleteAllCommentsByOffers(int Id)
+        {
+            var likes = await _commentService.GetAllAsync(x => x.OfferId == Id);
+            foreach (var like in likes)
+            {
+                await _commentService.DeleteAsync(like);
+            }
+        }
+
         public IQueryable<Comment> GetAll()
         {
             return _commentService.GetAll();

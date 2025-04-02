@@ -65,7 +65,7 @@ namespace Explorers_Haven.Controllers
                 await _travelService.DeleteTravelByIdAsync(id);
             }
             TempData["success"] = "Успешно изтрит запис";
-            return RedirectToAction("ListTravels");
+            return RedirectToAction("AllTravels");
         }
 
         public async Task<IActionResult> AllTravel(TravelFilterViewModel? filter)

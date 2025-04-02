@@ -2,8 +2,10 @@
 using Explorers_Haven.Core.Services;
 using Explorers_Haven.Models;
 using Explorers_Haven.ViewModels.Activity;
+using Explorers_Haven.ViewModels.Travel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Explorers_Haven.Controllers
 {
@@ -48,14 +50,69 @@ namespace Explorers_Haven.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+
             if (id != null) 
             {
                 await _actService.DeleteActivityByIdAsync(id);
                 TempData["success"] = "Успешно изтро събитие";
-                return RedirectToAction("ListActivities");
+                return RedirectToAction("AllActivities");
             }
-            return RedirectToAction("ListActivities");
+            return RedirectToAction("AllActivities");
         }
+
+        public async Task<IActionResult> AllActivity(ActivityFilterViewModel? filter)
+        {
+            var query = _actService.GetAll().AsQueryable();
+            //var playlists = await playlistService.GetAllPlaylistsAsync();
+
+
+            if (string.IsNullOrEmpty(filter.Title))
+            {
+                var model = _actService.CombinedInclude().Include(x => x.User).ThenInclude(x => x.Activities).Select(x => new ActivityViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UserName = x.User.Username,
+                    OfferName = x.Offer.Name,
+                    ImageLink=x.CoverImage
+                }).ToList();
+
+                var filterModel = new ActivityFilterViewModel
+                {
+                    Activities = model,
+
+                };
+                var sortedList = filterModel.Activities.OrderBy(x => x.OfferName).ToList();
+                filterModel.Activities = sortedList;
+                return View(filterModel);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(filter.Title))
+                {
+                    query = query.Where(x => x.Offer.Name == filter.Title);
+                }
+
+
+                var filterModel = new ActivityFilterViewModel
+                {
+                    Activities = query.Include(x => x.User).ThenInclude(x => x.Activities).Select(x => new ActivityViewModel()
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        UserName = x.User.Username,
+                        OfferName = x.Offer.Name,
+                        ImageLink = x.CoverImage
+                    }).ToList(),
+                    Title = filter.Title
+                };
+                var sortedList = filterModel.Activities.OrderBy(x => x.OfferName).ToList();
+                filterModel.Activities = sortedList;
+                return View(filterModel);
+            }
+
+        }
+
         public async Task<IActionResult> EditActivity(int Id)
         {
             Activity act = await _actService.GetActivityByIdAsync(Id);

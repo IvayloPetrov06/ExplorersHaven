@@ -16,6 +16,7 @@ namespace Explorers_Haven.Core.IServices
         Task UpdateCommentAsync(Comment entity);
         Task DeleteCommentAsync(Comment entity);
         Task DeleteCommentByIdAsync(int id);
+        Task DeleteAllCommentsByOffers(int Id);
         IQueryable<Comment> AllWithInclude(params Expression<Func<Comment, object>>[] includes);
         Task<Comment> GetCommentByIdAsync(int id);
         Task<Comment> GetCommentAsync(Expression<Func<Comment, bool>> filter);

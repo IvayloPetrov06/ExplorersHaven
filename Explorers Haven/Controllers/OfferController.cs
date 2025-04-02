@@ -4,9 +4,11 @@ using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
 using Explorers_Haven.DataAccess;
 using Explorers_Haven.Models;
+using Explorers_Haven.ViewModels.Activity;
 using Explorers_Haven.ViewModels.Offer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,17 +18,23 @@ namespace Explorers_Haven.Controllers
     {
         private readonly UserManager<IdentityUser> userManager;
         private readonly IOfferService _offerService;
+        private readonly ITravelService _travelService;
+        private readonly IActivityService _activityService;
+        private readonly IFavoriteService _favoriteService;
         private readonly IStayService _stayService;
+        private readonly ICommentService _commentService;
         IUserService userService;
 
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public OfferController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IStayService stayService, IUserService userService)
+        public OfferController(ICommentService commentService,UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IStayService stayService, IUserService userService)
         {
             this.userService = userService;
             _offerService = offerService;
             _stayService = stayService;
+            _commentService = commentService;
+
 
             userManager = _userManager;
 
@@ -48,13 +56,22 @@ namespace Explorers_Haven.Controllers
 
             if (string.IsNullOrEmpty(filter.Search))
             {
+                /*<th style="width: 50px">#</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Rating</th>
+                                <th>Comments</th>
+                                <th>Actions</th>*/
 
                 var model = _offerService.CombinedInclude().Include(x => x.User).Select(x => new OfferViewModel()
                 {
                     OfferId = x.Id,
                     OfferName= x.Name,
                     OfferPic = x.CoverImage,
-                    UserName = x.User.Username
+                    UserName = x.User.Username,
+                    OfferPrice = x.Price,
+                    Comments = x.Comments.ToList(),
+                    //OfferRatingStars = x.R
                 }).ToList();
 
                 filterModel = new OfferFilterViewModel
@@ -85,7 +102,10 @@ namespace Explorers_Haven.Controllers
                     OfferId = x.Id,
                     OfferName = x.Name,
                     OfferPic = x.CoverImage,
-                    UserName = x.User.Username
+                    UserName = x.User.Username,
+                    OfferPrice = x.Price,
+                    Comments = x.Comments.ToList(),
+
                 }).ToList(),
                     Search = filter.Search
                 };
@@ -94,8 +114,108 @@ namespace Explorers_Haven.Controllers
             return View(filterModel);
         }
 
-        
 
+        public async Task<IActionResult> AllOffer(OfferFilterViewModel? filter)
+        {
+            var query = _offerService.GetAll().AsQueryable();
+            //var playlists = await playlistService.GetAllPlaylistsAsync();
+
+
+            if (string.IsNullOrEmpty(filter.Search))
+            {
+                var model = _offerService.CombinedInclude().Include(x => x.User).ThenInclude(x => x.Offers).Select(x => new OfferViewModel()
+                {
+                    OfferId = x.Id,
+                    OfferName = x.Name,
+                    OfferPic = x.CoverImage,
+                    UserName = x.User.Username,
+                    OfferPrice = x.Price,
+                    Comments = x.Comments.ToList(),
+
+                }).ToList();
+
+                //
+
+                foreach (var o in model)
+                {
+                    var tempOffer = await _offerService.GetOfferByIdAsync(o.OfferId);
+                    var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == o.OfferId);
+                    o.Comments = tempCom.ToList();
+                    if (tempCom.Count() != 0)//ako ima reviewta
+                    {
+                        decimal rates = 0;
+                        foreach (var r in tempCom)
+                        {
+                            rates += r.Stars;
+                        }
+                        decimal AverageRate;
+                        decimal ofst;
+                        if (tempOffer.Rating != null)//ako ofertata ima default rating
+                        {
+                            rates += tempOffer.Rating.Value;
+                            int countt = tempCom.Count() + 1;
+                            AverageRate = rates / countt;
+                            ofst = Math.Round(AverageRate, 2);
+                        }
+                        else//ako nqma
+                        {
+                            AverageRate = rates / tempCom.Count();
+                            ofst = Math.Round(AverageRate, 2);
+                        }
+                        o.OfferRating = AverageRate;
+                        o.OfferRatingStars = ofst;
+                    }
+                    else//ako nqma reviewta
+                    {
+                        if (tempOffer.Rating != null)
+                        {
+                            o.OfferRatingStars = Math.Round(tempOffer.Rating.Value, 2);
+                            o.OfferRating = tempOffer.Rating;
+                        }
+                        else
+                        {
+                            o.OfferRatingStars = 3;
+                            o.OfferRating = 3;
+                        }
+
+                    }
+                }
+                //
+
+
+                var filterModel = new OfferFilterViewModel
+                {
+                    Offers = model,
+
+                };
+                var sortedList = filterModel.Offers.OrderBy(x => x.OfferName).ToList();
+                filterModel.Offers = sortedList;
+                return View(filterModel);
+            }
+            else
+            {
+
+                if (!string.IsNullOrEmpty(filter.Search))
+                {
+                    query = query.Where(x => x.Name == filter.Search);
+                }
+
+
+                var filterModel = new OfferFilterViewModel
+                {
+                    Offers = query.Include(x => x.User).ThenInclude(x => x.Offers).Select(x => new OfferViewModel()
+                    {
+                        OfferId = x.Id,
+                        OfferName = x.Name,
+                        UserName = x.User.Username,
+                        OfferPic = x.CoverImage
+                    }).ToList(),
+                    Search = filter.Search
+                };
+                return View(filterModel);
+            }
+
+        }
         public async Task<IActionResult> ListOffers()
         {
             IEnumerable<Offer> offers = await _offerService.GetAllOfferAsync();
@@ -108,26 +228,17 @@ namespace Explorers_Haven.Controllers
             {
                 
                 await _offerService.DeleteOfferByIdAsync(id);
-
-                return RedirectToAction("Index");
+                await _commentService.DeleteAllCommentsByOffers(id);
+                await _act.DeleteAllCommentsByOffers(id);
+                await _commentService.DeleteAllCommentsByOffers(id);
+                await _commentService.DeleteAllCommentsByOffers(id);
+                await _commentService.DeleteAllCommentsByOffers(id);
             }
-            return RedirectToAction("Index");
-            /*if (id != null)
-            {
-                await _offerService.DeleteOfferByIdAsync(id);
-                TempData["success"] = "Успешно изтрит запис";
-                return RedirectToAction("ListOffers");
-            }
-            return RedirectToAction("ListOffers");*/
+            return RedirectToAction("AllOffer");
         }
         public async Task<IActionResult> EditOffer(int id)
         {
-            //var trav = _offerService.GetOfferByIdAsync(Id);
-            //if (trav == null) { return NotFound(); }
-            //return View(trav);
-            //Offer offers = await _offerService.GetOfferByIdAsync(Id);
-            //if (offers == null) { return NotFound(); }
-            // View(offers);
+            //comments travel activity booking favorite
             
 
             var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)

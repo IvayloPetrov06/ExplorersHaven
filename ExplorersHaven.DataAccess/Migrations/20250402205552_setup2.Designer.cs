@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250402174712_setup2")]
+    [Migration("20250402205552_setup2")]
     partial class setup2
     {
         /// <inheritdoc />
@@ -43,9 +43,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int>("OfferId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OfferId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Activites");
 
@@ -250,6 +255,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Rating")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal?>("RealRating")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<DateOnly?>("StartDate")
@@ -819,7 +827,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Explorers_Haven.Models.User", "User")
+                        .WithMany("Activities")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.Navigation("Offer");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.Booking", b =>
@@ -1055,6 +1070,8 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>
                 {
+                    b.Navigation("Activities");
+
                     b.Navigation("Bookings");
 
                     b.Navigation("Comments");

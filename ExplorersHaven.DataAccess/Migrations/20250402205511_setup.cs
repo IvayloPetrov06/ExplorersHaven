@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class setup2 : Migration
+    public partial class setup : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -249,6 +249,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     BackImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    RealRating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Clicks = table.Column<int>(type: "int", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: true),
                     StayId = table.Column<int>(type: "int", nullable: true)
@@ -302,6 +303,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -313,6 +315,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                         principalTable: "Offers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Activites_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -491,13 +498,13 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Offers",
-                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Discount", "DurationDays", "LastDate", "MaxPeople", "Name", "Price", "Rating", "StartDate", "StayId", "UserId" },
+                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Discount", "DurationDays", "LastDate", "MaxPeople", "Name", "Price", "Rating", "RealRating", "StartDate", "StayId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Egypt", 100m, 3m, new DateOnly(2025, 4, 1), 1, null },
-                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, null, null, null, null, "Poland", 20m, null, null, 2, null },
-                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, null, null, null, null, "Germany", 500m, null, null, 3, null },
-                    { 4, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Test", 100m, 3m, new DateOnly(2025, 4, 1), 1, null }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Egypt", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null },
+                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, null, null, null, null, "Poland", 20m, null, null, null, 2, null },
+                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, null, null, null, null, "Germany", 500m, null, null, null, 3, null },
+                    { 4, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Test", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null }
                 });
 
             migrationBuilder.InsertData(
@@ -507,14 +514,14 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Activites",
-                columns: new[] { "Id", "CoverImage", "Name", "OfferId" },
+                columns: new[] { "Id", "CoverImage", "Name", "OfferId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Camel riding", 1 },
-                    { 2, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Sightseeing", 1 },
-                    { 3, null, "Sightseeing", 2 },
-                    { 4, null, "Sightseeing", 3 },
-                    { 5, null, "Archery", 3 }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Camel riding", 1, null },
+                    { 2, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Sightseeing", 1, null },
+                    { 3, null, "Sightseeing", 2, null },
+                    { 4, null, "Sightseeing", 3, null },
+                    { 5, null, "Archery", 3, null }
                 });
 
             migrationBuilder.InsertData(
@@ -534,6 +541,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                 name: "IX_Activites_OfferId",
                 table: "Activites",
                 column: "OfferId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Activites_UserId",
+                table: "Activites",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

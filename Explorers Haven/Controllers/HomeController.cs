@@ -108,7 +108,6 @@ namespace Explorers_Haven.Controllers
 
             if (string.IsNullOrEmpty(filter.Search))
             {
-
                 var model = _offerService.CombinedInclude().Include(x => x.User).Select(x => new OfferViewModel()
                 {
                     OfferId = x.Id,

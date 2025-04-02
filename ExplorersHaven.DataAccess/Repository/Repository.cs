@@ -99,7 +99,7 @@ namespace Explorers_Haven.DataAccess.Repository
                 _dbSet.Update(entity);
                 await _context.SaveChangesAsync();
             }
-            
+
         }
 
         /*

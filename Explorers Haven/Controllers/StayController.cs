@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Configuration;
+using System.Runtime.InteropServices;
 using CloudinaryDotNet;
 using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
@@ -16,14 +17,27 @@ namespace Explorers_Haven.Controllers
         private readonly UserManager<IdentityUser> userManager;
         IUserService userService;
         private readonly Cloudinary _cloudinary;
+        private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
         private readonly IStayService _stayService;
-        public StayController(UserManager<IdentityUser> _userManager, CloudinaryService cloud,IStayService stayService, IUserService userService)
+        private readonly IOfferService _offerService;
+        public StayController(UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud,IStayService stayService, IOfferService offerService, IUserService userService)
         {
-            userManager = _userManager;
-            this.cloudService = cloud;
+            
             _stayService = stayService;
             this.userService = userService;
+            _offerService = offerService;
+            userManager = _userManager;
+
+            this.cloudService = cloud;
+
+            _configuration = configuration;
+            var account = new Account(
+           _configuration["Cloudinary:CloudName"],
+           _configuration["Cloudinary:ApiKey"],
+           _configuration["Cloudinary:ApiSecret"]
+             );
+            _cloudinary = new Cloudinary(account);
 
         }
 
@@ -115,9 +129,18 @@ namespace Explorers_Haven.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
+            /*var tempof = _offerService.GetAll();
+            foreach (var o in tempof)
+            {
+                if(o.StayId == id)
+                {
+                    o.StayId = null;
+                    await _offerService.DeleteOfferAsync(o);
+                }
+            }*/
             await _stayService.DeleteStayByIdAsync(id);
             TempData["success"] = "Успешно изтрит запис";
-            return RedirectToAction("ListStays");
+            return RedirectToAction("AllStay");
         }
         public async Task<IActionResult> EditStay(int Id)
         {

@@ -136,10 +136,10 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(User user)
         {
-            if (user.ProfilePicture == null)
-            {
-                user.ProfilePicture = "/Images/def.jpg";
-            }
+            //if (user.ProfilePicture == null)
+            //{
+            //    user.ProfilePicture = "/Images/def.jpg";
+            //}
             if (ModelState.IsValid)
             {
                 await userService.AddUserAsync(user);

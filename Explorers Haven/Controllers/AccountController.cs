@@ -79,10 +79,10 @@ namespace Explorers_Haven.Controllers
                         UserIdentity = user,
                         UserIdentityId = user.Id
                     };
-                    if (user2.ProfilePicture == null)
-                    {
-                        user2.ProfilePicture = "/Images/def.jpg";
-                    }
+                    //if (user2.ProfilePicture == null)
+                    //{
+                    //    user2.ProfilePicture = "/Images/def.jpg";
+                    //}
                     await _userService.AddAsync(user2);
                     return RedirectToAction("HomePage", "Home");
 

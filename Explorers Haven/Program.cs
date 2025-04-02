@@ -19,15 +19,9 @@ using CloudinaryDotNet;
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
 
-   // builder.Services.AddDbContext<ApplicationDbContext>
-    //(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-    // b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
-
     builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-    //builder.Services.AddDefaultIdentity<IdentityUser>()
-    //    .AddEntityFrameworkStores<ApplicationDbContext>();
     builder.Services.ConfigureApplicationCookie(options =>
     {
         options.LoginPath = "/Account/Login";
@@ -62,47 +56,29 @@ using CloudinaryDotNet;
     var cloudinary = new Cloudinary(cloudinaryAccount);
     builder.Services.AddSingleton(cloudinary);
 
-    //builder.Services.AddDbContext<ApplicationDbContext>
-    //    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));LocalDb
-    
-
-    //var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-    //builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    //    options.UseSqlServer(connection, b => b.MigrationsAssembly("Explorers_Haven.DataAccess")));
-
-
-    //builder.Services.AddDefaultIdentity<IdentityUser>()
-    //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
     
 
 
     var app = builder.Build();
-/*using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    await dbContext.Seed();
-}*/
 
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
-    {
-        app.UseExceptionHandler("/Home/Error");
-        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-        app.UseHsts();
-    }
+{
+    app.UseExceptionHandler("/Home/Error");
+    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app.UseHsts();
+}
 
-    app.UseHttpsRedirection();
-    app.UseStaticFiles();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-    app.UseRouting();
+app.UseRouting();
 
-    app.UseAuthentication();
+app.UseAuthentication();
 
-    app.UseAuthorization();
+app.UseAuthorization();
 
-    app.MapRazorPages();
+app.MapRazorPages();
 
 using (var scope = app.Services.CreateScope())
 {

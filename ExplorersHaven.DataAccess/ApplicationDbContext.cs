@@ -255,7 +255,7 @@ namespace Explorers_Haven.DataAccess
                 b.HasOne(e => e.Transport)  
                  .WithMany(t => t.Travels)
                  .HasForeignKey(e => e.TransportId)
-                 .OnDelete(DeleteBehavior.Restrict);
+                 .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Transport>()
@@ -365,7 +365,7 @@ namespace Explorers_Haven.DataAccess
             {
                 var userA = new IdentityUser { UserName = "admin@admin.com", Email = adminEmail };
 
-                var resultA = await userManager.CreateAsync(userA, "admin1234!");
+                var resultA = await userManager.CreateAsync(userA, "Admin123!");
 
                 var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 if (!await roleManager.RoleExistsAsync("Admin"))
@@ -386,7 +386,7 @@ namespace Explorers_Haven.DataAccess
                     {
                         Username = "Admin",
                         Email = "admin@admin.com",
-                        Password = "admin1234!",
+                        Password = "Admin123!",
                         UserIdentityId = userA.Id,
                         UserIdentity = userA
                     };
@@ -497,7 +497,6 @@ namespace Explorers_Haven.DataAccess
                 }
                 await SaveChangesAsync();
             }
-
         }
 
     }

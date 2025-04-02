@@ -10,15 +10,14 @@ namespace Explorers_Haven.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly ApplicationDbContext _context;
-        internal DbSet<T> _dbSet;
+        ApplicationDbContext _context;
+        DbSet<T> _dbSet;
+
         public Repository(ApplicationDbContext context)
         {
-            this._context = context;
-            this._dbSet = _context.Set<T>();
-
+            _context = context;
+            _dbSet = _context.Set<T>();
         }
-
         public async Task AddAsync(T entity)
         {
             if (entity != null)
@@ -33,7 +32,7 @@ namespace Explorers_Haven.DataAccess.Repository
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await _context.SaveChangesAsync();
+                await SaveAsync();
             }
         }
 
@@ -43,7 +42,7 @@ namespace Explorers_Haven.DataAccess.Repository
             if (entity != null)
             {
                 _dbSet.Remove(entity);
-                await (_context.SaveChangesAsync());
+                await SaveAsync();
             }
         }
 
@@ -76,12 +75,17 @@ namespace Explorers_Haven.DataAccess.Repository
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> filter)
         {
-            T entity = await _dbSet.FirstOrDefaultAsync(filter);//.AsNoTracking()
+            T entity = await _dbSet.FirstOrDefaultAsync(filter);
             return entity;
-
         }
 
         public async Task<T> GetByIdAsync(int id)
+        {
+            T entity = await _dbSet.FindAsync(id);
+            return entity;
+        }
+
+        public async Task<T> GetByIdAsync(int? id)
         {
             T entity = await _dbSet.FindAsync(id);
             return entity;
@@ -94,56 +98,8 @@ namespace Explorers_Haven.DataAccess.Repository
 
         public async Task UpdateAsync(T entity)
         {
-            if (entity != null)
-            {
-                _dbSet.Update(entity);
-                await _context.SaveChangesAsync();
-            }
-
+            _dbSet.Update(entity);
+            await SaveAsync();
         }
-
-        /*
-        public T Add(T entity)
-        {
-            dbSet.Add(entity);
-            _context.SaveChanges(); 
-
-            return entity;
-        }
-
-        public List<T> CheckIfExists(List<int> id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(int id)
-        {
-            T obj = dbSet.Find(id);
-            dbSet.Remove(obj);
-            _context.SaveChanges();
-        }
-
-        public List<T> Find(Expression<Func<T, bool>> filter)
-        {
-            return dbSet.Where(filter).ToList();
-
-        }
-
-        public T Get(int id)
-        {
-            T obj = dbSet.Find(id);
-            return obj;
-        }
-
-        public List<T> GetAll()
-        {
-            return dbSet.ToList();
-        }
-
-        public void Update(T entity)
-        {
-            dbSet.Update(entity);
-            _context.SaveChanges();
-        }*/
     }
 }

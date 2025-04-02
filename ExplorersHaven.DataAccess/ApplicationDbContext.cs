@@ -235,7 +235,7 @@ namespace Explorers_Haven.DataAccess
                 b.HasMany(e => e.Offers)
                  .WithOne(b => b.Stay)
                  .HasForeignKey(e => e.StayId)
-                 .OnDelete(DeleteBehavior.Cascade);
+                 .OnDelete(DeleteBehavior.ClientCascade);
 
                 b.HasOne(a => a.User)
                 .WithMany(a => a.Stays)
@@ -256,6 +256,11 @@ namespace Explorers_Haven.DataAccess
                  .WithMany(t => t.Travels)
                  .HasForeignKey(e => e.TransportId)
                  .OnDelete(DeleteBehavior.NoAction);
+
+                b.HasOne(a => a.User)
+                .WithMany(a => a.Travels)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
             });
 
             modelBuilder.Entity<Transport>()

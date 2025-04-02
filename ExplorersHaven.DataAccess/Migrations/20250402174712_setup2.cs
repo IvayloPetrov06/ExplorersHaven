@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class setup : Migration
+    public partial class setup2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -438,6 +438,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     DateStart = table.Column<DateOnly>(type: "date", nullable: true),
                     DateFinish = table.Column<DateOnly>(type: "date", nullable: true),
                     TransportId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
                     OfferId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -455,6 +456,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                         principalTable: "Transports",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Travels_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
@@ -513,15 +519,15 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Travels",
-                columns: new[] { "Id", "Arrival", "DateFinish", "DateStart", "DurationDays", "Finish", "OfferId", "Start", "TransportId" },
+                columns: new[] { "Id", "Arrival", "DateFinish", "DateStart", "DurationDays", "Finish", "OfferId", "Start", "TransportId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, true, null, null, 1, "Cairo", 1, "Sofia", 1 },
-                    { 2, false, null, null, 1, "Sofia", 1, "Cairo", 1 },
-                    { 3, null, null, null, null, "Warsaw", 2, "Sofia", 1 },
-                    { 4, null, null, null, null, "Sofia", 2, "Warsaw", 1 },
-                    { 5, null, null, null, null, "Berlin", 3, "Sofia", 1 },
-                    { 6, null, null, null, null, "Sofia", 3, "Berlin", 1 }
+                    { 1, true, null, null, 1, "Cairo", 1, "Sofia", 1, null },
+                    { 2, false, null, null, 1, "Sofia", 1, "Cairo", 1, null },
+                    { 3, null, null, null, null, "Warsaw", 2, "Sofia", 1, null },
+                    { 4, null, null, null, null, "Sofia", 2, "Warsaw", 1, null },
+                    { 5, null, null, null, null, "Berlin", 3, "Sofia", 1, null },
+                    { 6, null, null, null, null, "Sofia", 3, "Berlin", 1, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -642,6 +648,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                 name: "IX_Travels_TransportId",
                 table: "Travels",
                 column: "TransportId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Travels_UserId",
+                table: "Travels",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_UserIdentityId",

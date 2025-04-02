@@ -15,11 +15,11 @@ namespace Explorers_Haven.Core.Services
     public class StayService:IStayService
     {
 
-        private readonly IRepository<Stay> _repo;
+        IRepository<Stay> _repo;
 
         public StayService(IRepository<Stay> repo)
         {
-            this._repo = repo;
+            _repo = repo;
         }
 
         private bool ValidateStay(Stay stay)

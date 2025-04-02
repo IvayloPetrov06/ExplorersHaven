@@ -24,6 +24,9 @@ namespace Explorers_Haven.Models
         public int TransportId { get; set; }
         public Transport Transport { get; set; }
 
+        public int? UserId { get; set; }
+        public User? User { get; set; }
+
         public int OfferId { get; set; }
         public Offer Offer { get; set; }
     }

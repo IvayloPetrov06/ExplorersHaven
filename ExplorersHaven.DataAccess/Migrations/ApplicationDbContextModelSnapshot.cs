@@ -501,11 +501,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<int>("TransportId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("OfferId");
 
                     b.HasIndex("TransportId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Travels");
 
@@ -939,9 +944,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Explorers_Haven.Models.User", "User")
+                        .WithMany("Travels")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
                     b.Navigation("Offer");
 
                     b.Navigation("Transport");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.User", b =>
@@ -1051,6 +1063,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("Ratings");
 
                     b.Navigation("Stays");
+
+                    b.Navigation("Travels");
                 });
 #pragma warning restore 612, 618
         }

@@ -16,6 +16,7 @@ namespace Explorers_Haven.Core.IServices
         Task UpdateOfferAsync(Offer entity);
         Task DeleteOfferAsync(Offer entity);
         Task DeleteOfferByIdAsync(int id);
+        Task DeleteAllOffersByStays(int stayId);
         IQueryable<Offer> CombinedInclude(params Expression<Func<Offer, object>>[] includes);
         Task<Offer> GetOfferByIdAsync(int id);
         Task<Offer> GetOfferAsync(Expression<Func<Offer, bool>> filter);

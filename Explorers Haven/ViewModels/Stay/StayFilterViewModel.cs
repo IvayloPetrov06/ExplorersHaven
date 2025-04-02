@@ -10,6 +10,6 @@ namespace Explorers_Haven.ViewModels.Stay
         public List<StayViewModel> Stays { get; set; }
         public string? Title { get; set; }
         public int? Price { get; set; }
-        //public List<Explorers_Haven.Models.Models.Playlist> Playlists { get; set; }
+        
     }
 }

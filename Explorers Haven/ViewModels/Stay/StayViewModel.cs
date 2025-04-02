@@ -12,5 +12,6 @@ namespace Explorers_Haven.ViewModels.Stay
         public int? Stars { get; set; }
         public string? ImageLink { get; set; }
         public string UserName { get; set; }
+        
     }
 }

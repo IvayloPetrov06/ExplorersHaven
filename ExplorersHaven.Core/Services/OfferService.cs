@@ -14,11 +14,11 @@ namespace Explorers_Haven.Core.Services
 {
     public class OfferService : IOfferService
     {
-        private readonly IRepository<Offer> _repo;
+        IRepository<Offer> _repo;
 
         public OfferService(IRepository<Offer> repo)
         {
-            this._repo = repo;
+            _repo = repo;
         }
         private bool ValidateOffer(Offer entity)
         {
@@ -60,6 +60,7 @@ namespace Explorers_Haven.Core.Services
         public async Task DeleteOfferAsync(Offer entity)
         {
             await _repo.DeleteAsync(entity);
+
         }
 
         public async Task DeleteOfferByIdAsync(int id)
@@ -69,6 +70,15 @@ namespace Explorers_Haven.Core.Services
             if (true)
             {
                 await _repo.DeleteByIdAsync(id);
+            }
+        }
+
+        public async Task DeleteAllOffersByStays(int stayId)
+        {
+            var likes = await _repo.GetAllAsync(x => x.StayId == stayId);
+            foreach (var like in likes)
+            {
+                await _repo.DeleteAsync(like);
             }
         }
 

@@ -129,16 +129,12 @@ namespace Explorers_Haven.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            /*var tempof = _offerService.GetAll();
-            foreach (var o in tempof)
+            
+            if (id != null)
             {
-                if(o.StayId == id)
-                {
-                    o.StayId = null;
-                    await _offerService.DeleteOfferAsync(o);
-                }
-            }*/
-            await _stayService.DeleteStayByIdAsync(id);
+                await _offerService.DeleteAllOffersByStays(id);
+                await _stayService.DeleteStayByIdAsync(id);
+            }
             TempData["success"] = "Успешно изтрит запис";
             return RedirectToAction("AllStay");
         }

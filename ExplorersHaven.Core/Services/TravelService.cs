@@ -83,6 +83,7 @@ namespace Explorers_Haven.Core.Services
             return query;
         }
 
+
         public async Task<Travel> GetTravelByIdAsync(int id)
         {
             return await _repo.GetByIdAsync(id);

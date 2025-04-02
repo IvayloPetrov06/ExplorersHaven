@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Explorers_Haven.ViewModels.Travel;
 using Explorers_Haven.Core.Services;
+using Explorers_Haven.ViewModels.Stay;
+using Microsoft.EntityFrameworkCore;
 
 namespace Explorers_Haven.Controllers
 {
@@ -58,9 +60,69 @@ namespace Explorers_Haven.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            await _travelService.DeleteTravelByIdAsync(id);
+            if (id != null)
+            {
+                await _travelService.DeleteTravelByIdAsync(id);
+            }
             TempData["success"] = "Успешно изтрит запис";
             return RedirectToAction("ListTravels");
+        }
+
+        public async Task<IActionResult> AllTravel(TravelFilterViewModel? filter)
+        {
+            var query = _travelService.GetAll().AsQueryable();
+            //var playlists = await playlistService.GetAllPlaylistsAsync();
+
+
+            if (string.IsNullOrEmpty(filter.Title))
+            {
+                var model = _travelService.CombinedInclude().Include(x => x.User).ThenInclude(x => x.Travels).Select(x => new TravelViewModel()
+                {
+                    Id = x.Id,
+                    Start = x.Start,
+                    Finish = x.Finish,
+                    UserName = x.User.Username,
+                    Transport = x.Transport.Name,
+                    OfferName = x.Offer.Name,
+                    Arrival = x.Arrival,
+                }).ToList();
+
+                var filterModel = new TravelFilterViewModel
+                {
+                    Travels = model,
+
+                };
+                var sortedList = filterModel.Travels.OrderBy(x => x.OfferName).ToList();
+                filterModel.Travels = sortedList;
+                return View(filterModel);
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(filter.Title))
+                {
+                    query = query.Where(x => x.Offer.Name == filter.Title);
+                }
+
+
+                var filterModel = new TravelFilterViewModel
+                {
+                    Travels = query.Include(x => x.User).ThenInclude(x => x.Travels).Select(x => new TravelViewModel()
+                    {
+                        Id = x.Id,
+                        Start = x.Start,
+                        Finish = x.Finish,
+                        UserName = x.User.Username,
+                        Transport = x.Transport.Name,
+                        OfferName = x.Offer.Name,
+                        Arrival = x.Arrival,
+                    }).ToList(),
+                    Title = filter.Title
+                };
+                var sortedList = filterModel.Travels.OrderBy(x => x.OfferName).ToList();
+                filterModel.Travels = sortedList;
+                return View(filterModel);
+            }
+
         }
         public async Task<IActionResult> EditTravel(int Id)
         {

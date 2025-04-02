@@ -25,15 +25,6 @@ namespace Explorers_Haven.Core.Services
         private bool ValidateStay(Stay stay)
         {
             return true;
-            //var validator = new StayValidator(_repo);
-            //if (!validator.ValidateInput(stay.Name))
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
         }
 
         public IQueryable<Stay> GetAll()
@@ -104,73 +95,5 @@ namespace Explorers_Haven.Core.Services
             return await _repo.GetAllAsync();
         }
 
-        
-
-        /*private bool ValidateStay(Stay stay)
-        {
-            var validator = new StayValidator(_repo);
-            if (!validator.ValidateInput(stay.Name))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        public Stay GetById(int id)
-        {
-            return _repo.Get(id);
-        }
-
-        public Stay Add(Stay stay)
-        {
-            if (!ValidateStay(stay))
-            {
-                throw new ArgumentException("The stay is not valid!");
-            }
-            return _repo.Add(stay);
-
-        }
-
-
-        public void Update(Stay stay)
-        {
-            if (!ValidateStay(stay))
-            {
-                throw new ArgumentException("The stay is not valid!");
-            }
-            _repo.Update(stay);
-        }
-
-        public void Delete(int id)
-        {
-            var validator = new StayValidator(_repo);
-            if (validator.StayExists(id))
-            {
-                _repo.Delete(id);
-            }
-
-        }
-
-        public List<Stay> GetAll()
-        {
-            return _repo.GetAll();
-        }
-
-        public List<Stay> Find(Expression<Func<Stay, bool>> filter)
-        {
-            return _repo.Find(filter);
-        }
-
-        public Stay Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Stay> CheckIfExists(List<int> id)
-        {
-            throw new NotImplementedException();
-        }*/
     }
 }

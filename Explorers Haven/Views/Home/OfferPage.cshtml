@@ -951,16 +951,16 @@
                         <div class="comment-container">
                             <div class="stars-container">
                                 <div class="star-rating">
-                                    <div class="star" data-value="1">&#9733;</div>
-                                    <div class="star" data-value="2">&#9733;</div>
-                                    <div class="star" data-value="3">&#9733;</div>
-                                    <div class="star" data-value="4">&#9733;</div>
-                                    <div class="star" data-value="5">&#9733;</div>
+                                    <div class="@(Model.UserRating >= 1 ? "star active" : "star")" data-value="1">&#9733;</div>
+                                    <div class="@(Model.UserRating >= 2 ? "star active" : "star")" data-value="2">&#9733;</div>
+                                    <div class="@(Model.UserRating >= 3 ? "star active" : "star")" data-value="3">&#9733;</div>
+                                    <div class="@(Model.UserRating >= 4 ? "star active" : "star")" data-value="4">&#9733;</div>
+                                    <div class="@(Model.UserRating >= 5 ? "star active" : "star")" data-value="5">&#9733;</div>
                                 </div>
-                                <div class="rating-text">Click to rate</div>
+                                <div class="rating-text">@(Model.UserRating != null ? "your rating is " + @Model.UserRating : "Click to rate")</div>
                             </div>
-                            <input type="text" id="comment" name="comment" placeholder="Share your experience..." value="" />
-                            <button type="submit">Submit</button>
+                            <input type="text" id="comment" name="comment" placeholder="Share your experience..." value="@Model.UserComment" />
+                            <button type="submit">@(Model.UserRating != null ? "Edit" : "Submit")</button>
                         </div>
                     </div>
                 </form>

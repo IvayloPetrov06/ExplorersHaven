@@ -67,23 +67,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stays",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Disc = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Stars = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stays", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Transports",
                 columns: table => new
                 {
@@ -227,28 +210,26 @@ namespace Explorers_Haven.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "StayAmenity",
+                name: "Stays",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AmenityId = table.Column<int>(type: "int", nullable: true),
-                    StayId = table.Column<int>(type: "int", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Disc = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    Stars = table.Column<int>(type: "int", nullable: true),
+                    UserId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StayAmenity", x => x.Id);
+                    table.PrimaryKey("PK_Stays", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StayAmenity_Amenities_AmenityId",
-                        column: x => x.AmenityId,
-                        principalTable: "Amenities",
+                        name: "FK_Stays_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_StayAmenity_Stays_StayId",
-                        column: x => x.StayId,
-                        principalTable: "Stays",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -286,6 +267,31 @@ namespace Explorers_Haven.DataAccess.Migrations
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StayAmenity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AmenityId = table.Column<int>(type: "int", nullable: true),
+                    StayId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StayAmenity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StayAmenity_Amenities_AmenityId",
+                        column: x => x.AmenityId,
+                        principalTable: "Amenities",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_StayAmenity_Stays_StayId",
+                        column: x => x.StayId,
+                        principalTable: "Stays",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -458,12 +464,12 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Stays",
-                columns: new[] { "Id", "Disc", "Image", "Name", "Price", "Stars" },
+                columns: new[] { "Id", "Disc", "Image", "Name", "Price", "Stars", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5 },
-                    { 2, null, null, "InterContinental Warsaw Hotel", null, null },
-                    { 3, null, null, "Mitte Hotel", null, null }
+                    { 1, "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5, null },
+                    { 2, null, null, "InterContinental Warsaw Hotel", null, null, null },
+                    { 3, null, null, "Mitte Hotel", null, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -621,6 +627,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                 name: "IX_StayAmenity_StayId",
                 table: "StayAmenity",
                 column: "StayId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Stays_UserId",
+                table: "Stays",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Travels_OfferId",

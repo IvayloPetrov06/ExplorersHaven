@@ -354,6 +354,11 @@ namespace Explorers_Haven.Controllers
                 decimal rates = 0;
                 foreach (var r in tempCom)
                 {
+                    if (r.UserId == userModel.Id)
+                    {
+                        model.UserComment = r.Content;
+                        model.UserRating = r.Stars;
+                    }
                     rates += r.Stars;
                 }
                 decimal AverageRate;
@@ -363,12 +368,12 @@ namespace Explorers_Haven.Controllers
                     rates += tempOffer.Rating.Value;
                     int countt = tempCom.Count() + 1;
                     AverageRate = rates / countt;
-                    ofst = Math.Round(AverageRate, 2);
+                    ofst = Math.Round(AverageRate, 0);
                 }
                 else//ako nqma
                 {
                     AverageRate = rates / tempCom.Count();
-                    ofst = Math.Round(AverageRate, 2);
+                    ofst = Math.Round(AverageRate, 0);
                 }
                 model.OfferRating = AverageRate;
                 model.OfferRatingStars = ofst;

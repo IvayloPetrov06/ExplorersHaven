@@ -31,7 +31,7 @@ namespace Explorers_Haven.Models
         public string UserIdentityId { get; set; }
 
         public ICollection<Offer>? Offers { get; set; } = new List<Offer>();
-
+        public ICollection<Stay>? Stays { get; set; } = new List<Stay>();
         public ICollection<Booking>? Bookings { get; set; } = new List<Booking>();
         public ICollection<Rating>? Ratings { get; set; } = new List<Rating>();
         public ICollection<Comment>? Comments { get; set; } = new List<Comment>();

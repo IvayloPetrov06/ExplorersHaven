@@ -19,6 +19,9 @@ namespace Explorers_Haven.Models
         public decimal? Price { get; set; }
         public int? Stars { get; set; }
 
+        public int? UserId { get; set; }
+        public User? User { get; set; }
+
 
         public ICollection<Offer>? Offers { get; set; }
         public ICollection<StayAmenity>? StayAmenities { get; set; } = new List<StayAmenity>();

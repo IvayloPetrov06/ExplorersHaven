@@ -237,6 +237,11 @@ namespace Explorers_Haven.DataAccess
                  .HasForeignKey(e => e.StayId)
                  .OnDelete(DeleteBehavior.Cascade);
 
+                b.HasOne(a => a.User)
+                .WithMany(a => a.Stays)
+                .HasForeignKey(a => a.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             });
 
             modelBuilder.Entity<Travel>(b =>

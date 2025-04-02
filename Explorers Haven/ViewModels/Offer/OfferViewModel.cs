@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Explorers_Haven.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Explorers_Haven.ViewModels.Offer
 {
@@ -40,6 +41,8 @@ namespace Explorers_Haven.ViewModels.Offer
         public IFormFile? ImageFileOfferCover { get; set; }
         public SelectList? UserList { get; set; }
         public int? UserId { get; set; }
+        public string? UserComment { get; set; }
+        public int? UserRating { get; set; }
         public OfferViewModel()
         {
             Activities = new List<Models.Activity>(); // Initialize the list
@@ -50,6 +53,5 @@ namespace Explorers_Haven.ViewModels.Offer
             Amenities = new List<Models.Amenity>();
             Users = new List<Models.User>();
         }
-
     }
 }

@@ -6,6 +6,7 @@ using Explorers_Haven.DataAccess;
 using Explorers_Haven.Models;
 using Explorers_Haven.ViewModels.Activity;
 using Explorers_Haven.ViewModels.Offer;
+using Explorers_Haven.ViewModels.Stay;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -321,65 +322,76 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOffer(AddOfferViewModel model)
         {
-            if (ModelState.IsValid)
+            if (model.Discount == null)
             {
-                // var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
-                //User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
-
-                //var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
-
+                model.Discount = 0;
+            }
+            var tempStay = await _offerService.GetOfferAsync(x => x.Name == model.Name);
+            if (tempStay == null)
+            {
                 var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
 
-                // Check if tempUser is null
-                if (tempUser == null)
+                var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
+                /*if (tempUser == null)
                 {
-                    // Handle the case when the user is not found
                     TempData["error"] = "User not found.";
-                    return RedirectToAction("Login", "Account"); // Or wherever you want to redirect the user
+                    return RedirectToAction("Login", "Account");
                 }
-
-                // Log tempUser for debugging
                 Console.WriteLine($"Found user: {tempUser.Email}");
-
-                // Fetch the user from the user service
-                //User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
-
-                //var normalizedEmail = tempUser.Email.Trim().ToLower();
-                //User user = await userService.GetUserAsync(x => x.UserIdentity.Email.Trim().ToLower() == normalizedEmail);
                 var tempUserEmail = tempUser.Email;
                 TempData["error"] = $"TempUser email: {tempUserEmail}";
-
-                var user = await userService.GetUserAsync(x => x.Email == tempUserEmail);
                 TempData["error"] = $"User from userService: {user?.Email}";
 
                 if (user == null)
                 {
-                    // Handle the case when userService doesn't find the user
                     TempData["error"] = "User details not found in the database.";
-                    return RedirectToAction("Login", "Account"); // Or handle accordingly
-                }
+                    return RedirectToAction("Login", "Account");
+                }*/
 
-                // Log the user for debugging
                 Console.WriteLine($"Found user in userService: {user.Email}");
-
-                // Proceed with image upload
-                var imageUploadResult1 = await cloudService.UploadImageAsync(model.Picture);
-
-                var imageUploadResult2 = await cloudService.UploadImageAsync(model.BackPicture);
-
-
-
-
+                
 
                 Offer offer = new Offer
                 {
                     Name = model.Name,
+                    MaxPeople = model.MaxPeople,
+                    Discount = model.Discount,
+                    Disc = model.Disc,
+                    DurationDays = model.DurationDays,
+                    StartDate = model.StartDate,
+                    LastDate = model.LastDate,
+                    Rating = model.Rating,
                     Price = model.Price,
                     UserId = user.Id,
-                    CoverImage = imageUploadResult1,
                     StayId = model.StayId
                 };
-                offer.UserId = user.Id;
+                
+                if (model.Picture != null && model.BackPicture != null)
+                {
+                    var imageUploadResult1 = await cloudService.UploadImageAsync(model.Picture);
+
+                    var imageUploadResult2 = await cloudService.UploadImageAsync(model.BackPicture);
+                    offer.CoverImage = imageUploadResult1;
+                    offer.BackImage = imageUploadResult2;
+                }
+                if (model.Picture != null && model.BackPicture == null)
+                {
+                    var imageUploadResult1 = await cloudService.UploadImageAsync(model.Picture);
+                    offer.CoverImage = imageUploadResult1;
+                    offer.BackImage = "/Images/missing.jpg";
+                }
+                if (model.Picture == null && model.BackPicture != null)
+                {
+                    var imageUploadResult1 = await cloudService.UploadImageAsync(model.BackPicture);
+                    offer.BackImage = imageUploadResult1;
+                    offer.CoverImage = "/Images/missing.jpg";
+                }
+                if (model.Picture == null && model.BackPicture == null)
+                {
+                    offer.CoverImage = "/Images/missing.jpg";
+                    offer.BackImage = "/Images/missing.jpg";
+                }
                 await _offerService.AddOfferAsync(offer);
 
                 return RedirectToAction("Index");
@@ -388,14 +400,6 @@ namespace Explorers_Haven.Controllers
             {
                 return View(model);
             }
-            /*if (ModelState.IsValid)
-            {
-
-                await _offerService.AddOfferAsync(obj);
-                TempData["success"] = "Успешно добавен запис";
-                return RedirectToAction("ListOffers");
-            }
-            return View();*/
         }
 
         
@@ -403,88 +407,3 @@ namespace Explorers_Haven.Controllers
 
 }
 
-/* html index old:
-         * <div class="text-center">
-    <h1 class="display-4">Оферти</h1>
-    <p>Избирайте от хиляди оферти!</p>
-</div>
-
-<h2>Търсете оферти</h2>
-<form asp-action="Index" method="get" class="mb-4">
-
-    <!--<div class="form-group">
-        <label for="Id">Id</label>
-        <input type="text" asp-for="Id" class="form-control" />
-        <select asp-for="Id" asp-items="Model.Offers" class="form-control">
-            <option value="">All Ids</option>
-        </select>
-    </div>-->
-
-    <div class="form-group">
-        <label for="Name">Име</label>
-        <input type="text" asp-for="Search" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Покажи</button>
-
-</form>
-
-
-<h2>Всички налични оферти</h2>
-<table class="table tabl-striped">
-    <thead>
-        <tr>
-            <th>ИД</th>
-            <th>Име</th>
-            <th>Цена</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model.Offers.Count > 0)
-        {
-            @foreach (var offer in Model.Offers)
-            {
-                <tr>
-                    <td>@offer.Id</td>
-                    <td>@offer.Name</td>
-                    <td>@offer.Price</td>
-                </tr>
-            }
-        }
-    </tbody>
-
-</table>
-         * 
-         * html shared
-         *
-         * <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="Index">Search</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Offer" asp-action="ListOffers">ListOffers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Trip" asp-action="Index">Search</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Trip" asp-action="ListTrips">ListTrips</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Stay" asp-action="Index">Search</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Stay" asp-action="ListStays">ListStays</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Activity" asp-action="Index">Search</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Activity" asp-action="ListActivities">ListActivities</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Travel" asp-action="Index">Search</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Travel" asp-action="ListTravels">ListTravels</a>
-                        </li>
-         */

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Explorers_Haven.Controllers
 {
@@ -155,7 +156,7 @@ namespace Explorers_Haven.Controllers
                     Title = x.Name,
                     ImageUrl = x.Image,
                     Disc = x.Disc,
-                    Price = x.Price.Value.ToString(),
+                    Price = x.Price.Value,
                     Stars = x.Stars.Value,
                     UserId = x.UserId,
                     UserList = new SelectList(userService.GetAll(), "Id", "Username"),
@@ -168,10 +169,10 @@ namespace Explorers_Haven.Controllers
             {
                 if (sam.StayId == Id)
                 {
-                    list.Add(sam.Id);
+                    list.Add(sam.AmenityId.Value);
                 }
             }
-            model.SelectedAmenities = list.OrderByDescending(x=>x).ToArray();
+            model.SelectedAmenities = list.ToArray();
             var ams = _amService.GetAll();
 
             model.Amenities = ams.Select(t => new SelectListItem
@@ -196,7 +197,7 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> EditStay(EditStayViewModel model)
         {
 
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 var sams = _saService.GetAll().ToList();
                 foreach (var sam in sams)
@@ -217,9 +218,9 @@ namespace Explorers_Haven.Controllers
 
                 model.UserList = new SelectList(await userService.GetAllUsersAsync(), "Id", "Username");
                 return View(model);
-            }
+            }*/
 
-            var tempStay = await _stayService.GetStayAsync(x => x.Name == model.Title);
+            var tempStay = await _stayService.GetStayAsync(x => x.Id == model.Id);
             if (tempStay != null)
             {
 
@@ -251,7 +252,7 @@ namespace Explorers_Haven.Controllers
                         {
                             if (item.Id == a)
                             {
-                                var tempSA = await _saService.GetStayAmenityByIdAsync(a);
+                                var tempSA = await _saService.GetStayAmenityAsync(x=>x.AmenityId==a && x.StayId == track.Id);
                                 if (tempSA == null)
                                 {
                                     StayAmenity sa = new StayAmenity()
@@ -270,7 +271,7 @@ namespace Explorers_Haven.Controllers
                     var sams = _saService.GetAll().ToList();
                     foreach (var item in sams)
                     {
-                        if (item.StayId == model.Id)
+                        if (item.StayId == track.Id)
                         {
                             await _saService.DeleteStayAmenityAsync(item);
                         }
@@ -280,7 +281,7 @@ namespace Explorers_Haven.Controllers
                 track.Name = model.Title;
                 track.UserId = user.Id;
                 track.Disc = model.Disc;
-                track.Price = decimal.Parse(model.Price);
+                track.Price = model.Price;
                 track.Stars = model.Stars;
 
 

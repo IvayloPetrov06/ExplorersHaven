@@ -7,7 +7,7 @@ namespace Explorers_Haven.ViewModels.Stay
         public int Id { get; set; }
         public string Title { get; set; }
         public string Disc { get; set; }
-        public string Price { get; set; }
+        public decimal Price { get; set; }
         public int Stars { get; set; }
 
 

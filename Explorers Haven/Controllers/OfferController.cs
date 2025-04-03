@@ -21,6 +21,7 @@ namespace Explorers_Haven.Controllers
         private readonly ITravelService _travelService;
         private readonly IActivityService _activityService;
         private readonly IFavoriteService _favoriteService;
+        private readonly IBookingService _bookingService;
         private readonly IStayService _stayService;
         private readonly ICommentService _commentService;
         IUserService userService;
@@ -28,8 +29,12 @@ namespace Explorers_Haven.Controllers
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public OfferController(ICommentService commentService,UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IStayService stayService, IUserService userService)
+        public OfferController(IActivityService activityService, IBookingService bookingService,IFavoriteService favoriteService, ITravelService travelService, ICommentService commentService,UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IOfferService offerService, IStayService stayService, IUserService userService)
         {
+            _activityService = activityService;
+            _bookingService = bookingService;
+            _favoriteService = favoriteService;
+            _travelService = travelService;
             this.userService = userService;
             _offerService = offerService;
             _stayService = stayService;
@@ -229,10 +234,10 @@ namespace Explorers_Haven.Controllers
                 
                 await _offerService.DeleteOfferByIdAsync(id);
                 await _commentService.DeleteAllCommentsByOffers(id);
-                await _act.DeleteAllCommentsByOffers(id);
-                await _commentService.DeleteAllCommentsByOffers(id);
-                await _commentService.DeleteAllCommentsByOffers(id);
-                await _commentService.DeleteAllCommentsByOffers(id);
+                await _activityService.DeleteAllActivitysByOffers(id);
+                await _travelService.DeleteAllTravelsByOffers(id);
+                await _favoriteService.DeleteAllFavoritesByOffers(id);
+                await _bookingService.DeleteAllBookingsByOffers(id);
             }
             return RedirectToAction("AllOffer");
         }

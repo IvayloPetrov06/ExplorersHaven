@@ -24,6 +24,6 @@ namespace Explorers_Haven.Models
 
 
         public ICollection<Offer>? Offers { get; set; }
-        public ICollection<StayAmenity>? StayAmenities { get; set; } = new List<StayAmenity>();
+        public ICollection<StayAmenity>? StayAmenities { get; set; }
     }
 }

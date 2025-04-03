@@ -65,7 +65,44 @@ namespace Explorers_Haven.DataAccess
                     Id = 4,
                     Name = "Custom"
                 });
-            
+
+            modelBuilder.Entity<Amenity>().HasData(
+                new Amenity
+                {
+                    Id = 1,
+                    Icon = "/Images/parking.svg",
+                    Name = "Parking places"
+                }
+                );
+
+            modelBuilder.Entity<Amenity>().HasData(
+                new Amenity
+                {
+                    Id = 2,
+                    Icon = "/Images/kitchen.svg",
+                    Name = "Kitchen"
+                }
+                );
+
+            modelBuilder.Entity<Amenity>().HasData(
+                new Amenity
+                {
+                    Id = 3,
+                    Icon = "/Images/usefortheunabled.svg",
+                    Name = "Wheelchair Friendly"
+                }
+                );
+
+            modelBuilder.Entity<Amenity>().HasData(
+                new Amenity
+                {
+                    Id = 4,
+                    Icon = "/Images/wifi.svg",
+                    Name = "Free Wifi"
+                }
+                );
+
+
             modelBuilder.Entity<Offer>().HasData(
                 new Offer {
                     Id = 1,
@@ -115,20 +152,29 @@ namespace Explorers_Haven.DataAccess
                     Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg"
                 }
                 );
-            modelBuilder.Entity<Amenity>().HasData(
-                new Amenity
-                {
-                    Id = 1,
-                    Icon = "/Images/parking.svg",
-                    Name = "Parking places"
-                }
-                );
+            
             modelBuilder.Entity<StayAmenity>().HasData(
                 new StayAmenity
                 {
                     Id = 1,
                     StayId=1,
                     AmenityId=1
+                }
+                );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 2,
+                    StayId = 1,
+                    AmenityId = 2
+                }
+                );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 3,
+                    StayId = 1,
+                    AmenityId = 3
                 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(

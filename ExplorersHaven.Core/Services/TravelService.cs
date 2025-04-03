@@ -57,7 +57,14 @@ namespace Explorers_Haven.Core.Services
             }
             await _repo.UpdateAsync(entity);
         }
-
+        public async Task DeleteAllTravelsByOffers(int Id)
+        {
+            var likes = await _repo.GetAllAsync(x => x.OfferId == Id);
+            foreach (var like in likes)
+            {
+                await _repo.DeleteAsync(like);
+            }
+        }
         public async Task DeleteTravelAsync(Travel entity)
         {
             await _repo.DeleteAsync(entity);

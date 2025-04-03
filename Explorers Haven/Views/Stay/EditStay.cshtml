@@ -1,23 +1,130 @@
-﻿@model Explorers_Haven.Models.Stay
-<form method="post">
-    <div class="row">
-        <div class="mb-3">
-            <label asp-for="Name">Име</label>
-            <input asp-for="Name">
-            <span asp-validation-for="Name" class="alert-danger"></span>
-        </div>
-        @*<h2>Всяка оферта може да има само един престой</h2>
-        <div class="mb-3">
-            <label asp-for="OfferId">Оферти</label>
-            <select asp-for="OfferId" asp-items="ViewBag.Offers" class="form-control">
-                <span asp-validation-for="OfferId" class="alert-danger"></span>
-                <option value="">Изберете оферта</option>
-            </select>
-        </div>*@
+﻿@using Explorers_Haven.ViewModels.Stay
+@model EditStayViewModel
+
+<div class="album-container">
+    <div class="album-header">
+        <h1 class="album-title">Update Track</h1>
     </div>
-    <div class="row">
-        <div class="mb-3">
-            <button type="submit">Въведи</button>
+
+    <form method="post" class="album-form" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ImageUrl" />
+        <div class="album-form-grid">
+            <div class="album-details">
+                <div class="cover-upload-container">
+                    <div class="cover-preview" id="coverPreview">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Model.ImageUrl" class="cover-preview-image" alt="Track Cover">
+                        }
+                        else
+                        {
+                            <svg class="cover-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 16V8M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <span class="upload-text">Update Cover</span>
+                        }
+                    </div>
+                    <input type="file" id="ImageFile" asp-for="ImageFile" accept="image/*" class="cover-upload" />
+                </div>
+
+                <div class="input-group">
+                    <label for="Title">Stay Title</label>
+                    <input type="text" id="Title" placeholder="Enter stay title" asp-for="Title" class="album-input" required />
+                </div>
+
+                <div class="input-group">
+                    <label for="Disc">Stay Discription</label>
+                    <input type="text" id="Title" placeholder="Enter stay discription" asp-for="Disc" class="album-input" required />
+                </div>
+
+                <select class="input-group" name="Stars">
+                    <label for="Stars">Stay Rating</label>
+                    <option value="1">★</option>
+                    <option value="2">★ ★</option>
+                    <option value="3">★ ★ ★</option>
+                    <option value="4">★ ★ ★ ★</option>
+                    <option value="5">★ ★ ★ ★ ★</option>
+                </select>
+
+                <div class="input-group">
+                    <label for="Price">Stay Price</label>
+                    <input type="text" id="Title" placeholder="Enter stay discription" asp-for="Price" class="album-input" required />
+                </div>
+
+                <div>
+                    @for (int i = 0; i < Model.existingAmentities.Length; i++)
+                    {
+                        <div class="checkbox-container">
+                            <div class="form-check form-switch form-check-reverse">
+                                <input name="SelectedAmenities" value="@Model.existingAmentities[i].Id" class="form-check-input" type="checkbox" @(Model.SelectedAmenities.Contains(i) ? "checked" : "") id="flexSwitchCheckReverse_@Model.existingAmentities[i].Id">
+                                <label class="form-check-label" for="flexSwitchCheckReverse_@Model.existingAmentities[i].Id"><img src="@Model.existingAmentities[i].Icon"> @Model.existingAmentities[i].Name</label>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+            <div class="track-selection">
+                
+            </div>
         </div>
-    </div>
-</form>
+
+        <div class="form-actions">
+            <button type="submit" class="album-submit">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Cover image preview
+        const coverInput = document.getElementById('ImageFile');
+        const coverPreview = document.getElementById('coverPreview');
+
+        if (coverPreview.querySelector('.cover-preview-image')) {
+            coverPreview.classList.add('has-image');
+        }
+
+        coverInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    coverPreview.innerHTML = `<img src="${e.target.result}" class="cover-preview-image" alt="Track Cover">`;
+                    coverPreview.classList.add('has-image');
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        coverPreview.addEventListener('click', function () {
+            coverInput.click();
+        });
+
+        // Initialize based on IsYoutube state
+        toggleInput();
+    });
+
+    function toggleInput() {
+        let isYoutube = document.getElementById("IsYoutube").checked;
+        let fileUploadGroup = document.getElementById("fileUploadGroup");
+        let audioUrlGroup = document.getElementById("audioUrlGroup");
+        let fileInput = document.getElementById("audioFile");
+        let audioUrlInput = document.getElementById("AudioUrl");
+
+        if (isYoutube) {
+            fileUploadGroup.classList.add("hidden");
+            fileInput.removeAttribute("required");
+            audioUrlGroup.classList.remove("hidden");
+            audioUrlInput.setAttribute("required", "required");
+        } else {
+            audioUrlGroup.classList.add("hidden");
+            audioUrlInput.removeAttribute("required");
+            fileUploadGroup.classList.remove("hidden");
+            fileInput.removeAttribute("required"); // Not required since AudioUrl can persist
+        }
+    }
+</script>
+
+

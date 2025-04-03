@@ -16,6 +16,7 @@ namespace Explorers_Haven.Core.IServices
         Task UpdateFavoriteAsync(Favorite entity);
         Task DeleteFavoriteAsync(Favorite entity);
         Task DeleteFavoriteByIdAsync(int id);
+        Task DeleteAllFavoritesByOffers(int Id);
         IQueryable<Favorite> AllWithInclude(params Expression<Func<Favorite, object>>[] includes);
         Task<Favorite> GetFavoriteByIdAsync(int id);
         Task<Favorite> GetFavoriteAsync(Expression<Func<Favorite, bool>> filter);

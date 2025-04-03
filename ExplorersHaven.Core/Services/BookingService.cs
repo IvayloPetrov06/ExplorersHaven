@@ -44,6 +44,16 @@ namespace Explorers_Haven.Core.Services
         {
             await _bookingService.DeleteByIdAsync(id);
         }
+        
+
+        public async Task DeleteAllBookingsByOffers(int Id)
+        {
+            var likes = await _bookingService.GetAllAsync(x => x.OfferId == Id);
+            foreach (var like in likes)
+            {
+                await _bookingService.DeleteAsync(like);
+            }
+        }
 
         public IQueryable<Booking> GetAll()
         {

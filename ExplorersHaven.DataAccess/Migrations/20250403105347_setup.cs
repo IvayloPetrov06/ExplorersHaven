@@ -473,7 +473,13 @@ namespace Explorers_Haven.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "Amenities",
                 columns: new[] { "Id", "Icon", "Name" },
-                values: new object[] { 1, "/Images/parking.svg", "Parking places" });
+                values: new object[,]
+                {
+                    { 1, "/Images/parking.svg", "Parking places" },
+                    { 2, "/Images/kitchen.svg", "Kitchen" },
+                    { 3, "/Images/usefortheunabled.svg", "Wheelchair Friendly" },
+                    { 4, "/Images/wifi.svg", "Free Wifi" }
+                });
 
             migrationBuilder.InsertData(
                 table: "Stays",
@@ -510,7 +516,12 @@ namespace Explorers_Haven.DataAccess.Migrations
             migrationBuilder.InsertData(
                 table: "StayAmenity",
                 columns: new[] { "Id", "AmenityId", "StayId" },
-                values: new object[] { 1, 1, 1 });
+                values: new object[,]
+                {
+                    { 1, 1, 1 },
+                    { 2, 2, 1 },
+                    { 3, 3, 1 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Activites",

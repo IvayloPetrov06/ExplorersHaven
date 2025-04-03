@@ -17,6 +17,7 @@ namespace Explorers_Haven.Core.IServices
         Task UpdateActivityAsync(Models.Activity entity);
         Task DeleteActivityAsync(Models.Activity entity);
         Task DeleteActivityByIdAsync(int id);
+        Task DeleteAllActivitysByOffers(int Id);
         IQueryable<Models.Activity> CombinedInclude(params Expression<Func<Models.Activity, object>>[] includes);
         Task<Models.Activity> GetActivityByIdAsync(int id);
         Task<Models.Activity> GetActivityAsync(Expression<Func<Models.Activity, bool>> filter);

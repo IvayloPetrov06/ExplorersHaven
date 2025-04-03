@@ -39,13 +39,13 @@ namespace Explorers_Haven.Core.Services
             return _repo.GetAll();
         }
 
-        public Task AddOfferAsync(Offer entity)
+        public async Task AddOfferAsync(Offer entity)
         {
             if (!ValidateOffer(entity))
             {
                 throw new ArgumentException("The offer is not valid!");
             }
-            return _repo.AddAsync(entity);
+            await _repo.AddAsync(entity);
         }
 
         public async Task UpdateOfferAsync(Offer entity)

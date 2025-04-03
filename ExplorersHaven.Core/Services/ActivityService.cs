@@ -83,6 +83,15 @@ namespace Explorers_Haven.Core.Services
             return query;
         }
 
+        public async Task DeleteAllActivitysByOffers(int Id)
+        {
+            var likes = await _repo.GetAllAsync(x => x.OfferId == Id);
+            foreach (var like in likes)
+            {
+                await _repo.DeleteAsync(like);
+            }
+        }
+
         public async Task<Models.Activity> GetActivityByIdAsync(int id)
         {
             return await _repo.GetByIdAsync(id);

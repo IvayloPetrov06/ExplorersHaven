@@ -16,6 +16,7 @@ namespace Explorers_Haven.Core.IServices
         Task UpdateTravelAsync(Travel entity);
         Task DeleteTravelAsync(Travel entity);
         Task DeleteTravelByIdAsync(int id);
+        Task DeleteAllTravelsByOffers(int Id);
         IQueryable<Travel> CombinedInclude(params Expression<Func<Travel, object>>[] includes);
         Task<Travel> GetTravelByIdAsync(int id);
         Task<Travel> GetTravelAsync(Expression<Func<Travel, bool>> filter);

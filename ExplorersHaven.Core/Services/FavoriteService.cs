@@ -33,7 +33,14 @@ namespace Explorers_Haven.Core.Services
 
             return query;
         }
-
+        public async Task DeleteAllFavoritesByOffers(int Id)
+        {
+            var likes = await _favoriteService.GetAllAsync(x => x.OfferId == Id);
+            foreach (var like in likes)
+            {
+                await _favoriteService.DeleteAsync(like);
+            }
+        }
         public async Task DeleteFavoriteAsync(Favorite entity)
         {
             await _favoriteService.DeleteAsync(entity);

@@ -16,6 +16,7 @@ namespace Explorers_Haven.Core.IServices
         Task UpdateBookingAsync(Booking entity);
         Task DeleteBookingAsync(Booking entity);
         Task DeleteBookingByIdAsync(int id);
+        Task DeleteAllBookingsByOffers(int Id);
         IQueryable<Booking> AllWithInclude(params Expression<Func<Booking, object>>[] includes);
         Task<Booking> GetBookingByIdAsync(int id);
         Task<Booking> GetBookingAsync(Expression<Func<Booking, bool>> filter);

@@ -32,13 +32,13 @@ namespace Explorers_Haven.Core.Services
             return _repo.GetAll();
         }
 
-        public Task AddStayAsync(Stay entity)
+        public async Task AddStayAsync(Stay entity)
         {
             if (!ValidateStay(entity))
             {
                 throw new ArgumentException("The stay is not valid!");
             }
-            return _repo.AddAsync(entity);
+            await _repo.AddAsync(entity);
         }
 
         public async Task UpdateStayAsync(Stay entity)

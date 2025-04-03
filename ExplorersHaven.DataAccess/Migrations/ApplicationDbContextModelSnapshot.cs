@@ -111,6 +111,24 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 1,
                             Icon = "/Images/parking.svg",
                             Name = "Parking places"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Icon = "/Images/kitchen.svg",
+                            Name = "Kitchen"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Icon = "/Images/usefortheunabled.svg",
+                            Name = "Wheelchair Friendly"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Icon = "/Images/wifi.svg",
+                            Name = "Free Wifi"
                         });
                 });
 
@@ -433,6 +451,18 @@ namespace Explorers_Haven.DataAccess.Migrations
                         {
                             Id = 1,
                             AmenityId = 1,
+                            StayId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AmenityId = 2,
+                            StayId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AmenityId = 3,
                             StayId = 1
                         });
                 });

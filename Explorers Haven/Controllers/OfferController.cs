@@ -242,76 +242,100 @@ namespace Explorers_Haven.Controllers
             }
             return RedirectToAction("AllOffer");
         }
-        public async Task<IActionResult> EditOffer(int id)
-        {
-            //comments travel activity booking favorite
-            
 
-            var model = _offerService.GetAll().Where(x => x.Id == id).Include(x => x.User)
+        public async Task<IActionResult> EditOffer(int Id)
+        {
+
+            var model = _offerService.GetAll()
+                .Where(x => x.Id == Id)
+                .Include(x => x.User)
                 .Select(x => new EditOfferViewModel()
                 {
-                    OfferCover = x.CoverImage,
+                    Id = x.Id,
+                    MaxPeople = x.MaxPeople,
+                    Discount = x.Discount,
+                    Disc = x.Disc,
+                    StartDate = x.StartDate,
+                    LastDate = x.LastDate,
+                    Rating = x.Rating,
                     Price = x.Price,
                     Name = x.Name,
                     UserId = x.UserId,
-                    UserList = new SelectList(userService.GetAll(), "Id", "Username"),
-                    StayId = x.StayId
-                }).FirstOrDefault();
+                })
+                .FirstOrDefault();
 
-            var stays = _stayService.GetAll();
-            ViewBag.Stays = new SelectList(stays, "Id", "Name");
+            
+
+            if (model == null)
+            {
+                return NotFound();
+            }
 
             return View(model);
+
+
         }
         [HttpPost]
-        public async Task<IActionResult> EditOffer(int id, EditOfferViewModel model)
+        public async Task<IActionResult> EditOffer(EditOfferViewModel model)//ImageUrl
         {
-            if (!ModelState.IsValid)
+
+
+            var tempOffer = await _offerService.GetOfferByIdAsync(x => x.Id == model.Id);
+            if (tempOffer != null)
             {
-                model.UserList = new SelectList(await userService.GetAllUsersAsync(), "Id", "Username");
 
-                return View(model);
-            }
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                User user = await userService.GetUserAsync(x => x.Email == tempUser.Email);
 
-            if (model.ImageFile != null)
-            {
-                var imageUploadResult = await cloudService.UploadImageAsync(model.ImageFile);
+                Offer track = _offerService.GetAll().FirstOrDefault(x => x.Id == model.Id);
+                if (track == null)
+                    return NotFound();
 
-                Offer offer = _offerService.GetAll().Where(x => x.Id == id).FirstOrDefault();
-                offer.Name = model.Name;
-                offer.Price = model.Price;
-                offer.CoverImage = imageUploadResult;
-                offer.UserId = model.UserId;
-                offer.StayId = model.StayId;
 
-                await _offerService.UpdateOfferAsync(offer);
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                Offer offer = _offerService.GetAll().Where(x => x.Id == id).FirstOrDefault();
-                offer.Name = model.Name;
-                offer.Price = model.Price;
-                offer.CoverImage = model.OfferCover;
-                offer.UserId = model.UserId;
-                offer.StayId = model.StayId;
+                if (model.Picture != null)
+                {
+                    var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
+                    track.CoverImage = imageUploadResult;
+                }
+                else
+                {
+                    track.CoverImage = model.CoverImage;
+                }
+                if (model.BackPicture != null)
+                {
+                    var imageUploadResult = await cloudService.UploadImageAsync(model.BackPicture);
+                    track.BackImage = imageUploadResult;
+                }
+                else
+                {
+                    track.BackImage = model.BackImage;
+                }
 
-                await _offerService.UpdateOfferAsync(offer);
-                return RedirectToAction("Index");
-            }
-            /*if (ModelState.IsValid)
-            {
-                //_offerService.UpdateOfferAsync(obj);
-                await _offerService.UpdateOfferAsync(obj);
+
+
+                track.MaxPeople = model.MaxPeople;
+                track.Discount = model.Discount;
+                track.Disc = model.Disc;
+                track.StartDate = model.StartDate;
+                track.LastDate = model.LastDate;
+                track.Rating = model.Rating;
+                track.Price = model.Price;
+                track.Name = model.Name;
+                track.UserId = model.UserId;
+
+
+
+                await _offerService.UpdateOfferAsync(track);
                 TempData["success"] = "Успешно редактиран запис";
-                return RedirectToAction("ListOffers");
             }
             else
             {
-                TempData["error"] = "Неуспешна редакция";
-                return View(obj);
-            }*/
+                TempData["error"] = "Това място за престой не съществува";
+            }
+            return RedirectToAction("AllOffer");
+
         }
+
         public async Task<IActionResult> AddOffer()
         {
             var stays = _stayService.GetAll();
@@ -333,21 +357,6 @@ namespace Explorers_Haven.Controllers
                 User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
 
                 var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
-                /*if (tempUser == null)
-                {
-                    TempData["error"] = "User not found.";
-                    return RedirectToAction("Login", "Account");
-                }
-                Console.WriteLine($"Found user: {tempUser.Email}");
-                var tempUserEmail = tempUser.Email;
-                TempData["error"] = $"TempUser email: {tempUserEmail}";
-                TempData["error"] = $"User from userService: {user?.Email}";
-
-                if (user == null)
-                {
-                    TempData["error"] = "User details not found in the database.";
-                    return RedirectToAction("Login", "Account");
-                }*/
 
                 Console.WriteLine($"Found user in userService: {user.Email}");
                 
@@ -394,7 +403,7 @@ namespace Explorers_Haven.Controllers
                 }
                 await _offerService.AddOfferAsync(offer);
 
-                return RedirectToAction("Index");
+                return RedirectToAction("AllOffer");
             }
             else
             {

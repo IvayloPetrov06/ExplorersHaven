@@ -197,28 +197,6 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> EditStay(EditStayViewModel model)
         {
 
-            /*if (!ModelState.IsValid)
-            {
-                var sams = _saService.GetAll().ToList();
-                foreach (var sam in sams)
-                {
-                    if (sam.StayId == model.Id)
-                    {
-                        model.SelectedAmenities.Append(sam.Id);
-                    }
-                }
-                var ams = _amService.GetAll();
-
-                model.Amenities = ams.Select(t => new SelectListItem
-                {
-                    Value = t.Id.ToString(),
-                    Text = t.Name
-                }).ToList();
-                model.existingAmentities = ams.ToArray();
-
-                model.UserList = new SelectList(await userService.GetAllUsersAsync(), "Id", "Username");
-                return View(model);
-            }*/
 
             var tempStay = await _stayService.GetStayAsync(x => x.Id == model.Id);
             if (tempStay != null)

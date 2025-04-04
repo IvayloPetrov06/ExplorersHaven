@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorers_Haven.Models", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorers_Haven.DataAccess", "ExplorersHaven.DataAccess\Explorers_Haven.DataAccess.csproj", "{99AD5E6E-6DC7-479A-9C3D-81F197DE685A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Explorers_Haven.Tests", "Explorers_Haven.Tests\Explorers_Haven.Tests.csproj", "{E39B3323-CEB0-46CC-814F-7D6F952A19E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{99AD5E6E-6DC7-479A-9C3D-81F197DE685A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99AD5E6E-6DC7-479A-9C3D-81F197DE685A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99AD5E6E-6DC7-479A-9C3D-81F197DE685A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E39B3323-CEB0-46CC-814F-7D6F952A19E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E39B3323-CEB0-46CC-814F-7D6F952A19E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E39B3323-CEB0-46CC-814F-7D6F952A19E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E39B3323-CEB0-46CC-814F-7D6F952A19E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,19 +20,6 @@ namespace Explorers_Haven.Core.Services
         {
             _repo = repo;
         }
-        private bool ValidateOffer(Offer entity)
-        {
-            return true;
-            //var validator = new OfferValidator(_repo);
-            //if (!validator.ValidateInput(entity.Name))
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
-        }
 
         public IQueryable<Offer> GetAll()
         {
@@ -41,19 +28,11 @@ namespace Explorers_Haven.Core.Services
 
         public async Task AddOfferAsync(Offer entity)
         {
-            if (!ValidateOffer(entity))
-            {
-                throw new ArgumentException("The offer is not valid!");
-            }
             await _repo.AddAsync(entity);
         }
 
         public async Task UpdateOfferAsync(Offer entity)
         {
-            if (!ValidateOffer(entity))
-            {
-                throw new ArgumentException("The offer is not valid!");
-            }
             await _repo.UpdateAsync(entity);
         }
 
@@ -65,8 +44,6 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteOfferByIdAsync(int id)
         {
-            //var validator = new OfferValidator(_repo);
-            //bool exists = OfferValidator.OfferExists(id, _repo);
             if (true)
             {
                 await _repo.DeleteByIdAsync(id);
@@ -123,61 +100,5 @@ namespace Explorers_Haven.Core.Services
 
             return names;
         }
-
-        /*public Travelogue GetById(int id)
-        {
-            return _repo.Get(id);
-        }
-
-         public Travelogue Add(Travelogue travelogue)
-         {
-             if (!ValidateTravelogue(travelogue))
-             {
-                 throw new ArgumentException("The travelogue is not valid!");
-             }
-             return _repo.Add(travelogue);
-
-         }
-
-
-         public void Update(Travelogue travelogue)
-         {
-             if (!ValidateTravelogue(travelogue))
-             {
-                 throw new ArgumentException("The travelogue is not valid!");
-             }
-             _repo.Update(travelogue);
-         
-
-        public void Delete(int id)
-        {
-            var validator = new TravelogueValidator(_repo);
-            if (validator.TravelogueExists(id))
-            {
-                _repo.Delete(id);
-            }
-
-        } 
-
-        public List<Travelogue> GetAll()
-        {
-            return _repo.GetAll();
-        }
-
-        public List<Travelogue> Find(Expression<Func<Travelogue, bool>> filter)
-        {
-            return _repo.Find(filter);
-        }
-
-        public Travelogue Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Travelogue> CheckIfExists(List<int> id)
-        {
-            throw new NotImplementedException();
-        }
-        */
     }
 }

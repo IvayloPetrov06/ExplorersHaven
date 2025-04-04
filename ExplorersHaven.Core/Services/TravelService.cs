@@ -21,40 +21,18 @@ namespace Explorers_Haven.Core.Services
             this._repo = repo;
         }
 
-        private bool ValidateTravel(Travel tr)
-        {
-            return true;
-            //var validator = new TravelValidator(_repo);
-            //if (!validator.ValidateInput(tr.Start) && !validator.ValidateInput(tr.Finish))
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
-        }
-
         public IQueryable<Travel> GetAll()
         {
             return _repo.GetAll();
         }
 
         public async Task AddTravelAsync(Travel entity)
-        {
-            if (!ValidateTravel(entity))
-            {
-                throw new ArgumentException("The travel is not valid!");
-            }
+        { 
             await _repo.AddAsync(entity);
         }
 
         public async Task UpdateTravelAsync(Travel entity)
         {
-            if (!ValidateTravel(entity))
-            {
-                throw new ArgumentException("The travel is not valid!");
-            }
             await _repo.UpdateAsync(entity);
         }
         public async Task DeleteAllTravelsByOffers(int Id)
@@ -72,8 +50,7 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteTravelByIdAsync(int id)
         {
-            //var validator = new TravelValidator(_repo);
-            if (true)//validator.TravelExists(id))
+            if (true)
             {
                 await _repo.DeleteByIdAsync(id);
             }
@@ -110,71 +87,5 @@ namespace Explorers_Haven.Core.Services
         {
             return await _repo.GetAllAsync();
         }
-
-        /*private bool ValidateTravel(Travel tr)
-        {
-            var validator = new TravelValidator(_repo);
-            if (!validator.ValidateInput(tr.Start)&&!validator.ValidateInput(tr.Finish))
-            { 
-              return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        public Travel GetById(int id)
-        {
-            return _repo.Get(id);
-        }
-
-        public Travel Add(Travel tr)
-        {
-            if (!ValidateTravel(tr))
-            {
-                throw new ArgumentException("The travel is not valid!");
-            }
-            return _repo.Add(tr);
-
-        }
-
-
-        public void Update(Travel tr)
-        {
-            if (!ValidateTravel(tr))
-            {
-                throw new ArgumentException("The travel is not valid!");
-            }
-            _repo.Update(tr);
-        }
-
-        public void Delete(int id)
-        {
-            var validator = new TravelValidator(_repo);
-            if (validator.TravelExists(id))
-            {
-                _repo.Delete(id);
-            }
-        }
-
-        public List<Travel> GetAll()
-        {
-            return _repo.GetAll();
-        }
-
-        public List<Travel> Find(Expression<Func<Travel, bool>> filter)
-        {
-            return _repo.Find(filter);
-        }
-
-        public Travel Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Travel> CheckIfExists(List<int> id)
-        {
-            throw new NotImplementedException();
-        }*/
     }
 }

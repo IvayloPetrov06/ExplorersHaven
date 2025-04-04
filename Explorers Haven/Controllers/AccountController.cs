@@ -68,7 +68,7 @@ namespace Explorers_Haven.Controllers
 
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "User"); // По подразбиране новите потребители са "User" 
+                    await _userManager.AddToRoleAsync(user, "User");
 
                                    await _signInManager.SignInAsync(user, isPersistent: false);
                     User user2 = new User()

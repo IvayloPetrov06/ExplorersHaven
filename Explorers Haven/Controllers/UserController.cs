@@ -41,17 +41,15 @@ namespace Explorers_Haven.Controllers
             var users = await userService.GetAllUsersAsync();
             return View(users);
         }
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            if (id != null)
-            {
-                await userService.DeleteUserByIdAsync(id);
-                return RedirectToAction("AllUsers");
-            }
-            else
+            if (id == null)
             {
                 return RedirectToAction("AllUsers");
             }
+
+            await userService.DeleteUserByIdAsync(id.Value);
+            return RedirectToAction("AllUsers");
         }
         [HttpPost]
         public async Task<IActionResult> Profile(UserViewModel model)

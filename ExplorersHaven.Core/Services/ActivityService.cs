@@ -21,20 +21,6 @@ namespace Explorers_Haven.Core.Services
             this._repo = repo;
         }
 
-        private bool ValidateActivity(Models.Activity act)
-        {
-            return true;
-            //var validator = new ActivityValidator(_repo);
-            //if (!validator.ValidateInput(act.Name))
-            //{
-            //    return false;
-            //}
-            //else
-            //{
-            //    return true;
-            //}
-        }
-
         public IQueryable<Models.Activity> GetAll()
         {
             return _repo.GetAll();
@@ -42,19 +28,11 @@ namespace Explorers_Haven.Core.Services
 
         public Task AddActivityAsync(Models.Activity entity)
         {
-            if (!ValidateActivity(entity))
-            {
-                throw new ArgumentException("The activity is not valid!");
-            }
             return _repo.AddAsync(entity);
         }
 
         public async Task UpdateActivityAsync(Models.Activity entity)
         {
-            if (!ValidateActivity(entity))
-            {
-                throw new ArgumentException("The activity is not valid!");
-            }
             await _repo.UpdateAsync(entity);
         }
 
@@ -65,8 +43,7 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteActivityByIdAsync(int id)
         {
-            //var validator = new ActivityValidator(_repo);
-            if (true)//validator.ActivityExists(id))
+            if (true)
             {
                 await _repo.DeleteByIdAsync(id);
             }
@@ -111,75 +88,6 @@ namespace Explorers_Haven.Core.Services
         {
             return await _repo.GetAllAsync();
         }
-
-        /*
-        private bool ValidateActivity(Models.Activity activity)
-        {
-            var validator = new ActivityValidator(_repo);
-            if (!validator.ValidateInput(activity.Name))
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
-        }
-        public Models.Activity GetById(int id)
-        {
-            return _repo.Get(id);
-        }
-
-        public Models.Activity Add(Models.Activity activity)
-        {
-            if (!ValidateActivity(activity))
-            {
-                throw new ArgumentException("The activity is not valid!");
-            }
-            return _repo.Add(activity);
-
-        }
-
-
-        public void Update(Models.Activity activity)
-        {
-            if (!ValidateActivity(activity))
-            {
-                throw new ArgumentException("The activity is not valid!");
-            }
-            _repo.Update(activity);
-        }
-
-        public void Delete(int id)
-        {
-            var validator = new ActivityValidator(_repo);
-            if (validator.ActivityExists(id))
-            {
-                _repo.Delete(id);
-            }
-
-        }
-
-        public List<Models.Activity> GetAll()
-        {
-            return _repo.GetAll();
-        }
-
-        public List<Models.Activity> Find(Expression<Func<Models.Activity, bool>> filter)
-        {
-            return _repo.Find(filter);
-        }
-
-        public Models.Activity Get(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Models.Activity> CheckIfExists(List<int> id)
-        {
-            throw new NotImplementedException();
-        }*/
-
 
     }
 }

@@ -18,11 +18,6 @@ namespace Explorers_Haven.Models
         public decimal? Price { get; set; }
         public string? OfferName { get; set; }
         public int? DurationDays { get; set; }
-        /*public int? MaxPeople { get; set; }
-        public int? Discount { get; set; }
-        public int? DurationDays { get; set; }
-        public DateOnly? StartDate { get; set; }
-        public DateOnly? LastDate { get; set; }*/
         public int? UserId { get; set; }
 
         public int? OfferId { get; set; }

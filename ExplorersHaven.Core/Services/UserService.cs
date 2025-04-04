@@ -48,6 +48,7 @@ namespace Explorers_Haven.Core.Services
             await _userRepository.DeleteByIdAsync(id);
         }
 
+
         public async Task<IEnumerable<User>> GetAllUsersAsync(Expression<Func<User, bool>> filter)
         {
             return await _userRepository.GetAllAsync(filter);

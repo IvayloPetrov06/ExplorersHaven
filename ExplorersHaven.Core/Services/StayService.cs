@@ -22,11 +22,6 @@ namespace Explorers_Haven.Core.Services
             _repo = repo;
         }
 
-        private bool ValidateStay(Stay stay)
-        {
-            return true;
-        }
-
         public IQueryable<Stay> GetAll()
         {
             return _repo.GetAll();
@@ -34,19 +29,11 @@ namespace Explorers_Haven.Core.Services
 
         public async Task AddStayAsync(Stay entity)
         {
-            if (!ValidateStay(entity))
-            {
-                throw new ArgumentException("The stay is not valid!");
-            }
             await _repo.AddAsync(entity);
         }
 
         public async Task UpdateStayAsync(Stay entity)
         {
-            if (!ValidateStay(entity))
-            {
-                throw new ArgumentException("The stay is not valid!");
-            }
             await _repo.UpdateAsync(entity);
         }
 
@@ -57,8 +44,7 @@ namespace Explorers_Haven.Core.Services
 
         public async Task DeleteStayByIdAsync(int id)
         {
-            //var validator = new StayValidator(_repo);
-            if (true)//validator.StayExists(id)
+            if (true)
             {
                 await _repo.DeleteByIdAsync(id);
             }

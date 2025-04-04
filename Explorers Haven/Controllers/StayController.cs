@@ -95,9 +95,6 @@ namespace Explorers_Haven.Controllers
                 var filterModel = new StayFilterViewModel
                 {
                     Stays = model,
-                    //Genres = new SelectList(genreService.GetAll(), "Id", "Name"),
-                    //Playlists = playlists.ToList()
-
                 };
                 return View(filterModel);
             }

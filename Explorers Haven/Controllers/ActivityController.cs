@@ -1,8 +1,13 @@
-﻿using Explorers_Haven.Core.IServices;
+﻿using System.Configuration;
+using System.Runtime.InteropServices;
+using CloudinaryDotNet;
+using Explorers_Haven.Core.IServices;
 using Explorers_Haven.Core.Services;
 using Explorers_Haven.Models;
 using Explorers_Haven.ViewModels.Activity;
+using Explorers_Haven.ViewModels.Offer;
 using Explorers_Haven.ViewModels.Travel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +18,28 @@ namespace Explorers_Haven.Controllers
     {
         private readonly IActivityService _actService;
         private readonly IOfferService _offerService;
-        public ActivityController(IActivityService actService, IOfferService offerService)
+        private readonly UserManager<IdentityUser> userManager;
+        IUserService userService;
+
+        private readonly Cloudinary _cloudinary;
+        private readonly IConfiguration _configuration;
+        CloudinaryService cloudService;
+        public ActivityController(IConfiguration configuration, CloudinaryService cloud, IUserService userService, UserManager<IdentityUser> _userManager, IActivityService actService, IOfferService offerService)
         {
             _actService = actService;
             _offerService = offerService;
+            this.userService = userService;
+            userManager = _userManager;
+
+            this.cloudService = cloud;
+
+            _configuration = configuration;
+            var account = new Account(
+           _configuration["Cloudinary:CloudName"],
+           _configuration["Cloudinary:ApiKey"],
+           _configuration["Cloudinary:ApiSecret"]
+             );
+            _cloudinary = new Cloudinary(account);
 
         }
 
@@ -55,9 +78,9 @@ namespace Explorers_Haven.Controllers
             {
                 await _actService.DeleteActivityByIdAsync(id);
                 TempData["success"] = "Успешно изтро събитие";
-                return RedirectToAction("AllActivities");
+                return RedirectToAction("AllActivity");
             }
-            return RedirectToAction("AllActivities");
+            return RedirectToAction("AllActivity");
         }
 
         public async Task<IActionResult> AllActivity(ActivityFilterViewModel? filter)
@@ -115,26 +138,61 @@ namespace Explorers_Haven.Controllers
 
         public async Task<IActionResult> EditActivity(int Id)
         {
-            Activity act = await _actService.GetActivityByIdAsync(Id);
-            if (act == null) { return NotFound(); }
+
+            var model = _actService.GetAll()
+                .Where(x => x.Id == Id)
+                .Include(x => x.User)
+                .Select(x => new EditActivityViewModel()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    UserId = x.UserId,
+                    CoverImage = x.CoverImage,
+                    OfferId = x.OfferId,
+                })
+                .FirstOrDefault();
             var offers = _offerService.GetAllOfferAsync().Result;
             ViewBag.Offers = new SelectList(offers, "Id", "Name");
-            return View(act);
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditActivity(Activity obj)
+        public async Task<IActionResult> EditActivity(EditActivityViewModel model)
         {
-            if (ModelState.IsValid)
+
+            var tempac = await _actService.GetActivityAsync(x => x.Id == model.Id);
+            if (tempac != null)
             {
-                await _actService.UpdateActivityAsync(obj);
-                TempData["success"] = "Успешно редактирано събитие";
-                return RedirectToAction("ListActivities");
+
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                User user = await userService.GetUserAsync(x => x.Email == tempUser.Email);
+
+                Activity track = _actService.GetAll().FirstOrDefault(x => x.Id == model.Id);
+                if (track == null)
+                    return NotFound();
+
+
+                if (model.Picture != null)
+                {
+                    var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
+                    track.CoverImage = imageUploadResult;
+                }
+
+
+
+                track.OfferId = model.OfferId.Value;
+                track.Name = model.Name;
+                track.UserId = user.Id;
+
+
+
+                await _actService.UpdateActivityAsync(track);
+                TempData["success"] = "Успешно редактиран запис";
             }
             else
             {
-                TempData["error"] = "Неуспешна редакция";
-                return View(obj);
+                TempData["error"] = "Това място за престой не съществува";
             }
+            return RedirectToAction("AllActivity");
         }
         public async Task<IActionResult> AddActivity()
         {
@@ -143,12 +201,45 @@ namespace Explorers_Haven.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddActivity(Activity obj)
+        public async Task<IActionResult> AddActivity(AddActivityViewModel model)
         {
-            
-             await _actService.AddActivityAsync(obj);
-             TempData["success"] = "Успешно добавен събитие";
-             return RedirectToAction("ListActivities");
+            var tempStay = await _actService.GetActivityAsync(x => x.Name == model.Name);
+            if (tempStay == null)
+            {
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
+
+                var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
+
+                Console.WriteLine($"Found user in userService: {user.Email}");
+
+
+                Activity offer = new Activity
+                {
+                    Name = model.Name,
+
+                    OfferId = model.OfferId.Value,
+                    UserId = user.Id,
+                };
+
+                if (model.Picture != null )
+                {
+
+                    var imageUploadResult1 = await cloudService.UploadImageAsync(model.Picture);
+                    offer.CoverImage = imageUploadResult1;
+                }
+                else
+                {
+                    offer.CoverImage = "/Images/missing.jpg";
+                }
+                await _actService.AddActivityAsync(offer);
+                TempData["success"] = "Успешно добавяне";
+                return RedirectToAction("AllActivity");
+            }
+            else
+            {
+                return View(model);
+            };
             
         }
     }

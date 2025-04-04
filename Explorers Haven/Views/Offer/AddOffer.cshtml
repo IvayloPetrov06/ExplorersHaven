@@ -91,6 +91,13 @@
             gap: 20px;
         }
 
+        /* Side-by-side image upload containers */
+        .images-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
         .cover-upload-container {
             width: 100%;
             max-width: 300px;
@@ -170,19 +177,58 @@
                 width: 100%;
             }
 
-            .input-group select {
-                appearance: none;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-position: right 10px center;
-                padding-right: 30px;
+        /* Enhanced dropdown styling */
+        .select-container {
+            position: relative;
+        }
+
+        .styled-select {
+            appearance: none;
+            padding: 14px;
+            border-radius: var(--border-radius);
+            border: 1px solid var(--dark-border);
+            font-size: 15px;
+            color: var(--text-color);
+            background-color: var(--white);
+            width: 100%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+            .styled-select:focus {
+                outline: none;
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 3px rgba(38,129,255,0.2);
             }
 
-                .album-input:focus,
-                .input-group select:focus {
-                    outline: none;
-                    border-color: var(--primary-color);
-                }
+        .select-arrow {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            pointer-events: none;
+            font-size: 16px;
+        }
+
+        .styled-select option {
+            padding: 10px;
+        }
+
+        .input-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 30px;
+        }
+
+            .album-input:focus,
+            .input-group select:focus {
+                outline: none;
+                border-color: var(--primary-color);
+            }
 
         /* Updated amenities section styling */
         .amenities-section {
@@ -291,6 +337,14 @@
         .hidden {
             display: none;
         }
+
+        /* Alert message styling */
+        .alert-danger {
+            color: #721c24;
+            font-size: 12px;
+            margin-top: 5px;
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -304,24 +358,27 @@
             <form method="post" class="album-form" enctype="multipart/form-data">
                 <div class="album-form-grid">
                     <div class="album-details">
-                        <div class="cover-upload-container">
-                            <div class="cover-preview" id="coverPreview">
-                                <svg class="cover-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 16V8M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <span class="upload-text">Upload Image</span>
+                        <!-- Images container for side-by-side layout -->
+                        <div class="images-container">
+                            <div class="cover-upload-container">
+                                <div class="cover-preview" id="coverPreview">
+                                    <svg class="cover-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 16V8M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <span class="upload-text">Upload Image</span>
+                                </div>
+                                <input type="file" id="coverImage" asp-for="Picture" accept="image/*" class="cover-upload" />
                             </div>
-                            <input type="file" id="imageFile" asp-for="Picture" accept="image/*" class="cover-upload" />
-                        </div>
 
-                        <div class="cover-upload-container">
-                            <div class="cover-preview" id="coverPreview">
-                                <svg class="cover-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M12 16V8M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </svg>
-                                <span class="upload-text">Upload Background Image</span>
+                            <div class="cover-upload-container">
+                                <div class="cover-preview" id="backPreview">
+                                    <svg class="cover-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M12 16V8M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <span class="upload-text">Upload Background Image</span>
+                                </div>
+                                <input type="file" id="backImage" asp-for="BackPicture" accept="image/*" class="cover-upload" />
                             </div>
-                            <input type="file" id="imageFile" asp-for="BackPicture" accept="image/*" class="cover-upload" />
                         </div>
 
                         <div class="input-group">
@@ -331,10 +388,15 @@
 
                         <div class="input-group">
                             <label asp-for="StayId">Stay</label>
-                            <select asp-for="StayId" asp-items="ViewBag.Stays" class="form-control">
+                            <div class="select-container">
+                                <select asp-for="StayId" asp-items="ViewBag.Stays" class="styled-select">
+                                    <option value="">Select a stay</option>
+                                </select>
+                                <div class="select-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
                                 <span asp-validation-for="StayId" class="alert-danger"></span>
-                                <option value="">Изберете престой</option>
-                            </select>
+                            </div>
                         </div>
 
                         <div class="input-group">
@@ -348,7 +410,7 @@
                         </div>
 
                         <div class="input-group">
-                            <label for="MaxPeople">Maximum npeople</label>
+                            <label for="MaxPeople">Maximum people</label>
                             <input type="text" id="MaxPeople" placeholder="Enter Maximum number of people per trip" asp-for="MaxPeople" class="album-input" required />
                         </div>
 
@@ -369,25 +431,27 @@
 
                         <div class="input-group">
                             <label for="Stars">Offer Rating</label>
-                            <select id="Stars" name="Rating" class="album-input">
-                                <option value="1">★</option>
-                                <option value="2">★ ★</option>
-                                <option value="3">★ ★ ★</option>
-                                <option value="4">★ ★ ★ ★</option>
-                                <option value="5">★ ★ ★ ★ ★</option>
-                            </select>
+                            <div class="select-container">
+                                <select id="Stars" name="Rating" class="styled-select">
+                                    <option value="1">★</option>
+                                    <option value="2">★ ★</option>
+                                    <option value="3">★ ★ ★</option>
+                                    <option value="4">★ ★ ★ ★</option>
+                                    <option value="5">★ ★ ★ ★ ★</option>
+                                </select>
+                                <div class="select-arrow">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="input-group">
                             <label for="Price">Offer Price</label>
                             <input type="text" id="Price" placeholder="Enter stay price" asp-for="Price" class="album-input" required />
                         </div>
-
-                        
                     </div>
 
                     <div class="track-selection">
-                        
                     </div>
                 </div>
 
@@ -401,7 +465,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Cover image preview
-            const coverInput = document.getElementById('imageFile');
+            const coverInput = document.getElementById('coverImage');
             const coverPreview = document.getElementById('coverPreview');
 
             coverInput.addEventListener('change', function() {
@@ -417,21 +481,48 @@
                 }
             });
 
-            // Click to trigger file upload
+            // Click to trigger file upload for cover image
             coverPreview.addEventListener('click', function() {
                 coverInput.click();
             });
 
-            // Update amenities counter
+            // Background image preview
+            const backInput = document.getElementById('backImage');
+            const backPreview = document.getElementById('backPreview');
+
+            backInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        backPreview.innerHTML = `<img src="${e.target.result}" class="cover-preview-image" alt="Background Image">`;
+                        backPreview.classList.add('has-image');
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+
+            // Click to trigger file upload for background image
+            backPreview.addEventListener('click', function() {
+                backInput.click();
+            });
+
+            // Update amenities counter if present
             const updateAmenitiesCount = function() {
                 const totalAmenities = document.querySelectorAll('.form-check-input').length;
                 const selectedAmenities = document.querySelectorAll('.form-check-input:checked').length;
 
-                document.getElementById('selectedCount').textContent = selectedAmenities;
-                document.getElementById('totalCount').textContent = totalAmenities;
+                const selectedCountElement = document.getElementById('selectedCount');
+                const totalCountElement = document.getElementById('totalCount');
+
+                if (selectedCountElement && totalCountElement) {
+                    selectedCountElement.textContent = selectedAmenities;
+                    totalCountElement.textContent = totalAmenities;
+                }
             };
 
-            // Initialize amenities counter
+            // Initialize amenities counter if present
             updateAmenitiesCount();
 
             // Update counter when amenities are selected/deselected

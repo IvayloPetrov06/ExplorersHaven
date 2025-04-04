@@ -6,6 +6,8 @@ using Explorers_Haven.ViewModels.Travel;
 using Explorers_Haven.Core.Services;
 using Explorers_Haven.ViewModels.Stay;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Explorers_Haven.ViewModels.Offer;
 
 namespace Explorers_Haven.Controllers
 {
@@ -13,10 +15,16 @@ namespace Explorers_Haven.Controllers
     {
         private readonly ITravelService _travelService;
         private readonly IOfferService _offerService;
-        public TravelController(ITravelService travelService, IOfferService offerService)
+        private readonly ITransportService _trService;
+        private readonly UserManager<IdentityUser> userManager;
+        IUserService userService;
+        public TravelController(IUserService userService,UserManager<IdentityUser> _userManager, ITransportService trService,ITravelService travelService, IOfferService offerService)
         {
+            _trService = trService;
             _travelService = travelService;
             _offerService = offerService;
+            this.userService = userService;
+            userManager = _userManager;
 
         }
 
@@ -65,7 +73,7 @@ namespace Explorers_Haven.Controllers
                 await _travelService.DeleteTravelByIdAsync(id);
             }
             TempData["success"] = "Успешно изтрит запис";
-            return RedirectToAction("AllTravels");
+            return RedirectToAction("AllTravel");
         }
 
         public async Task<IActionResult> AllTravel(TravelFilterViewModel? filter)
@@ -126,40 +134,148 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> EditTravel(int Id)
         {
-            var tr = _travelService.GetTravelByIdAsync(Id);
-            if (tr == null) { return NotFound(); }
+            var transports = _trService.GetAll();
+            ViewBag.Transports = new SelectList(transports, "Id", "Name");
             var offers = _offerService.GetAll();
             ViewBag.Offers = new SelectList(offers, "Id", "Name");
-            return View(tr);
 
+            var model = _travelService.GetAll()
+                .Where(x => x.Id == Id)
+                .Include(x => x.User)
+                .Select(x => new EditTravelViewModel()
+                {
+                    Id = x.Id,
+                    Start = x.Start,
+                    Finish = x.Finish,
+                    DurationDays = x.DurationDays,
+                    Arrival = x.Arrival.Value,
+                    TransportId = x.TransportId,
+                    OfferId = x.OfferId,
+                    UserId = x.UserId,
+                })
+                .FirstOrDefault();
+
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditTravel(Travel obj)
+        public async Task<IActionResult> EditTravel(EditTravelViewModel model)
         {
-            if (ModelState.IsValid)
+            var alltrav = await _travelService.GetAllTravelAsync();
+            foreach (var travel in alltrav)
             {
-                await _travelService.UpdateTravelAsync(obj);
-                TempData["success"] = "Успешно редактирано събитие";
-                return RedirectToAction("ListActivities");
+                if (travel.OfferId == model.OfferId)
+                {
+                    if (travel.Id == model.Id && travel.Arrival != model.Arrival)
+                    {
+                        TempData["error"] = "Посоката на пътуване не може да се променя";
+                        var transports = _trService.GetAll();
+                        ViewBag.Transports = new SelectList(transports, "Id", "Name");
+                        var offers = _offerService.GetAll();
+                        ViewBag.Offers = new SelectList(offers, "Id", "Name");
+                        return View(model);
+                    }
+                }
             }
-            else
+            foreach (var travel in alltrav)
             {
-                TempData["error"] = "Неуспешна редакция";
-                return View(obj);
+                if (travel.Id == model.Id)
+                {
+                    if (travel.OfferId != model.OfferId)
+                    {
+                        TempData["error"] = "Офертата не може да се променя";
+                        var transports = _trService.GetAll();
+                        ViewBag.Transports = new SelectList(transports, "Id", "Name");
+                        var offers = _offerService.GetAll();
+                        ViewBag.Offers = new SelectList(offers, "Id", "Name");
+                        return View(model);
+                    }
+                }
             }
+
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+            User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
+
+            Travel track = _travelService.GetAll().FirstOrDefault(x => x.Id == model.Id);
+
+            track.Start = model.Start;
+            track.Finish = model.Finish;
+            track.DurationDays = model.DurationDays;
+            track.Arrival = model.Arrival;
+            track.TransportId = model.TransportId.Value;
+            track.OfferId = model.OfferId.Value;
+            track.UserId = user.Id;
+
+            await _travelService.UpdateTravelAsync(track);
+            TempData["success"] = "Успешно редактиран запис";
+
+            return RedirectToAction("AllTravel");
         }
         public async Task<IActionResult> AddTravel()
         {
+            var transports = _trService.GetAll();
+            ViewBag.Transports = new SelectList(transports, "Id", "Name");
             var offers = _offerService.GetAll();
             ViewBag.Offers = new SelectList(offers, "Id", "Name");
+
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> AddTravel(Travel obj)
+        public async Task<IActionResult> AddTravel(AddTravelViewModel model)
         {
-            await _travelService.AddTravelAsync(obj);
-            TempData["success"] = "Успешно добавен запис";
-            return RedirectToAction("ListTravels");
+            var alltrav = await _travelService.GetAllTravelAsync();
+            foreach (var travel in alltrav) 
+            {
+                if (travel.OfferId == model.OfferId)
+                {
+                    if (travel.Arrival == model.Arrival)
+                    {
+                        if (travel.Arrival == true)
+                        {
+                            TempData["error"] = "Офертата вече има отиване";
+                            var transports = _trService.GetAll();
+                            ViewBag.Transports = new SelectList(transports, "Id", "Name");
+                            var offers = _offerService.GetAll();
+                            ViewBag.Offers = new SelectList(offers, "Id", "Name");
+                            return View(model);
+                        }
+                        else
+                        {
+                            TempData["error"] = "Офертата вече има връщане";
+                            var transports = _trService.GetAll();
+                            ViewBag.Transports = new SelectList(transports, "Id", "Name");
+                            var offers = _offerService.GetAll();
+                            ViewBag.Offers = new SelectList(offers, "Id", "Name");
+                            return View(model);
+                        }
+                    }
+                }
+            }
+            
+                var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
+                User user = await userService.GetUserAsync(x => x.UserIdentity.Email == tempUser.Email);
+
+
+
+                Travel trav = new Travel
+                {
+                    Start = model.Start,
+                    Finish = model.Finish,
+                    DurationDays = model.DurationDays,
+                    Arrival = model.Arrival,
+                    TransportId = model.TransportId.Value,
+                    OfferId = model.OfferId.Value,
+                    UserId = user.Id,
+
+                };
+                await _travelService.AddTravelAsync(trav);
+                TempData["success"] = "Успешно добавен запис";
+            
+            return RedirectToAction("AllTravel");
         }
     }
 }

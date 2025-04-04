@@ -1,23 +1,393 @@
-﻿@model Explorers_Haven.Models.Activity
-<form method="post">
-    <div class="row">
-        <div class="mb-3">
-            <label asp-for="Name">Име</label>
-            <input asp-for="Name">
-            <span asp-validation-for="Name" class="alert-danger"></span>
-        </div>
-        <div class="mb-3">
-            <h2>Всяка оферта може да има само едно събитие</h2>
-            <label asp-for="OfferId">Пътешествие</label>
-            <select asp-for="OfferId" asp-items="ViewBag.Offers" class="form-control">
-                <span asp-validation-for="OfferId" class="alert-danger"></span>
-                <option value="">Изберете пътешествие</option>
-            </select>
+﻿@using Explorers_Haven.ViewModels.Activity
+@model AddActivityViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Stay - Explorers Haven</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2681ff;
+            --secondary-color: #ff6500;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --medium-gray: #e0e0e0;
+            --dark-gray: #666;
+            --white: #fff;
+            --border-radius: 8px;
+            --box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            --discount-color: #e74c3c;
+            --background-color: #f5f7fa;
+            --dark-border: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .album-container {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 1000px;
+        }
+
+        .album-header {
+            padding: 10px 0;
+            border-bottom: 1px solid var(--dark-border);
+            margin-bottom: 25px;
+        }
+
+        .album-title {
+            font-size: 28px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .text-muted {
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .album-form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        media (min-width: 768px) {
+            .album-form-grid
+
+        {
+            grid-template-columns: 1fr 2fr;
+        }
+
+        }
+
+        .album-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .cover-upload-container {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 20px;
+        }
+
+        .cover-preview {
+            width: 100%;
+            padding-bottom: 100%;
+            border-radius: var(--border-radius);
+            background-color: var(--light-gray);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed var(--medium-gray);
+        }
+
+            .cover-preview.has-image {
+                border: none;
+            }
+
+        .cover-preview-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cover-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--dark-gray);
+        }
+
+        .upload-text {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+
+        .cover-upload {
+            display: none;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+            .input-group label {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 5px;
+                color: var(--text-color);
+            }
+
+            .album-input,
+            .input-group select {
+                padding: 12px;
+                border-radius: var(--border-radius);
+                border: 1px solid var(--dark-border);
+                font-size: 14px;
+                color: var(--text-color);
+                background-color: var(--white);
+                width: 100%;
+            }
+
+            .input-group select {
+                appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 10px center;
+                padding-right: 30px;
+            }
+
+                .album-input:focus,
+                .input-group select:focus {
+                    outline: none;
+                    border-color: var(--primary-color);
+                }
+
+        /* Updated amenities section styling */
+        .amenities-section {
+            margin-top: 20px;
+        }
+
+        .amenities-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+            display: block;
+        }
+
+        .amenities-container {
+            max-height: 250px;
+            overflow-y: auto;
+            border: 1px solid var(--medium-gray);
+            border-radius: var(--border-radius);
+            padding: 10px;
+            background-color: var(--light-gray);
+            scrollbar-width: thin;
+        }
+
+            .amenities-container::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .amenities-container::-webkit-scrollbar-track {
+                background: var(--light-gray);
+            }
+
+            .amenities-container::-webkit-scrollbar-thumb {
+                background-color: var(--dark-gray);
+                border-radius: 20px;
+            }
+
+        .checkbox-container {
+            margin-bottom: 8px;
+            background-color: var(--white);
+            border-radius: 6px;
+            padding: 2px;
+        }
+
+        .form-check {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+        }
+
+        .form-check-input {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .form-check-label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+            .form-check-label img {
+                width: 20px;
+                height: 20px;
+                margin-right: 8px;
+            }
+
+        .form-switch {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .form-check-reverse {
+            flex-direction: row-reverse;
+        }
+
+        .form-actions {
+            margin-top: 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .album-submit {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+            .album-submit:hover {
+                background-color: #e65c00;
+            }
+
+        .amenities-count {
+            font-size: 12px;
+            color: var(--dark-gray);
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="album-container">
+            <div class="album-header">
+                <h1 class="album-title">Add New Activity</h1>
+                <p class="text-muted">Create a new activity for your travelers</p>
+            </div>
+
+            <form method="post" class="album-form" enctype="multipart/form-data">
+                <div class="album-form-grid">
+                    <div class="album-details">
+                        <div class="cover-upload-container">
+                            <div class="cover-preview" id="coverPreview">
+                                <svg class="cover-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 16V8M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <span class="upload-text">Upload Image</span>
+                            </div>
+                            <input type="file" id="imageFile" asp-for="Picture" accept="image/*" class="cover-upload" />
+                        </div>
+
+                        <div class="input-group">
+                            <label for="Title">Stay Title</label>
+                            <input type="text" id="Title" placeholder="Enter activity title" asp-for="Name" class="album-input" required />
+                        </div>
+
+                        <div class="input-group">
+                            <label asp-for="OfferId">Offer</label>
+                            <div class="select-container">
+                                <select asp-for="OfferId" asp-items="ViewBag.Offers" class="styled-select">
+                                    <option value="">Select a offer</option>
+                                </select>
+                                <span asp-validation-for="OfferId" class="alert-danger"></span>
+                            </div>
+                        </div>
+
+                        
+
+                        
+                    </div>
+
+                    <div class="track-selection">
+                        <!-- This section is empty in the original code, keeping it for layout consistency -->
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="album-submit">Add Activity</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="row">
-        <div class="mb-3">
-            <button type="submit">Въведи</button>
-        </div>
-    </div>
-</form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Cover image preview
+            const coverInput = document.getElementById('imageFile');
+            const coverPreview = document.getElementById('coverPreview');
+
+            coverInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        coverPreview.innerHTML = `<img src="${e.target.result}" class="cover-preview-image" alt="Stay Image">`;
+                        coverPreview.classList.add('has-image');
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+
+            // Click to trigger file upload
+            coverPreview.addEventListener('click', function() {
+                coverInput.click();
+            });
+
+            // Update amenities counter
+            const updateAmenitiesCount = function() {
+                const totalAmenities = document.querySelectorAll('.form-check-input').length;
+                const selectedAmenities = document.querySelectorAll('.form-check-input:checked').length;
+
+                document.getElementById('selectedCount').textContent = selectedAmenities;
+                document.getElementById('totalCount').textContent = totalAmenities;
+            };
+
+            // Initialize amenities counter
+            updateAmenitiesCount();
+
+            // Update counter when amenities are selected/deselected
+            const amenityCheckboxes = document.querySelectorAll('.form-check-input');
+            amenityCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', updateAmenitiesCount);
+            });
+        });
+    </script>
+</body>
+</html>

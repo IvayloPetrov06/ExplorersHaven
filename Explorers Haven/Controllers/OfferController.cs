@@ -254,13 +254,17 @@ namespace Explorers_Haven.Controllers
                     Id = x.Id,
                     MaxPeople = x.MaxPeople,
                     Discount = x.Discount,
+                    DurationDays = x.DurationDays,
                     Disc = x.Disc,
                     StartDate = x.StartDate,
                     LastDate = x.LastDate,
                     Rating = x.Rating,
                     Price = x.Price,
                     Name = x.Name,
+                    StayId = x.StayId,
                     UserId = x.UserId,
+                    CoverImage = x.CoverImage,
+                    BackImage= x.BackImage
                 })
                 .FirstOrDefault();
 
@@ -270,6 +274,8 @@ namespace Explorers_Haven.Controllers
             {
                 return NotFound();
             }
+            var stays = _stayService.GetAll();
+            ViewBag.Stays = new SelectList(stays, "Id", "Name");
 
             return View(model);
 
@@ -280,7 +286,7 @@ namespace Explorers_Haven.Controllers
         {
 
 
-            var tempOffer = await _offerService.GetOfferByIdAsync(x => x.Id == model.Id);
+            var tempOffer = await _offerService.GetOfferAsync(x => x.Id == model.Id);
             if (tempOffer != null)
             {
 
@@ -297,31 +303,25 @@ namespace Explorers_Haven.Controllers
                     var imageUploadResult = await cloudService.UploadImageAsync(model.Picture);
                     track.CoverImage = imageUploadResult;
                 }
-                else
-                {
-                    track.CoverImage = model.CoverImage;
-                }
                 if (model.BackPicture != null)
                 {
                     var imageUploadResult = await cloudService.UploadImageAsync(model.BackPicture);
                     track.BackImage = imageUploadResult;
-                }
-                else
-                {
-                    track.BackImage = model.BackImage;
                 }
 
 
 
                 track.MaxPeople = model.MaxPeople;
                 track.Discount = model.Discount;
+                track.DurationDays = model.DurationDays;
                 track.Disc = model.Disc;
                 track.StartDate = model.StartDate;
                 track.LastDate = model.LastDate;
                 track.Rating = model.Rating;
                 track.Price = model.Price;
                 track.Name = model.Name;
-                track.UserId = model.UserId;
+                track.UserId = user.Id;
+                track.StayId = model.StayId;
 
 
 

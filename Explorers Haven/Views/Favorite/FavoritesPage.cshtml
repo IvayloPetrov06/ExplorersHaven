@@ -24,14 +24,6 @@
     <div class="results-section">
         <div class="results-header">
             <h2 class="section-title">Your Favorites</h2>
-            <div class="filters">
-                <span class="filter-label">Sort by:</span>
-                <select class="filter-dropdown">
-                    <option>Our recommendations</option>
-                    <option>Price (lowest first)</option>
-                    <option>Rating (highest first)</option>
-                </select>
-            </div>
         </div>
 
         <!-- Offers Grid -->
@@ -46,12 +38,6 @@
                         <div class="offer-info">
                             <h3 class="offer-name">@offer.OfferName</h3>
                             <div class="offer-metadata">
-                                <span class="people-count"><i class="fas fa-user"></i> @offer.PeopleCount people</span>
-                                <span class="date"><i class="fas fa-calendar"></i> @offer.StartDate</span>
-                                @if (offer.YoungOldPeopleCount > 0)
-                                {
-                                    <span class="children-count"><i class="fas fa-child"></i> @offer.YoungOldPeopleCount children/seniors</span>
-                                }
                             </div>
                         </div>
                         <div class="offer-actions">
@@ -61,7 +47,9 @@
                             </div>
                             <div class="action-buttons">
                                 <a href="/Favorite/Cancel/@offer.Id" class="btn-cancel">Cancel</a>
-                                <a href="#" class="btn-view">View Deal</a>
+                                <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="btn-view">
+                                    Виж оферта
+                                </a>
                             </div>
                         </div>
                     </div>

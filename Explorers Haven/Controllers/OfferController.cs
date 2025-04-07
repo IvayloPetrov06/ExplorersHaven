@@ -284,7 +284,43 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> EditOffer(EditOfferViewModel model)//ImageUrl
         {
+            var tempS = await _stayService.GetStayByIdAsync(model.StayId.Value);
+            if (model.Price <= tempS.Price)
+            {
+                TempData["error"] = "Цената на офертата трябва да е по-голяма от тази на престоя";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
+            if (model.Discount == null)
+            {
+                model.Discount = 0;
+            }
+            if (model.Discount < 0 || model.MaxPeople < 0 || model.DurationDays < 0 || model.Price < 0)
+            {
+                TempData["error"] = "Не използвайте негативни числа";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
+            if (model.LastDate.Value.Year <= model.StartDate.Value.Year)
+            {
+                if (model.LastDate <= model.StartDate)
+                {
+                    TempData["error"] = "Последната дата не може да е преди първата дата";
+                    var stays = _stayService.GetAll();
+                    ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                    return View(model);
 
+                }
+            }
+            if (model.StartDate.Value.AddDays(model.DurationDays.Value) > model.LastDate)
+            {
+                TempData["error"] = "Продълши";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
 
             var tempOffer = await _offerService.GetOfferAsync(x => x.Id == model.Id);
             if (tempOffer != null)
@@ -346,10 +382,44 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOffer(AddOfferViewModel model)
         {
+            var tempS = await _stayService.GetStayByIdAsync(model.StayId.Value);
+            if (model.Price <= tempS.Price)
+            {
+                TempData["error"] = "Цената на офертата трябва да е по-голяма от тази на престоя";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             if (model.Discount == null)
             {
                 model.Discount = 0;
             }
+            if (model.Discount < 0 || model.MaxPeople < 0 || model.DurationDays < 0 || model.Price < 0)
+            {
+                TempData["error"] = "Не използвайте негативни числа";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
+            if (model.LastDate.Value.Year <= model.StartDate.Value.Year)
+            {
+                if (model.LastDate <= model.StartDate)
+                {
+                    TempData["error"] = "Последната дата не може да е преди първата дата";
+                    var stays = _stayService.GetAll();
+                    ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                    return View(model);
+
+                }
+            }
+            if (model.StartDate.Value.AddDays(model.DurationDays.Value) > model.LastDate)
+            {
+                TempData["error"] = "Продълши";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
+            
             var tempStay = await _offerService.GetOfferAsync(x => x.Name == model.Name);
             if (tempStay == null)
             {
@@ -402,8 +472,9 @@ namespace Explorers_Haven.Controllers
                     offer.BackImage = "/Images/missing.jpg";
                 }
                 await _offerService.AddOfferAsync(offer);
-
+                TempData["success"] = "Успешно записване";
                 return RedirectToAction("AllOffer");
+
             }
             else
             {

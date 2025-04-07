@@ -93,6 +93,7 @@ namespace Explorers_Haven.Controllers
                     UserName = x.User.Username,
                     OfferName = x.Offer.Name,
                     OfferCoverImage = x.Offer.CoverImage,
+                    Price = x.Offer.Price
                 }).ToList();
 
                 filterModel = new FavoriteFilterViewModel
@@ -152,6 +153,7 @@ namespace Explorers_Haven.Controllers
             UserName = x.User.Username,
             OfferName = x.Offer.Name,
             OfferCoverImage = x.Offer.CoverImage,
+            Price = x.Offer.Price,
         }).ToListAsync();
 
             // Create and pass a view model with the user's Favorites

@@ -10,6 +10,7 @@ namespace Explorers_Haven.ViewModels.Favorite
         public decimal? YoungOldPeopleCount { get; set; }
         public DateOnly? StartDate { get; set; }
         public decimal? Price { get; set; }
+        public decimal? Stars { get; set; }
 
         public int? UserId { get; set; }
         public string? UserName { get; set; }

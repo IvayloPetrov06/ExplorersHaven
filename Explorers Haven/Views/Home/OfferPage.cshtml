@@ -813,7 +813,7 @@
                     <input type="number" id="ppl" name="ppl" required min="1" />
 
                     <!-- Discounted People Count Input -->
-                    @if (Model.IsOnDiscount == true)
+                    @if (Model.OfferDiscount.Value > 0)
                     {
                         <label for="discppl" class="discount-label">
                             <i class="fas fa-tag"></i>

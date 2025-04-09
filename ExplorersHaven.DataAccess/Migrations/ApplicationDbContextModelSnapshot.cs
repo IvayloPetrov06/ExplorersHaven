@@ -76,12 +76,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 4,
+                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
                             Name = "Sightseeing",
                             OfferId = 3
                         },
                         new
                         {
                             Id = 5,
+                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
                             Name = "Archery",
                             OfferId = 3
                         });
@@ -334,9 +336,18 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 3,
+                            BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                            DefaultRating = 5m,
+                            Disc = "Travel across Germany and feel the culture.",
+                            Discount = 15m,
+                            DurationDays = 7,
+                            LastDate = new DateOnly(2025, 4, 8),
+                            MaxPeople = 16m,
                             Name = "Germany",
                             Price = 500m,
+                            Rating = 5m,
+                            StartDate = new DateOnly(2025, 4, 1),
                             StayId = 3
                         },
                         new
@@ -344,6 +355,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 4,
                             BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
+                            DefaultRating = 3m,
                             Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
                             Discount = 20m,
                             DurationDays = 4,
@@ -438,7 +450,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 3,
-                            Name = "Mitte Hotel"
+                            Disc = "Polish Hotel",
+                            Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
+                            Name = "Mitte Hotel",
+                            Stars = 2
                         });
                 });
 
@@ -614,6 +629,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 5,
+                            Arrival = true,
+                            DurationDays = 1,
                             Finish = "Berlin",
                             OfferId = 3,
                             Start = "Sofia",
@@ -622,6 +639,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 6,
+                            Arrival = false,
+                            DurationDays = 1,
                             Finish = "Sofia",
                             OfferId = 3,
                             Start = "Berlin",

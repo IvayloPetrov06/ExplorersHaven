@@ -237,6 +237,7 @@ namespace Explorers_Haven.DataAccess
                     Stars = 5,
                     Disc = "Polish Hotel",
                     Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg"
+
                 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
@@ -249,23 +250,72 @@ namespace Explorers_Haven.DataAccess
 
             //offer 3
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 3, Name = "Germany",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", Price = 500,StayId=3 }
+                new Offer { 
+                    Id = 3,
+                    Name = "Germany",
+                    CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                    BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
+                    Price = 500,
+                    StayId=3,
+                    Disc = "Travel across Germany and feel the culture.",
+                    DurationDays = 7,
+                    StartDate = new DateOnly(2025, 4, 1),
+                    LastDate = new DateOnly(2025, 4, 8),
+                    Discount = 15,
+                    MaxPeople = 16,
+                    Rating = 5,
+                    DefaultRating = 5
+                }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 5, Start = "Sofia", Finish = "Berlin", OfferId = 3, TransportId = 1 }
+                new Travel {
+                    Id = 5,
+                    Start = "Sofia", 
+                    Finish = "Berlin",
+                    OfferId = 3, 
+                    TransportId = 1,
+                    DurationDays = 1,
+                    Arrival = true
+                }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 6, Start = "Berlin", Finish = "Sofia", OfferId = 3, TransportId = 1 }
+                new Travel {
+                    Id = 6,
+                    Start = "Berlin",
+                    Finish = "Sofia",
+                    OfferId = 3, 
+                    TransportId = 1,
+                    DurationDays = 1,
+                    Arrival = false
+
+                }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 3, Name = "Mitte Hotel" }
+                new Stay {
+                    Id = 3,
+                    Price = 500,
+                    Name = "Mitte Hotel",
+                    Stars = 2,
+                    Disc = "Polish Hotel",
+                    Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg"
+
+                }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 4, Name = "Sightseeing", OfferId = 3 }
+                new Models.Activity { Id = 4,
+                    Name = "Sightseeing",
+                    OfferId = 3,
+                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 5, Name = "Archery", OfferId = 3 }
+                new Models.Activity { Id = 5,
+                    Name = "Archery",
+                    OfferId = 3,
+                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                }
                 );
+            //test offer 4
             modelBuilder.Entity<Offer>().HasData(
                 new Offer
                 {
@@ -281,7 +331,8 @@ namespace Explorers_Haven.DataAccess
                     LastDate = new DateOnly(2025, 4, 8),
                     Discount = 20,
                     MaxPeople = 8,
-                    Rating = 3
+                    Rating = 3,
+                    DefaultRating = 3
 
                 }
                 );

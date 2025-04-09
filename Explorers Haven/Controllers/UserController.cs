@@ -110,7 +110,10 @@ namespace Explorers_Haven.Controllers
                 var imageUploadResult = await cloudService.UploadImageAsync(user.ImageFile);
                 userModel.ProfilePicture = imageUploadResult;
             }
-
+            if (userModel.ProfilePicture == null)
+            {
+                userModel.ProfilePicture = "/Images/def.jpg";
+            }
             await userService.UpdateUserAsync(userModel);
             return RedirectToAction("Profile");
         }

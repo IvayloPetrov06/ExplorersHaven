@@ -114,7 +114,8 @@ namespace Explorers_Haven.Controllers
                     OfferName = x.Name,
                     OfferPrice = x.Price,
                     OfferPic = x.CoverImage,
-                    
+                    OfferDiscount = x.Discount,
+
 
                 }).ToList();
                 filterModel = new OfferFilterViewModel
@@ -211,7 +212,9 @@ namespace Explorers_Haven.Controllers
                     OfferName = x.Name,
                     OfferPic = x.CoverImage,
                     OfferPrice = x.Price,
-                    OfferId = x.Id
+                    OfferId = x.Id,
+                    OfferDiscount = x.Discount,
+                    
                 }).ToList(),
                     Search = filter.Search
                 };
@@ -276,8 +279,15 @@ namespace Explorers_Haven.Controllers
                 }
 
             };
-            var sortedList = filterModel.Offers.OrderBy(x => x.OfferPrice).ToList();
-            filterModel.Cheapest_Offers = sortedList;
+            filterModel.Cheapest_Offers.Clear();
+            foreach (var item in filterModel.Offers)
+            {
+                if (item.OfferDiscount>0)
+                {
+                    filterModel.Cheapest_Offers.Add(item);
+                }
+            }
+            filterModel.Cheapest_Offers.OrderBy(x => x.OfferPrice).ToList();
 
             return View(filterModel);
         }

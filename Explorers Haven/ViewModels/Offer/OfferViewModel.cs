@@ -18,6 +18,7 @@ namespace Explorers_Haven.ViewModels.Offer
         public string? OfferDisc { get; set; }
         public decimal? OfferRatingStars { get; set; }
         public decimal? OfferRating { get; set; }//IsFavorited
+        public decimal? DefaultOfferRating {get; set;}
         public bool? IsFavorited { get; set; }
         public bool? IsBooked { get; set; }
         public bool? IsOnDiscount { get; set; }

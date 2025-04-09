@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250409070347_setup")]
+    [Migration("20250409120517_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -72,6 +72,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 3,
+                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
                             Name = "Sightseeing",
                             OfferId = 2
                         },
@@ -250,6 +251,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Property<string>("CoverImage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("DefaultRating")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("Disc")
                         .HasColumnType("nvarchar(max)");
 
@@ -301,6 +305,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 1,
                             BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
+                            DefaultRating = 3m,
                             Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
                             Discount = 20m,
                             DurationDays = 4,
@@ -315,9 +320,18 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
+                            BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
+                            DefaultRating = 4m,
+                            Disc = "Travel across Poland and feel the culture.",
+                            Discount = 0m,
+                            DurationDays = 7,
+                            LastDate = new DateOnly(2025, 4, 8),
+                            MaxPeople = 12m,
                             Name = "Poland",
-                            Price = 20m,
+                            Price = 200m,
+                            Rating = 4m,
+                            StartDate = new DateOnly(2025, 4, 1),
                             StayId = 2
                         },
                         new
@@ -418,7 +432,11 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            Name = "InterContinental Warsaw Hotel"
+                            Disc = "Polish Hotel",
+                            Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
+                            Name = "InterContinental Warsaw Hotel",
+                            Price = 120m,
+                            Stars = 5
                         },
                         new
                         {
@@ -579,6 +597,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 3,
+                            Arrival = true,
+                            DurationDays = 1,
                             Finish = "Warsaw",
                             OfferId = 2,
                             Start = "Sofia",
@@ -587,6 +607,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 4,
+                            Arrival = false,
+                            DurationDays = 1,
                             Finish = "Sofia",
                             OfferId = 2,
                             Start = "Warsaw",

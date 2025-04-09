@@ -117,7 +117,8 @@ namespace Explorers_Haven.DataAccess
                     LastDate = new DateOnly(2025, 4, 8),
                     Discount = 20,
                     MaxPeople = 8,
-                    Rating = 3
+                    Rating = 3,
+                    DefaultRating = 3
 
                 }
                 );
@@ -191,19 +192,59 @@ namespace Explorers_Haven.DataAccess
 
             //offer 2
             modelBuilder.Entity<Offer>().HasData(
-                new Offer { Id = 2, Name = "Poland",CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", Price = 20 , StayId = 2}
+                new Offer { 
+                    Id = 2,
+                    Name = "Poland",
+                    CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
+                    BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
+                    Price = 200,
+                    StayId = 2,
+                    Disc = "Travel across Poland and feel the culture.",
+                    DurationDays = 7,
+                    StartDate = new DateOnly(2025, 4, 1),
+                    LastDate = new DateOnly(2025, 4, 8),
+                    Discount = 0,
+                    MaxPeople = 12,
+                    Rating = 4,
+                    DefaultRating = 4
+                }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 3, Start = "Sofia", Finish = "Warsaw", OfferId = 2, TransportId =1  }
+                new Travel {
+                    Id = 3,
+                    Start = "Sofia",
+                    Finish = "Warsaw",
+                    DurationDays = 1,
+                    OfferId = 2,
+                    TransportId =1,
+                    Arrival = true
+                }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 4, Start = "Warsaw", Finish = "Sofia", OfferId = 2, TransportId =1  }
+                new Travel { Id = 4,
+                    Start = "Warsaw",
+                    Finish = "Sofia",
+                    DurationDays = 1,
+                    OfferId = 2,
+                    TransportId =1,
+                    Arrival = false
+                }
                 );
             modelBuilder.Entity<Stay>().HasData(
-                new Stay { Id = 2, Name = "InterContinental Warsaw Hotel"}
+                new Stay { Id = 2,
+                    Name = "InterContinental Warsaw Hotel",
+                    Price = 120,
+                    Stars = 5,
+                    Disc = "Polish Hotel",
+                    Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg"
+                }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 3, Name = "Sightseeing", OfferId = 2 }
+                new Models.Activity { Id = 3,
+                    Name = "Sightseeing",
+                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                    OfferId = 2
+                }
                 );
 
             //offer 3

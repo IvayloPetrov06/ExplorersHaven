@@ -23,6 +23,7 @@ namespace Explorers_Haven.Models
         public string? CoverImage { get; set; }
         public string? BackImage { get; set; }
         public decimal? Price { get; set; }
+        public decimal? DefaultRating { get; set; }
         public decimal? Rating { get; set; }
         public decimal? RealRating { get; set; }
         public int? Clicks { get; set; }

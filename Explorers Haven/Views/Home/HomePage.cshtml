@@ -40,11 +40,11 @@
                                     <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.OfferId">
                                         <img src="@offer.OfferPic" alt="@offer.OfferName">
                                     </a>
-                                    <form id="favoriteForm" method="post" action="/Favorite/Favorite">
+                                    <form class="favoriteForm" method="post" action="/Favorite/Favorite">
                                         <div class="favorite-btn">
                                             <input type="hidden" name="id" value="@offer.OfferId" />
-                                            <input type="checkbox" id="favorite" class="favorite-checkbox" name="favorite-checkbox" value="true" @(offer.IsFavorited.Value ? "checked" : "")>
-                                            <label class="favorite-btn-label" for="favorite">
+                                            <input type="checkbox" id="favorite_@offer.OfferId" class="favorite-checkbox" name="favorite-checkbox" value="true" @(offer.IsFavorited.Value ? "checked" : "")>
+                                            <label class="favorite-btn-label" for="favorite_@offer.OfferId">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
                                                     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                                                 </svg>
@@ -97,9 +97,9 @@
 
         <!-- Cheapest Offers Section -->
         <div class="results-header mt-40">
-            <h2 class="section-title">Най-изгодни оферти</h2>
+            <h2 class="section-title">Discounted Offers</h2>
             <div class="special-label">
-                <span class="discount-badge"><i class="fas fa-tag"></i> Най-ниски цени</span>
+                <span class="discount-badge"><i class="fas fa-tag"></i> Discount for children and the elderly</span>
             </div>
         </div>
 
@@ -113,9 +113,11 @@
                             <div class="offer-card special-offer">
                                 <div class="offer-image">
                                     <div class="discount-badge-corner">
-                                        <span>Промо</span>
+                                        <span>@offer.OfferDiscount %</span>
                                     </div>
-                                    <img src="@offer.OfferPic" alt="@offer.OfferName">
+                                    <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.OfferId">
+                                        <img src="@offer.OfferPic" alt="@offer.OfferName">
+                                    </a>
                                 </div>
                                 <div class="offer-details">
                                     <div class="offer-info">
@@ -133,7 +135,7 @@
                                     <div class="offer-actions">
                                         <div class="price-tag">
                                             <span class="price-label">Специална цена</span>
-                                            <span class="price-value highlight">@offer.OfferPrice лв</span>
+                                            <span class="price-value">@offer.OfferPrice лв</span>
                                         </div>
                                         <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.OfferId" class="btn-view">
                                             Виж оферта
@@ -755,6 +757,13 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Initialize all carousels
         initCarousels();
+
+        let favoriteBtns = document.querySelectorAll(".favorite-btn-label");
+        console.log(favoriteBtns);
+
+        favoriteBtns.forEach(el => el.addEventListener('click', event => {
+            submitFavorite(event.target);
+        }));
     });
 
     function initCarousels() {
@@ -835,13 +844,42 @@
             updateCarousel();
         });
     }
+    
+    
+    function submitFavorite(clicked) {
+        const favoriteForm = clicked.closest("form");
+        const formData = new FormData(favoriteForm);
+        // Send the data using Fetch API
+        fetch('/Favorite/Favorite', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    
+                } else {
+                    alert('Something went wrong, please try again later.');
+                    // Rollback the checkbox state if the request fails
+                    favoriteCheckbox.checked = !favoriteCheckbox.checked;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred, please try again later.');
+                // Rollback the checkbox state if the request fails
+                favoriteCheckbox.checked = !favoriteCheckbox.checked;
+            });
+    }
+
+    
     const favoriteCheckbox = document.getElementById('favorite');
     const favoriteForm = document.getElementById('favoriteForm');
     if (favoriteCheckbox) {
         favoriteCheckbox.addEventListener('change', function () {
+            return;
             // Create a FormData object to send the form data
             const formData = new FormData(favoriteForm);
-
             // Send the data using Fetch API
             fetch('/Favorite/Favorite', {
                 method: 'POST',

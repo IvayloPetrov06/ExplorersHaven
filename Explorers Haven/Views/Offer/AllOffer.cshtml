@@ -412,7 +412,7 @@
                                 <th style="width: 50px">#</th>
                                 <th>Name</th>
                                 <th>Price</th>
-                                <th>Rating</th>
+                                <th>Default Rating</th>
                                 <th>Comments</th>
                                 <th>Actions</th>
                             </tr>
@@ -442,11 +442,11 @@
                                         <td class="align-middle">No Price Set</td>
                                     }
 
-                                    @if (stay.OfferRatingStars != null)
+                                    @if (stay.DefaultOfferRating != null)
                                     {
                                         <td class="align-middle">
                                             <div class="stay-stars">
-                                                @for (int i = 0; i < stay.OfferRatingStars.Value; i++)
+                                                @for (int i = 1; i < stay.DefaultOfferRating.Value; i++)
                                                 {
                                                     <span>★</span>
                                                 }

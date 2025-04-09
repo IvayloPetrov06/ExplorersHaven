@@ -248,6 +248,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     CoverImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BackImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    DefaultRating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Rating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     RealRating = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Clicks = table.Column<int>(type: "int", nullable: true),
@@ -487,7 +488,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 values: new object[,]
                 {
                     { 1, "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5, null },
-                    { 2, null, null, "InterContinental Warsaw Hotel", null, null, null },
+                    { 2, "Polish Hotel", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "InterContinental Warsaw Hotel", 120m, 5, null },
                     { 3, null, null, "Mitte Hotel", null, null, null }
                 });
 
@@ -504,13 +505,13 @@ namespace Explorers_Haven.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Offers",
-                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "Disc", "Discount", "DurationDays", "LastDate", "MaxPeople", "Name", "Price", "Rating", "RealRating", "StartDate", "StayId", "UserId" },
+                columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "DefaultRating", "Disc", "Discount", "DurationDays", "LastDate", "MaxPeople", "Name", "Price", "Rating", "RealRating", "StartDate", "StayId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Egypt", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null },
-                    { 2, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", null, null, null, null, null, "Poland", 20m, null, null, null, 2, null },
-                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, null, null, null, null, "Germany", 500m, null, null, null, 3, null },
-                    { 4, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Test", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", 3m, "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Egypt", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null },
+                    { 2, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", 4m, "Travel across Poland and feel the culture.", 0m, 7, new DateOnly(2025, 4, 8), 12m, "Poland", 200m, 4m, null, new DateOnly(2025, 4, 1), 2, null },
+                    { 3, null, null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", null, null, null, null, null, null, "Germany", 500m, null, null, null, 3, null },
+                    { 4, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", null, "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Test", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null }
                 });
 
             migrationBuilder.InsertData(
@@ -530,7 +531,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Camel riding", 1, null },
                     { 2, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Sightseeing", 1, null },
-                    { 3, null, "Sightseeing", 2, null },
+                    { 3, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Sightseeing", 2, null },
                     { 4, null, "Sightseeing", 3, null },
                     { 5, null, "Archery", 3, null }
                 });
@@ -542,8 +543,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     { 1, true, null, null, 1, "Cairo", 1, "Sofia", 1, null },
                     { 2, false, null, null, 1, "Sofia", 1, "Cairo", 1, null },
-                    { 3, null, null, null, null, "Warsaw", 2, "Sofia", 1, null },
-                    { 4, null, null, null, null, "Sofia", 2, "Warsaw", 1, null },
+                    { 3, true, null, null, 1, "Warsaw", 2, "Sofia", 1, null },
+                    { 4, false, null, null, 1, "Sofia", 2, "Warsaw", 1, null },
                     { 5, null, null, null, null, "Berlin", 3, "Sofia", 1, null },
                     { 6, null, null, null, null, "Sofia", 3, "Berlin", 1, null }
                 });

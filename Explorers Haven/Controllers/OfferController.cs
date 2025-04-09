@@ -137,6 +137,7 @@ namespace Explorers_Haven.Controllers
                     UserName = x.User.Username,
                     OfferPrice = x.Price,
                     Comments = x.Comments.ToList(),
+                    DefaultOfferRating = x.DefaultRating
 
                 }).ToList();
 
@@ -443,7 +444,9 @@ namespace Explorers_Haven.Controllers
                     Rating = model.Rating,
                     Price = model.Price,
                     UserId = user.Id,
-                    StayId = model.StayId
+                    StayId = model.StayId,
+                    DefaultRating =model.Rating
+                    
                 };
                 
                 if (model.Picture != null && model.BackPicture != null)

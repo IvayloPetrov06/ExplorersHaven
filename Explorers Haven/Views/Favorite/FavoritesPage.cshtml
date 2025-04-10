@@ -6,14 +6,14 @@
     <!-- Hero Search Section -->
     <div class="hero-section">
         <div class="search-wrapper">
-            <h1 class="main-heading">Find your ideal hotel and compare prices from different websites</h1>
+            <h1 class="main-heading">Офертите хванали вниманието ви</h1>
 
             <div class="search-box">
                 <form>
                     <div class="search-input-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" asp-for="Search" class="search-input" placeholder="Where would you like to go?">
-                        <button type="submit" class="search-button">Search</button>
+                        <input type="text" asp-for="Search" class="search-input" placeholder="Търси по име">
+                        <button type="submit" class="search-button">Търси</button>
                     </div>
                 </form>
             </div>
@@ -23,7 +23,7 @@
     <!-- Results Section -->
     <div class="results-section">
         <div class="results-header">
-            <h2 class="section-title">Your Favorites</h2>
+            <h2 class="section-title">Вашите любими оферти</h2>
         </div>
 
         <!-- Offers Grid -->
@@ -42,11 +42,11 @@
                         </div>
                         <div class="offer-actions">
                             <div class="price-tag">
-                                <span class="price-label">Price</span>
+                                <span class="price-label">цена</span>
                                 <span class="price-value">@offer.Price лв</span>
                             </div>
                             <div class="action-buttons">
-                                <a href="/Favorite/Cancel/@offer.Id" class="btn-cancel">Cancel</a>
+                                <a href="/Favorite/Cancel/@offer.Id" class="btn-cancel">Отмяна</a>
                                 <a asp-controller="Home" asp-action="OfferPage" asp-route-id="@offer.Id" class="btn-view">
                                     Виж оферта
                                 </a>

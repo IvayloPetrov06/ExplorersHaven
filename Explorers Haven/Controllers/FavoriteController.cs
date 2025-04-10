@@ -37,7 +37,7 @@ namespace Explorers_Haven.Controllers
             Favorite b = await _FavoriteService.GetFavoriteAsync(x => x.Id == id);
             if (b != null)
             {
-                await _FavoriteService.DeleteFavoriteAsync(b); TempData["success"] = "Favorite canceled!";
+                await _FavoriteService.DeleteFavoriteAsync(b); TempData["success"] = "Премахнато от любими!";
                 return RedirectToAction("FavoritesPage", "Favorite");
             }
             TempData["error"] = "Favorite doesn't exist!";
@@ -65,14 +65,14 @@ namespace Explorers_Haven.Controllers
 
                 await _FavoriteService.AddFavoriteAsync(newFavorite);
 
-                return Json(new { success = true, message = "Added to favorites", isFavorited = true });
+                return Json(new { success = true, message = "Добавено към любими", isFavorited = true });
             }
             else
             {
                 // Remove existing favorite
                 await _FavoriteService.DeleteFavoriteAsync(fav);
 
-                return Json(new { success = true, message = "Removed from favorites", isFavorited = false });
+                return Json(new { success = true, message = "Премахнато от любими", isFavorited = false });
             }
         }
             [HttpPost]

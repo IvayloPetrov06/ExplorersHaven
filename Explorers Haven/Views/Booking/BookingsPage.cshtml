@@ -6,14 +6,14 @@
     <!-- Hero Search Section -->
     <div class="hero-section">
         <div class="search-wrapper">
-            <h1 class="main-heading">Find your ideal hotel and compare prices from different websites</h1>
+            <h1 class="main-heading">Управлявайте резервациите си</h1>
 
             <div class="search-box">
                 <form>
                     <div class="search-input-wrapper">
                         <i class="fas fa-search search-icon"></i>
-                        <input type="text" asp-for="Search" class="search-input" placeholder="Where would you like to go?">
-                        <button type="submit" class="search-button">Search</button>
+                        <input type="text" asp-for="Search" class="search-input" placeholder="Търси по име?">
+                        <button type="submit" class="search-button">Търси</button>
                     </div>
                 </form>
             </div>
@@ -23,7 +23,7 @@
     <!-- Results Section -->
     <div class="results-section">
         <div class="results-header">
-            <h2 class="section-title">Your Bookings</h2>
+            <h2 class="section-title">Вашите резервации</h2>
         </div>
 
         <!-- Offers Grid -->
@@ -38,14 +38,14 @@
                         <div class="offer-info">
                             <h3 class="offer-name">@offer.OfferName</h3>
                             <div class="offer-metadata">
-                                <span class="people-count"><i class="fas fa-user"></i> @offer.PeopleCount.Value.ToString("0") people</span>
+                                <span class="people-count"><i class="fas fa-user"></i> @offer.PeopleCount.Value.ToString("0") общо хора</span>
                                 <span class="date"><i class="fas fa-calendar"></i> @offer.StartDate</span>
                                 @if (offer.YoungOldPeopleCount > 0)
                                 {
-                                    <span class="children-count"><i class="fas fa-child"></i> @offer.YoungOldPeopleCount.Value.ToString("0") children/seniors</span>
+                                    <span class="children-count"><i class="fas fa-child"></i> @offer.YoungOldPeopleCount.Value.ToString("0") деца/възрастни</span>
                                 }
                                 <div class="travel-section">
-                                    <h2 class="section-title">Travel Details</h2>
+                                    <h2 class="section-title">Детайли на пътуването</h2>
 
                                     @foreach (var a in offer.Travels)
                                     {
@@ -56,28 +56,28 @@
                                             </div>
                                             @foreach (var tr in Model.Transports)
                                             {
-                                                if (@a.TransportId == tr.Id && tr.Name == "Plane")
+                                                if (@a.TransportId == tr.Id && tr.Name == "Самолет")
                                                 {
                                                     <div class="travel-icon">
                                                         <div class="travel-transport">@tr.Name</div>
                                                         <img src="/Images/Plane.svg" alt="Plane" />
                                                     </div>
                                                 }
-                                                if (@a.TransportId == tr.Id && tr.Name == "Train")
+                                                if (@a.TransportId == tr.Id && tr.Name == "Влак")
                                                 {
                                                     <div class="travel-icon">
                                                         <div class="travel-transport">@tr.Name</div>
                                                         <img src="/Images/Train.svg" alt="Train" />
                                                     </div>
                                                 }
-                                                if (@a.TransportId == tr.Id && tr.Name == "Boat")
+                                                if (@a.TransportId == tr.Id && tr.Name == "Ферибот")
                                                 {
                                                     <div class="travel-icon">
                                                         <div class="travel-transport">@tr.Name</div>
                                                         <img src="/Images/boat.svg" alt="boat" />
                                                     </div>
                                                 }
-                                                if (@a.TransportId == tr.Id && tr.Name == "Custom")
+                                                if (@a.TransportId == tr.Id && tr.Name == "Личен")
                                                 {
                                                     <div class="travel-icon">
                                                         <div class="travel-transport">@tr.Name</div>
@@ -101,11 +101,11 @@
                             <div class="price-tag">
                                 @*<span class="price-label">Hotel bill</span>
                             <span class="price-value">@offer.PeopleCount people - @offer.DurationDays - @offer.StayPrice лв</span>*@
-                                <span class="price-label">Price</span>
+                                <span class="price-label">Цена</span>
                                 <span class="price-value">@offer.Price лв</span>
                             </div>
                             <div class="action-buttons">
-                                <a href="/Booking/Cancel/@offer.Id" class="btn-cancel">Cancel</a>
+                                <a href="/Booking/Cancel/@offer.Id" class="btn-cancel">Отмяна</a>
                             </div>
                         </div>
                     </div>

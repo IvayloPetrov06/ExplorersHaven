@@ -245,7 +245,7 @@
 
         .trip-info-item {
             flex: 1;
-            min-width: 200px;
+            min-width: 210px;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -759,8 +759,8 @@
                             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                         </svg>
                         <div class="action">
-                            <span class="option-1">Add to Favorites</span>
-                            <span class="option-2">Added to Favorites</span>
+                            <span class="option-1">Добави към любими</span>
+                            <span class="option-2">Добавено към любими</span>
                         </div>
                     </label>
                 </div>
@@ -776,32 +776,32 @@
             <div class="description">
                 <div class="description-title">Description</div>
                 <div class="description-content">@Model.OfferDisc</div>
-                <div class="description-title">Booking options</div>
-                <div class="description-content">Bookings available every week the same day as starting date. Last available week for booking is on the last date.</div>
+                <div class="description-title">Опции за резервация</div>
+                <div class="description-content">Резервациите са налични от същият ден от седмицата като началната дата. </div>
 
                 <div class="trip-info">
                     <div class="trip-info-item">
                         <i class="fas fa-calendar-alt"></i>
-                        <span><span class="info-label">Starting Date:</span> @Model.OfferStart</span>
+                        <span><span class="info-label">Начална дата:</span> @Model.OfferStart</span>
                     </div>
                     <div class="trip-info-item">
                         <i class="fas fa-calendar-check"></i>
-                        <span><span class="info-label">Last Date:</span> @Model.OfferLast</span>
+                        <span><span class="info-label">Последна дата:</span> @Model.OfferLast</span>
                     </div>
                     <div class="trip-info-item">
                         <i class="fas fa-calendar-check"></i>
-                        <span><span class="info-label">Duration in days:</span>@Math.Floor(Model.OfferDays.Value)</span>
+                        <span><span class="info-label">Продължителност в дни:</span>@Math.Floor(Model.OfferDays.Value)</span>
                     </div>
                     <div class="trip-info-item">
                         <i class="fas fa-users"></i>
-                        <span><span class="info-label">Max people:</span> @Math.Floor(Model.OfferPeople.Value)</span>
+                        <span><span class="info-label">Макс брой хора:</span> @Math.Floor(Model.OfferPeople.Value)</span>
                     </div>
                 </div>
             </div>
 
             <div class="booking-details">
                 <div class="price-container">
-                    <div class="price-label">Price per person</div>
+                    <div class="price-label">Цена на човек</div>
                     <div class="price-value">@Model.OfferPrice лв</div>
                 </div>
                 <form method="post" action="/Booking/Book">
@@ -809,7 +809,7 @@
                     <input type="hidden" name="id" value="@Model.OfferId" />
 
                     <!-- People Count Input -->
-                    <label for="ppl">People Count:</label>
+                    <label for="ppl">Брой хора:</label>
                     <input type="number" id="ppl" name="ppl" required min="1" />
 
                     <!-- Discounted People Count Input -->
@@ -817,7 +817,7 @@
                     {
                         <label for="discppl" class="discount-label">
                             <i class="fas fa-tag"></i>
-                            Elders or Kids Count with <span class="discount-value" style="margin-left: 4px;"> @Math.Floor(Model.OfferDiscount.Value)% discount</span>:
+                            Деца или възрастни имат <span class="discount-value" style="margin-left: 4px;"> @Math.Floor(Model.OfferDiscount.Value)% отстъпка</span>:
                         </label>
                         <input type="number" id="discppl" name="discppl" required min="0" />
                     }
@@ -828,17 +828,17 @@
 
 
                     <!-- Start Date Input -->
-                    <label for="st">Start Date:</label>
+                    <label for="st">Начална дата:</label>
                     <input type="date" id="st" name="st" required />
 
-                    <!-- Submit Button -->
-                    <button type="submit">Book Now</button>
+                    <!-- Submit Button trip -->
+                    <button type="submit">Резервирай</button>
                 </form>
             </div>
         </div>
 
         <div class="accommodation-section">
-            <h2 class="section-title">Accommodation Details</h2>
+            <h2 class="section-title">Детайли за настаняването</h2>
             <div class="accommodation-card">
                 <div class="accommodation-image">
                     <img src="@Model.StayPic" alt="@Model.StayName">
@@ -861,7 +861,7 @@
 
         <!-- Improved amenities section -->
         <div class="amenities-section">
-            <h2 class="section-title">Amenities</h2>
+            <h2 class="section-title">Удобства на престоя</h2>
             <div class="amenities-grid">
                 @foreach (var a in Model.Amenities)
                 {
@@ -874,7 +874,7 @@
         </div>
 
         <div class="travel-section">
-            <h2 class="section-title">Travel Details</h2>
+            <h2 class="section-title">Детайли за пътуването</h2>
             @foreach (var a in Model.Travels)
             {
                 <div class="travel-card">
@@ -924,7 +924,7 @@
         </div>
 
         <div class="activities-section">
-            <h2 class="section-title">Activities</h2>
+            <h2 class="section-title">Дейности</h2>
             <div class="activities-grid">
                 @foreach (var a in Model.Activities)
                 {
@@ -939,7 +939,7 @@
         </div>
 
         <div class="reviews-section">
-            <h2 class="section-title">Reviews</h2>
+            <h2 class="section-title">Ревюта</h2>
             <div class="review-form">
                 <form method="post" asp-controller="Comment" asp-action="WriteComment" id="reviewForm">
                     <input type="hidden" name="id" value="@Model.OfferId" />
@@ -957,10 +957,10 @@
                                     <div class="@(Model.UserRating >= 4 ? "star active" : "star")" data-value="4">&#9733;</div>
                                     <div class="@(Model.UserRating >= 5 ? "star active" : "star")" data-value="5">&#9733;</div>
                                 </div>
-                                <div class="rating-text">@(Model.UserRating != null ? "your rating is " + @Model.UserRating : "Click to rate")</div>
+                                <div class="rating-text">@(Model.UserRating != null ? "Оценката ви е " + @Model.UserRating + " звезди" : "Изберете оценка")</div>
                             </div>
-                            <input type="text" id="comment" name="comment" placeholder="Share your experience..." value="@Model.UserComment" />
-                            <button type="submit">@(Model.UserRating != null ? "Edit" : "Submit")</button>
+                            <input type="text" id="comment" name="comment" placeholder="Споделете преживяването си..." value="@Model.UserComment" />
+                            <button type="submit">@(Model.UserRating != null ? "Редактирай" : "Изпрати")</button>
                         </div>
                     </div>
                 </form>

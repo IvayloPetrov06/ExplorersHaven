@@ -99,9 +99,9 @@ namespace Explorers_Haven.Controllers
         }
         public async Task<IActionResult> HomePage(HomePageViewModel filter)
         {
-            if (!User.IsInRole("User") && !User.IsInRole("Artist") && !User.IsInRole("Admin"))
+            if (!User.IsInRole("User") && !User.IsInRole("Admin"))
             {
-                return RedirectToAction("Login", "Account");
+                return RedirectToAction("Register", "Account");
             }
             var query = _offerService.GetAll().AsQueryable();
             var filterModel = new OfferFilterViewModel();
@@ -279,7 +279,11 @@ namespace Explorers_Haven.Controllers
                 }
 
             };
-            filterModel.Cheapest_Offers.Clear();
+            if (filterModel.Cheapest_Offers!=null)
+            {
+                filterModel.Cheapest_Offers.Clear();
+            }
+            
             foreach (var item in filterModel.Offers)
             {
                 if (item.OfferDiscount>0)

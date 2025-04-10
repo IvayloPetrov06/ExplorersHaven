@@ -41,7 +41,7 @@ namespace Explorers_Haven.Controllers
             Booking b = await _bookingService.GetBookingAsync(x => x.Id == id);
             if (b != null)
             {
-                await _bookingService.DeleteBookingAsync(b); TempData["success"] = "Booking canceled!";
+                await _bookingService.DeleteBookingAsync(b); TempData["success"] = "Резервацията е отменена!";
                 return RedirectToAction("BookingsPage", "Booking");
             }
             TempData["error"] = "Booking doesn't exist!";
@@ -116,7 +116,7 @@ namespace Explorers_Haven.Controllers
                 b.Price = realprice;
             }
             await _bookingService.AddBookingAsync(b);
-            TempData["success"] = "Offer was booked!";
+            TempData["success"] = "Резервацията беше направена!";
             return RedirectToAction("BookingsPage", "Booking");
         }
         [HttpPost]

@@ -158,6 +158,13 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> EditActivity(EditActivityViewModel model)
         {
+            if (model.OfferId == 0)
+            {
+                TempData["error"] = "Изберете оферта";
+                var stays = _offerService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
 
             var tempac = await _actService.GetActivityAsync(x => x.Id == model.Id);
             if (tempac != null)
@@ -203,6 +210,13 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddActivity(AddActivityViewModel model)
         {
+            if (model.OfferId == 0)
+            {
+                TempData["error"] = "Изберете оферта";
+                var stays = _offerService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             var tempStay = await _actService.GetActivityAsync(x => x.Name == model.Name);
             if (tempStay == null)
             {

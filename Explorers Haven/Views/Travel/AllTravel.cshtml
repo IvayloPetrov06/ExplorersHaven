@@ -382,11 +382,11 @@
             <div class="col-12 main-content">
                 <div class="d-flex justify-content-between align-items-center header-section mb-4">
                     <div>
-                        <h1 class="mb-0">All Travels</h1>
-                        <p class="text-muted">Manage your travels</p>
+                        <h1 class="mb-0">Всички пътувания</h1>
+                        <p class="text-muted">Управлявай пътуванията си</p>
                     </div>
                     <a class="btn upload-btn" asp-controller="Travel" asp-action="AddTravel">
-                        <i class="fas fa-plus me-2"></i> Add New Travel
+                        <i class="fas fa-plus me-2"></i> Добави ново пътуване
                     </a>
                 </div>
 
@@ -396,11 +396,11 @@
                             <div class="col-md-4">
                                 <div class="search-input-container">
                                     <i class="fas fa-search search-icon"></i>
-                                    <input type="text" asp-for="Title" class="form-control" placeholder="Search by name">
+                                    <input type="text" asp-for="Title" class="form-control" placeholder="търси по име">
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn float-end" >Apply</button>
+                                <button type="submit" class="btn float-end" >Приложи</button>
                             </div>
                         </div>
                     </form>
@@ -411,12 +411,12 @@
                         <thead>
                             <tr>
                                 <th style="width: 50px">#</th>
-                                <th>Start</th>
-                                <th>Finish</th>
-                                <th>Transport</th>
-                                <th>Direction</th>
-                                <th>Offer of origin</th>
-                                <th>Actions</th>
+                                <th>Начало</th>
+                                <th>Край</th>
+                                <th>Транспорт</th>
+                                <th>Посока</th>
+                                <th>Принадлежаща оферта</th>
+                                <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -429,11 +429,11 @@
                                     <td class="align-middle">@stay.Transport</td>
                                     @if (stay.Arrival == true)
                                     {
-                                        <td class="align-middle">Arrival</td>
+                                        <td class="align-middle">Отиване</td>
                                     }
                                     else
                                     {
-                                        <td class="align-middle">Departure</td>
+                                        <td class="align-middle">Връщане</td>
                                     }
                                     <td class="align-middle">@stay.OfferName</td>
 
@@ -443,9 +443,9 @@
                                                 <i class="fas fa-ellipsis-h"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" asp-controller="Travel" asp-action="EditTravel" asp-route-id="@stay.Id"><i class="fas fa-edit me-2"></i> Edit</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Travel" asp-action="EditTravel" asp-route-id="@stay.Id"><i class="fas fa-edit me-2"></i> Редактиране</a></li>
                                                 <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" asp-controller="Travel" asp-action="Delete" asp-route-id="@stay.Id"><i class="fas fa-trash-alt me-2"></i> Delete</a></li>
+                                                <li><a class="dropdown-item text-danger" asp-controller="Travel" asp-action="Delete" asp-route-id="@stay.Id"><i class="fas fa-trash-alt me-2"></i> Изтриване</a></li>
                                             </ul>
                                         </div>
                                     </td>

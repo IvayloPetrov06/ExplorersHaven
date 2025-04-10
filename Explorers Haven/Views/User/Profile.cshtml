@@ -6,7 +6,7 @@
         <div class="col-12 col-md-8 col-lg-6">
             <div class="profile-container animate__animated animate__fadeIn">
                 <h2 class="profile-header">
-                    <i class="bi bi-person-circle me-2"></i>Profile
+                    <i class="bi bi-person-circle me-2"></i>Профил
                 </h2>
                 <div class="profile-content">
                     <div class="profile-image-wrapper text-center mb-4">
@@ -16,20 +16,20 @@
                     <div class="profile-details">
                         <div class="detail-item">
                             <i class="bi bi-person me-2"></i>
-                            <strong>Name:</strong> @Model.Name
+                            <strong>Име:</strong> @Model.Name
                         </div>
                         <div class="detail-item">
                             <i class="bi bi-envelope me-2"></i>
-                            <strong>Email:</strong> @Model.Email
+                            <strong>Имейл:</strong> @Model.Email
                         </div>
                         <div class="detail-item">
                             <i class="bi bi-sticky me-2"></i>
-                            <strong>Bio:</strong> @(Model.Bio ?? "No bio available")
+                            <strong>Биография:</strong> @(Model.Bio ?? "Няма биография")
                         </div>
                     </div>
 
                     <button class="btn btn-edit w-100 mt-3" onclick="openEditModal()">
-                        <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                        <i class="bi bi-pencil-square me-2"></i>Редактиране
                     </button>
                 </div>
             </div>
@@ -43,7 +43,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">
-                    <i class="bi bi-pencil-square me-2"></i>Edit Profile
+                    <i class="bi bi-pencil-square me-2"></i>Редактиране
                 </h2>
                 <button type="button" class="btn-close" onclick="closeEditModal()"></button>
             </div>
@@ -51,7 +51,7 @@
                 <form asp-action="Update" asp-controller="User" method="post" enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="username" class="form-label">
-                            <i class="bi bi-person me-2"></i>Username
+                            <i class="bi bi-person me-2"></i>Име
                         </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person"></i></span>
@@ -60,7 +60,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="bio" class="form-label">
-                            <i class="bi bi-sticky me-2"></i>Bio
+                            <i class="bi bi-sticky me-2"></i>Биография
                         </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-sticky"></i></span>
@@ -70,7 +70,7 @@
 
                     <div class="mb-3">
                         <label for="ImageFile" class="form-label">
-                            <i class="bi bi-image me-2"></i>Profile Picture
+                            <i class="bi bi-image me-2"></i>Профилна снимка
                         </label>
                         <input type="file" id="ImageFile" name="ImageFile" class="form-control" accept="image/*">
                     </div>
@@ -80,7 +80,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-login w-100">
-                        <i class="bi bi-save me-2"></i>Save Changes
+                        <i class="bi bi-save me-2"></i>Запазване
                     </button>
                 </form>
             </div>

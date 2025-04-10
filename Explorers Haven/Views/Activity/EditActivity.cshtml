@@ -297,8 +297,8 @@
     <div class="container">
         <div class="album-container">
             <div class="album-header">
-                <h1 class="album-title">Add New Activity</h1>
-                <p class="text-muted">Create a new activity for your travelers</p>
+                <h1 class="album-title">Редактирай дейността си</h1>
+                <p class="text-muted">Редактирайте дейността за вашите пътешественици</p>
             </div>
 
             <form method="post" class="album-form" enctype="multipart/form-data">
@@ -315,7 +315,7 @@
                                     <svg class="cover-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M12 16V8M8 12H16M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    <span class="upload-text">Upload Image</span>
+                                    <span class="upload-text">Качете изображение</span>
                                     
                                 }
                             </div>
@@ -323,15 +323,15 @@
                         </div>
 
                         <div class="input-group">
-                            <label for="Title">Stay Title</label>
-                            <input type="text" id="Title" placeholder="Enter activity title" asp-for="Name" class="album-input" required />
+                            <label for="Title">Заглавие</label>
+                            <input type="text" id="Title" placeholder="Въведете заглавие за дейността" asp-for="Name" class="album-input" required />
                         </div>
 
                         <div class="input-group">
-                            <label asp-for="OfferId">Offer</label>
+                            <label asp-for="OfferId">Оферта</label>
                             <div class="select-container">
                                 <select asp-for="OfferId" asp-items="ViewBag.Offers" class="styled-select">
-                                    <option value="">Select a offer</option>
+                                    <option value="0">Изберете оферта</option>
                                 </select>
                                 
                                 <span asp-validation-for="OfferId" class="alert-danger"></span>
@@ -349,7 +349,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="album-submit">Edit Activity</button>
+                    <button type="submit" class="album-submit">Редактиране</button>
                 </div>
             </form>
         </div>

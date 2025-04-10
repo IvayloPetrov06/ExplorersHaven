@@ -883,7 +883,7 @@
                     </div>
                     @foreach (var tr in Model.Transports)
                     {
-                        if (@a.TransportId == tr.Id && tr.Name == "Plane")
+                        if (@a.TransportId == tr.Id && tr.Name == "Самолет")
                         {
                             
                             <div class="travel-icon">
@@ -891,21 +891,21 @@
                                 <img src="/Images/Plane.svg" alt="Plane" />
                             </div>
                         }
-                        if (@a.TransportId == tr.Id && tr.Name == "Train")
+                        if (@a.TransportId == tr.Id && tr.Name == "Влак")
                         {
                             <div class="travel-icon">
                                 <div class="travel-transport">@tr.Name</div>
                                 <img src="/Images/Train.svg" alt="Train" />
                             </div>
                         }
-                        if (@a.TransportId == tr.Id && tr.Name == "Boat")
+                        if (@a.TransportId == tr.Id && tr.Name == "Ферибот")
                         {
                             <div class="travel-icon">
                                 <div class="travel-transport">@tr.Name</div>
                                 <img src="/Images/boat.svg" alt="boat" />
                             </div>
                         }
-                        if (@a.TransportId == tr.Id && tr.Name == "Custom")
+                        if (@a.TransportId == tr.Id && tr.Name == "Личен")
                         {
                             <div class="travel-icon">
                                 <div class="travel-transport">@tr.Name</div>

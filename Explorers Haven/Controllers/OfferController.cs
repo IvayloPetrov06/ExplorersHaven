@@ -285,6 +285,13 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> EditOffer(EditOfferViewModel model)//ImageUrl
         {
+            if (model.StayId == 0)
+            {
+                TempData["error"] = "Изберете престой";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             var tempS = await _stayService.GetStayByIdAsync(model.StayId.Value);
             if (model.Price <= tempS.Price)
             {
@@ -383,6 +390,13 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOffer(AddOfferViewModel model)
         {
+            if (model.StayId == 0)
+            {
+                TempData["error"] = "Изберете престой";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             var tempS = await _stayService.GetStayByIdAsync(model.StayId.Value);
             if (model.Price <= tempS.Price)
             {
@@ -412,6 +426,13 @@ namespace Explorers_Haven.Controllers
                     return View(model);
 
                 }
+            }
+            if (model.LastDate.Value.DayOfWeek != model.StartDate.Value.DayOfWeek)
+            {
+                TempData["error"] = "Последната дата трябва да е същия ден от седмицата като началната";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
             }
             if (model.StartDate.Value.AddDays(model.DurationDays.Value) > model.LastDate)
             {

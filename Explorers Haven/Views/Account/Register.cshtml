@@ -6,38 +6,38 @@
         <div class="col-12 col-md-6 col-lg-5">
             <div class="login-container animate__animated animate__fadeIn">
                 <h2 class="login-header">
-                    <i class="bi bi-person-plus-fill me-2"></i>Register
+                    <i class="bi bi-person-plus-fill me-2"></i>Регистрация
                 </h2>
                 <form asp-action="Register" method="post">
                     <div class="mb-3">
                         <label asp-for="Username" class="form-label">
-                            <i class="bi bi-person me-2"></i>Username
+                            <i class="bi bi-person me-2"></i>Име
                         </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-person"></i></span>
-                            <input asp-for="Username" class="form-control" placeholder="Choose a username" />
+                            <input asp-for="Username" class="form-control" placeholder="Въведете име" />
                         </div>
                         <span asp-validation-for="Username" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Email" class="form-label">
-                            <i class="bi bi-envelope me-2"></i>Email
+                            <i class="bi bi-envelope me-2"></i>Имейл
                         </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                            <input asp-for="Email" class="form-control" placeholder="Enter your email" />
+                            <input asp-for="Email" class="form-control" placeholder="Въведете имейл" />
                         </div>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
 
                     <div class="mb-3">
                         <label asp-for="Password" class="form-label">
-                            <i class="bi bi-key me-2"></i>Password
+                            <i class="bi bi-key me-2"></i>Парола
                         </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-key"></i></span>
-                            <input asp-for="Password" type="password" class="form-control" placeholder="Create a password" />
+                            <input asp-for="Password" type="password" class="form-control" placeholder="Създайте парола" />
                             <button type="button" class="btn btn-outline-secondary btn-toggle-password" onclick="togglePassword('#Password', '#passwordToggleIcon')">
                                 <i class="bi bi-eye" id="passwordToggleIcon"></i>
                             </button>
@@ -47,11 +47,11 @@
 
                     <div class="mb-3">
                         <label asp-for="ConfirmPassword" class="form-label">
-                            <i class="bi bi-shield-lock me-2"></i>Confirm Password
+                            <i class="bi bi-shield-lock me-2"></i>Потвърдете паролата
                         </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="bi bi-shield-lock"></i></span>
-                            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Confirm your password" />
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="Потвърдете паролата си" />
                             <button type="button" class="btn btn-outline-secondary btn-toggle-password" onclick="togglePassword('#ConfirmPassword', '#confirmPasswordToggleIcon')">
                                 <i class="bi bi-eye" id="confirmPasswordToggleIcon"></i>
                             </button>
@@ -60,15 +60,15 @@
                     </div>
 
                     <button type="submit" class="btn btn-login w-100">
-                        <i class="bi bi-person-plus me-2"></i>Register
+                        <i class="bi bi-person-plus me-2"></i>Регистрирай
                     </button>
                 </form>
 
                 <div class="register-link">
                     <p class="mt-3">
-                        Already have an account?
+                        Вече имаш акаунт?
                         <a asp-action="Login" asp-controller="Account" class="text-primary">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>Log In
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Вход
                         </a>
                     </p>
                 </div>

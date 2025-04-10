@@ -453,6 +453,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Disc = "Polish Hotel",
                             Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
                             Name = "Mitte Hotel",
+                            Price = 500m,
                             Stars = 2
                         });
                 });
@@ -519,22 +520,22 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Plane"
+                            Name = "Самолет"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Train"
+                            Name = "Влак"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "Boat"
+                            Name = "Ферибот"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "Custom"
+                            Name = "Друг"
                         });
                 });
 

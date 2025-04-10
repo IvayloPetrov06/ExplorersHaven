@@ -380,11 +380,11 @@
             <div class="col-12 main-content">
                 <div class="d-flex justify-content-between align-items-center header-section mb-4">
                     <div>
-                        <h1 class="mb-0">All Offers</h1>
-                        <p class="text-muted">Manage your offers</p>
+                        <h1 class="mb-0">Всички оферти</h1>
+                        <p class="text-muted">Управлявайте офертите си</p>
                     </div>
                     <a class="btn upload-btn" asp-controller="Offer" asp-action="AddOffer">
-                        <i class="fas fa-plus me-2"></i> Add New Offer
+                        <i class="fas fa-plus me-2"></i> Добави нова оферта
                     </a>
                 </div>
 
@@ -394,12 +394,12 @@
                             <div class="col-md-4">
                                 <div class="search-input-container">
                                     <i class="fas fa-search search-icon"></i>
-                                    <input type="text" asp-for="Search" class="form-control" placeholder="Search by name">
+                                    <input type="text" asp-for="Search" class="form-control" placeholder="Търси по име">
                                 </div>
                             </div>
 
                             <div class="col-md-3">
-                                <button type="submit" class="btn float-end">Apply</button>
+                                <button type="submit" class="btn float-end">Приложи</button>
                             </div>
                         </div>
                     </form>
@@ -410,11 +410,11 @@
                         <thead>
                             <tr>
                                 <th style="width: 50px">#</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Default Rating</th>
-                                <th>Comments</th>
-                                <th>Actions</th>
+                                <th>Име</th>
+                                <th>Цена</th>
+                                <th>Оценка по подразбиране</th>
+                                <th>Коментари</th>
+                                <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -435,11 +435,11 @@
 
                                     @if (stay.OfferPrice != null)
                                     {
-                                        <td class="align-middle">@stay.OfferPrice</td>
+                                        <td class="align-middle">@stay.OfferPrice лв</td>
                                     }
                                     else
                                     {
-                                        <td class="align-middle">No Price Set</td>
+                                        <td class="align-middle">Няма цена</td>
                                     }
 
                                     @if (stay.DefaultOfferRating != null)
@@ -458,13 +458,13 @@
                                         <td class="align-middle">no rating</td>
                                     }
 
-                                    @if (stay.Comments != null)
+                                    @if (stay.Comments.Count > 0 )
                                     {
                                         <td class="align-middle">@stay.Comments.Count</td>
                                     }
                                     else
                                     {
-                                        <td class="align-middle">No Price Set</td>
+                                        <td class="align-middle">Няма коментари</td>
                                     }
 
                                     <td class="align-middle">
@@ -473,9 +473,9 @@
                                                 <i class="fas fa-ellipsis-h"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" asp-controller="Offer" asp-action="EditOffer" asp-route-id="@stay.OfferId"><i class="fas fa-edit me-2"></i> Edit</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Offer" asp-action="EditOffer" asp-route-id="@stay.OfferId"><i class="fas fa-edit me-2"></i> Редактиране</a></li>
                                                 <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" asp-controller="Offer" asp-action="Delete" asp-route-id="@stay.OfferId"><i class="fas fa-trash-alt me-2"></i> Delete</a></li>
+                                                <li><a class="dropdown-item text-danger" asp-controller="Offer" asp-action="Delete" asp-route-id="@stay.OfferId"><i class="fas fa-trash-alt me-2"></i> Изтриване</a></li>
                                             </ul>
                                         </div>
                                     </td>

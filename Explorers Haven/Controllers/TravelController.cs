@@ -165,6 +165,20 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTravel(EditTravelViewModel model)
         {
+            if (model.TransportId == 0)
+            {
+                TempData["error"] = "Изберете транспорт";
+                var stays = _trService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
+            if (model.OfferId == 0)
+            {
+                TempData["error"] = "Изберете оферта";
+                var stays = _offerService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             var alltrav = await _travelService.GetAllTravelAsync();
             foreach (var travel in alltrav)
             {
@@ -227,6 +241,20 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTravel(AddTravelViewModel model)
         {
+            if (model.OfferId == 0)
+            {
+                TempData["error"] = "Изберете оферта";
+                var stays = _offerService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
+            if (model.TransportId == 0)
+            {
+                TempData["error"] = "Изберете транспорт";
+                var stays = _trService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             var alltrav = await _travelService.GetAllTravelAsync();
             foreach (var travel in alltrav) 
             {

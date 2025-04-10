@@ -489,7 +489,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     { 1, "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5, null },
                     { 2, "Polish Hotel", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "InterContinental Warsaw Hotel", 120m, 5, null },
-                    { 3, "Polish Hotel", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Mitte Hotel", null, 2, null }
+                    { 3, "Polish Hotel", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Mitte Hotel", 500m, 2, null }
                 });
 
             migrationBuilder.InsertData(
@@ -497,10 +497,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { 1, "Plane" },
-                    { 2, "Train" },
-                    { 3, "Boat" },
-                    { 4, "Custom" }
+                    { 1, "Самолет" },
+                    { 2, "Влак" },
+                    { 3, "Ферибот" },
+                    { 4, "Друг" }
                 });
 
             migrationBuilder.InsertData(

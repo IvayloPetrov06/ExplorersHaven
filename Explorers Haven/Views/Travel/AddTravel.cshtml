@@ -351,8 +351,8 @@
     <div class="container">
         <div class="album-container">
             <div class="album-header">
-                <h1 class="album-title">Add New Offer</h1>
-                <p class="text-muted">Create a new experience</p>
+                <h1 class="album-title">Добавете ново пътуване</h1>
+                <p class="text-muted">Създайте ново пътуване за вашата оферта</p>
             </div>
 
             <form method="post" class="album-form" enctype="multipart/form-data">
@@ -362,20 +362,20 @@
                         
 
                         <div class="input-group">
-                            <label for="Title">Travel Start</label>
-                            <input type="text" id="Title" placeholder="Enter travel start location" asp-for="Start" class="album-input" required />
+                            <label for="Title">Начало</label>
+                            <input type="text" id="Title" placeholder="Въведете начална локация на пътуването" asp-for="Start" class="album-input" required />
                         </div>
 
                         <div class="input-group">
-                            <label for="Title">Travel Finish</label>
-                            <input type="text" id="Title" placeholder="Enter travel finish location" asp-for="Finish" class="album-input" required />
+                            <label for="Title">Край</label>
+                            <input type="text" id="Title" placeholder="Въведете крайна локация на пътуването" asp-for="Finish" class="album-input" required />
                         </div>
 
                         <div class="input-group">
-                            <label asp-for="OfferId">Offer</label>
+                            <label asp-for="OfferId">Оферта</label>
                             <div class="select-container">
                                 <select asp-for="OfferId" asp-items="ViewBag.Offers" class="styled-select">
-                                    <option value="">Select a offer</option>
+                                    <option value="0">Изберете оферта</option>
                                 </select>
                                 <div class="select-arrow">
                                     <i class="fas fa-chevron-down"></i>
@@ -385,10 +385,10 @@
                         </div>
 
                         <div class="input-group">
-                            <label asp-for="TransportId">Transport</label>
+                            <label asp-for="TransportId">Транспорт</label>
                             <div class="select-container">
                                 <select asp-for="TransportId" asp-items="ViewBag.Transports" class="styled-select">
-                                    <option value="">Select a transport</option>
+                                    <option value="0">Изберете транспорт</option>
                                 </select>
                                 <div class="select-arrow">
                                     <i class="fas fa-chevron-down"></i>
@@ -398,13 +398,13 @@
                         </div>
 
                         <div class="input-group">
-                            <label for="Duration">Offer Duration</label>
-                            <input type="text" id="Duration" placeholder="Enter offer duration in days" asp-for="DurationDays" class="album-input" required />
+                            <label for="Duration">Траене в дни</label>
+                            <input type="text" id="Duration" placeholder="Въведеното число ще бъде конвертирано в дни" asp-for="DurationDays" class="album-input" required />
                         </div>
 
                         <select id="Stars" name="Arrival" class="styled-select">
-                            <option value="true">Arrival</option>
-                            <option value="false">Departure</option>
+                            <option value="true">Отиване</option>
+                            <option value="false">Връщане</option>
                         </select>
 
                     </div>
@@ -414,7 +414,7 @@
                 </div>
 
                 <div class="form-actions">
-                    <button type="submit" class="album-submit">Add Travel</button>
+                    <button type="submit" class="album-submit">Добавете пътуване</button>
                 </div>
             </form>
         </div>

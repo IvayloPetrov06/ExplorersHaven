@@ -45,25 +45,25 @@ namespace Explorers_Haven.DataAccess
                 new Transport
                 {
                     Id = 1,
-                    Name = "Plane"
+                    Name = "Самолет"
                 });
             modelBuilder.Entity<Transport>().HasData(
                 new Transport
                 {
                     Id = 2,
-                    Name = "Train"
+                    Name = "Влак"
                 });
             modelBuilder.Entity<Transport>().HasData(
                 new Transport
                 {
                     Id = 3,
-                    Name = "Boat"
+                    Name = "Ферибот"
                 });
             modelBuilder.Entity<Transport>().HasData(
                 new Transport
                 {
                     Id = 4,
-                    Name = "Custom"
+                    Name = "Друг"
                 });
 
             modelBuilder.Entity<Amenity>().HasData(

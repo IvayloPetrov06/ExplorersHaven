@@ -380,11 +380,11 @@
             <div class="col-12 main-content">
                 <div class="d-flex justify-content-between align-items-center header-section mb-4">
                     <div>
-                        <h1 class="mb-0">All Activities</h1>
-                        <p class="text-muted">Manage your activities</p>
+                        <h1 class="mb-0">Всички дейности</h1>
+                        <p class="text-muted">Управлява дейностите си</p>
                     </div>
                     <a class="btn upload-btn" asp-controller="Activity" asp-action="AddActivity">
-                        <i class="fas fa-plus me-2"></i> Add New Activity
+                        <i class="fas fa-plus me-2"></i> Добави нова дейност
                     </a>
                 </div>
 
@@ -394,11 +394,11 @@
                             <div class="col-md-4">
                                 <div class="search-input-container">
                                     <i class="fas fa-search search-icon"></i>
-                                    <input type="text" asp-for="Title" class="form-control" placeholder="Search by name">
+                                    <input type="text" asp-for="Title" class="form-control" placeholder="Търси по име">
                                 </div>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn float-end">Apply</button>
+                                <button type="submit" class="btn float-end">Приложи</button>
                             </div>
                         </div>
                     </form>
@@ -409,9 +409,9 @@
                         <thead>
                             <tr>
                                 <th style="width: 50px">#</th>
-                                <th>Name</th>
-                                <th>Offer of origin</th>
-                                <th>Actions</th>
+                                <th>Име</th>
+                                <th>Принадлежяща оферта</th>
+                                <th>Действия</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -437,9 +437,9 @@
                                                 <i class="fas fa-ellipsis-h"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" asp-controller="Activity" asp-action="EditActivity" asp-route-id="@stay.Id"><i class="fas fa-edit me-2"></i> Edit</a></li>
+                                                <li><a class="dropdown-item" asp-controller="Activity" asp-action="EditActivity" asp-route-id="@stay.Id"><i class="fas fa-edit me-2"></i> Редактиране</a></li>
                                                 <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" asp-controller="Activity" asp-action="Delete" asp-route-id="@stay.Id"><i class="fas fa-trash-alt me-2"></i> Delete</a></li>
+                                                <li><a class="dropdown-item text-danger" asp-controller="Activity" asp-action="Delete" asp-route-id="@stay.Id"><i class="fas fa-trash-alt me-2"></i> Изтриване</a></li>
                                             </ul>
                                         </div>
                                     </td>

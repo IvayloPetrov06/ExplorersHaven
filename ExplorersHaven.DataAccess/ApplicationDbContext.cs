@@ -71,7 +71,7 @@ namespace Explorers_Haven.DataAccess
                 {
                     Id = 1,
                     Icon = "/Images/parking.svg",
-                    Name = "Parking places"
+                    Name = "Места за паркиране"
                 }
                 );
 
@@ -80,7 +80,7 @@ namespace Explorers_Haven.DataAccess
                 {
                     Id = 2,
                     Icon = "/Images/kitchen.svg",
-                    Name = "Kitchen"
+                    Name = "Кухня"
                 }
                 );
 
@@ -89,7 +89,7 @@ namespace Explorers_Haven.DataAccess
                 {
                     Id = 3,
                     Icon = "/Images/usefortheunabled.svg",
-                    Name = "Wheelchair Friendly"
+                    Name = "Подходящ за хора с увреждания"
                 }
                 );
 
@@ -98,7 +98,7 @@ namespace Explorers_Haven.DataAccess
                 {
                     Id = 4,
                     Icon = "/Images/wifi.svg",
-                    Name = "Free Wifi"
+                    Name = "Безплатен Wifi"
                 }
                 );
 
@@ -639,7 +639,7 @@ namespace Explorers_Haven.DataAccess
 
                     Comments.AddRange(
                     new Comment() { Stars = 1, OfferId = 1, Content = "Откраднаха ми портфейла!", UserId = user1.Id },
-                    new Comment() { Stars = 2, OfferId = 2, Content = "Леглото в хотела беше продунено!", UserId = user1.Id },
+                    new Comment() { Stars = 2, OfferId = 2, Content = "Леглото в хотела беше продънено!", UserId = user1.Id },
                     new Comment() { Stars = 5, OfferId = 3, Content = "Много моменти за цял живот!", UserId = user1.Id }
                     );
                 }

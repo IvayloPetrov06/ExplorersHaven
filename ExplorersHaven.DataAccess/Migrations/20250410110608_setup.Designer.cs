@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250410110208_setup")]
+    [Migration("20250410110608_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -116,25 +116,25 @@ namespace Explorers_Haven.DataAccess.Migrations
                         {
                             Id = 1,
                             Icon = "/Images/parking.svg",
-                            Name = "Parking places"
+                            Name = "Места за паркиране"
                         },
                         new
                         {
                             Id = 2,
                             Icon = "/Images/kitchen.svg",
-                            Name = "Kitchen"
+                            Name = "Кухня"
                         },
                         new
                         {
                             Id = 3,
                             Icon = "/Images/usefortheunabled.svg",
-                            Name = "Wheelchair Friendly"
+                            Name = "Подходящ за хора с увреждания"
                         },
                         new
                         {
                             Id = 4,
                             Icon = "/Images/wifi.svg",
-                            Name = "Free Wifi"
+                            Name = "Безплатен Wifi"
                         });
                 });
 

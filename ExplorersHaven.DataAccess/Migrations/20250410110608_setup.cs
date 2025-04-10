@@ -476,10 +476,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "Icon", "Name" },
                 values: new object[,]
                 {
-                    { 1, "/Images/parking.svg", "Parking places" },
-                    { 2, "/Images/kitchen.svg", "Kitchen" },
-                    { 3, "/Images/usefortheunabled.svg", "Wheelchair Friendly" },
-                    { 4, "/Images/wifi.svg", "Free Wifi" }
+                    { 1, "/Images/parking.svg", "Места за паркиране" },
+                    { 2, "/Images/kitchen.svg", "Кухня" },
+                    { 3, "/Images/usefortheunabled.svg", "Подходящ за хора с увреждания" },
+                    { 4, "/Images/wifi.svg", "Безплатен Wifi" }
                 });
 
             migrationBuilder.InsertData(

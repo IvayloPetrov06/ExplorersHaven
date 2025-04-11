@@ -24,8 +24,6 @@ namespace Explorers_Haven.Tests
             _activityService = new ActivityService(_mockRepo.Object);
         }
 
-        #region Add Activity
-
         [Test]
         public async Task AddActivityAsync_ShouldCallRepoAddAsync()
         {
@@ -38,10 +36,6 @@ namespace Explorers_Haven.Tests
             // Assert
             _mockRepo.Verify(r => r.AddAsync(It.Is<Models.Activity>(a => a == activity)), Times.Once);
         }
-
-        #endregion
-
-        #region Update Activity
 
         [Test]
         public async Task UpdateActivityAsync_ShouldCallRepoUpdateAsync()
@@ -56,10 +50,6 @@ namespace Explorers_Haven.Tests
             _mockRepo.Verify(r => r.UpdateAsync(It.Is<Models.Activity>(a => a == activity)), Times.Once);
         }
 
-        #endregion
-
-        #region Delete Activity
-
         [Test]
         public async Task DeleteActivityAsync_ShouldCallRepoDeleteAsync()
         {
@@ -73,10 +63,6 @@ namespace Explorers_Haven.Tests
             _mockRepo.Verify(r => r.DeleteAsync(It.Is<Models.Activity>(a => a == activity)), Times.Once);
         }
 
-        #endregion
-
-        #region Delete Activity by ID
-
         [Test]
         public async Task DeleteActivityByIdAsync_ShouldCallRepoDeleteByIdAsync()
         {
@@ -89,10 +75,6 @@ namespace Explorers_Haven.Tests
             // Assert
             _mockRepo.Verify(r => r.DeleteByIdAsync(It.Is<int>(id => id == activityId)), Times.Once);
         }
-
-        #endregion
-
-        #region Delete All Activities by OfferId
 
         [Test]
         public async Task DeleteAllActivitysByOffers_ShouldDeleteAllActivitiesWithOfferId()
@@ -115,10 +97,6 @@ namespace Explorers_Haven.Tests
             _mockRepo.Verify(r => r.DeleteAsync(It.IsAny<Models.Activity>()), Times.Exactly(2));
         }
 
-        #endregion
-
-        #region Get All Activities
-
         [Test]
         public void GetAll_ShouldReturnAllActivities()
         {
@@ -138,10 +116,6 @@ namespace Explorers_Haven.Tests
             Assert.AreEqual(2, result.Count());
         }
 
-        #endregion
-
-        #region Get Activity by ID
-
         [Test]
         public async Task GetActivityByIdAsync_ShouldReturnActivity()
         {
@@ -157,10 +131,6 @@ namespace Explorers_Haven.Tests
             Assert.AreEqual(activity, result);
             _mockRepo.Verify(r => r.GetByIdAsync(It.Is<int>(id => id == activityId)), Times.Once);
         }
-
-        #endregion
-
-        #region Get All Activities Async
 
         [Test]
         public async Task GetAllActivityAsync_ShouldReturnAllActivitiesAsync()
@@ -180,10 +150,6 @@ namespace Explorers_Haven.Tests
             // Assert
             Assert.AreEqual(2, result.Count());
         }
-
-        #endregion
-
-        #region Get Activity with Filter
 
         [Test]
         public async Task GetAllActivityAsync_WithFilter_ShouldReturnFilteredActivities()
@@ -206,10 +172,6 @@ namespace Explorers_Haven.Tests
             Assert.AreEqual(1, result.First().Id);
         }
 
-        #endregion
-
-        #region Combined Include
-
         [Test]
         public void CombinedInclude_ShouldIncludeProperties()
         {
@@ -228,7 +190,5 @@ namespace Explorers_Haven.Tests
             // Assert
             Assert.AreEqual(2, result.Count());
         }
-
-        #endregion
     }
 }

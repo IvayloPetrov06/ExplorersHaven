@@ -11,7 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Explorers_Haven.Test
+namespace Explorers_Haven.Tests
 {
     [TestFixture]
     public class OfferServiceTest

@@ -105,7 +105,7 @@ namespace Explorers_Haven.Controllers
                     Activities = model,
 
                 };
-                var sortedList = filterModel.Activities.OrderBy(x => x.OfferName).ToList();
+                var sortedList = filterModel.Activities.OrderBy(x => x.Id).ToList();
                 filterModel.Activities = sortedList;
                 return View(filterModel);
             }

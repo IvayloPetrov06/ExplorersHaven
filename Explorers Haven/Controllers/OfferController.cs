@@ -195,7 +195,7 @@ namespace Explorers_Haven.Controllers
                     Offers = model,
 
                 };
-                var sortedList = filterModel.Offers.OrderBy(x => x.OfferName).ToList();
+                var sortedList = filterModel.Offers.OrderBy(x => x.OfferId).ToList();
                 filterModel.Offers = sortedList;
                 return View(filterModel);
             }

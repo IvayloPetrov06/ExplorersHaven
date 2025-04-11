@@ -535,7 +535,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 4,
-                            Name = "Друг"
+                            Name = "Личен Транспорт"
                         });
                 });
 

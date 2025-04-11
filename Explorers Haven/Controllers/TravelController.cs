@@ -100,7 +100,7 @@ namespace Explorers_Haven.Controllers
                     Travels = model,
 
                 };
-                var sortedList = filterModel.Travels.OrderBy(x => x.OfferName).ToList();
+                var sortedList = filterModel.Travels.OrderBy(x => x.Id).ToList();
                 filterModel.Travels = sortedList;
                 return View(filterModel);
             }
@@ -165,18 +165,32 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> EditTravel(EditTravelViewModel model)
         {
+            var tempOf = await _offerService.GetOfferByIdAsync(model.OfferId.Value);
+            if (model.DurationDays > (tempOf.DurationDays % 2))
+            {
+                TempData["error"] = "Продължителността е твърде голяма";
+                var transports = _trService.GetAll();
+                ViewBag.Transports = new SelectList(transports, "Id", "Name");
+                var offers = _offerService.GetAll();
+                ViewBag.Offers = new SelectList(offers, "Id", "Name");
+                return View(model);
+            }
             if (model.TransportId == 0)
             {
                 TempData["error"] = "Изберете транспорт";
-                var stays = _trService.GetAll();
-                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                var transports = _trService.GetAll();
+                ViewBag.Transports = new SelectList(transports, "Id", "Name");
+                var offers = _offerService.GetAll();
+                ViewBag.Offers = new SelectList(offers, "Id", "Name");
                 return View(model);
             }
             if (model.OfferId == 0)
             {
                 TempData["error"] = "Изберете оферта";
-                var stays = _offerService.GetAll();
-                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                var transports = _trService.GetAll();
+                ViewBag.Transports = new SelectList(transports, "Id", "Name");
+                var offers = _offerService.GetAll();
+                ViewBag.Offers = new SelectList(offers, "Id", "Name");
                 return View(model);
             }
             var alltrav = await _travelService.GetAllTravelAsync();
@@ -241,6 +255,14 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTravel(AddTravelViewModel model)
         {
+            var tempOf = await _offerService.GetOfferByIdAsync(model.OfferId.Value);
+            if (model.DurationDays > (tempOf.DurationDays%2))
+            {
+                TempData["error"] = "Продължителността е твърде голяма";
+                var stays = _offerService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             if (model.OfferId == 0)
             {
                 TempData["error"] = "Изберете оферта";

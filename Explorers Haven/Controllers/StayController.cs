@@ -240,9 +240,6 @@ namespace Explorers_Haven.Controllers
                             }
                         }
                     }
-                }
-                else 
-                {
                     var sams = _saService.GetAll().ToList();
                     foreach (var item in sams)
                     {
@@ -251,7 +248,7 @@ namespace Explorers_Haven.Controllers
                             bool has = false;
                             foreach (var b in model.SelectedAmenities)
                             {
-                                if (item.AmenityId==b)
+                                if (item.AmenityId == b)
                                 {
                                     has = true;
                                 }
@@ -260,7 +257,18 @@ namespace Explorers_Haven.Controllers
                             {
                                 await _saService.DeleteStayAmenityAsync(item);
                             }
-                            
+
+                        }
+                    }
+                }
+                else 
+                {
+                    var sams = _saService.GetAll().ToList();
+                    foreach (var item in sams)
+                    {
+                        if (item.StayId == track.Id)
+                        {
+                            await _saService.DeleteStayAmenityAsync(item);
                         }
                     }
                 }

@@ -500,7 +500,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                     { 1, "Самолет" },
                     { 2, "Влак" },
                     { 3, "Ферибот" },
-                    { 4, "Друг" }
+                    { 4, "Личен Транспорт" }
                 });
 
             migrationBuilder.InsertData(

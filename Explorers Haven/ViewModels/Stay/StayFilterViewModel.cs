@@ -4,7 +4,7 @@ namespace Explorers_Haven.ViewModels.Stay
 {
     public class StayFilterViewModel
     {
-        public SelectList? Genres { get; set; }
+        
         public int? StarValue { get; set; }
 
         public List<StayViewModel> Stays { get; set; }

@@ -13,7 +13,7 @@
                     <div class="search-input-wrapper">
                         <i class="fas fa-search search-icon"></i>
                         <input type="text" asp-for="Search" class="search-input" placeholder="Търси по име?">
-                        <button type="submit" class="search-button">Търси</button>
+                        <button type="submit" class="search-button">Търсене</button>
                     </div>
                 </form>
             </div>
@@ -77,7 +77,7 @@
                                                         <img src="/Images/boat.svg" alt="boat" />
                                                     </div>
                                                 }
-                                                if (@a.TransportId == tr.Id && tr.Name == "Личен")
+                                                if (@a.TransportId == tr.Id && tr.Name == "Личен Транспорт")
                                                 {
                                                     <div class="travel-icon">
                                                         <div class="travel-transport">@tr.Name</div>

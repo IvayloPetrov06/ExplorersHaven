@@ -91,11 +91,7 @@ namespace Explorers_Haven.Controllers
         }
         public IActionResult Index()
         {
-
                 return View();
-            
-
-
         }
         public async Task<IActionResult> HomePage(HomePageViewModel filter)
         {
@@ -114,15 +110,12 @@ namespace Explorers_Haven.Controllers
                     OfferName = x.Name,
                     OfferPrice = x.Price,
                     OfferPic = x.CoverImage,
-                    OfferDiscount = x.Discount,
-
-
+                    OfferDiscount = x.Discount
                 }).ToList();
                 filterModel = new OfferFilterViewModel
                 {
                     Offers = model,
-                    Search = filter.Search,
-
+                    Search = filter.Search
                 };
                 var tempUser = await userManager.FindByEmailAsync(User.Identity.Name);
                 User userModel = await userService.GetUserAsync(x => x.Email == tempUser.Email);
@@ -187,8 +180,7 @@ namespace Explorers_Haven.Controllers
                     }
                 }
 
-                var sortedList1 = filterModel.Offers.OrderBy(x => x.OfferPrice).ToList();
-                filterModel.Cheapest_Offers = sortedList1;
+                
 
             }
             else
@@ -282,8 +274,12 @@ namespace Explorers_Haven.Controllers
             if (filterModel.Cheapest_Offers!=null)
             {
                 filterModel.Cheapest_Offers.Clear();
+            }//filterModel.Cheapest_Offers = new List<YourType>();
+            if (filterModel.Cheapest_Offers == null)
+            {
+                filterModel.Cheapest_Offers = new List<OfferViewModel>();
             }
-            
+
             foreach (var item in filterModel.Offers)
             {
                 if (item.OfferDiscount>0)

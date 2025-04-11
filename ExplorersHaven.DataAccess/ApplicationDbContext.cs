@@ -63,7 +63,7 @@ namespace Explorers_Haven.DataAccess
                 new Transport
                 {
                     Id = 4,
-                    Name = "Друг"
+                    Name = "Личен Транспорт"
                 });
 
             modelBuilder.Entity<Amenity>().HasData(
@@ -532,6 +532,7 @@ namespace Explorers_Haven.DataAccess
                     await userManager.AddToRoleAsync(userA, "Admin");
                     User user1 = new User()
                     {
+                        ProfilePicture = "/Images/def.jpg",
                         Username = "Admin",
                         Email = "admin@admin.com",
                         Password = "Admin123!",

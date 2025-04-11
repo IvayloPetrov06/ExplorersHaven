@@ -248,7 +248,19 @@ namespace Explorers_Haven.Controllers
                     {
                         if (item.StayId == track.Id)
                         {
-                            await _saService.DeleteStayAmenityAsync(item);
+                            bool has = false;
+                            foreach (var b in model.SelectedAmenities)
+                            {
+                                if (item.AmenityId==b)
+                                {
+                                    has = true;
+                                }
+                            }
+                            if (has == false)
+                            {
+                                await _saService.DeleteStayAmenityAsync(item);
+                            }
+                            
                         }
                     }
                 }

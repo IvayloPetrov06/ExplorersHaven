@@ -82,42 +82,55 @@ namespace Explorers_Haven.Controllers
             {
                 pplCount += p.PeopleCount.Value;
             }
+            if (o.StartDate.Value.DayOfWeek == st.DayOfWeek && o.LastDate.Value >= st)
+            {
+                b.StartDate = st;
+            }
+            else
+            {
+                TempData["error"] = $"Available only on {o.StartDate.Value.DayOfWeek}!";
+                return RedirectToAction("OfferPage", "Home", new { Id = id });
+            }
             if ((o.MaxPeople - pplCount) >= ppl)
             {
-                if (o.StartDate.Value.DayOfWeek == st.DayOfWeek && o.LastDate.Value >= st)
+                decimal normppl = ppl - discppl;
+                decimal realprice = 0;
+                if (o.Discount != null)
                 {
-                    b.StartDate = st;
+                    decimal d = (o.Price.Value / 100) * o.Discount.Value;
+                    decimal disc = (o.Price.Value * discppl) - d;
+                    realprice = (o.Price.Value * normppl) + disc;
+                    b.Price = realprice;
                 }
                 else
                 {
-                    TempData["error"] = "Date is unavailable!";
-                    return RedirectToAction("OfferPage", "Home", new { Id = id });
+                    realprice = o.Price.Value * ppl;
+                    b.Price = realprice;
                 }
+                await _bookingService.AddBookingAsync(b);
+                TempData["success"] = "Резервацията беше направена!";
+                return RedirectToAction("BookingsPage", "Booking");
             }
-            else
+            if ((o.MaxPeople - pplCount) == 0)
             {
-                TempData["error"] = $"Only{o.MaxPeople - pplCount} available spots!";
+                TempData["error"] = $"Няма повече свободни места!";
                 return RedirectToAction("OfferPage", "Home", new { Id = id });
             }
-            
-            
-            decimal normppl = ppl - discppl;
-            decimal realprice = 0;
-            if (o.Discount != null)
+            if ((o.MaxPeople - pplCount) == 1)
             {
-                decimal d = (o.Price.Value / 100) * o.Discount.Value;
-                decimal disc = (o.Price.Value * discppl) - d;
-                realprice = (o.Price.Value * normppl) + disc;
-                b.Price = realprice;
+                TempData["error"] = $"Само 1 свободно място!";
+                return RedirectToAction("OfferPage", "Home", new { Id = id });
             }
-            else
+            else if ((o.MaxPeople - pplCount) < ppl)
             {
-                realprice = o.Price.Value * ppl;
-                b.Price = realprice;
+                TempData["error"] = $"Само {(o.MaxPeople - pplCount).Value.ToString("0")} свободни места!";
+                return RedirectToAction("OfferPage", "Home", new { Id = id });
             }
-            await _bookingService.AddBookingAsync(b);
-            TempData["success"] = "Резервацията беше направена!";
-            return RedirectToAction("BookingsPage", "Booking");
+
+
+            TempData["error"] = "Възникна проблем";
+            return RedirectToAction("OfferPage", "Home", new { Id = id });
+
         }
         [HttpPost]
         public async Task<IActionResult> BookingsPage(BookingPageViewModel filter)

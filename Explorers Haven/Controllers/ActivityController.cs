@@ -162,7 +162,7 @@ namespace Explorers_Haven.Controllers
             {
                 TempData["error"] = "Изберете оферта";
                 var stays = _offerService.GetAll();
-                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                ViewBag.Offers = new SelectList(stays, "Id", "Name");
                 return View(model);
             }
 

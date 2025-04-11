@@ -62,12 +62,6 @@ namespace Explorers_Haven.Controllers
 
             if (string.IsNullOrEmpty(filter.Search))
             {
-                /*<th style="width: 50px">#</th>
-                                <th>Name</th>
-                                <th>Price</th>
-                                <th>Rating</th>
-                                <th>Comments</th>
-                                <th>Actions</th>*/
 
                 var model = _offerService.CombinedInclude().Include(x => x.User).Select(x => new OfferViewModel()
                 {
@@ -77,7 +71,6 @@ namespace Explorers_Haven.Controllers
                     UserName = x.User.Username,
                     OfferPrice = x.Price,
                     Comments = x.Comments.ToList(),
-                    //OfferRatingStars = x.R
                 }).ToList();
 
                 filterModel = new OfferFilterViewModel
@@ -124,7 +117,6 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> AllOffer(OfferFilterViewModel? filter)
         {
             var query = _offerService.GetAll().AsQueryable();
-            //var playlists = await playlistService.GetAllPlaylistsAsync();
 
 
             if (string.IsNullOrEmpty(filter.Search))
@@ -148,7 +140,7 @@ namespace Explorers_Haven.Controllers
                     var tempOffer = await _offerService.GetOfferByIdAsync(o.OfferId);
                     var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == o.OfferId);
                     o.Comments = tempCom.ToList();
-                    if (tempCom.Count() != 0)//ako ima reviewta
+                    if (tempCom.Count() != 0)
                     {
                         decimal rates = 0;
                         foreach (var r in tempCom)
@@ -157,14 +149,14 @@ namespace Explorers_Haven.Controllers
                         }
                         decimal AverageRate;
                         decimal ofst;
-                        if (tempOffer.Rating != null)//ako ofertata ima default rating
+                        if (tempOffer.Rating != null)
                         {
                             rates += tempOffer.Rating.Value;
                             int countt = tempCom.Count() + 1;
                             AverageRate = rates / countt;
                             ofst = Math.Round(AverageRate, 2);
                         }
-                        else//ako nqma
+                        else
                         {
                             AverageRate = rates / tempCom.Count();
                             ofst = Math.Round(AverageRate, 2);
@@ -172,7 +164,7 @@ namespace Explorers_Haven.Controllers
                         o.OfferRating = AverageRate;
                         o.OfferRatingStars = ofst;
                     }
-                    else//ako nqma reviewta
+                    else
                     {
                         if (tempOffer.Rating != null)
                         {
@@ -187,7 +179,6 @@ namespace Explorers_Haven.Controllers
 
                     }
                 }
-                //
 
 
                 var filterModel = new OfferFilterViewModel
@@ -283,7 +274,7 @@ namespace Explorers_Haven.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> EditOffer(EditOfferViewModel model)//ImageUrl
+        public async Task<IActionResult> EditOffer(EditOfferViewModel model)
         {
             if (model.DurationDays > 7)
             {

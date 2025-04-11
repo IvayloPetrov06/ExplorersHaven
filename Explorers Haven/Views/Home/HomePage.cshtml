@@ -1,9 +1,7 @@
 ﻿﻿@using Explorers_Haven.ViewModels.Offer
 @model OfferFilterViewModel
 
-<!-- Main Container -->
 <div class="trivago-container">
-    <!-- Hero Search Section -->
     <div class="hero-section">
         <div class="search-wrapper">
             <h1 class="main-heading">Открийте идеалната почивка и сравнете оферти</h1>
@@ -21,14 +19,12 @@
         </div>
     </div>
 
-    <!-- Results Section -->
     <div class="results-section">
         <div class="results-header">
             <h2 class="section-title">Всички оферти</h2>
             
         </div>
 
-        <!-- Offers Carousel -->
         <div class="carousel-container">
             <div class="carousel-wrapper" id="offers-carousel">
                 <div class="carousel-track">
@@ -96,7 +92,6 @@
             </div>
         </div>
 
-        <!-- Cheapest Offers Section -->
         <div class="results-header mt-40">
             <h2 class="section-title">Оферти на намаление</h2>
             <div class="special-label">
@@ -158,13 +153,10 @@
     </div>
 </div>
 
-<!-- Font Awesome and Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 <style>
-    /*favorite*/
-    /* Fixed favorite button animation */
 
     .favorite-btn {
         position: absolute;
@@ -266,7 +258,6 @@
         transform: translate(0px, 0%);
         opacity: 1;
     }
-    /* Add these styles to your existing CSS */
 
     .carousel-track {
         position: relative;
@@ -286,7 +277,6 @@
             display: block;
         }
 
-    /* Fix for responsive design */
     media (max-width: 768px) {
         .carousel-item
 
@@ -313,9 +303,9 @@
     .trivago-container {
         width: 100%;
         max-width: 100%;
-        padding: 0 5%; /* Add 5% padding on left and right */
+        padding: 0 5%; 
         margin: 0;
-        box-sizing: border-box; /* Ensure padding doesn't break the layout star*/
+        box-sizing: border-box; 
     }
 
     .hero-section {
@@ -342,7 +332,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 124, 195, 0.6); /* Blue overlay for readability */
+            background: rgba(0, 124, 195, 0.6); 
         }
 
     .search-wrapper {
@@ -412,15 +402,14 @@
         background-color: #e57f00;
     }
 
-    /* Results Section Styles trivago  */
 
 
     .results-section {
         position: relative;
         background-color: #f4f4f4;
         padding-bottom: 60px;
-        padding-left: 5%; /* Add left padding */
-        padding-right: 5%; /* Add right padding */
+        padding-left: 5%; 
+        padding-right: 5%;
     }
 
     .results-header {
@@ -475,7 +464,6 @@
             margin-right: 5px;
         }
 
-    /* Carousel Styles results-header */
     .carousel-container {
         position: relative;
         z-index: 1;
@@ -488,7 +476,7 @@
     .carousel-wrapper {
         position: relative;
         overflow: hidden;
-        padding: 0 50px; /* Added padding to make room for the buttons */
+        padding: 0 50px; 
     }
 
 
@@ -496,14 +484,14 @@
     .carousel-track {
         display: flex;
         overflow: visible;
-        margin: 0 -10px; /* Negative margin to counteract item padding */
+        margin: 0 -10px; 
     }
 
     .carousel-item {
-        flex: 0 0 calc(33.333% - 20px); /* Maintain 3-column layout */
+        flex: 0 0 calc(33.333% - 20px); 
         margin-right: 10px;
         margin-left: 10px;
-        padding: 10px; /* Add padding to create shadow space */
+        padding: 10px; 
         box-sizing: border-box;
     }
 
@@ -529,11 +517,11 @@
     }
 
         .carousel-control.prev {
-            left: 10px; /* Changed from -20px to 10px */
+            left: 10px; 
         }
 
         .carousel-control.next {
-            right: 10px; /* Changed from -20px to 10px */
+            right: 10px; 
         }
 
         .carousel-control i {
@@ -612,7 +600,6 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
-    /*stars offer*/
     .stars-container {
         margin-bottom: 15px;
     }
@@ -650,7 +637,6 @@
         color: var(--dark-gray);
         font-size: 14px;
     }
-    /*more stars*/
     .rating-container {
         display: flex;
         align-items: center;
@@ -659,12 +645,12 @@
     .stars {
         display: flex;
         position: relative;
-        direction: rtl; /* Ensure the stars go from left to right */
+        direction: rtl; 
     }
 
         .stars label {
             font-size: 0;
-            cursor: pointer; /* Make the stars clickable */
+            cursor: pointer; 
         }
 
             .stars label:before {
@@ -743,7 +729,6 @@
             background-color: #e57f00;
         }
 
-    /* Responsive Styles */
     media (max-width: 768px) {
         .results-section, .results-header, .mt-40
 

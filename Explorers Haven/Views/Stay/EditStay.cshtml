@@ -405,7 +405,6 @@
                     </div>
 
                     <div class="track-selection">
-                        <!-- This section is empty in the original code, keeping it for layout consistency -->
                     </div>
                 </div>
 
@@ -418,7 +417,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Cover image preview
             const coverInput = document.getElementById('ImageFile');
             const coverPreview = document.getElementById('coverPreview');
 
@@ -441,7 +439,6 @@
                 coverInput.click();
             });
 
-            // Update amenities counter
             const updateAmenitiesCount = function() {
                 const totalAmenities = document.querySelectorAll('.form-check-input').length;
                 const selectedAmenities = document.querySelectorAll('.form-check-input:checked').length;
@@ -450,10 +447,8 @@
                 document.getElementById('totalCount').textContent = totalAmenities;
             };
 
-            // Initialize amenities counter
             updateAmenitiesCount();
 
-            // Update counter when amenities are selected/deselected
             const amenityCheckboxes = document.querySelectorAll('.form-check-input');
             amenityCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', updateAmenitiesCount);

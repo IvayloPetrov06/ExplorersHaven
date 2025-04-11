@@ -41,7 +41,6 @@
             padding: 20px;
         }
 
-        /* Header section */
         .offer-header {
             display: flex;
             justify-content: space-between;
@@ -70,12 +69,12 @@
         .stars {
             display: flex;
             position: relative;
-            direction: rtl; /* Ensure the stars go from left to right */
+            direction: rtl; 
         }
 
             .stars label {
                 font-size: 0;
-                cursor: pointer; /* Make the stars clickable */
+                cursor: pointer; 
             }
 
                 .stars label:before {
@@ -102,7 +101,6 @@
             color: var(--dark-gray);
         }
 
-        /* Fixed favorite button animation */
         .favorite-btn .favorite-checkbox {
             display: none;
         }
@@ -185,7 +183,6 @@
             opacity: 1;
         }
 
-        /* Main image carousel */
         .main-image {
             width: 100%;
             margin-bottom: 20px;
@@ -199,7 +196,6 @@
                 object-fit: cover;
             }
 
-        /* Content sections */
         .content-section {
             display: flex;
             margin-bottom: 30px;
@@ -209,7 +205,6 @@
             overflow: hidden;
         }
 
-        /* Improved description styling */
         .description {
             flex: 3;
             padding: 20px;
@@ -294,7 +289,6 @@
             color: var(--dark-gray);
         }
 
-        /* Improved discount styling */
         .discount-label {
             color: var(--discount-color);
             font-weight: 600;
@@ -364,7 +358,6 @@
                 background-color: #e0e0e0;
             }
 
-        /* Accommodation section */
         .accommodation-section {
             margin-bottom: 30px;
         }
@@ -423,7 +416,6 @@
             margin-top: 10px;
         }
 
-        /* Improved amenities section */
         .amenities-section {
             margin-bottom: 30px;
         }
@@ -458,7 +450,6 @@
             color: var(--text-color);
         }
 
-        /* Travel details section */
         .travel-section {
             margin-bottom: 30px;
         }
@@ -509,7 +500,6 @@
             color: var(--dark-gray);
         }
 
-        /* Activities section */
         .activities-section {
             margin-bottom: 30px;
         }
@@ -546,7 +536,6 @@
             color: var(--text-color);
         }
 
-        /* Reviews section */
         .reviews-section {
             margin-bottom: 30px;
         }
@@ -588,7 +577,6 @@
             padding: 20px;
         }
 
-        /* Updated comment styling */
         .comment-item {
             display: flex;
             flex-direction: column;
@@ -639,7 +627,6 @@
             justify-content: space-between;
             margin-top: 20px;
         }
-        /*new css*/
         .stars-container {
             margin-bottom: 15px;
         }
@@ -672,14 +659,12 @@
             color: var(--dark-gray);
             font-size: 14px;
         }
-        /*comment section order css*/
-        /* Updated comment item styling */
         .comment-item {
             display: flex;
             margin-bottom: 20px;
             padding-bottom: 20px;
             border-bottom: 1px solid var(--medium-gray);
-            flex-direction: row; /* Change from column to row */
+            flex-direction: row; 
         }
 
             .comment-item:last-child {
@@ -724,7 +709,7 @@
 
         .comment-content {
             line-height: 1.5;
-            margin-left: 0; /* Remove the left margin that was pushing content to the right */
+            margin-left: 0; 
         }
 
         .comment-username {
@@ -805,14 +790,11 @@
                     <div class="price-value">@Model.OfferPrice лв</div>
                 </div>
                 <form method="post" action="/Booking/Book">
-                    <!-- Hidden field for offer ID -->
                     <input type="hidden" name="id" value="@Model.OfferId" />
 
-                    <!-- People Count Input -->
                     <label for="ppl">Брой хора:</label>
                     <input type="number" id="ppl" name="ppl" required min="1" />
 
-                    <!-- Discounted People Count Input -->
                     @if (Model.OfferDiscount.Value > 0)
                     {
                         <label for="discppl" class="discount-label">
@@ -827,11 +809,9 @@
                     }
 
 
-                    <!-- Start Date Input -->
                     <label for="st">Начална дата:</label>
                     <input type="date" id="st" name="st" required />
 
-                    <!-- Submit Button trip -->
                     <button type="submit">Резервирай</button>
                 </form>
             </div>
@@ -858,7 +838,6 @@
             </div>
         </div>
 
-        <!-- Improved amenities section -->
         <div class="amenities-section">
             <h2 class="section-title">Удобства на престоя</h2>
             <div class="amenities-grid">
@@ -943,7 +922,6 @@
                 <form method="post" asp-controller="Comment" asp-action="WriteComment" id="reviewForm">
                     <input type="hidden" name="id" value="@Model.OfferId" />
                     <input type="hidden" name="rating" id="ratingValue" value="0" />
-                    <!-- Review Form Layout -->
                     <div class="form-container">
                         <div class="profile-container">
                         </div>
@@ -964,7 +942,6 @@
                     </div>
                 </form>
             </div>
-            <!-- Display Comments Section -->
             <div class="comment-list" id="commentsSection">
                 @foreach (var a in Model.Comments)
                 {
@@ -1003,7 +980,6 @@
     </div>
     <script>
                 document.addEventListener('DOMContentLoaded', function() {
-            //Star rating functionality
             const stars = document.querySelectorAll('.star-rating .star');
             const ratingValue = document.getElementById('ratingValue');
             const ratingText = document.querySelector('.rating-text');
@@ -1013,32 +989,26 @@
                     const value = this.getAttribute('data-value');
                     ratingValue.value = value;
 
-                    //Reset all stars
                     stars.forEach(s => s.classList.remove('active'));
 
-                    //Set active stars
                     stars.forEach(s => {
                         if (parseInt(s.getAttribute('data-value')) <= parseInt(value)) {
                             s.classList.add('active');
                         }
                     });
 
-                    //Update rating text
                     ratingText.textContent = `${value} star${value > 1 ? 's' : ''}`;
                 });
 
                 star.addEventListener( "mouseout", function() {
-                    // alert("hi");
                     const val = star.getAttribute('data-value');
                     for (const el of star.parentNode.children) {
                         el.style.color = "";
                     }
                 });
                 star.addEventListener( "mouseover", function() {
-                    // alert("hi");
                     const val = star.getAttribute('data-value');
                     for (const el of star.parentNode.children) {
-                        // alert (val);
                         if(el.getAttribute('data-value') <= val ){
                             el.style.color = "#ffb700";
                         }
@@ -1049,15 +1019,12 @@
                 });
             });
 
-            //Favorite functionality
             const favoriteCheckbox = document.getElementById('favorite');
             const favoriteForm = document.getElementById('favoriteForm');
             if (favoriteCheckbox) {
                 favoriteCheckbox.addEventListener('change', function() {
-                    // Create a FormData object to send the form data
                     const formData = new FormData(favoriteForm);
 
-                    // Send the data using Fetch API
                     fetch('/Favorite/Favorite', {
                         method: 'POST',
                         body: formData
@@ -1068,7 +1035,6 @@
                             const option1 = document.querySelector('.option-1');
                             const option2 = document.querySelector('.option-2');
 
-                            // Update the UI based on whether it's favorited or not
                             if (favoriteCheckbox.checked) {
                                 option1.style.display = 'none';
                                 option2.style.display = 'block';
@@ -1078,20 +1044,17 @@
                             }
                         } else {
                             alert('Something went wrong, please try again later.');
-                            // Rollback the checkbox state if the request fails
                             favoriteCheckbox.checked = !favoriteCheckbox.checked;
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
                         alert('An error occurred, please try again later.');
-                        // Rollback the checkbox state if the request fails
                         favoriteCheckbox.checked = !favoriteCheckbox.checked;
                     });
                 });
             }
 
-            // Prevent form submission on Enter key in comment input
             document.getElementById('comment').addEventListener('keydown', function(event) {
                 if (event.key === 'Enter') {
                     event.preventDefault();
@@ -1099,7 +1062,6 @@
                 }
             });
 
-            // Form submission only on button click for comment form
             document.getElementById('reviewForm').addEventListener('submit', function(event) {
                 if (ratingValue.value === "0") {
                     event.preventDefault();

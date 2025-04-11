@@ -50,7 +50,6 @@ namespace Explorers_Haven.Controllers
         private readonly IActivityService _activityService;
         private readonly ITravelService _travelService;
         private readonly IStayService _stayService;
-        private readonly IRatingService _ratingService;
         private readonly ICommentService _commentService;
         private readonly IFavoriteService _favoriteService;
         private readonly ITransportService _transportService;
@@ -62,7 +61,7 @@ namespace Explorers_Haven.Controllers
         private readonly Cloudinary _cloudinary;
         private readonly IConfiguration _configuration;
         CloudinaryService cloudService;
-        public HomeController(IStayAmenityService StayAmenityService, IBookingService bookingService, IFavoriteService favoriteService, ITransportService transportService, UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, ICommentService commentService, IAmenityService amenityService, IRatingService ratingService, IStayService stayService, IOfferService offerService, IUserService userService)
+        public HomeController(IStayAmenityService StayAmenityService, IBookingService bookingService, IFavoriteService favoriteService, ITransportService transportService, UserManager<IdentityUser> _userManager, IConfiguration configuration, CloudinaryService cloud, IActivityService activyService, ITravelService travelService, ICommentService commentService, IAmenityService amenityService, IStayService stayService, IOfferService offerService, IUserService userService)
         {
             _StayAmenityService = StayAmenityService;
             _bookingService = bookingService;
@@ -74,7 +73,6 @@ namespace Explorers_Haven.Controllers
             _travelService = travelService;
             _amenityService = amenityService;
             _stayService = stayService;
-            _ratingService = ratingService;
             _commentService = commentService;
 
             userManager = _userManager;
@@ -140,7 +138,7 @@ namespace Explorers_Haven.Controllers
                     var tempOffer = await _offerService.GetOfferByIdAsync(b.OfferId);
                     var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == b.OfferId);
                     b.Comments = tempCom.ToList();
-                    if (tempCom.Count() != 0)//ako ima reviewta
+                    if (tempCom.Count() != 0)
                     {
                         decimal rates = 0;
                         foreach (var r in tempCom)
@@ -149,14 +147,14 @@ namespace Explorers_Haven.Controllers
                         }
                         decimal AverageRate;
                         decimal ofst;
-                        if (tempOffer.Rating != null)//ako ofertata ima default rating
+                        if (tempOffer.Rating != null)
                         {
                             rates += tempOffer.Rating.Value;
                             int countt = tempCom.Count() + 1;
                             AverageRate = rates / countt;
                             ofst = Math.Round(AverageRate, 2);
                         }
-                        else//ako nqma
+                        else
                         {
                             AverageRate = rates / tempCom.Count();
                             ofst = Math.Round(AverageRate, 2);
@@ -164,7 +162,7 @@ namespace Explorers_Haven.Controllers
                         b.OfferRating = AverageRate;
                         b.OfferRatingStars = ofst;
                     }
-                    else//ako nqma reviewta
+                    else
                     {
                         if (tempOffer.Rating != null)
                         {
@@ -230,7 +228,7 @@ namespace Explorers_Haven.Controllers
                     var tempOffer = await _offerService.GetOfferByIdAsync(o.OfferId);
                     var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == o.OfferId);
                     o.Comments = tempCom.ToList();
-                    if (tempCom.Count() != 0)//ako ima reviewta
+                    if (tempCom.Count() != 0)
                     {
                         decimal rates = 0;
                         foreach (var r in tempCom)
@@ -239,14 +237,14 @@ namespace Explorers_Haven.Controllers
                         }
                         decimal AverageRate;
                         decimal ofst;
-                        if (tempOffer.Rating != null)//ako ofertata ima default rating
+                        if (tempOffer.Rating != null)
                         {
                             rates += tempOffer.Rating.Value;
                             int countt = tempCom.Count() + 1;
                             AverageRate = rates / countt;
                             ofst = Math.Round(AverageRate, 2);
                         }
-                        else//ako nqma
+                        else
                         {
                             AverageRate = rates / tempCom.Count();
                             ofst = Math.Round(AverageRate, 2);
@@ -254,7 +252,7 @@ namespace Explorers_Haven.Controllers
                         o.OfferRating = AverageRate;
                         o.OfferRatingStars = ofst;
                     }
-                    else//ako nqma reviewta
+                    else
                     {
                         if (tempOffer.Rating != null)
                         {
@@ -274,7 +272,7 @@ namespace Explorers_Haven.Controllers
             if (filterModel.Cheapest_Offers!=null)
             {
                 filterModel.Cheapest_Offers.Clear();
-            }//filterModel.Cheapest_Offers = new List<YourType>();
+            }
             if (filterModel.Cheapest_Offers == null)
             {
                 filterModel.Cheapest_Offers = new List<OfferViewModel>();
@@ -297,7 +295,6 @@ namespace Explorers_Haven.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            //isBook
             var tempOffer = await _offerService.GetOfferByIdAsync(id);
             var commUsers = await userService.GetAllUsersAsync();
             var tempStay = await _stayService.GetStayByIdAsync(tempOffer.StayId.Value);
@@ -358,7 +355,7 @@ namespace Explorers_Haven.Controllers
             var tempCom = await _commentService.GetAllCommentsAsync(x => x.OfferId == id);
             model.Comments = tempCom.ToList();
 
-            if (tempCom.Count() != 0)//ako ima reviewta
+            if (tempCom.Count() != 0)
             {
                 decimal rates = 0;
                 foreach (var r in tempCom)
@@ -372,14 +369,14 @@ namespace Explorers_Haven.Controllers
                 }
                 decimal AverageRate;
                 decimal ofst;
-                if (tempOffer.Rating != null)//ako ofertata ima default rating
+                if (tempOffer.Rating != null)
                 {
                     rates += tempOffer.Rating.Value;
                     int countt = tempCom.Count() + 1;
                     AverageRate = rates / countt;
                     ofst = Math.Round(AverageRate, 0);
                 }
-                else//ako nqma
+                else
                 {
                     AverageRate = rates / tempCom.Count();
                     ofst = Math.Round(AverageRate, 0);
@@ -387,7 +384,7 @@ namespace Explorers_Haven.Controllers
                 model.OfferRating = AverageRate;
                 model.OfferRatingStars = ofst;
             }
-            else//ako nqma reviewta
+            else
             {
                 if (tempOffer.Rating != null)
                 {
@@ -420,7 +417,7 @@ namespace Explorers_Haven.Controllers
 
             }
             var tempStAm = await _StayAmenityService.GetAllStayAmenitysAsync();
-            var tempAmenities = await _amenityService.GetAllAmenitiesAsync();//napravi service za stayamenity incahe nqma da izleznat
+            var tempAmenities = await _amenityService.GetAllAmenitiesAsync();
             foreach (var StA in tempStAm)
             {
                 if (StA.StayId == tempStay.Id)
@@ -437,7 +434,7 @@ namespace Explorers_Haven.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> OfferPage(int id, OfferViewModel model)//copied from edit offer
+        public async Task<IActionResult> OfferPage(int id, OfferViewModel model)
         {
             return View(model);
         }

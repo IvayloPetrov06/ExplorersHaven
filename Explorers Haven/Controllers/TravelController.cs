@@ -44,10 +44,6 @@ namespace Explorers_Haven.Controllers
             {
                 query = query.Where(x => x.Finish.Contains(filter.Finish));
             }
-            /*if (filter.Transport != null)
-            {
-                query = query.Where(x => x.Transport.Contains(filter.Transport));
-            }*/
             var model = new TravelViewModel
             {
                 Id = filter.Id,
@@ -79,7 +75,6 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> AllTravel(TravelFilterViewModel? filter)
         {
             var query = _travelService.GetAll().AsQueryable();
-            //var playlists = await playlistService.GetAllPlaylistsAsync();
 
 
             if (string.IsNullOrEmpty(filter.Title))

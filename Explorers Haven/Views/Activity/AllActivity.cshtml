@@ -1,7 +1,6 @@
 ﻿@using Explorers_Haven.Models
 @using Explorers_Haven.ViewModels.Activity
 @model ActivityFilterViewModel
-@*await Html.PartialAsync("_AddToPlaylistPartial", Model.Playlists ?? new List<Playlist>())*@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +52,6 @@
             color: var(--text-color);
         }
 
-        /* Header section */
         .header-section {
             padding: 10px 0;
             border-bottom: 1px solid var(--dark-border);
@@ -85,7 +83,6 @@
                 background-color: #e65c00;
             }
 
-        /* Filter section */
         .filter-section {
             padding: 15px 0;
             border-bottom: 1px solid var(--dark-border);
@@ -100,7 +97,7 @@
             border-radius: var(--border-radius);
             padding: 10px;
             border: 1px solid var(--dark-border);
-            padding-left: 35px; /* Space for the icon */
+            padding-left: 35px;
             position: relative;
         }
 
@@ -141,7 +138,6 @@
                 background-color: #e65c00;
             }
 
-        /* Table styling grid */
         .tracks-table-container {
             overflow-x: auto;
         }
@@ -201,7 +197,6 @@
             justify-content: flex-start;
         }
 
-        /* Dropdown styling */
         .dropdown {
             position: relative;
             display: inline-block;
@@ -257,7 +252,6 @@
             color: #e74c3c !important;
         }
 
-        /* Star rating styling */
         .stay-stars {
             color: #ffb700;
             font-size: 16px;
@@ -271,7 +265,6 @@
             cursor: pointer;
         }
 
-        /* Responsive design */
         media (max-width: 768px) {
             .row
 
@@ -454,14 +447,12 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Fix for dropdown menu
             const actionButtons = document.querySelectorAll('.action-btn');
 
             actionButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
 
-                    // Close all other dropdowns first
                     const allDropdowns = document.querySelectorAll('.dropdown-menu');
                     allDropdowns.forEach(menu => {
                         if (menu !== this.nextElementSibling) {
@@ -469,13 +460,11 @@
                         }
                     });
 
-                    // Toggle current dropdown
                     const dropdown = this.nextElementSibling;
                     dropdown.classList.toggle('show');
                 });
             });
 
-            // Close dropdowns when clicking outside
             document.addEventListener('click', function() {
                 const allDropdowns = document.querySelectorAll('.dropdown-menu');
                 allDropdowns.forEach(menu => {

@@ -1,7 +1,6 @@
 ﻿@using Explorers_Haven.Models
 @using Explorers_Haven.ViewModels.Offer
 @model OfferFilterViewModel
-@*await Html.PartialAsync("_AddToPlaylistPartial", Model.Playlists ?? new List<Playlist>())*@
 
 <!DOCTYPE html>
 <html lang="en">
@@ -490,14 +489,12 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Fix for dropdown menu
             const actionButtons = document.querySelectorAll('.action-btn');
 
             actionButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.stopPropagation();
 
-                    // Close all other dropdowns first
                     const allDropdowns = document.querySelectorAll('.dropdown-menu');
                     allDropdowns.forEach(menu => {
                         if (menu !== this.nextElementSibling) {
@@ -505,13 +502,11 @@
                         }
                     });
 
-                    // Toggle current dropdown
                     const dropdown = this.nextElementSibling;
                     dropdown.classList.toggle('show');
                 });
             });
 
-            // Close dropdowns when clicking outside
             document.addEventListener('click', function() {
                 const allDropdowns = document.querySelectorAll('.dropdown-menu');
                 allDropdowns.forEach(menu => {

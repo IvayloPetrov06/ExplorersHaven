@@ -10,7 +10,7 @@ namespace Explorers_Haven.Models
     public class Transport
     {
         [Key]
-        public int Id { get; set; } // Primary key for Person
+        public int Id { get; set; }
 
         public string? Name { get; set; }
         public ICollection<Travel>? Travels { get; set; }

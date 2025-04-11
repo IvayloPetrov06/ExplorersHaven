@@ -54,7 +54,6 @@ namespace Explorers_Haven.Controllers
 
             if (fav == null)
             {
-                // Add new favorite
                 Favorite newFavorite = new Favorite()
                 {
                     OfferId = id,
@@ -69,7 +68,6 @@ namespace Explorers_Haven.Controllers
             }
             else
             {
-                // Remove existing favorite
                 await _FavoriteService.DeleteFavoriteAsync(fav);
 
                 return Json(new { success = true, message = "Премахнато от любими", isFavorited = false });
@@ -105,12 +103,7 @@ namespace Explorers_Haven.Controllers
             }
             else
             {
-                //var tempUsers = await _userService.GetAllUserNamesAsync();
                 var tempOffers = await _offerService.GetAllOfferNamesAsync();
-                //if (tempUsers.Contains(filter.Search))
-                //{
-                //    query = query.Where(x => x.User.Username == filter.Search);
-                //}
                 if (tempOffers.Contains(filter.Search))
                 {
                     query = query.Where(x => x.OfferName == filter.Search);
@@ -156,7 +149,6 @@ namespace Explorers_Haven.Controllers
             Price = x.Offer.Price,
         }).ToListAsync();
 
-            // Create and pass a view model with the user's Favorites
             var filterModel = new FavoriteFilterViewModel
             {
                 Favorites = userFavorites,

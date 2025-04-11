@@ -358,7 +358,6 @@
             <form method="post" class="album-form" enctype="multipart/form-data">
                 <div class="album-form-grid">
                     <div class="album-details">
-                        <!-- Images container for side-by-side layout -->
                         <div class="images-container">
                             <div class="cover-upload-container">
                                 <div class="cover-preview" id="coverPreview">
@@ -475,7 +474,6 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Cover image preview
             const coverInput = document.getElementById('coverImage');
             const coverPreview = document.getElementById('coverPreview');
 
@@ -492,12 +490,10 @@
                 }
             });
 
-            // Click to trigger file upload for cover image
             coverPreview.addEventListener('click', function() {
                 coverInput.click();
             });
 
-            // Background image preview
             const backInput = document.getElementById('backImage');
             const backPreview = document.getElementById('backPreview');
 
@@ -514,12 +510,10 @@
                 }
             });
 
-            // Click to trigger file upload for background image
             backPreview.addEventListener('click', function() {
                 backInput.click();
             });
 
-            // Update amenities counter if present
             const updateAmenitiesCount = function() {
                 const totalAmenities = document.querySelectorAll('.form-check-input').length;
                 const selectedAmenities = document.querySelectorAll('.form-check-input:checked').length;
@@ -533,10 +527,8 @@
                 }
             };
 
-            // Initialize amenities counter if present
             updateAmenitiesCount();
 
-            // Update counter when amenities are selected/deselected
             const amenityCheckboxes = document.querySelectorAll('.form-check-input');
             amenityCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', updateAmenitiesCount);

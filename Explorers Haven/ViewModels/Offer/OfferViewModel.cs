@@ -36,7 +36,6 @@ namespace Explorers_Haven.ViewModels.Offer
         public List<Models.Travel>? Travels { get; set; }
         public List<Models.Transport>? Transports { get; set; }
         public List<Models.Comment>? Comments { get; set; }
-        public List<Models.Rating>? Ratings { get; set; }
         public List<Models.User>? Users { get; set; }
 
         public IFormFile? ImageFileOfferCover { get; set; }
@@ -46,10 +45,9 @@ namespace Explorers_Haven.ViewModels.Offer
         public int? UserRating { get; set; }
         public OfferViewModel()
         {
-            Activities = new List<Models.Activity>(); // Initialize the list
+            Activities = new List<Models.Activity>(); 
             Travels = new List<Models.Travel>();
             Transports = new List<Models.Transport>();
-            Ratings = new List<Models.Rating>();
             Comments = new List<Models.Comment>();
             Amenities = new List<Models.Amenity>();
             Users = new List<Models.User>();

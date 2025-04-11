@@ -47,16 +47,6 @@ namespace Explorers_Haven.Controllers
             TempData["error"] = "Booking doesn't exist!";
             return RedirectToAction("BookingsPage", "Booking");
         }
-        /*offer:
-         * public int? MaxPeople { get; set; }
-        public int? Discount { get; set; }
-        public int? DurationDays { get; set; }
-        public DateOnly? StartDate { get; set; }
-        public DateOnly? LastDate { get; set; }
-        booking:
-         public int? PeopleCount {  get; set; }
-        public int? YoungOldPeopleCount { get; set; }
-        public DateOnly? StartDate { get; set; }*/
         public async Task<IActionResult> Book(int id,decimal ppl, decimal discppl,DateOnly st)
         {
             var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -190,12 +180,7 @@ namespace Explorers_Haven.Controllers
             }
             else
             {
-                //var tempUsers = await _userService.GetAllUserNamesAsync();
                 var tempOffers = await _offerService.GetAllOfferNamesAsync();
-                //if (tempUsers.Contains(filter.Search))
-                //{
-                //    query = query.Where(x => x.User.Username == filter.Search);
-                //}
                 if (tempOffers.Contains(filter.Search))
                 {
                     query = query.Where(x => x.OfferName == filter.Search);
@@ -278,7 +263,6 @@ namespace Explorers_Haven.Controllers
             OfferCoverImage=x.Offer.CoverImage,
         }).ToListAsync();
 
-            // Create and pass a view model with the user's bookings
             var filterModel = new BookingFilterViewModel
             {
                 Transports = tempTrans.ToList(),

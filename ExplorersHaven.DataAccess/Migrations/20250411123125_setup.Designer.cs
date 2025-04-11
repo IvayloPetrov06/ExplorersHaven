@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Explorers_Haven.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250411114536_setup")]
+    [Migration("20250411123125_setup")]
     partial class setup
     {
         /// <inheritdoc />
@@ -390,32 +390,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                             StartDate = new DateOnly(2025, 4, 1),
                             StayId = 4
                         });
-                });
-
-            modelBuilder.Entity("Explorers_Haven.Models.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int?>("OfferId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Stars")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OfferId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Ratings");
                 });
 
             modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
@@ -1061,23 +1035,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Explorers_Haven.Models.Rating", b =>
-                {
-                    b.HasOne("Explorers_Haven.Models.Offer", "Offer")
-                        .WithMany("Ratings")
-                        .HasForeignKey("OfferId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Explorers_Haven.Models.User", "User")
-                        .WithMany("Ratings")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("Offer");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Explorers_Haven.Models.Stay", b =>
                 {
                     b.HasOne("Explorers_Haven.Models.User", "User")
@@ -1208,8 +1165,6 @@ namespace Explorers_Haven.DataAccess.Migrations
 
                     b.Navigation("Favorites");
 
-                    b.Navigation("Ratings");
-
                     b.Navigation("Travels");
                 });
 
@@ -1236,8 +1191,6 @@ namespace Explorers_Haven.DataAccess.Migrations
                     b.Navigation("Favorites");
 
                     b.Navigation("Offers");
-
-                    b.Navigation("Ratings");
 
                     b.Navigation("Stays");
 

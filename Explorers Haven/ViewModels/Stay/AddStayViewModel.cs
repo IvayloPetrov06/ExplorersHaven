@@ -12,7 +12,7 @@ namespace Explorers_Haven.ViewModels.Stay
         public IFormFile? imageFile { get; set; }
         public string? ImageLink { get; set; }
 
-        public int[] SelectedAmenities { get; set; }  // Store the selected travel IDs
+        public int[] SelectedAmenities { get; set; } 
         public IEnumerable<SelectListItem> Amenities { get; set; }
 
         public Explorers_Haven.Models.Amenity[]? existingAmentities { get; set; }

@@ -86,7 +86,6 @@ namespace Explorers_Haven.Controllers
         public async Task<IActionResult> AllActivity(ActivityFilterViewModel? filter)
         {
             var query = _actService.GetAll().AsQueryable();
-            //var playlists = await playlistService.GetAllPlaylistsAsync();
 
 
             if (string.IsNullOrEmpty(filter.Title))

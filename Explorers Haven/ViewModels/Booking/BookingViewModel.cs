@@ -23,14 +23,5 @@ namespace Explorers_Haven.ViewModels.Booking
         {
             Travels = new List<Models.Travel>();
         }
-
-        /* PeopleCount = ppl,
-                YoungOldPeopleCount = discppl,
-                StartDate = st,
-                Price = realprice,
-                OfferId = id,
-                Offer = o,
-                User = user,
-                UserId = user.Id*/
     }
 }

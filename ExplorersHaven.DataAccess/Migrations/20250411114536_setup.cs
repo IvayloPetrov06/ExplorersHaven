@@ -479,7 +479,8 @@ namespace Explorers_Haven.DataAccess.Migrations
                     { 1, "/Images/parking.svg", "Места за паркиране" },
                     { 2, "/Images/kitchen.svg", "Кухня" },
                     { 3, "/Images/usefortheunabled.svg", "Подходящ за хора с увреждания" },
-                    { 4, "/Images/wifi.svg", "Безплатен Wifi" }
+                    { 4, "/Images/wifi.svg", "Безплатен Wifi" },
+                    { 5, "/Images/familyrooms.svg", "Семейни стаи" }
                 });
 
             migrationBuilder.InsertData(
@@ -487,9 +488,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "Disc", "Image", "Name", "Price", "Stars", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 100m, 5, null },
-                    { 2, "Polish Hotel", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "InterContinental Warsaw Hotel", 120m, 5, null },
-                    { 3, "Polish Hotel", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Mitte Hotel", 500m, 2, null }
+                    { 1, "Този луксозен премиум ултра ол инклузив курорт в Хургада предлага само апартаменти и вили с настаняване на брега на морето с обща площ от 255 000 m2. Разполага с 1 км частен пясъчен плаж, 30 плувни басейна (9 вида), 1 основен ресторант на шведска маса, 7 а-ла-карт ресторанта, 14 бара и безплатен Wi-Fi в целия имот. Този 5-звезден хотел предлага частен плаж и кабинки до басейна при заявка.", "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg", "Megawish Hotel", 500m, 5, null },
+                    { 2, "InterContinental Warszawa е 5-звезден хотел в центъра на Варшава, на 500 метра от централната гара на Варшава. Той разполага с луксозни климатизирани стаи и уелнес център, разположен на 43-ия и 44-ия етаж. Всички стаи в InterContinental са оборудвани с удобства за приготвяне на чай и кафе и минибар.", "/Images/WarsawHotel.jpg", "InterContinental Warsaw Hotel", 120m, 5, null },
+                    { 3, "Разположен в зеления квартал Lenbachgärten и близо до историческия Königsplatz, безпроблемният елегантен хотел Charles в Мюнхен е мястото, където съвременният стил среща традиционното баварско гостоприемство.", "/Images/gerHotel.jpg", "Charles Hotel", 500m, 5, null },
+                    { 4, "12-ти район на Париж се нуждаеше само от едно нещо, за да бъде още по-страхотен – умопомрачен разкошен бутиков хотел, покрит със зашеметяващ бар на покрива. И ние не се спираме само на най-добрите гледки към силуета на Париж. Мегаудобни легла, възглавници, подобни на облак, и артистична всекидневна са част от пакета.", "/Images/ParisHotel.jpg", "Paris Gare de Lyon hotel", 400m, 4, null }
                 });
 
             migrationBuilder.InsertData(
@@ -508,10 +510,10 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "BackImage", "Clicks", "CoverImage", "DefaultRating", "Disc", "Discount", "DurationDays", "LastDate", "MaxPeople", "Name", "Price", "Rating", "RealRating", "StartDate", "StayId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", 3m, "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Egypt", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null },
-                    { 2, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", 4m, "Travel across Poland and feel the culture.", 0m, 7, new DateOnly(2025, 4, 8), 12m, "Poland", 200m, 4m, null, new DateOnly(2025, 4, 1), 2, null },
-                    { 3, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", 5m, "Travel across Germany and feel the culture.", 15m, 7, new DateOnly(2025, 4, 8), 16m, "Germany", 500m, 5m, null, new DateOnly(2025, 4, 1), 3, null },
-                    { 4, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", 3m, "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.", 20m, 4, new DateOnly(2025, 4, 8), 8m, "Test", 100m, 3m, null, new DateOnly(2025, 4, 1), 1, null }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", 3m, "Пътуване из Египет и круиз по река Нил, обиколка на пирамидите в Гиза.", 20m, 5, new DateOnly(2025, 4, 8), 8m, "Egypt", 759m, 3m, null, new DateOnly(2025, 4, 1), 1, null },
+                    { 2, "/Images/polback.jpg", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg", 4m, "Полша предлага комбинация от оживени градове, богата история и зашеметяваща природа. Не пропускайте да разгледате Краков и Варшава, опитайте традиционни пироги и използвайте влакове за лесно пътуване между градовете.", 0m, 7, new DateOnly(2025, 5, 1), 12m, "Полша", 300m, 4m, null, new DateOnly(2025, 4, 1), 2, null },
+                    { 3, "/Images/gerback.jpg", null, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", 5m, "Германия съчетава модерна ефективност с дълбока история – изследвайте културата на Берлин, бирените градини на Мюнхен и приказни градове като Ротенбург.", 15m, 7, new DateOnly(2025, 6, 1), 16m, "Германия", 950m, 5m, null, new DateOnly(2025, 4, 1), 3, null },
+                    { 4, "/Images/frback.jpg", null, "/Images/paris.jpg", 3m, "Във Франция всичко е свързано с изкуство, храна и чар – Париж очарова, но не пропускайте винени региони като Бордо или лавандуловите полета на Прованс.", 35m, 6, new DateOnly(2025, 4, 8), 10m, "Франция", 800m, 3m, null, new DateOnly(2025, 4, 1), 4, null }
                 });
 
             migrationBuilder.InsertData(
@@ -521,7 +523,13 @@ namespace Explorers_Haven.DataAccess.Migrations
                 {
                     { 1, 1, 1 },
                     { 2, 2, 1 },
-                    { 3, 3, 1 }
+                    { 3, 3, 1 },
+                    { 4, 4, 2 },
+                    { 5, 4, 3 },
+                    { 6, 4, 4 },
+                    { 7, 1, 2 },
+                    { 8, 3, 3 },
+                    { 9, 2, 3 }
                 });
 
             migrationBuilder.InsertData(
@@ -529,11 +537,13 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "CoverImage", "Name", "OfferId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Camel riding", 1, null },
-                    { 2, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Sightseeing", 1, null },
-                    { 3, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Sightseeing", 2, null },
-                    { 4, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Sightseeing", 3, null },
-                    { 5, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg", "Archery", 3, null }
+                    { 1, "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", "Яздене на камила", 1, null },
+                    { 2, "/Images/sighteg.jpg", "Разглеждане на забележителности", 1, null },
+                    { 3, "/Images/sightpol.jpg", "Разглеждане на забележителности", 2, null },
+                    { 4, "/Images/sightger.jpg", "Разглеждане на забележителности", 3, null },
+                    { 5, "/Images/archery.jpg", "Стрелба с лък", 3, null },
+                    { 6, "/Images/sightfr.jpg", "Разглеждане на забележителности", 4, null },
+                    { 7, "/Images/winefield.jpg", "Пътуване до винени региони", 4, null }
                 });
 
             migrationBuilder.InsertData(
@@ -541,12 +551,14 @@ namespace Explorers_Haven.DataAccess.Migrations
                 columns: new[] { "Id", "Arrival", "DateFinish", "DateStart", "DurationDays", "Finish", "OfferId", "Start", "TransportId", "UserId" },
                 values: new object[,]
                 {
-                    { 1, true, null, null, 1, "Cairo", 1, "Sofia", 1, null },
-                    { 2, false, null, null, 1, "Sofia", 1, "Cairo", 1, null },
-                    { 3, true, null, null, 1, "Warsaw", 2, "Sofia", 1, null },
-                    { 4, false, null, null, 1, "Sofia", 2, "Warsaw", 1, null },
-                    { 5, true, null, null, 1, "Berlin", 3, "Sofia", 1, null },
-                    { 6, false, null, null, 1, "Sofia", 3, "Berlin", 1, null }
+                    { 1, true, null, null, 1, "Кайро", 1, "София", 1, null },
+                    { 2, false, null, null, 1, "София", 1, "Кайро", 1, null },
+                    { 3, true, null, null, 1, "Варшава", 2, "София", 1, null },
+                    { 4, false, null, null, 1, "София", 2, "Варшава", 1, null },
+                    { 5, true, null, null, 1, "Берлин", 3, "София", 1, null },
+                    { 6, false, null, null, 1, "София", 3, "Берлин", 1, null },
+                    { 7, true, null, null, 1, "Париж", 4, "София", 1, null },
+                    { 8, false, null, null, 1, "София", 4, "Париж", 1, null }
                 });
 
             migrationBuilder.CreateIndex(

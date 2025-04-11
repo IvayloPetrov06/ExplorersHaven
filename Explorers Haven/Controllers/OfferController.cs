@@ -285,6 +285,13 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> EditOffer(EditOfferViewModel model)//ImageUrl
         {
+            if (model.DurationDays > 7)
+            {
+                TempData["error"] = "Продълйителността трябва да е до 1 седмица";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             if (model.StayId == 0)
             {
                 TempData["error"] = "Изберете престой";
@@ -324,7 +331,7 @@ namespace Explorers_Haven.Controllers
             }
             if (model.StartDate.Value.AddDays(model.DurationDays.Value) > model.LastDate)
             {
-                TempData["error"] = "Продълши";
+                TempData["error"] = "Проблем с началната и крайната дата!";
                 var stays = _stayService.GetAll();
                 ViewBag.Stays = new SelectList(stays, "Id", "Name");
                 return View(model);
@@ -390,6 +397,13 @@ namespace Explorers_Haven.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOffer(AddOfferViewModel model)
         {
+            if (model.DurationDays > 7)
+            {
+                TempData["error"] = "Продълйителността трябва да е до 1 седмица";
+                var stays = _stayService.GetAll();
+                ViewBag.Stays = new SelectList(stays, "Id", "Name");
+                return View(model);
+            }
             if (model.StayId == 0)
             {
                 TempData["error"] = "Изберете престой";

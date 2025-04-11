@@ -56,36 +56,50 @@ namespace Explorers_Haven.DataAccess.Migrations
                         {
                             Id = 1,
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
-                            Name = "Camel riding",
+                            Name = "Яздене на камила",
                             OfferId = 1
                         },
                         new
                         {
                             Id = 2,
-                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
-                            Name = "Sightseeing",
+                            CoverImage = "/Images/sighteg.jpg",
+                            Name = "Разглеждане на забележителности",
                             OfferId = 1
                         },
                         new
                         {
                             Id = 3,
-                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
-                            Name = "Sightseeing",
+                            CoverImage = "/Images/sightpol.jpg",
+                            Name = "Разглеждане на забележителности",
                             OfferId = 2
                         },
                         new
                         {
                             Id = 4,
-                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
-                            Name = "Sightseeing",
+                            CoverImage = "/Images/sightger.jpg",
+                            Name = "Разглеждане на забележителности",
                             OfferId = 3
                         },
                         new
                         {
                             Id = 5,
-                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
-                            Name = "Archery",
+                            CoverImage = "/Images/archery.jpg",
+                            Name = "Стрелба с лък",
                             OfferId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CoverImage = "/Images/sightfr.jpg",
+                            Name = "Разглеждане на забележителности",
+                            OfferId = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CoverImage = "/Images/winefield.jpg",
+                            Name = "Пътуване до винени региони",
+                            OfferId = 4
                         });
                 });
 
@@ -132,6 +146,12 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 4,
                             Icon = "/Images/wifi.svg",
                             Name = "Безплатен Wifi"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Icon = "/Images/familyrooms.svg",
+                            Name = "Семейни стаи"
                         });
                 });
 
@@ -305,13 +325,13 @@ namespace Explorers_Haven.DataAccess.Migrations
                             BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                             DefaultRating = 3m,
-                            Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
+                            Disc = "Пътуване из Египет и круиз по река Нил, обиколка на пирамидите в Гиза.",
                             Discount = 20m,
-                            DurationDays = 4,
+                            DurationDays = 5,
                             LastDate = new DateOnly(2025, 4, 8),
                             MaxPeople = 8m,
                             Name = "Egypt",
-                            Price = 100m,
+                            Price = 759m,
                             Rating = 3m,
                             StartDate = new DateOnly(2025, 4, 1),
                             StayId = 1
@@ -319,16 +339,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 2,
-                            BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
+                            BackImage = "/Images/polback.jpg",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
                             DefaultRating = 4m,
-                            Disc = "Travel across Poland and feel the culture.",
+                            Disc = "Полша предлага комбинация от оживени градове, богата история и зашеметяваща природа. Не пропускайте да разгледате Краков и Варшава, опитайте традиционни пироги и използвайте влакове за лесно пътуване между градовете.",
                             Discount = 0m,
                             DurationDays = 7,
-                            LastDate = new DateOnly(2025, 4, 8),
+                            LastDate = new DateOnly(2025, 5, 1),
                             MaxPeople = 12m,
-                            Name = "Poland",
-                            Price = 200m,
+                            Name = "Полша",
+                            Price = 300m,
                             Rating = 4m,
                             StartDate = new DateOnly(2025, 4, 1),
                             StayId = 2
@@ -336,16 +356,16 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 3,
-                            BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
+                            BackImage = "/Images/gerback.jpg",
                             CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
                             DefaultRating = 5m,
-                            Disc = "Travel across Germany and feel the culture.",
+                            Disc = "Германия съчетава модерна ефективност с дълбока история – изследвайте културата на Берлин, бирените градини на Мюнхен и приказни градове като Ротенбург.",
                             Discount = 15m,
                             DurationDays = 7,
-                            LastDate = new DateOnly(2025, 4, 8),
+                            LastDate = new DateOnly(2025, 6, 1),
                             MaxPeople = 16m,
-                            Name = "Germany",
-                            Price = 500m,
+                            Name = "Германия",
+                            Price = 950m,
                             Rating = 5m,
                             StartDate = new DateOnly(2025, 4, 1),
                             StayId = 3
@@ -353,19 +373,19 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 4,
-                            BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
-                            CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
+                            BackImage = "/Images/frback.jpg",
+                            CoverImage = "/Images/paris.jpg",
                             DefaultRating = 3m,
-                            Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
-                            Discount = 20m,
-                            DurationDays = 4,
+                            Disc = "Във Франция всичко е свързано с изкуство, храна и чар – Париж очарова, но не пропускайте винени региони като Бордо или лавандуловите полета на Прованс.",
+                            Discount = 35m,
+                            DurationDays = 6,
                             LastDate = new DateOnly(2025, 4, 8),
-                            MaxPeople = 8m,
-                            Name = "Test",
-                            Price = 100m,
+                            MaxPeople = 10m,
+                            Name = "Франция",
+                            Price = 800m,
                             Rating = 3m,
                             StartDate = new DateOnly(2025, 4, 1),
-                            StayId = 1
+                            StayId = 4
                         });
                 });
 
@@ -432,17 +452,17 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Disc = "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.",
+                            Disc = "Този луксозен премиум ултра ол инклузив курорт в Хургада предлага само апартаменти и вили с настаняване на брега на морето с обща площ от 255 000 m2. Разполага с 1 км частен пясъчен плаж, 30 плувни басейна (9 вида), 1 основен ресторант на шведска маса, 7 а-ла-карт ресторанта, 14 бара и безплатен Wi-Fi в целия имот. Този 5-звезден хотел предлага частен плаж и кабинки до басейна при заявка.",
                             Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
                             Name = "Megawish Hotel",
-                            Price = 100m,
+                            Price = 500m,
                             Stars = 5
                         },
                         new
                         {
                             Id = 2,
-                            Disc = "Polish Hotel",
-                            Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
+                            Disc = "InterContinental Warszawa е 5-звезден хотел в центъра на Варшава, на 500 метра от централната гара на Варшава. Той разполага с луксозни климатизирани стаи и уелнес център, разположен на 43-ия и 44-ия етаж. Всички стаи в InterContinental са оборудвани с удобства за приготвяне на чай и кафе и минибар.",
+                            Image = "/Images/WarsawHotel.jpg",
                             Name = "InterContinental Warsaw Hotel",
                             Price = 120m,
                             Stars = 5
@@ -450,11 +470,20 @@ namespace Explorers_Haven.DataAccess.Migrations
                         new
                         {
                             Id = 3,
-                            Disc = "Polish Hotel",
-                            Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg",
-                            Name = "Mitte Hotel",
+                            Disc = "Разположен в зеления квартал Lenbachgärten и близо до историческия Königsplatz, безпроблемният елегантен хотел Charles в Мюнхен е мястото, където съвременният стил среща традиционното баварско гостоприемство.",
+                            Image = "/Images/gerHotel.jpg",
+                            Name = "Charles Hotel",
                             Price = 500m,
-                            Stars = 2
+                            Stars = 5
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Disc = "12-ти район на Париж се нуждаеше само от едно нещо, за да бъде още по-страхотен – умопомрачен разкошен бутиков хотел, покрит със зашеметяващ бар на покрива. И ние не се спираме само на най-добрите гледки към силуета на Париж. Мегаудобни легла, възглавници, подобни на облак, и артистична всекидневна са част от пакета.",
+                            Image = "/Images/ParisHotel.jpg",
+                            Name = "Paris Gare de Lyon hotel",
+                            Price = 400m,
+                            Stars = 4
                         });
                 });
 
@@ -498,6 +527,42 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 3,
                             AmenityId = 3,
                             StayId = 1
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AmenityId = 4,
+                            StayId = 2
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AmenityId = 4,
+                            StayId = 3
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AmenityId = 4,
+                            StayId = 4
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AmenityId = 1,
+                            StayId = 2
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AmenityId = 3,
+                            StayId = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AmenityId = 2,
+                            StayId = 3
                         });
                 });
 
@@ -592,9 +657,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 1,
                             Arrival = true,
                             DurationDays = 1,
-                            Finish = "Cairo",
+                            Finish = "Кайро",
                             OfferId = 1,
-                            Start = "Sofia",
+                            Start = "София",
                             TransportId = 1
                         },
                         new
@@ -602,9 +667,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 2,
                             Arrival = false,
                             DurationDays = 1,
-                            Finish = "Sofia",
+                            Finish = "София",
                             OfferId = 1,
-                            Start = "Cairo",
+                            Start = "Кайро",
                             TransportId = 1
                         },
                         new
@@ -612,9 +677,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 3,
                             Arrival = true,
                             DurationDays = 1,
-                            Finish = "Warsaw",
+                            Finish = "Варшава",
                             OfferId = 2,
-                            Start = "Sofia",
+                            Start = "София",
                             TransportId = 1
                         },
                         new
@@ -622,9 +687,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 4,
                             Arrival = false,
                             DurationDays = 1,
-                            Finish = "Sofia",
+                            Finish = "София",
                             OfferId = 2,
-                            Start = "Warsaw",
+                            Start = "Варшава",
                             TransportId = 1
                         },
                         new
@@ -632,9 +697,9 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 5,
                             Arrival = true,
                             DurationDays = 1,
-                            Finish = "Berlin",
+                            Finish = "Берлин",
                             OfferId = 3,
-                            Start = "Sofia",
+                            Start = "София",
                             TransportId = 1
                         },
                         new
@@ -642,9 +707,29 @@ namespace Explorers_Haven.DataAccess.Migrations
                             Id = 6,
                             Arrival = false,
                             DurationDays = 1,
-                            Finish = "Sofia",
+                            Finish = "София",
                             OfferId = 3,
-                            Start = "Berlin",
+                            Start = "Берлин",
+                            TransportId = 1
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Arrival = true,
+                            DurationDays = 1,
+                            Finish = "Париж",
+                            OfferId = 4,
+                            Start = "София",
+                            TransportId = 1
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Arrival = false,
+                            DurationDays = 1,
+                            Finish = "София",
+                            OfferId = 4,
+                            Start = "Париж",
                             TransportId = 1
                         });
                 });

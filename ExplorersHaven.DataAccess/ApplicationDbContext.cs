@@ -102,6 +102,16 @@ namespace Explorers_Haven.DataAccess
                 }
                 );
 
+            modelBuilder.Entity<Amenity>().HasData(
+                new Amenity
+                {
+                    Id = 5,
+                    Icon = "/Images/familyrooms.svg",
+                    Name = "Семейни стаи"
+                }
+                );
+
+
 
             modelBuilder.Entity<Offer>().HasData(
                 new Offer {
@@ -109,10 +119,10 @@ namespace Explorers_Haven.DataAccess
                     Name ="Egypt",
                     CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                     BackImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
-                    Price=100,
+                    Price=759,
                     StayId = 1,
-                    Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
-                    DurationDays = 4,
+                    Disc = "Пътуване из Египет и круиз по река Нил, обиколка на пирамидите в Гиза.",
+                    DurationDays = 5,
                     StartDate = new DateOnly(2025, 4, 1),
                     LastDate = new DateOnly(2025, 4, 8),
                     Discount = 20,
@@ -123,9 +133,10 @@ namespace Explorers_Haven.DataAccess
                 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 1,
-                    Start = "Sofia",
-                    Finish = "Cairo",
+                new Travel { 
+                    Id = 1,
+                    Start = "София",
+                    Finish = "Кайро",
                     DurationDays = 1,
                     OfferId = 1,
                     TransportId = 1,
@@ -135,8 +146,8 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Travel>().HasData(
                 new Travel {
                     Id = 2,
-                    Start = "Cairo",
-                    Finish = "Sofia",
+                    Start = "Кайро",
+                    Finish = "София",
                     DurationDays = 1,
                     OfferId = 1,
                     TransportId = 1,
@@ -147,9 +158,9 @@ namespace Explorers_Haven.DataAccess
                 new Stay {
                     Id = 1,
                     Name = "Megawish Hotel",
-                    Price = 100,
+                    Price = 500,
                     Stars = 5,
-                    Disc= "This Luxurious Premium Ultra all-inclusive resort in Hurghada offers only suites and villas with beachfront accommodation with total landscape area of 255.000 m2. It features 1km private sandy beach, 30 Swimming pools (9 types), 1 main buffet restaurant, 7 a-la-carte restaurants, 14 bars and free Wi-Fi in the entire property. This 5-star hotel offers private beach and pool cabanas upon request.",
+                    Disc= "Този луксозен премиум ултра ол инклузив курорт в Хургада предлага само апартаменти и вили с настаняване на брега на морето с обща площ от 255 000 m2. Разполага с 1 км частен пясъчен плаж, 30 плувни басейна (9 вида), 1 основен ресторант на шведска маса, 7 а-ла-карт ресторанта, 14 бара и безплатен Wi-Fi в целия имот. Този 5-звезден хотел предлага частен плаж и кабинки до басейна при заявка.",
                     Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg"
                 }
                 );
@@ -178,31 +189,80 @@ namespace Explorers_Haven.DataAccess
                     AmenityId = 3
                 }
                 );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 4,
+                    StayId = 2,
+                    AmenityId = 4
+                }
+                );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 5,
+                    StayId = 3,
+                    AmenityId = 4
+                }
+                );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 6,
+                    StayId = 4,
+                    AmenityId = 4
+                }
+                );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 7,
+                    StayId = 2,
+                    AmenityId = 1
+                }
+                );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 8,
+                    StayId = 3,
+                    AmenityId = 3
+                }
+                );
+            modelBuilder.Entity<StayAmenity>().HasData(
+                new StayAmenity
+                {
+                    Id = 9,
+                    StayId = 3,
+                    AmenityId = 2
+                }
+                );
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { 
                     Id = 1,
-                    Name = "Camel riding",
+                    Name = "Яздене на камила",
                     CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                     OfferId = 1 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
-                new Models.Activity { Id = 2, Name = "Sightseeing",
-                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg", OfferId = 1 }
+                new Models.Activity { Id = 2, Name = "Разглеждане на забележителности",
+                    CoverImage = "/Images/sighteg.jpg",
+                    OfferId = 1 }
                 );
 
             //offer 2
             modelBuilder.Entity<Offer>().HasData(
                 new Offer { 
                     Id = 2,
-                    Name = "Poland",
+                    Name = "Полша",
                     CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243527/Poland_heknwf.jpg",
-                    BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
-                    Price = 200,
+                    BackImage = "/Images/polback.jpg",
+                    Price = 300,
                     StayId = 2,
-                    Disc = "Travel across Poland and feel the culture.",
+                    Disc = "Полша предлага комбинация от оживени градове, богата история и зашеметяваща природа. Не пропускайте да разгледате Краков и Варшава, опитайте традиционни пироги и използвайте влакове за лесно пътуване между градовете.",
                     DurationDays = 7,
                     StartDate = new DateOnly(2025, 4, 1),
-                    LastDate = new DateOnly(2025, 4, 8),
+                    LastDate = new DateOnly(2025, 5, 1),
                     Discount = 0,
                     MaxPeople = 12,
                     Rating = 4,
@@ -212,21 +272,22 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Travel>().HasData(
                 new Travel {
                     Id = 3,
-                    Start = "Sofia",
-                    Finish = "Warsaw",
+                    Start = "София",
+                    Finish = "Варшава",
                     DurationDays = 1,
                     OfferId = 2,
-                    TransportId =1,
+                    TransportId = 1,
                     Arrival = true
                 }
                 );
             modelBuilder.Entity<Travel>().HasData(
-                new Travel { Id = 4,
-                    Start = "Warsaw",
-                    Finish = "Sofia",
+                new Travel { 
+                    Id = 4,
+                    Start = "Варшава",
+                    Finish = "София",
                     DurationDays = 1,
                     OfferId = 2,
-                    TransportId =1,
+                    TransportId = 1,
                     Arrival = false
                 }
                 );
@@ -235,15 +296,15 @@ namespace Explorers_Haven.DataAccess
                     Name = "InterContinental Warsaw Hotel",
                     Price = 120,
                     Stars = 5,
-                    Disc = "Polish Hotel",
-                    Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg"
+                    Disc = "InterContinental Warszawa е 5-звезден хотел в центъра на Варшава, на 500 метра от централната гара на Варшава. Той разполага с луксозни климатизирани стаи и уелнес център, разположен на 43-ия и 44-ия етаж. Всички стаи в InterContinental са оборудвани с удобства за приготвяне на чай и кафе и минибар.",
+                    Image = "/Images/WarsawHotel.jpg"
 
                 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { Id = 3,
-                    Name = "Sightseeing",
-                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                    Name = "Разглеждане на забележителности",
+                    CoverImage = "/Images/sightpol.jpg",
                     OfferId = 2
                 }
                 );
@@ -252,15 +313,15 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Offer>().HasData(
                 new Offer { 
                     Id = 3,
-                    Name = "Germany",
+                    Name = "Германия",
                     CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
-                    BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
-                    Price = 500,
-                    StayId=3,
-                    Disc = "Travel across Germany and feel the culture.",
+                    BackImage = "/Images/gerback.jpg",
+                    Price = 950,
+                    StayId = 3,
+                    Disc = "Германия съчетава модерна ефективност с дълбока история – изследвайте културата на Берлин, бирените градини на Мюнхен и приказни градове като Ротенбург.",
                     DurationDays = 7,
                     StartDate = new DateOnly(2025, 4, 1),
-                    LastDate = new DateOnly(2025, 4, 8),
+                    LastDate = new DateOnly(2025, 6, 1),
                     Discount = 15,
                     MaxPeople = 16,
                     Rating = 5,
@@ -270,8 +331,8 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Travel>().HasData(
                 new Travel {
                     Id = 5,
-                    Start = "Sofia", 
-                    Finish = "Berlin",
+                    Start = "София", 
+                    Finish = "Берлин",
                     OfferId = 3, 
                     TransportId = 1,
                     DurationDays = 1,
@@ -281,8 +342,8 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Travel>().HasData(
                 new Travel {
                     Id = 6,
-                    Start = "Berlin",
-                    Finish = "Sofia",
+                    Start = "Берлин",
+                    Finish = "София",
                     OfferId = 3, 
                     TransportId = 1,
                     DurationDays = 1,
@@ -294,25 +355,25 @@ namespace Explorers_Haven.DataAccess
                 new Stay {
                     Id = 3,
                     Price = 500,
-                    Name = "Mitte Hotel",
-                    Stars = 2,
-                    Disc = "Polish Hotel",
-                    Image = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741542028/EgyptHotel_kc6xak.jpg"
+                    Name = "Charles Hotel",
+                    Stars = 5,
+                    Disc = "Разположен в зеления квартал Lenbachgärten и близо до историческия Königsplatz, безпроблемният елегантен хотел Charles в Мюнхен е мястото, където съвременният стил среща традиционното баварско гостоприемство.",
+                    Image = "/Images/gerHotel.jpg"
 
                 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { Id = 4,
-                    Name = "Sightseeing",
+                    Name = "Разглеждане на забележителности",
                     OfferId = 3,
-                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                    CoverImage = "/Images/sightger.jpg",
                 }
                 );
             modelBuilder.Entity<Models.Activity>().HasData(
                 new Models.Activity { Id = 5,
-                    Name = "Archery",
+                    Name = "Стрелба с лък",
                     OfferId = 3,
-                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243521/Germany_iifb9a.jpg",
+                    CoverImage = "/Images/archery.jpg",
                 }
                 );
             //test offer 4
@@ -320,22 +381,80 @@ namespace Explorers_Haven.DataAccess
                 new Offer
                 {
                     Id = 4,
-                    Name = "Test",
-                    CoverImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
-                    BackImage = "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
-                    Price = 100,
-                    StayId = 1,
-                    Disc = "Travel across Egypt and cruise down the Nile River, tour the pyramids of Giza.",
-                    DurationDays = 4,
+                    Name = "Франция",
+                    CoverImage = "/Images/paris.jpg",
+                    BackImage = "/Images/frback.jpg",
+                    Price = 800,
+                    StayId = 4,
+                    Disc = "Във Франция всичко е свързано с изкуство, храна и чар – Париж очарова, но не пропускайте винени региони като Бордо или лавандуловите полета на Прованс.",
+                    DurationDays = 6,
                     StartDate = new DateOnly(2025, 4, 1),
                     LastDate = new DateOnly(2025, 4, 8),
-                    Discount = 20,
-                    MaxPeople = 8,
+                    Discount = 35,
+                    MaxPeople = 10,
                     Rating = 3,
                     DefaultRating = 3
+                }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel
+                {
+                    Id = 7,
+                    Start = "София",
+                    Finish = "Париж",
+                    OfferId = 4,
+                    TransportId = 1,
+                    DurationDays = 1,
+                    Arrival = true
+                }
+                );
+            modelBuilder.Entity<Travel>().HasData(
+                new Travel
+                {
+                    Id = 8,
+                    Start = "Париж",
+                    Finish = "София",
+                    OfferId = 4,
+                    TransportId = 1,
+                    DurationDays = 1,
+                    Arrival = false
 
                 }
                 );
+            modelBuilder.Entity<Stay>().HasData(
+                new Stay
+                {
+                    Id = 4,
+                    Price = 400,
+                    Name = "Paris Gare de Lyon hotel",
+                    Stars = 4,
+                    Disc = "12-ти район на Париж се нуждаеше само от едно нещо, за да бъде още по-страхотен – умопомрачен разкошен бутиков хотел, покрит със зашеметяващ бар на покрива. И ние не се спираме само на най-добрите гледки към силуета на Париж. Мегаудобни легла, възглавници, подобни на облак, и артистична всекидневна са част от пакета.",
+                    Image = "/Images/ParisHotel.jpg"
+
+                }
+                );
+            modelBuilder.Entity<Models.Activity>().HasData(
+                new Models.Activity
+                {
+                    Id = 6,
+                    Name = "Разглеждане на забележителности",
+                    OfferId = 4,
+                    CoverImage = "/Images/sightfr.jpg",
+                }
+                );
+            modelBuilder.Entity<Models.Activity>().HasData(
+                new Models.Activity
+                {
+                    Id = 7,
+                    Name = "Пътуване до винени региони",
+                    OfferId = 4,
+                    CoverImage = "/Images/winefield.jpg",
+                }
+                );
+
+
+
+
             modelBuilder.Entity<User>(b =>
             {
                 modelBuilder.Entity<User>()

@@ -28,39 +28,7 @@ namespace Explorers_Haven.Controllers
 
         }
 
-        public async Task<IActionResult> Index(TravelViewModel? filter)
-        {
 
-            var query = _travelService.GetAll().AsQueryable();
-            if (filter.Id != null)
-            {
-                query = query.Where(x => x.Id == filter.Id.Value);
-            }
-            if (filter.Start != null)
-            {
-                query = query.Where(x => x.Start.Contains(filter.Start));
-            }
-            if (filter.Finish != null)
-            {
-                query = query.Where(x => x.Finish.Contains(filter.Finish));
-            }
-            var model = new TravelViewModel
-            {
-                Id = filter.Id,
-                Start = filter.Start,
-                Finish = filter.Finish,
-                Transport = filter.Transport,
-                Travels = query.ToList()
-            };
-
-            return View(model);
-        }
-
-        public async Task<IActionResult> ListTravels()
-        {
-            var list = _travelService.GetAll();
-            return View(list);
-        }
 
         public async Task<IActionResult> Delete(int id)
         {

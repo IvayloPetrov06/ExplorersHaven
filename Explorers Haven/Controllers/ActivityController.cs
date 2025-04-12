@@ -43,34 +43,6 @@ namespace Explorers_Haven.Controllers
 
         }
 
-        public IActionResult Index(ActivityViewModel? filter)
-        {
-
-            var query = _actService.GetAll().AsQueryable();
-            if (filter.Id != null)
-            {
-                query = query.Where(x => x.Id == filter.Id.Value);
-            }
-            if (filter.Name != null)
-            {
-                query = query.Where(x => x.Name.Contains(filter.Name));
-            }
-            var model = new ActivityViewModel
-            {
-                Id = filter.Id,
-                Name = filter.Name,
-                Activities = query.ToList()
-            };
-
-            return View(model);
-        }
-
-        public async Task<IActionResult> ListActivities()
-        {
-            IEnumerable<Activity> offers = await _actService.GetAllActivityAsync();
-            return View(offers);
-        }
-
         public async Task<IActionResult> Delete(int id)
         {
 

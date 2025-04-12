@@ -406,7 +406,7 @@
 
         .stay-stars {
             color: #ffb700;
-            font-size: 16px;
+            font-size: 20px;
         }
 
         .stay-price {
@@ -780,6 +780,37 @@
                     <div class="trip-info-item">
                         <i class="fas fa-users"></i>
                         <span><span class="info-label">Макс брой хора:</span> @Math.Floor(Model.OfferPeople.Value)</span>
+                    </div>
+                    <div class="trip-info-item">
+                        <i class="fas fa-calendar-alt"></i>
+                        @if(Model.OfferStart.Value.DayOfWeek.ToString()=="Monday")
+                        {
+                            <span><span class="info-label">Наличен ден за резервация:</span> Понеделник</span>
+                        }
+                        @if (Model.OfferStart.Value.DayOfWeek.ToString() == "Tuesday")
+                        {
+                            <span><span class="info-label">Наличен ден за резервация:</span> Вторник</span>
+                        }
+                        @if(Model.OfferStart.Value.DayOfWeek.ToString()=="Wednesday")
+                        {
+                            <span><span class="info-label">Наличен ден за резервация:</span> Сряда</span>
+                        }
+                        @if(Model.OfferStart.Value.DayOfWeek.ToString()=="Thursday")
+                        {
+                            <span><span class="info-label">Наличен ден за резервация:</span> Четвъртък</span>
+                        }
+                        @if(Model.OfferStart.Value.DayOfWeek.ToString()=="Friday")
+                        {
+                            <span><span class="info-label">Наличен ден за резервация:</span> Петък</span>
+                        }
+                        @if(Model.OfferStart.Value.DayOfWeek.ToString()=="Saturday")
+                        {
+                            <span><span class="info-label">Наличен ден за резервация:</span> Събота</span>
+                        }
+                        @if (Model.OfferStart.Value.DayOfWeek.ToString() == "Sunday")
+                        {
+                            <span><span class="info-label">Наличен ден за резервация:</span> Неделя</span>
+                        }
                     </div>
                 </div>
             </div>

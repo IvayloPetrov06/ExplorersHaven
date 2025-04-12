@@ -55,64 +55,6 @@ namespace Explorers_Haven.Controllers
             _cloudinary = new Cloudinary(account);
         }
 
-        public async Task<IActionResult> Index(OfferFilterViewModel? filter)
-        {
-            var query = _offerService.GetAll().AsQueryable();
-            var filterModel = new OfferFilterViewModel();
-
-            if (string.IsNullOrEmpty(filter.Search))
-            {
-
-                var model = _offerService.CombinedInclude().Include(x => x.User).Select(x => new OfferViewModel()
-                {
-                    OfferId = x.Id,
-                    OfferName= x.Name,
-                    OfferPic = x.CoverImage,
-                    UserName = x.User.Username,
-                    OfferPrice = x.Price,
-                    Comments = x.Comments.ToList(),
-                }).ToList();
-
-                filterModel = new OfferFilterViewModel
-                {
-                    Offers = model,
-                    Search = filter.Search,
-
-                };
-            }
-            else 
-            {
-                var tempUsers = await userService.GetAllUserNamesAsync();
-                var tempOffers = await _offerService.GetAllOfferNamesAsync();
-                if (tempUsers.Contains(filter.Search))
-                {
-                    query = query.Where(x => x.User.Username == filter.Search);
-                }
-                if (tempOffers.Contains(filter.Search))
-                {
-                    query = query.Where(x => x.Name == filter.Search);
-                }
-
-                filterModel = new OfferFilterViewModel
-                {
-                    Offers = query.Include(x => x.User)
-                .Select(x => new OfferViewModel()
-                {
-                    OfferId = x.Id,
-                    OfferName = x.Name,
-                    OfferPic = x.CoverImage,
-                    UserName = x.User.Username,
-                    OfferPrice = x.Price,
-                    Comments = x.Comments.ToList(),
-
-                }).ToList(),
-                    Search = filter.Search
-                };
-            };
-
-            return View(filterModel);
-        }
-
 
         public async Task<IActionResult> AllOffer(OfferFilterViewModel? filter)
         {
@@ -213,11 +155,6 @@ namespace Explorers_Haven.Controllers
                 return View(filterModel);
             }
 
-        }
-        public async Task<IActionResult> ListOffers()
-        {
-            IEnumerable<Offer> offers = await _offerService.GetAllOfferAsync();
-            return View(offers);
         }
        
         public async Task<IActionResult> Delete(int id)

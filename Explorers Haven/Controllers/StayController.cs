@@ -46,39 +46,9 @@ namespace Explorers_Haven.Controllers
             _cloudinary = new Cloudinary(account);
 
         }
-
-        public async Task<IActionResult> Index(StayViewModel? filter)
-        {
-
-            var query = _stayService.GetAll().AsQueryable();
-            if (filter.Id != null)
-            {
-                query = query.Where(x => x.Id == filter.Id.Value);
-            }
-            if (filter.Name != null)
-            {
-                query = query.Where(x => x.Name.Contains(filter.Name));
-            }
-            var model = new StayViewModel
-            {
-                Id = filter.Id,
-                Name = filter.Name,
-                Stays = query.ToList()
-            };
-
-            return View(model);
-        }
-
-        public async Task<IActionResult> ListStays()
-        {
-            var list = _stayService.GetAll();
-            return View(list);
-        }
         public async Task<IActionResult> AllStay(StayFilterViewModel? filter)
         {
             var query = _stayService.GetAll().AsQueryable();
-            //var playlists = await playlistService.GetAllPlaylistsAsync();
-
 
             if (filter.StarValue == null && string.IsNullOrEmpty(filter.Title))
             {

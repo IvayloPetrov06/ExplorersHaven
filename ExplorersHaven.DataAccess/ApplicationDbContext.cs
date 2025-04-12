@@ -114,7 +114,7 @@ namespace Explorers_Haven.DataAccess
             modelBuilder.Entity<Offer>().HasData(
                 new Offer {
                     Id = 1,
-                    Name ="Egypt",
+                    Name ="Египет",
                     CoverImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741243536/Egypt_geyymk.jpg",
                     BackImage= "https://res.cloudinary.com/dkoshuv9z/image/upload/v1741541997/Egypt1_bzftps.avif",
                     Price=759,

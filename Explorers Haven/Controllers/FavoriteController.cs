@@ -7,6 +7,7 @@ using Explorers_Haven.ViewModels.Offer;
 using Explorers_Haven.ViewModels.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.Data.SqlClient.DataClassification;
 using Microsoft.EntityFrameworkCore;
 
@@ -58,6 +59,7 @@ namespace Explorers_Haven.Controllers
                 {
                     OfferId = id,
                     Offer = offer,
+                    OfferName=offer.Name,
                     User = user,
                     UserId = user.Id
                 };
@@ -73,18 +75,17 @@ namespace Explorers_Haven.Controllers
                 return Json(new { success = true, message = "Премахнато от любими", isFavorited = false });
             }
         }
-            [HttpPost]
-        public async Task<IActionResult> FavoritesPage(FavoritePageViewModel filter)
+        public async Task<IActionResult> FavoritesPage(FavoriteFilterViewModel filter)
         {
             var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
             User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
             var query = _FavoriteService.GetAll().Where(x => x.UserId == user.Id);
-            var filterModel = new FavoriteFilterViewModel();
+           // var filterModel = new FavoriteFilterViewModel();
 
             if (string.IsNullOrEmpty(filter.Search))
             {
 
-                var model = _FavoriteService.AllWithInclude().Include(x => x.Offer).Include(x => x.User).Select(x => new FavoriteViewModel()
+                var model = _FavoriteService.AllWithInclude().Include(x => x.Offer).Include(x => x.User).Where(x => x.UserId == user.Id).Select(x => new FavoriteViewModel()
                 {
                     Id = x.Id,
                     UserId = x.UserId,
@@ -94,24 +95,25 @@ namespace Explorers_Haven.Controllers
                     Price = x.Offer.Price
                 }).ToList();
 
-                filterModel = new FavoriteFilterViewModel
+                var filterModel = new FavoriteFilterViewModel
                 {
                     Favorites = model,
                     Search = filter.Search,
 
                 };
+                return View(filterModel);
             }
             else
             {
-                var tempOffers = await _offerService.GetAllOfferNamesAsync();
-                if (tempOffers.Contains(filter.Search))
+                
+                if (!string.IsNullOrEmpty(filter.Search))
                 {
-                    query = query.Where(x => x.OfferName == filter.Search);
+                    query = query.Where(x => x.OfferName.ToLower() == filter.Search.ToLower());
                 }
 
-                filterModel = new FavoriteFilterViewModel
+                var filterModel = new FavoriteFilterViewModel
                 {
-                    Favorites = query.Include(x => x.User)
+                    Favorites = query.Include(x => x.User).Where(x => x.UserId == user.Id)
                 .Select(x => new FavoriteViewModel()
                 {
                     Id = x.Id,
@@ -119,43 +121,13 @@ namespace Explorers_Haven.Controllers
                     UserName = x.User.Username,
                     OfferName = x.Offer.Name,
                     OfferCoverImage = x.Offer.CoverImage,
+                    Price = x.Offer.Price
                 }).ToList(),
                     Search = filter.Search
                 };
+                return View(filterModel);
             };
-            return View(filterModel);
-        }
-        public async Task<IActionResult> FavoritesPage()
-        {
-            var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
-            if (tempUser == null)
-            {
-                return NotFound("No Identity user found.");
-            }
-            User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
-            if (user == null)
-            {
-                return NotFound("No application user found for email: " + tempUser.Email);
-            }
-            var userFavorites = await _FavoriteService.GetAll().Where(x => x.UserId == user.Id)
-        .Include(x => x.Offer)
-        .Select(x => new FavoriteViewModel
-        {
-            Id = x.Id,
-            UserId = x.UserId,
-            UserName = x.User.Username,
-            OfferName = x.Offer.Name,
-            OfferCoverImage = x.Offer.CoverImage,
-            Price = x.Offer.Price,
-        }).ToListAsync();
-
-            var filterModel = new FavoriteFilterViewModel
-            {
-                Favorites = userFavorites,
-            };
-
-            return View(filterModel);
-
+            
         }
         public IActionResult Index()
         {

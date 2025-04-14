@@ -101,7 +101,7 @@ namespace Explorers_Haven.Controllers
                 TempData["success"] = "Резервацията беше направена!";
                 return RedirectToAction("BookingsPage", "Booking");
             }
-            if ((o.MaxPeople - pplCount) == 0)
+            if ((o.MaxPeople - pplCount) <= 0)
             {
                 TempData["error"] = $"Няма повече свободни места!";
                 return RedirectToAction("OfferPage", "Home", new { Id = id });
@@ -122,7 +122,6 @@ namespace Explorers_Haven.Controllers
             return RedirectToAction("OfferPage", "Home", new { Id = id });
 
         }
-        [HttpPost]
         public async Task<IActionResult> BookingsPage(BookingFilterViewModel? filter)
         {
             var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
@@ -133,7 +132,7 @@ namespace Explorers_Haven.Controllers
             if (string.IsNullOrEmpty(filter.Search))
             {
 
-                var model = _bookingService.AllWithInclude().Include(x => x.User).ThenInclude(x => x.Bookings).Select(x => new BookingViewModel()
+                var model = _bookingService.AllWithInclude().Include(x => x.User).ThenInclude(x => x.Bookings).Where(x => x.UserId == user.Id).Select(x => new BookingViewModel()
                 {
                     PeopleCount = x.PeopleCount,
                     YoungOldPeopleCount = x.YoungOldPeopleCount,
@@ -189,20 +188,21 @@ namespace Explorers_Haven.Controllers
                 var filterModel = new BookingFilterViewModel
                 {
                     Transports = tempTrans.ToList(),
-                    Bookings = query.Include(x => x.User).ThenInclude(x => x.Bookings)
+                    Bookings = query.Include(x => x.User).ThenInclude(x => x.Bookings).Where(x => x.UserId == user.Id)
                 .Select(x => new BookingViewModel()
                 {
                     PeopleCount = x.PeopleCount,
                     YoungOldPeopleCount = x.YoungOldPeopleCount,
-                    StartDate = x.StartDate,
                     DurationDays = x.DurationDays,
+                    StartDate = x.StartDate,
                     Price = x.Price,
                     Id = x.Id,
                     UserId = x.UserId,
                     UserName = x.User.Username,
+                    OfferId = x.OfferId,
                     OfferName = x.Offer.Name,
                     OfferCoverImage = x.Offer.CoverImage,
-                     
+
                 }).ToList(),
                     Search = filter.Search
                 };
@@ -232,67 +232,6 @@ namespace Explorers_Haven.Controllers
            
 
             
-        }
-        public async Task<IActionResult> BookingsPage()
-        {
-
-            var tempTrans = _TransportService.GetAll();
-            var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
-            if (tempUser == null)
-            {
-                return NotFound("No Identity user found.");
-            }
-            User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
-            if (user == null)
-            {
-                return NotFound("No application user found for email: " + tempUser.Email);
-            }
-            var userBookings = await _bookingService.GetAll().Where(x => x.UserId == user.Id)
-        .Include(x => x.Offer) // Including related Offer data for displaying the Offer Name
-        .Select(x => new BookingViewModel
-        {
-            PeopleCount = x.PeopleCount,
-            YoungOldPeopleCount = x.YoungOldPeopleCount,
-            StartDate = x.StartDate,
-            DurationDays = x.DurationDays,
-            Price = x.Price,
-            Id = x.Id,
-            UserId = x.UserId,
-            UserName = x.User.Username,
-            OfferName = x.Offer.Name,
-            OfferId = x.Offer.Id,
-            OfferCoverImage=x.Offer.CoverImage,
-        }).ToListAsync();
-
-            var filterModel = new BookingFilterViewModel
-            {
-                Transports = tempTrans.ToList(),
-                Bookings = userBookings,
-            };
-            var tempTravels = _TravelService.GetAll().ToList();
-            foreach (var ac in tempTravels)
-            {
-                foreach (var b in filterModel.Bookings)
-                {
-                    if (ac.OfferId == b.OfferId)
-                    {
-                        if (ac.Arrival == true)
-                        {
-                            ac.DateStart = b.StartDate;
-                            ac.DateFinish = ac.DateStart.Value.AddDays(ac.DurationDays.Value);
-                        }
-                        else
-                        {
-                            ac.DateFinish = b.StartDate.Value.AddDays(b.DurationDays.Value);
-                            ac.DateStart = ac.DateFinish.Value.AddDays(-ac.DurationDays.Value);
-                        }
-                        b.Travels.Add(ac);
-                    }
-                }
-            }
-
-            return View(filterModel);
-
         }
         public IActionResult Index()
         {

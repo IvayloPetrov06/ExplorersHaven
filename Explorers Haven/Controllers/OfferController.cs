@@ -137,7 +137,7 @@ namespace Explorers_Haven.Controllers
 
                 if (!string.IsNullOrEmpty(filter.Search))
                 {
-                    query = query.Where(x => x.Name == filter.Search);
+                    query = query.Where(x => x.Name.ToLower() == filter.Search.ToLower());
                 }
 
 

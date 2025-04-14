@@ -123,17 +123,17 @@ namespace Explorers_Haven.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> BookingsPage(BookingPageViewModel filter)
+        public async Task<IActionResult> BookingsPage(BookingFilterViewModel? filter)
         {
             var tempUser = await _userManager.FindByEmailAsync(User.Identity.Name);
             User user = await _userService.GetUserAsync(x => x.Email == tempUser.Email);
             var query = _bookingService.GetAll().Where(x=>x.UserId== user.Id);
-            var filterModel = new BookingFilterViewModel();
+            //var filterModel = new BookingFilterViewModel();
             var tempTrans = _TransportService.GetAll();
             if (string.IsNullOrEmpty(filter.Search))
             {
 
-                var model = _bookingService.AllWithInclude().Include(x => x.Offer).Include(x => x.User).Select(x => new BookingViewModel()
+                var model = _bookingService.AllWithInclude().Include(x => x.User).ThenInclude(x => x.Bookings).Select(x => new BookingViewModel()
                 {
                     PeopleCount = x.PeopleCount,
                     YoungOldPeopleCount = x.YoungOldPeopleCount,
@@ -170,26 +170,26 @@ namespace Explorers_Haven.Controllers
                 }
                 
 
-                filterModel = new BookingFilterViewModel
+                var filterModel = new BookingFilterViewModel
                 {
                     Bookings = model,
                     Search = filter.Search,
                     Transports = tempTrans.ToList()
 
                 };
+                return View(filterModel);
             }
             else
             {
-                var tempOffers = await _offerService.GetAllOfferNamesAsync();
-                if (tempOffers.Contains(filter.Search))
-                {
-                    query = query.Where(x => x.OfferName == filter.Search);
-                }
+               if(!string.IsNullOrEmpty(filter.Search))
+               {
+                    query = query.Where(x => x.OfferName.ToLower() == filter.Search.ToLower());
+               }
 
-                filterModel = new BookingFilterViewModel
+                var filterModel = new BookingFilterViewModel
                 {
                     Transports = tempTrans.ToList(),
-                    Bookings = query.Include(x => x.User)
+                    Bookings = query.Include(x => x.User).ThenInclude(x => x.Bookings)
                 .Select(x => new BookingViewModel()
                 {
                     PeopleCount = x.PeopleCount,
@@ -227,10 +227,11 @@ namespace Explorers_Haven.Controllers
                         }
                     }
                 }
+                return View(filterModel);
             };
            
 
-            return View(filterModel);
+            
         }
         public async Task<IActionResult> BookingsPage()
         {

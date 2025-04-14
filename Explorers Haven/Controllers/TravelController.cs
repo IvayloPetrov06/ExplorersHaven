@@ -71,7 +71,7 @@ namespace Explorers_Haven.Controllers
             {
                 if (!string.IsNullOrEmpty(filter.Title))
                 {
-                    query = query.Where(x => x.Offer.Name == filter.Title);
+                    query = query.Where(x => x.Offer.Name.ToLower() == filter.Title.ToLower());
                 }
 
 

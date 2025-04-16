@@ -330,7 +330,7 @@ namespace Explorers_Haven.DataAccess.Migrations
                             DurationDays = 5,
                             LastDate = new DateOnly(2025, 4, 8),
                             MaxPeople = 8m,
-                            Name = "Egypt",
+                            Name = "Египет",
                             Price = 759m,
                             Rating = 3m,
                             StartDate = new DateOnly(2025, 4, 1),
